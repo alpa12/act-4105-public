@@ -10,7 +10,7 @@ project:
     - "cours/*.qmd"
     - "chapitres/**/*.qmd"
 
-quarto-required: "=1.10.17"
+quarto-required: ">=1.10.17"
 
 lang: fr
 
