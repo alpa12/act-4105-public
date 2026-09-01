@@ -13,4 +13,4 @@ Imports:
     testthat,
     yaml
 Remotes:
-    local::tarifr
+    github::alpa12/act-4105-public/tarifr@main
