@@ -330,42 +330,6 @@
         "Archs": "fs.so.dSYM"
       }
     },
-    "here": {
-      "Source": "CRAN",
-      "Repository": "https://cloud.r-project.org",
-      "description": {
-        "Package": "here",
-        "Title": "A Simpler Way to Find Your Files",
-        "Version": "1.0.2",
-        "Date": "2025-09-06",
-        "Authors@R": "\n    c(person(given = \"Kirill\",\n             family = \"M\\u00fcller\",\n             role = c(\"aut\", \"cre\"),\n             email = \"kirill@cynkra.com\",\n             comment = c(ORCID = \"0000-0002-1416-3412\")),\n      person(given = \"Jennifer\",\n             family = \"Bryan\",\n             role = \"ctb\",\n             email = \"jenny@rstudio.com\",\n             comment = c(ORCID = \"0000-0002-6983-2759\")))",
-        "Description": "Constructs paths to your project's files.\n    Declare the relative path of a file within your project with 'i_am()'.\n    Use the 'here()' function as a drop-in replacement for 'file.path()',\n    it will always locate the files relative to your project root.",
-        "License": "MIT + file LICENSE",
-        "URL": "https://here.r-lib.org/, https://github.com/r-lib/here",
-        "BugReports": "https://github.com/r-lib/here/issues",
-        "Imports": "rprojroot (>= 2.1.0)",
-        "Suggests": "conflicted, covr, fs, knitr, palmerpenguins, plyr, readr,\nrlang, rmarkdown, testthat, uuid, withr",
-        "VignetteBuilder": "knitr",
-        "Encoding": "UTF-8",
-        "RoxygenNote": "7.3.3.9000",
-        "Config/testthat/edition": "3",
-        "Config/Needs/website": "tidyverse/tidytemplate",
-        "NeedsCompilation": "no",
-        "Packaged": "2025-09-14 18:48:53 UTC; kirill",
-        "Author": "Kirill Müller [aut, cre] (ORCID:\n    <https://orcid.org/0000-0002-1416-3412>),\n  Jennifer Bryan [ctb] (ORCID: <https://orcid.org/0000-0002-6983-2759>)",
-        "Maintainer": "Kirill Müller <kirill@cynkra.com>",
-        "Repository": "CRAN",
-        "Date/Publication": "2025-09-15 05:10:09 UTC",
-        "Built": "R 4.6.0; ; 2026-04-26 09:10:27 UTC; unix",
-        "RemoteType": "standard",
-        "RemoteRef": "here",
-        "RemotePkgRef": "here",
-        "RemoteRepos": "https://cloud.r-project.org",
-        "RemoteReposName": "CRAN",
-        "RemotePkgPlatform": "x86_64-apple-darwin20",
-        "RemoteSha": "1.0.2"
-      }
-    },
     "highr": {
       "Source": "CRAN",
       "Repository": "https://cloud.r-project.org",
@@ -724,36 +688,6 @@
         "RemoteReposName": "CRAN",
         "RemotePkgPlatform": "x86_64-apple-darwin20",
         "RemoteSha": "2.31"
-      }
-    },
-    "rprojroot": {
-      "Source": "CRAN",
-      "Repository": "https://cloud.r-project.org",
-      "description": {
-        "Package": "rprojroot",
-        "Title": "Finding Files in Project Subdirectories",
-        "Version": "2.1.1",
-        "Authors@R": "\n    person(given = \"Kirill\",\n           family = \"M\\u00fcller\",\n           role = c(\"aut\", \"cre\"),\n           email = \"kirill@cynkra.com\",\n           comment = c(ORCID = \"0000-0002-1416-3412\"))",
-        "Description": "Robust, reliable and flexible paths to files below\n    a project root. The 'root' of a project is defined as a directory that\n    matches a certain criterion, e.g., it contains a certain regular file.",
-        "License": "MIT + file LICENSE",
-        "URL": "https://rprojroot.r-lib.org/, https://github.com/r-lib/rprojroot",
-        "BugReports": "https://github.com/r-lib/rprojroot/issues",
-        "Depends": "R (>= 3.0.0)",
-        "Suggests": "covr, knitr, lifecycle, rlang, rmarkdown, testthat (>=\n3.2.0), withr",
-        "VignetteBuilder": "knitr",
-        "Config/testthat/edition": "3",
-        "Encoding": "UTF-8",
-        "RoxygenNote": "7.3.2.9000",
-        "Config/autostyle/scope": "line_breaks",
-        "Config/autostyle/strict": "true",
-        "Config/Needs/website": "tidyverse/tidytemplate",
-        "NeedsCompilation": "no",
-        "Packaged": "2025-08-26 15:22:42 UTC; kirill",
-        "Author": "Kirill Müller [aut, cre] (ORCID:\n    <https://orcid.org/0000-0002-1416-3412>)",
-        "Maintainer": "Kirill Müller <kirill@cynkra.com>",
-        "Repository": "CRAN",
-        "Date/Publication": "2025-08-26 16:20:02 UTC",
-        "Built": "R 4.6.0; ; 2026-04-26 09:05:43 UTC; unix"
       }
     },
     "sass": {
@@ -1650,7 +1584,7 @@
       "checksum": "897a11ac9784d0aa1ea59b8c7ff160d1"
     },
     "chapitres/04-base-exposition/diapos.qmd": {
-      "checksum": "d93f8d8e9ff6d1d306897aeefc1c4c02"
+      "checksum": "7b54705b3e5167d11ade827e41fa6a25"
     },
     "chapitres/04-base-exposition/exercices.qmd": {
       "checksum": "561942246bf5c7fd3ba77bb2f0df4ae8"
@@ -1662,7 +1596,7 @@
       "checksum": "b931a87b1df6821ddb693dc7b67431ce"
     },
     "chapitres/05-primes/diapos.qmd": {
-      "checksum": "409e67c91a83f71352f9f508276ee7b8"
+      "checksum": "3e8406f98236783549fdfa5b77f6034a"
     },
     "chapitres/05-primes/exercices.qmd": {
       "checksum": "73d6f1888c15d594a8553fafcc1c71a6"
@@ -1683,7 +1617,7 @@
       "checksum": "147e0648677b7ece36eed6cffc98853d"
     },
     "chapitres/06-sinistres/diapos.qmd": {
-      "checksum": "b153b8f95fdf07b601837135b585f9bd"
+      "checksum": "0b54137936c0dac72ad20ee4d03e1870"
     },
     "chapitres/06-sinistres/exercices.qmd": {
       "checksum": "6f57de81598959e143c66f6670ae3a77"

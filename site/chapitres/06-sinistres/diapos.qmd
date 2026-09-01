@@ -14,8 +14,8 @@ execute:
 #| include: false
 
 library(tarifr)
-here::i_am("site/chapitres/06-sinistres/diapos.qmd")
-source(here::here("site/_extensions/alpa12/dynamic-year/dynamic-year.R"))
+project_dir <- Sys.getenv("QUARTO_PROJECT_DIR")
+source(file.path(project_dir, "_extensions/alpa12/dynamic-year/dynamic-year.R"))
 ```
 
 ## Lectures recommandées

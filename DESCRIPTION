@@ -6,7 +6,6 @@ Description: Declares the R dependencies needed to render and validate the
 License: MIT
 Encoding: UTF-8
 Imports:
-    here,
     knitr,
     rmarkdown,
     tarifr,

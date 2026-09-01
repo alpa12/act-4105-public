@@ -14,10 +14,9 @@ metadata-files:
 #| cache: false
 
 library(tarifr)
-library(here)
-here::i_am("site/chapitres/05-primes/diapos.qmd")
-source(here("site/_extensions/alpa12/dynamic-year/dynamic-year.R"))
-source(here("site/chapitres/donnees-exemple.R"))
+project_dir <- Sys.getenv("QUARTO_PROJECT_DIR")
+source(file.path(project_dir, "_extensions/alpa12/dynamic-year/dynamic-year.R"))
+source(file.path(project_dir, "chapitres/donnees-exemple.R"))
 
 annees_primes <- vapply(-2:0, dynamic_year, integer(1))
 entetes_primes_ac <- paste("AC", annees_primes)
