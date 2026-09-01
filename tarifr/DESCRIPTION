@@ -1,0 +1,21 @@
+Package: tarifr
+Title: Helpers for Property and Casualty Ratemaking Course Materials
+Version: 0.0.0.9000
+Authors@R:
+    person(
+      given = "Alexandre",
+      family = "Parent",
+      role = c("aut", "cre"),
+      email = "alexandre.parent.12@ulaval.ca"
+    )
+Description: Minimal internal package for reusable R helpers used by the
+    ACT-4105 / ACT-6006 Quarto course site.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Imports:
+    knitr
+Suggests:
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2

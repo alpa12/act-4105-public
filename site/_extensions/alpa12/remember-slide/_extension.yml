@@ -1,0 +1,7 @@
+title: Remember Slide
+author: Remember Slide contributors
+version: 0.1.0
+quarto-required: ">=1.4.0"
+contributes:
+  filters:
+    - remember-slide.lua

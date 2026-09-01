@@ -1,0 +1,8 @@
+.reveal .tendance-sinistres-table .smart-table :is(th, td):nth-child(4),
+.reveal .tendance-sinistres-table .smart-table :is(th, td):nth-child(6),
+.reveal .tendance-sinistres-table .smart-table :is(th, td):nth-child(8),
+.reveal .solution-severite-limites-table .smart-table :is(th, td):nth-child(4),
+.reveal .solution-severite-limites-table .smart-table :is(th, td):nth-child(6),
+.reveal .solution-severite-limites-table .smart-table :is(th, td):nth-child(8) {
+  border-right: 2px solid var(--smart-table-header-stroke);
+}

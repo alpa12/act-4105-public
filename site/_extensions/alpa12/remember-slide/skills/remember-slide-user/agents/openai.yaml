@@ -1,0 +1,4 @@
+interface:
+  display_name: "Remember Slide User"
+  short_description: "Use remember-slide in Quarto revealjs decks"
+  default_prompt: "Use $remember-slide-user to add progressive recap slides to a Quarto revealjs presentation."

@@ -1,0 +1,103 @@
+.reveal .slides section .slide-callout {
+  transform: translate(-50%, -50%);
+  background: white;
+  border: 3px solid #111;
+  padding: 0.35em 0.5em;
+}
+
+.reveal .slides section .slide-callout p {
+  margin: 0;
+}
+
+.reveal .slides section.reclamation-arrows .status-arrow {
+  --status-fill: #eef3bd;
+  --status-accent: #5a629d;
+  --status-ink: #172033;
+  --status-shadow: rgb(15 23 42 / 0.16);
+  --status-line: var(--status-accent);
+  --range-line-y: calc(100% - 0.45em);
+  --range-card-y: 0;
+
+  color: var(--status-ink);
+  font-size: calc(0.8em * var(--act-text-scale));
+  font-weight: 700;
+  line-height: 1.1;
+  text-align: center;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: 4.3em;
+  padding: 0;
+  position: absolute;
+  z-index: 3;
+}
+
+.reveal .slides section.reclamation-arrows .status-arrow p {
+  margin: 0;
+  max-width: 86%;
+  padding: 0.45em 0.75em;
+  position: relative;
+  z-index: 3;
+  background: var(--status-fill);
+  border: 0.08em solid color-mix(in srgb, var(--status-accent) 88%, #fff);
+  border-left-width: 0.36em;
+  border-radius: 0.7em;
+  box-shadow: 0 0.18em 0.45em var(--status-shadow);
+  text-wrap: balance;
+  --status-fill: #d5d7e0;
+  --status-accent: #727ca3;
+}
+
+.reveal .slides section.reclamation-arrows .status-arrow::before {
+  content: "";
+  position: absolute;
+  left: 0.35em;
+  right: 0.35em;
+  top: var(--range-line-y);
+  height: 0.55em;
+  z-index: 2;
+}
+
+.reveal .slides section.reclamation-arrows .status-arrow::after {
+  content: "";
+  position: absolute;
+  top: calc(var(--range-line-y) + 0.06em);
+  right: 0.05em;
+  width: 0;
+  height: 0;
+  border-top: 0.22em solid transparent;
+  border-bottom: 0.22em solid transparent;
+  border-left: 0.55em solid var(--status-line);
+  z-index: 2;
+}
+
+.reveal .slides section.reclamation-arrows .status-arrow.status-bottom {
+  --range-line-y: 0em;
+  align-items: flex-end;
+}
+
+.reveal .slides section.reclamation-arrows .status-arrow.range-bounded::before {
+  background:
+    radial-gradient(circle, var(--status-line) 0 0.28em, transparent 0.3em),
+    radial-gradient(circle, var(--status-line) 0 0.28em, transparent 0.3em),
+    linear-gradient(var(--status-line), var(--status-line));
+  background-position: left center, right center, center;
+  background-repeat: no-repeat;
+  background-size: 0.65em 0.65em, 0.65em 0.65em, calc(100% - 0.6em) 0.16em;
+}
+
+.reveal .slides section.reclamation-arrows .status-arrow.range-bounded::after {
+  display: none;
+}
+
+.reveal .slides section.reclamation-arrows .status-arrow.range-forward::before {
+  right: 0.45em;
+  background: linear-gradient(var(--status-line), var(--status-line)) center / 100% 0.16em no-repeat;
+}
+.reveal img.act-muted-image {
+  opacity: 0.22;
+}
+
+.reveal img.unite-exposition-overlay {
+  transform: translate(610px, -112px);
+}

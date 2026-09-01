@@ -1,0 +1,237 @@
+:is(html.reveal-print, html.print-pdf),
+:is(html.reveal-print, html.print-pdf) body,
+:is(html.reveal-print, html.print-pdf) .reveal-viewport,
+:is(html.reveal-print, html.print-pdf) .reveal {
+  background: #fff !important;
+}
+
+:is(html.reveal-print, html.print-pdf) .reveal {
+  --act-card-top: 0px;
+  --act-card-bottom: 0px;
+  --act-card-padding-block: clamp(28px, 4.2vh, 42px);
+  --act-card-padding-inline: clamp(36px, 4.8vw, 58px);
+  --act-title-card-padding-block: clamp(42px, 9vh, 82px);
+}
+
+:is(html.reveal-print, html.print-pdf) .reveal .backgrounds,
+:is(html.reveal-print, html.print-pdf) .reveal .slide-background,
+:is(html.reveal-print, html.print-pdf) .reveal .rpb-progress,
+:is(html.reveal-print, html.print-pdf) .reveal .controls,
+:is(html.reveal-print, html.print-pdf) .reveal .progress,
+:is(html.reveal-print, html.print-pdf) .reveal .playback,
+:is(html.reveal-print, html.print-pdf) .reveal .slide-menu-button,
+:is(html.reveal-print, html.print-pdf) .reveal .slide-chalkboard-buttons,
+:is(html.reveal-print, html.print-pdf) .reveal .act-reveal-extension-controls,
+:is(html.reveal-print, html.print-pdf) .reveal .pause-overlay,
+:is(html.reveal-print, html.print-pdf) .reveal > .overlay {
+  display: none !important;
+}
+
+:is(html.reveal-print, html.print-pdf) .reveal .slides .pdf-page {
+  background: #fff !important;
+}
+
+:is(html.reveal-print, html.print-pdf) .reveal .slides section.slide:not([data-background-image]) {
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  padding: var(--act-card-padding-block) var(--act-card-padding-inline) !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: #fff !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/*
+ * Reveal recomputes direct .r-stretch media after entering print mode. Its
+ * measurement temporarily sets the parent slide height to `auto`; forcing
+ * that height here prevents the image from reserving room for headings and
+ * other content, which can split one slide across two PDF pages.
+ */
+:is(html.reveal-print, html.print-pdf) .reveal .slides section.slide:not([data-background-image]):not(:has(> .r-stretch)) {
+  height: 100% !important;
+  min-height: 100% !important;
+  max-height: none !important;
+}
+
+:is(html.reveal-print, html.print-pdf) .reveal .slides section.card-fill:not([data-background-image]) {
+  padding: 0 !important;
+}
+
+:is(html.reveal-print, html.print-pdf) .reveal .slides .pdf-page .fragment.visible:not(.fade-out):not(.fade-in-then-out):not(.current-visible),
+:is(html.reveal-print, html.print-pdf) .reveal .slides section .fragment.visible:not(.fade-out):not(.fade-in-then-out):not(.current-visible),
+:is(html.reveal-print, html.print-pdf) .reveal .slides .pdf-page .fragment.current-fragment,
+:is(html.reveal-print, html.print-pdf) .reveal .slides section .fragment.current-fragment,
+:is(html.reveal-print, html.print-pdf) .reveal .slides .pdf-page [data-act-print-visible-fragment],
+:is(html.reveal-print, html.print-pdf) .reveal .slides section [data-act-print-visible-fragment] {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+:is(html.reveal-print, html.print-pdf) .reveal .slides section.title-slide,
+:is(html.reveal-print, html.print-pdf) .reveal .slides section.title-slide.level1,
+:is(html.reveal-print, html.print-pdf) .reveal .slides section#title-slide {
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  max-height: none !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: #fff !important;
+  box-shadow: none !important;
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center !important;
+  padding: var(--act-title-card-padding-block) var(--act-card-padding-inline) !important;
+  transform: none !important;
+}
+
+:is(html.reveal-print, html.print-pdf) .reveal .slides section.title-slide.level1 h1,
+:is(html.reveal-print, html.print-pdf) #title-slide .title {
+  margin-top: 0 !important;
+}
+
+/* The document cover carries the same light screen background into PDF. */
+:is(html.reveal-print, html.print-pdf) .reveal .slides section#title-slide {
+  position: relative !important;
+  isolation: isolate;
+  padding-inline: clamp(62px, 8vw, 122px) !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background:
+    radial-gradient(ellipse 50% 74% at -2% 102%, rgb(227 5 19 / 0.98) 0, rgb(227 5 19 / 0.7) 34%, transparent 74%),
+    radial-gradient(ellipse 54% 62% at 96% 4%, rgb(255 193 3 / 0.98) 0, rgb(255 193 3 / 0.74) 38%, transparent 75%),
+    linear-gradient(135deg, #f8f8f8 0%, #eeeeee 100%) !important;
+}
+
+:is(html.reveal-print, html.print-pdf) .reveal .slides section#title-slide::before {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100% !important;
+  height: clamp(7px, 0.8vw, 11px) !important;
+  margin: 0 !important;
+  border-radius: 0;
+  background: linear-gradient(90deg, var(--act-laval-red, #e30513) 0 85%, var(--act-laval-gold, #ffc103) 85% 100%) !important;
+}
+
+:is(html.reveal-print, html.print-pdf) .reveal .slides section#title-slide::after {
+  display: none;
+}
+
+:is(html.reveal-print, html.print-pdf) #title-slide .title {
+  max-width: 100%;
+  color: var(--act-charcoal, #25282d);
+  font-size: clamp(4rem, 7.2vw, 6.25rem) !important;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 0.98;
+}
+
+:is(html.reveal-print, html.print-pdf) #title-slide .subtitle {
+  max-width: min(76%, 32em);
+  margin-top: clamp(22px, 3vh, 36px);
+  color: var(--act-burgundy, #8f1117);
+  font-size: clamp(1.85rem, 3.1vw, 2.8rem);
+  font-weight: 500;
+  letter-spacing: 0.005em;
+  line-height: 1.2;
+}
+
+/* The full-screen cover rule is a screen-media pseudo-element. Reveal keeps
+ * screen media active while displaying ?view=print, so suppress that viewport
+ * ornament once its print class is present. The cover's own ::before remains
+ * the bar printed inside the PDF page. */
+:is(html.reveal-print, html.print-pdf) body:has(.reveal .slides section#title-slide.present)::after {
+  display: none !important;
+}
+
+/* Quarto's print counter is a sibling of the rendered slide in a .pdf-page. */
+:is(html.reveal-print, html.print-pdf) .reveal .slides .pdf-page:has(> #title-slide) .slide-number-pdf {
+  display: none !important;
+}
+
+:is(html.reveal-print, html.print-pdf) .reveal .slides section.progress-overview > :not(h2):not(.act-print-overview-list),
+:is(html.reveal-print, html.print-pdf) .reveal .slides section.progress-overview .rpb-overview-shell,
+:is(html.reveal-print, html.print-pdf) .reveal .slides section.progress-overview .rpb-overview-title,
+:is(html.reveal-print, html.print-pdf) .reveal .slides section.progress-overview .rpb-overview-preview,
+:is(html.reveal-print, html.print-pdf) .reveal .slides section.progress-overview .rpb-overview-fragments {
+  display: none !important;
+}
+
+:is(html.reveal-print, html.print-pdf) .reveal .slides section.progress-overview .act-print-overview-list {
+  display: grid !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  gap: clamp(12px, 2vh, 18px);
+  margin: clamp(28px, 6vh, 52px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+:is(html.reveal-print, html.print-pdf) .reveal .slides section.progress-overview .act-print-overview-list li {
+  display: grid;
+  position: relative;
+  visibility: visible !important;
+  opacity: 1 !important;
+  grid-template-columns: clamp(34px, 4.8vw, 44px) 1fr;
+  align-items: start;
+  gap: clamp(12px, 2vw, 18px);
+  padding: 0 0 clamp(10px, 1.6vh, 14px);
+  border-bottom: 1px solid rgb(208 213 221);
+}
+
+:is(html.reveal-print, html.print-pdf) .reveal .slides section.progress-overview .act-print-overview-link {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  display: block;
+  background: transparent;
+  color: inherit;
+  text-decoration: none;
+}
+
+:is(html.reveal-print, html.print-pdf) .reveal .slides section.progress-overview .act-print-overview-number {
+  display: inline-grid;
+  visibility: visible !important;
+  opacity: 1 !important;
+  width: clamp(30px, 4vw, 38px);
+  height: clamp(30px, 4vw, 38px);
+  place-items: center;
+  border-radius: 999px;
+  background: var(--act-burgundy, #8f1117);
+  color: #fff;
+  font-size: clamp(16px, 2.1vw, 20px);
+  font-weight: 700;
+  line-height: 1;
+}
+
+:is(html.reveal-print, html.print-pdf) .reveal .slides section.progress-overview .act-print-overview-title {
+  visibility: visible !important;
+  opacity: 1 !important;
+  color: var(--act-ink, #1f2328);
+  font-size: clamp(24px, 3.4vw, 34px);
+  font-weight: 500;
+  line-height: 1.18;
+}
+
+:is(html.reveal-print, html.print-pdf) .reveal .slide-number-pdf {
+  right: 16px !important;
+  bottom: 12px !important;
+  color: rgba(31, 35, 40, 0.58) !important;
+  background: transparent !important;
+  font-size: 12px !important;
+  line-height: 1 !important;
+  padding: 0 !important;
+}
+
+:is(html.reveal-print, html.print-pdf) .reveal .speaker-notes-pdf {
+  display: none !important;
+}

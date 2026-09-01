@@ -1,0 +1,67 @@
+/*
+ * Every slide type supplies the same four variables. The active Reveal stage
+ * uses them for its outer background, while the slide itself uses the accent
+ * for its heading underline. To add a type, define a palette in variables.css
+ * and add its section and active-stage selectors below.
+ */
+.reveal {
+  --act-slide-accent: var(--act-slide-pedagogical-accent);
+  --act-slide-surface-start: var(--act-slide-pedagogical-start);
+  --act-slide-surface-end: var(--act-slide-pedagogical-end);
+  --act-slide-surface-glow: var(--act-slide-pedagogical-glow);
+  background:
+    repeating-linear-gradient(
+      112deg,
+      rgba(75, 85, 99, 0.05) 0,
+      rgba(75, 85, 99, 0.05) 1px,
+      transparent 1px,
+      transparent 40px
+    ),
+    repeating-linear-gradient(
+      18deg,
+      rgba(107, 114, 128, 0.02) 0,
+      rgba(107, 114, 128, 0.02) 1px,
+      transparent 1px,
+      transparent 54px
+    ),
+    radial-gradient(circle at 14% 18%, var(--act-slide-surface-glow), transparent 30%),
+    radial-gradient(circle at 86% 74%, var(--act-slide-surface-glow), transparent 32%),
+    linear-gradient(180deg, var(--act-slide-surface-start) 0%, var(--act-slide-surface-end) 100%);
+}
+
+.reveal .slides section.slide {
+  --act-slide-accent: var(--act-slide-pedagogical-accent);
+}
+
+.reveal .slides section.act-example-slide {
+  --act-slide-accent: var(--act-slide-example-accent);
+}
+
+.reveal .slides section.act-example-solution-slide {
+  --act-slide-accent: var(--act-slide-solution-accent);
+}
+
+.reveal .slides section:is(.remember-slide, .remember-slides, .remember-slides-recap) {
+  --act-slide-accent: var(--act-slide-recap-accent);
+}
+
+.reveal:has(.slides section.present.act-example-slide) {
+  --act-slide-accent: var(--act-slide-example-accent);
+  --act-slide-surface-start: var(--act-slide-example-start);
+  --act-slide-surface-end: var(--act-slide-example-end);
+  --act-slide-surface-glow: var(--act-slide-example-glow);
+}
+
+.reveal:has(.slides section.present.act-example-solution-slide) {
+  --act-slide-accent: var(--act-slide-solution-accent);
+  --act-slide-surface-start: var(--act-slide-solution-start);
+  --act-slide-surface-end: var(--act-slide-solution-end);
+  --act-slide-surface-glow: var(--act-slide-solution-glow);
+}
+
+.reveal:has(.slides section.present:is(.remember-slide, .remember-slides, .remember-slides-recap)) {
+  --act-slide-accent: var(--act-slide-recap-accent);
+  --act-slide-surface-start: var(--act-slide-recap-start);
+  --act-slide-surface-end: var(--act-slide-recap-end);
+  --act-slide-surface-glow: var(--act-slide-recap-glow);
+}

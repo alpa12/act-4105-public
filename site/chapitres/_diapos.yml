@@ -1,0 +1,86 @@
+subtitle: "Tarification en assurance IARD"
+title-prefix: ""
+html-math-method:
+  method: mathjax
+  url: /assets/vendor/mathjax/tex-mml-chtml-mathjax-newcm.js
+smart-tables:
+  revealjs:
+    # Tables start at 80% of the slide body type. Individual .text-* classes
+    # remain relative modifiers, matching the course's previous table scale.
+    font-size: 0.8em
+format:
+  revealjs:
+    center: false
+    mathjax: false
+    theme:
+      - default
+      - ../../styles/diapos-clean/clean-local.scss
+    css:
+      - /styles/diapos.css
+      - /styles/diapos-clean.css
+    include-before-body:
+      - text: |
+          <script src="/mathjax-config.js"></script>
+          <script src="/assets/vendor/mathjax/tex-mml-chtml-mathjax-newcm.js"></script>
+    include-in-header:
+      - ../../includes/revealjs-print-preflight.html
+    include-after-body:
+      - ../../includes/revealjs-extension-controls.html
+      - ../../includes/revealjs-heading-underlines.html
+    progress: false
+    pdf-separate-fragments: false
+    slide-number: c/t
+    show-slide-number: print
+    history: false
+    chalkboard: true
+    progress-bar:
+      section-widths: proportional
+      animate-overview-exit: false
+      show-slide-numbers: true
+      counted-slides: all
+      override-native-slide-numbers: true
+    remember-slide:
+      title: "À retenir"
+  clean-revealjs:
+    center: false
+    include-before-body:
+      - text: |
+          <script src="/mathjax-config.js"></script>
+    css:
+      - /styles/diapos.css
+      - /styles/diapos-clean.css
+    include-in-header:
+      - ../../includes/revealjs-print-preflight.html
+    include-after-body:
+      - ../../includes/revealjs-extension-controls.html
+      - ../../includes/revealjs-heading-underlines.html
+    progress: false
+    pdf-separate-fragments: false
+    slide-number: c/t
+    show-slide-number: print
+    history: false
+    chalkboard: true
+    progress-bar:
+      section-widths: proportional
+      animate-overview-exit: false
+      show-slide-numbers: true
+      counted-slides: all
+      override-native-slide-numbers: true
+    remember-slide:
+      title: "À retenir"
+filters:
+  - ../../filters/revealjs-chapter-css.lua
+  - path: ../../filters/revealjs-example-solutions-pre.lua
+    at: pre-ast
+  - path: ../../filters/revealjs-exemples.lua
+    at: pre-ast
+  - cascade
+  - title-prefix
+  - ../../filters/revealjs-suppress-title-prefix.lua
+  - ../../filters/revealjs-section-subtitle.lua
+  - ../../filters/revealjs-english-subtitle.lua
+  - ../../filters/revealjs-text-scale.lua
+  - ../../filters/revealjs-print-overview.lua
+  - revealjs-progress-bar
+  - remember-slide
+  - smart-typst-tables

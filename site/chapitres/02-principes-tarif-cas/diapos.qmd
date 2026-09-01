@@ -1,0 +1,132 @@
+---
+format:
+  revealjs: default
+chapter-css: diapos.css
+metadata-files:
+  - ../_diapos.yml
+---
+
+## Lectures recommandées
+
+Ce chapitre est adapté de :
+
+[_Statement of Principles Regarding Property and Casualty Insurance Ratemaking, Casualty Actuarial Society, May 1988_](https://www.casact.org/sites/default/files/2021-05/Statement-Of-Principles-Ratemaking.pdf).
+
+## Contenu du chapitre {.progress-overview}
+
+# Introduction {data-progress-label="Introduction" .unnumbered subtitle="Raison d'être du Statement of Principles Regarding Property and Casualty Insurance Ratemaking"}
+
+## Contexte
+
+But du document _Statement of Principles Regarding Property and Casualty Insurance Ratemaking_ :
+
+> Identifier et décrire les principes applicables dans la détermination et revue de taux en assurance de dommages.
+
+Les principes décrits se limitent à la portion de la tarification qui comprend l’estimation des coûts associés au transfert de risque.
+
+---
+
+Il est important que les procédures actuarielles adéquates soient utilisées pour déterminer les primes afin :
+
+- D’assurer la solidité financière de l’assurance
+- De promouvoir l’équité
+- De favoriser la disponibilité de la couverture pour le consommateur
+
+Les principes s’appliquent à la tarification en assurance de dommages, mais aussi à d’autres mécanismes de transfert de risque.
+
+# Principes de tarification {data-progress-label="Principes" subtitle="Les quatre principes fondamentaux de la tarification en assurance de dommages"}
+
+## Principe 1
+
+> **Un taux est un estimé de la valeur espérée des coûts futurs.**
+
+La tarification est prospective parce que les taux en assurance de dommages doivent être développés avant le transfert de risque.
+
+## Principe 2
+
+> **Un taux couvre tous les coûts associés avec le transfert de risque.**
+
+La tarification doit tenir compte de tous les coûts afin que le système d’assurance soit solide financièrement.
+
+## Principe 3
+
+> **Un taux couvre tous les coûts associés avec le transfert de risque individuel.**
+
+La tarification doit tenir compte des coûts associés avec le transfert de risque individuel afin d’avoir une équité parmi les assurés.
+
+Lorsque l’expérience d’un risque individuel ne fournit pas une base crédible pour estimer les coûts, il est approprié de considérer l’expérience globale de risques similaires.
+
+Le taux estimé dans ce cas est un estimé des coûts du transfert de risque pour chaque individu dans la classe.
+
+## Principe 4
+
+> Un taux est **raisonnable, non excessif, non inadéquat et non injustement discriminatoire** s’il est un estimé actuariellement fiable de la valeur espérée de tous les coûts futurs associés avec le transfert de risque individuel.
+
+La tarification produit une estimation actuariellement fiable des coûts si elle est basée sur les principes 1, 2 et 3.
+
+L’estimation rencontre alors les quatre critères généralement utilisés par les actuaires : raisonnable, non excessif, non inadéquat et non injustement discriminatoire.
+
+
+# Considérations {data-progress-label="Considérations" subtitle="Les facteurs à évaluer au-delà des principes fondamentaux"}
+
+## Considérations
+
+Plusieurs méthodes de tarification ont été établies dans le passé dans la profession actuarielle.
+
+Comme il est désirable d’encourager l’expérimentation et l’innovation en tarification, un actuaire n’est pas contraint d’utiliser ces méthodes.
+
+Peu importe la méthode utilisée, les hypothèses matérielles devraient être documentées et disponibles pour publication.
+
+---
+
+Même si une méthodologie de tarification ne s’applique pas nécessairement à tous les cas, plusieurs considérations s’appliquent de façon générale :
+
+::: {.columns}
+::: {.column width="33%"}
+- Unité d’exposition
+- Données
+- Organisation des données
+- Homogénéité
+- Crédibilité
+- Développement des sinistres
+:::
+
+::: {.column width="33%"}
+- Tendance/évolution
+- Catastrophes
+- Dispositions de police
+- Distribution du portefeuille
+- Réassurance
+- Changements opérationnels
+:::
+
+::: {.column width="34%"}
+- Influences externes
+- Plan de classification
+- Tarification individuelle
+- Risque
+- Revenu d’investissement et autres revenus
+- Jugement actuariel
+:::
+:::
+
+Ces considérations seront traitées dans les prochains chapitres du cours.
+
+# Conclusion {data-progress-label="Conclusion" .unnumbered}
+
+## Conclusion
+
+En appliquant les principes dans _Statement of Principles Regarding Property and Casualty Insurance Ratemaking_, l’actuaire obtiendra un estimé des coûts futurs associés avec le transfert de risque.
+
+D’autres considérations d’affaires font aussi partie de la tarification.
+
+En interagissant avec les professionnels des différents départements (souscription, marketing, légal, sinistres, finance), l’actuaire a un rôle clé dans le processus de tarification.
+
+## {.remember-slide}
+
+Principes de tarification de la CAS :
+
+1. Un taux est un estimé de la valeur espérée des coûts futurs.
+1. Un taux couvre tous les coûts associés avec le transfert de risque.
+1. Un taux couvre tous les coûts associés avec le transfert de risque individuel.
+1. Un taux est **raisonnable, non excessif, non inadéquat et non injustement discriminatoire** s’il est un estimé actuariellement fiable de la valeur espérée de tous les coûts futurs associés avec le transfert de risque individuel.

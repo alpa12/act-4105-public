@@ -1,0 +1,11 @@
+---
+title: "Autres frais et profit et Indiqué global"
+description: "Présente la projection des frais de souscription et la provision pour profit, puis l’indiqué global par les méthodes de la prime pure et du taux de sinistre."
+label: "Autres frais et profit et Indiqué global"
+week-id: 5
+chapitres:
+  - path: /chapitres/07-autres-frais-et-profit
+    title: "Autres frais et profit"
+  - path: /chapitres/08-indique-global
+    title: "Indiqué global"
+---

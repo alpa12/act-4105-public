@@ -1,0 +1,113 @@
+.reveal .slides section.text-scale > :where(:not(h1, h2)) {
+  font-size: calc(var(--r-main-font-size) * var(--act-body-text-scale) * var(--act-slide-text-scale));
+}
+
+.reveal .slides section .text-scale {
+  font-size: calc(var(--r-main-font-size) * var(--act-body-text-scale) * var(--act-text-scale));
+}
+
+.reveal .slides section > :is(h1, h2) {
+  font-size: var(--act-title-base-size);
+}
+
+.reveal .slides section > :where(:not(h1, h2)) {
+  font-size: calc(var(--r-main-font-size) * var(--act-body-text-scale));
+}
+
+.reveal .slides section.text-xs {
+  --act-slide-text-scale: 0.7513;
+}
+
+.reveal .slides section .text-xs {
+  --act-text-scale: 0.7513;
+}
+
+.reveal .slides section.text-smaller,
+.reveal .slides section.smaller {
+  --act-slide-text-scale: 0.8264;
+}
+
+.reveal .slides section .text-smaller,
+.reveal .slides section .smaller {
+  --act-text-scale: 0.8264;
+}
+
+.reveal .slides section.text-small {
+  --act-slide-text-scale: 0.9091;
+}
+
+.reveal .slides section .text-small {
+  --act-text-scale: 0.9091;
+}
+
+.reveal .slides section.text-medium {
+  --act-slide-text-scale: 1;
+}
+
+.reveal .slides section .text-medium {
+  --act-text-scale: 1;
+}
+
+.reveal .slides section.text-large {
+  --act-slide-text-scale: 1.1;
+}
+
+.reveal .slides section .text-large {
+  --act-text-scale: 1.1;
+}
+
+.reveal .slides section.text-larger {
+  --act-slide-text-scale: 1.21;
+}
+
+.reveal .slides section .text-larger {
+  --act-text-scale: 1.21;
+}
+
+.reveal .slides section.text-xl {
+  --act-slide-text-scale: 1.331;
+}
+
+.reveal .slides section .text-xl {
+  --act-text-scale: 1.331;
+}
+
+.reveal .slides section.text-xs > :where(:not(h1, h2)),
+.reveal .slides section.text-smaller > :where(:not(h1, h2)),
+.reveal .slides section.smaller > :where(:not(h1, h2)),
+.reveal .slides section.text-small > :where(:not(h1, h2)),
+.reveal .slides section.text-medium > :where(:not(h1, h2)),
+.reveal .slides section.text-large > :where(:not(h1, h2)),
+.reveal .slides section.text-larger > :where(:not(h1, h2)),
+.reveal .slides section.text-xl > :where(:not(h1, h2)) {
+  font-size: calc(var(--r-main-font-size) * var(--act-body-text-scale) * var(--act-slide-text-scale));
+}
+
+.reveal .slides section .text-xs,
+.reveal .slides section .text-smaller,
+.reveal .slides section .smaller,
+.reveal .slides section .text-small,
+.reveal .slides section .text-medium,
+.reveal .slides section .text-large,
+.reveal .slides section .text-larger,
+.reveal .slides section .text-xl {
+  font-size: calc(var(--r-main-font-size) * var(--act-body-text-scale) * var(--act-text-scale));
+}
+
+.reveal .slides section p,
+.reveal .slides section dt,
+.reveal .slides section dd {
+  font-size: inherit;
+}
+
+.reveal .slides section li {
+  font-size: inherit;
+}
+
+.reveal .slides section li li {
+  font-size: 0.88em;
+}
+
+.reveal .slides section li li li {
+  font-size: 0.88em;
+}

@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+sass_bin="${repo_root}/node_modules/.bin/sass"
+required_quarto="1.10.17"
+quarto_bin="${QUARTO_BIN:-quarto}"
+
+if ! command -v "${quarto_bin}" >/dev/null 2>&1; then
+  echo "Quarto ${required_quarto} est requis, mais la commande 'quarto' est introuvable." >&2
+  exit 1
+fi
+
+installed_quarto="$("${quarto_bin}" --version)"
+if [[ "${installed_quarto}" != "${required_quarto}" ]]; then
+  echo "Quarto ${required_quarto} est requis; version détectée: ${installed_quarto}." >&2
+  exit 1
+fi
+
+if [[ ! -x "${sass_bin}" ]]; then
+  echo "Sass local est absent. Exécutez 'npm ci' à la racine du dépôt." >&2
+  exit 1
+fi
+
+export QUARTO_DART_SASS="${sass_bin}"
+exec "${quarto_bin}" "$@"

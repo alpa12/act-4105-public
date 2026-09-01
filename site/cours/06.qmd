@@ -1,0 +1,9 @@
+---
+title: "Classification traditionnelle des risques"
+description: "Présente les fondements de la classification traditionnelle des risques, les critères d’évaluation des variables de tarification et le calcul des différentiels indiqués."
+label: "Classification traditionnelle des risques"
+week-id: 6
+chapitres:
+  - path: /chapitres/09-classification-traditionnelle-des-risques
+    title: "Classification traditionnelle des risques"
+---

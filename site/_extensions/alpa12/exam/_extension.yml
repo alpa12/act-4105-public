@@ -1,0 +1,13 @@
+title: Exam Typst
+author: Alexandre Parent
+version: 1.0.0
+quarto-required: ">=1.9.0"
+contributes:
+  formats:
+    typst:
+      lang: fr
+      filters:
+        - path: exam.lua
+          at: pre-ast
+      include-in-header:
+        - exam-style.typ

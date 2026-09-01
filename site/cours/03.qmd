@@ -1,0 +1,9 @@
+---
+title: "Primes"
+description: "Présente la compilation des primes, leur mise au taux courant, leur développement et leur tendance."
+label: "Primes"
+week-id: 3
+chapitres:
+  - path: /chapitres/05-primes
+    title: "Primes"
+---

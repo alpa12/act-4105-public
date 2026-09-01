@@ -1,0 +1,18 @@
+project:
+  type: default
+  render:
+    - "chapitres/**/exercices.qmd"
+
+document-type: exercice
+show-solutions: true
+show-grading: true
+course-number: ACT-4105
+instructor: Alexandre Parent
+title-logo: assets/ul-fsg-actuariat-logo.png
+instructions-file: instructions-exercices.qmd
+
+smart-tables:
+  enabled: false
+
+format:
+  exam-typst: default

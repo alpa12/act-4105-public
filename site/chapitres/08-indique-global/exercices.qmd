@@ -1,0 +1,313 @@
+---
+metadata-files:
+  - ../_exercices.yml
+---
+
+```{r}
+#| echo: false
+#| include: false
+
+library(tarifr)
+```
+
+:::: {.question}
+(CAS Examen 5, Printemps 2014 - adapté de Q5a)
+
+Un document envoyé au régulateur pour approbation des taux dans un état contient l'information suivante :
+
+- Toutes les polices sont annuelles.
+- La date d'entrée en vigueur des taux soumis au régulateur est planifiée pour l'année de police 2015.
+- Il y a eu un changement de taux de 7.5 %, effectif le 2013/07/01. Le changement de taux précédent datait de 2009.
+- Tendance dans les sinistres de 3 % annuellement.
+- Ratio de frais de règlement de sinistres non alloués sur les sinistres et frais de règlement de sinistres alloués : 10 %.
+- Provision pour profit : 5 %.
+- Ratio de frais variables : 20 %.
+- La compagnie a acheté un nouveau logiciel en 2010.
+- Utiliser une moyenne de 2012 et 2013 pour l'indication du niveau de taux.
+- Les données sont vues au 31 décembre 2013.
+
+| Année de calendrier | Primes acquises ('000 $) |
+|---:|---:|
+| 2012 | 1 250 |
+| 2013 | 1 400 |
+
+| Année d'accident | Sinistres rapportés incluant frais de règlement de sinistres alloués ('000 $) |
+|---:|---:|
+| 2012 | 750 |
+| 2013 | 500 |
+
+| Année de calendrier | Prime écrite moyenne au taux courant | Ratio frais fixes |
+|---:|---:|---:|
+| 2009 | 500 $ | 10 % |
+| 2010 | 520 $ | 23 % |
+| 2011 | 540 $ | 15 % |
+| 2012 | 560 $ | 12 % |
+| 2013 | 583 $ | 10 % |
+
+| Facteur de développement des sinistres rapportés |  |
+|---|---:|
+| 12-24 mois | 1.80 |
+| 24-36 mois | 1.15 |
+| 36-48 mois | 1.10 |
+| 48-60 mois | 1.03 |
+| 60 mois et + | 1.00 |
+
+Calculer le changement de taux indiqué. Justifier les sélections de tendance dans les primes, tous les facteurs de développement de sinistres et le ratio de frais fixes.
+
+::: {.solution}
+Comme nous n'avons pas d'unités d'exposition, nous utiliserons la méthode du taux de sinistre pour calculer le changement de taux indiqué.
+
+#### Formule de l'indication
+
+Le changement indiqué est :
+
+$$
+\frac{\frac{L + EL}{P_c} + F}{1 - V - Q_T} - 1
+$$
+
+Pour chacune des années, on doit donc calculer le taux de sinistre en utilisant les sinistres ultimes projetés divisés par les primes acquises au taux courant projetées.
+
+#### Facteur de mise au taux courant des primes
+
+Les primes sont compilées par année de calendrier.
+
+```{r}
+#| echo: false
+#| fig-width: 7
+#| fig-height: 3.4
+
+changes <- data.frame(
+  date = "2013/07/01",
+  label = "2013/07/01\n+7.5 % taux",
+  type = "diagonal",
+  date_y = NA
+)
+
+zone_labels <- data.frame(
+  date = c("2013/04/01", "2013/10/20"),
+  y = c(65, 18),
+  label = c("1", "2")
+)
+
+tarifr::rate_level_diagram(
+  start_date = "2012/01/01",
+  end_date = "2014/01/01",
+  experience_period = "calendar",
+  policy_term_months = 12,
+  period_months = 12,
+  changes = changes,
+  zone_labels = zone_labels,
+  analyzed_start = "2013/01/01"
+)
+```
+
+| Zone | Niveau de taux | Portion de l'aire dans l'année de calendrier 2013 |
+|---:|---:|---:|
+| 1 | 1.000 | $1 - 0.125 = 0.875$ |
+| 2 | 1.075 | $0.5 \times 0.5 / 2 = 0.125$ |
+
+Facteur de mise au taux courant pour l'année 2012 :
+
+$$
+\frac{1.075}{1} = 1.075
+$$
+
+Facteur de mise au taux courant pour l'année 2013 :
+
+$$
+\frac{1.075}{0.875 \times 1 + 0.125 \times 1.075} = 1.065
+$$
+
+#### Tendance dans les primes
+
+| Année de calendrier | Prime moyenne au taux courant | % changement |
+|---:|---:|---:|
+| 2009 | 500 $ | - |
+| 2010 | 520 $ | $520 / 500 - 1 = 4.0\ \%$ |
+| 2011 | 540 $ | $540 / 520 - 1 = 3.8\ \%$ |
+| 2012 | 560 $ | $560 / 540 - 1 = 3.7\ \%$ |
+| 2013 | 583 $ | $583 / 560 - 1 = 4.1\ \%$ |
+
+Puisque le changement d'une année à l'autre est stable à environ 4 %, la tendance dans les primes sélectionnée est 4 %.
+
+#### Primes acquises projetées au taux courant
+
+La période de projection va de la date moyenne souscrite des primes acquises dans l'année historique à la date moyenne souscrite dans la période projetée, soit le point milieu entre le 1er janvier 2015 et le 31 décembre 2015 : le 1er juillet 2015.
+
+- Les primes acquises dans l'année d'accident 2012 proviennent des polices écrites entre le 1er janvier 2011 et le 31 décembre 2012. La date moyenne souscrite de ces polices est donc le 1er janvier 2012. La période de projection pour les primes acquises dans l'année d'accident 2012 est donc de 3.5 années.
+- Suivant le même raisonnement, la date moyenne souscrite pour l'année d'accident 2013 est le 1er janvier 2013. La période de projection pour les primes acquises dans l'année d'accident 2013 est donc de 2.5 années.
+
+| Année de calendrier | Primes acquises | Facteur de mise au taux courant | Projection des primes | Primes acquises projetées au taux courant |
+|---:|---:|---:|---:|---:|
+| 2012 | 1 250 000 | 1.075 | $1.04^{3.5}$ | 1 541 470 |
+| 2013 | 1 400 000 | 1.065 | $1.04^{2.5}$ | 1 644 603 |
+
+#### Facteurs de développement à l'ultime
+
+L'année d'accident 2013 est vue à 12 mois de développement.
+
+$$
+\text{Facteur de développement de 12 mois à l'ultime}
+= 1.80 \times 1.15 \times 1.10 \times 1.03 \times 1.00
+= 2.34531
+$$
+
+L'année d'accident 2012 est vue à 24 mois de développement.
+
+$$
+\text{Facteur de développement de 24 mois à l'ultime}
+= 1.15 \times 1.10 \times 1.03 \times 1.00
+= 1.30295
+$$
+
+#### Tendance dans les sinistres
+
+La tendance dans les sinistres est de 3 %. La période de projection va de la date moyenne d'accident dans l'année d'accident historique, soit le 1er juillet de l'année en question, à la date moyenne d'accident dans la période projetée, soit 6 mois après la date moyenne souscrite car les polices sont annuelles. Donc :
+
+$$
+\text{1er juillet 2015} + 6 \text{ mois} = \text{1er janvier 2016}
+$$
+
+La période de projection est donc 3.5 années pour l'année d'accident 2012 et 2.5 années pour l'année d'accident 2013.
+
+#### Sinistres ultimes projetés
+
+| Année d'accident | Sinistres rapportés incluant les frais de règlement de sinistres alloués | Facteur de développement à l'ultime des sinistres | Projection | Sinistres ultimes projetés |
+|---:|---:|---:|---:|---:|
+| 2012 | 750 000 | 1.30295 | $1.03^{3.5}$ | 1 083 726 |
+| 2013 | 500 000 | 2.34531 | $1.03^{2.5}$ | 1 262 593 |
+
+#### Taux de sinistre
+
+Le taux de sinistre incluant frais de règlement de sinistres alloués est :
+
+- Pour 2012 : $1083726 / 1541470 = 0.7031$.
+- Pour 2013 : $1262593 / 1644603 = 0.7677$.
+
+La moyenne est :
+
+$$
+\frac{0.7031 + 0.7677}{2} = 0.7354
+$$
+
+#### Ratio frais fixes
+
+Les frais fixes de 2010 sont particulièrement élevés probablement à cause de l'achat du logiciel. Afin d'être plus représentatif des frais à payer prospectivement, nous prendrons la moyenne des trois dernières années :
+
+$$
+\frac{0.15 + 0.12 + 0.10}{3} = 0.123
+$$
+
+#### Changement indiqué
+
+En tenant compte du 10 % de frais de règlement de sinistre non alloués :
+
+$$
+\frac{0.7354 \times 1.10 + 0.123}{1 - 0.20 - 0.05} - 1 = 0.243
+$$
+:::
+::::
+
+:::: {.question}
+(CAS Examen 5, 2011 - Q10)
+
+Identifier quelle méthode de tarification entre la méthode de la prime pure et la méthode du taux de sinistre est préférable dans chacune des situations suivantes :
+
+::: {.question}
+Une compagnie a introduit deux nouvelles variables de tarification dans la dernière année.
+
+::: {.solution}
+Si les nouvelles variables de tarification ne sont pas disponibles sur l'historique des données de polices, il peut être plus difficile de mettre les primes au taux courant dans la méthode du taux de sinistre. La méthode de la prime pure serait donc préférable.
+:::
+:::
+
+::: {.question}
+Une compagnie commence à écrire des polices dans une nouvelle ligne d'affaires.
+
+::: {.solution}
+La méthode de la prime pure serait préférable car il n'existe pas de taux courant auquel appliquer un changement de taux indiqué.
+:::
+:::
+
+::: {.question}
+Une compagnie écrit un produit d'assurance commerciale avec plusieurs bases d'exposition.
+
+::: {.solution}
+La méthode du taux de sinistre serait préférable car il peut être difficile de calculer une mesure d'exposition précise et consistante pour la méthode de la prime pure.
+:::
+:::
+::::
+
+:::: {.question}
+(CAS Examen 5, 2010 - Q26)
+
+::: {.question}
+Dériver la formule de prime pure indiquée en se basant sur l'équation fondamentale en assurance.
+
+::: {.solution}
+L'équation fondamentale en assurance est :
+
+$$
+\begin{aligned}
+\text{Prime}
+= {} & \text{Sinistres} \\
+& + \text{Frais de règlement de sinistres} \\
+& + \text{Frais de souscription} \\
+& + \text{Profit de souscription}
+\end{aligned}
+$$
+
+En termes de prime totale indiquée :
+
+$$
+P_I = L + E_L + (E_F + V \times P_I) + (Q_T \times P_I)
+$$
+
+$$
+P_I - V \times P_I - Q_T \times P_I = (L + E_L) + E_F
+$$
+
+$$
+P_I \times (1.0 - V - Q_T) = (L + E_L) + E_F
+$$
+
+$$
+P_I = \frac{(L + E_L) + E_F}{1.0 - V - Q_T}
+$$
+
+En divisant par les unités d'exposition :
+
+$$
+\frac{P_I}{X}
+= \frac{\left[(L + E_L) / X + E_F / X\right]}{1.0 - V - Q_T}
+= \frac{\overline{L} + \overline{E_L} + \overline{E_F}}{1.0 - V - Q_T}
+= \overline{P_I}
+$$
+
+Où :
+
+- $X$ = unités d'exposition;
+- $P_I$ = prime indiquée totale;
+- $\overline{P_I}$ = prime pure indiquée;
+- $L$ = sinistres;
+- $\overline{L} = L / X$ = prime pure;
+- $E_L$ = frais de règlement de sinistres;
+- $\overline{E_L} = E_L / X$ = frais de règlement de sinistres moyen par unité;
+- $E_F$ = frais de souscription fixes;
+- $\overline{E_F} = E_F / X$ = frais de souscription fixes par unité;
+- $E_V$ = frais de souscription variables;
+- $V = E_V / P_I$ = provision pour frais variables;
+- $Q_T$ = profit cible en %.
+:::
+:::
+
+::: {.question}
+Décrire brièvement deux situations où il est plus approprié d'utiliser la méthode de la prime pure que la méthode du taux de sinistre.
+
+::: {.solution}
+Pour une nouvelle ligne d'affaires pour laquelle nous n'avons aucun taux auxquels appliquer un changement de taux indiqué.
+
+Si on est incapable d'obtenir les primes historiques au taux courant à utiliser dans la méthode du taux de sinistre.
+:::
+:::
+::::

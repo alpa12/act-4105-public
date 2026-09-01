@@ -1,0 +1,103 @@
+<script>
+(function () {
+  const revealSelector = ".reveal";
+  const dockClass = "act-reveal-extension-controls";
+  const controlClass = "act-reveal-extension-control";
+  const controlSelectors = [
+    { selector: ".slide-menu-button", className: "act-reveal-extension-control-menu", order: 10 },
+    { selector: ".slide-chalkboard-buttons", className: "act-reveal-extension-control-chalkboard", order: 20 },
+    { selector: ".slide-extension-controls", className: "act-reveal-extension-control-generic", order: 80 },
+    { selector: "[data-act-extension-controls]", className: "act-reveal-extension-control-generic", order: 80 },
+    { selector: ".customcontrols", className: "act-reveal-extension-control-generic", order: 90 },
+    { selector: ".custom-controls", className: "act-reveal-extension-control-generic", order: 90 },
+    { selector: "#customcontrols", className: "act-reveal-extension-control-generic", order: 90 },
+  ];
+
+  let scheduled = false;
+
+  function getReveal() {
+    return document.querySelector(revealSelector);
+  }
+
+  function ensureDock(reveal) {
+    let dock = reveal.querySelector(":scope > ." + dockClass);
+    if (!dock) {
+      dock = document.createElement("div");
+      dock.className = dockClass;
+      dock.setAttribute("aria-hidden", "false");
+      reveal.appendChild(dock);
+    }
+    return dock;
+  }
+
+  function isSlideContent(element, reveal) {
+    const slides = reveal.querySelector(".slides");
+    return Boolean(slides && slides.contains(element));
+  }
+
+  function matchingControl(element) {
+    return controlSelectors.find(function (control) {
+      return element.matches(control.selector);
+    });
+  }
+
+  function collectControls() {
+    const reveal = getReveal();
+    if (!reveal) {
+      return;
+    }
+
+    const dock = ensureDock(reveal);
+    const controls = [];
+    const selector = controlSelectors.map(function (control) {
+      return control.selector;
+    }).join(",");
+
+    document.querySelectorAll(selector).forEach(function (element) {
+      if (element === dock || isSlideContent(element, reveal)) {
+        return;
+      }
+
+      const control = matchingControl(element);
+      if (!control) {
+        return;
+      }
+
+      element.classList.add(controlClass, control.className);
+      if (!element.hasAttribute("data-act-extension-order")) {
+        element.setAttribute("data-act-extension-order", String(control.order));
+      }
+      controls.push(element);
+    });
+
+    controls.sort(function (a, b) {
+      return Number(a.getAttribute("data-act-extension-order")) - Number(b.getAttribute("data-act-extension-order"));
+    });
+
+    controls.forEach(function (element, index) {
+      const current = dock.children[index];
+      if (element !== current) {
+        dock.insertBefore(element, current || null);
+      }
+    });
+  }
+
+  function scheduleCollectControls() {
+    if (scheduled) {
+      return;
+    }
+    scheduled = true;
+    window.requestAnimationFrame(function () {
+      scheduled = false;
+      collectControls();
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", scheduleCollectControls);
+  document.addEventListener("menu-ready", scheduleCollectControls);
+  window.addEventListener("load", scheduleCollectControls);
+
+  const observer = new MutationObserver(scheduleCollectControls);
+  observer.observe(document.documentElement, { childList: true, subtree: true });
+})();
+</script>

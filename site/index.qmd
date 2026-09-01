@@ -1,0 +1,20 @@
+::: {.home-hero}
+<p class="home-kicker">ACT-4105 / ACT-6006 · École d’actuariat, Université Laval</p>
+
+# Tarification en assurance IARD
+
+Ce site accompagne le cours de tarification en assurance de dommages. Il réunit les notes de cours, les chapitres et les exercices.
+
+::: {.home-actions}
+[Parcourir les cours](cours/index.qmd){.home-action .home-action-primary}
+
+[Explorer les chapitres](chapitres/index.qmd){.home-action .home-action-secondary}
+:::
+
+## Licence
+
+Sauf indication contraire, le contenu pédagogique original de ce site est
+offert sous licence CC BY-SA 4.0. Le code source original est distribué sous
+licence MIT. Les éléments tiers demeurent soumis à leurs licences respectives;
+voir les [licences et crédits](licence.qmd).
+:::

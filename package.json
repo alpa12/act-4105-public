@@ -1,0 +1,11 @@
+{
+  "name": "act-4105-course-site",
+  "private": true,
+  "scripts": {
+    "quarto": "scripts/quarto",
+    "test": "node --test scripts/lib/revealjs/test/*.test.mjs"
+  },
+  "devDependencies": {
+    "sass": "1.101.0"
+  }
+}

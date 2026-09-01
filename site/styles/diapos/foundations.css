@@ -1,0 +1,26 @@
+.reveal,
+.reveal .slides,
+.reveal .slides section {
+  overflow: hidden;
+  overflow-wrap: anywhere;
+}
+
+.reveal {
+  --r-main-font-size: 28px;
+  --act-body-text-scale: 1;
+  --act-title-base-size: calc(var(--r-main-font-size) * 1.4);
+  --act-slide-text-scale: 1;
+  --act-text-scale: 1;
+  --act-slide-top-offset: 0.32rem;
+}
+
+.reveal .slide-background {
+  inset: 0;
+}
+
+.reveal .slides section {
+  box-sizing: border-box;
+  font-size: var(--r-main-font-size);
+  line-height: 1.24;
+  padding-top: var(--act-slide-top-offset);
+}

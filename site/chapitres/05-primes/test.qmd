@@ -1,0 +1,309 @@
+---
+title: "Exemples de diagrammes tarifr"
+format:
+  html:
+    toc: true
+metadata-files:
+  - ../_exercices.yml
+---
+
+```{r}
+#| echo: false
+#| include: false
+
+library(tarifr)
+```
+
+Cette page sert à valider les variantes de `tarifr::rate_level_diagram()` et de `tarifr::trend_period_diagram()` utilisées dans les exercices. Les diagrammes de niveau conservent leurs fonds gris, lignes de changements et repères; les diagrammes de tendance utilisent des bandes temporelles monochromes et les repères sobres de début et de fin de projection.
+
+## Année de calendrier, période annuelle
+
+```{r}
+#| fig-width: 8
+#| fig-height: 3.4
+
+changes <- data.frame(
+  date = c("2001-10-01", "2002-07-01", "2003-07-01"),
+  label = c("+7 % taux", "+10 % taux", "-5 % loi"),
+  type = c("diagonal", "diagonal", "vertical")
+)
+
+zone_labels <- data.frame(
+  date = c("2002-03-01", "2002-09-15", "2002-10-01", "2003-09-15"),
+  y = c(78, 56, 10, 56),
+  label = c("1", "2", "3", "4")
+)
+
+tarifr::rate_level_diagram(
+  start_date = "2001-01-01",
+  end_date = "2004-01-01",
+  experience_period = "calendar",
+  policy_term_months = 12,
+  period_months = 12,
+  changes = changes,
+  zone_labels = zone_labels,
+  analyzed_start = "2002-01-01",
+  view_end = "2004-01-01"
+)
+```
+
+## Diagrammes de période de tendance
+
+### Projection en deux étapes (chapitre 5)
+
+```{r}
+#| fig-width: 11
+#| fig-height: 4.6
+
+tarifr::two_step_trend_diagram(
+  experience_start = "2023-01-01",
+  experience_end = "2024-01-01",
+  current_date = "2023-11-15",
+  prospective_start = "2025-01-01",
+  prospective_end = "2026-01-01",
+  experience_average_date = "2023-01-01",
+  prospective_average_date = "2025-07-01",
+  axis_dates = seq.Date(
+    as.Date("2023-01-01"),
+    as.Date("2027-01-01"),
+    by = "year"
+  )
+)
+```
+
+### Calendrier et primes (chapitre 5)
+
+```{r}
+#| fig-width: 9
+#| fig-height: 5.2
+
+tarifr::trend_period_diagram(
+  experience_start = "2012-01-01",
+  experience_end = "2013-01-01",
+  prospective_start = "2014-01-01",
+  experience_period_type = "calendar",
+  trend_type = "premium",
+  experience_label = "AC 2012",
+  prospective_label = "AP 2014",
+  experience_average_label = "2012-01-01",
+  prospective_average_label = "2014-07-01"
+)
+```
+
+### Frais à l’émission
+
+```{r}
+#| fig-width: 10
+#| fig-height: 5.2
+
+tarifr::trend_period_diagram(
+  experience_start = "2023-01-01",
+  experience_end = "2024-01-01",
+  prospective_start = "2025-01-01",
+  prospective_end = "2026-01-01",
+  experience_period_type = "calendar",
+  trend_type = "premium",
+  experience_average_date = "2023-07-01",
+  prospective_average_date = "2025-07-01",
+  experience_label = "AC 2023",
+  prospective_label = "2025 - 2026",
+  y_axis_label = "% du terme de police expiré"
+)
+```
+
+### Frais encourus durant le terme
+
+```{r}
+#| fig-width: 10
+#| fig-height: 5.2
+
+tarifr::trend_period_diagram(
+  experience_start = "2023-01-01",
+  experience_end = "2024-01-01",
+  prospective_start = "2025-01-01",
+  prospective_end = "2026-01-01",
+  experience_period_type = "calendar",
+  trend_type = "premium",
+  experience_average_date = "2023-07-01",
+  prospective_average_date = "2025-12-31",
+  experience_label = "AC 2023",
+  prospective_label = "2025 - 2026",
+  y_axis_label = "% du terme de police expiré"
+)
+```
+
+### Année de police et primes
+
+```{r}
+#| fig-width: 9
+#| fig-height: 5.2
+
+tarifr::trend_period_diagram(
+  experience_start = "2023-01-01",
+  experience_end = "2024-01-01",
+  prospective_start = "2024-01-01",
+  experience_period_type = "policy",
+  trend_type = "premium"
+)
+```
+
+### Année d’accident et sinistres
+
+```{r}
+#| fig-width: 9
+#| fig-height: 5.2
+
+tarifr::trend_period_diagram(
+  experience_start = "2023-01-01",
+  experience_end = "2024-01-01",
+  prospective_start = "2024-01-01",
+  experience_period_type = "accident",
+  trend_type = "loss"
+)
+```
+
+### Terme de six mois
+
+```{r}
+#| fig-width: 9
+#| fig-height: 5.2
+
+tarifr::trend_period_diagram(
+  experience_start = "2023-01-01",
+  experience_end = "2024-01-01",
+  prospective_start = "2024-01-01",
+  experience_period_type = "calendar",
+  trend_type = "premium",
+  policy_term_months = 6,
+  xlim_start = "2022-01-01",
+  axis_dates = seq.Date(
+    as.Date("2022-01-01"),
+    as.Date("2025-01-01"),
+    by = "year"
+  )
+)
+```
+
+## Année de police, période annuelle
+
+```{r}
+#| fig-width: 8
+#| fig-height: 3.4
+
+changes <- data.frame(
+  date = c("2001-10-01", "2002-07-01", "2003-07-01"),
+  label = c("+7 % taux", "+10 % taux", "-5 % loi"),
+  type = c("diagonal", "diagonal", "vertical")
+)
+
+zone_labels <- data.frame(
+  date = c("2002-07-01", "2003-01-15", "2003-08-15"),
+  y = c(20, 40, 82),
+  label = c("1", "2", "3")
+)
+
+tarifr::rate_level_diagram(
+  start_date = "2001-01-01",
+  end_date = "2004-01-01",
+  experience_period = "policy",
+  policy_term_months = 12,
+  period_months = 12,
+  changes = changes,
+  zone_labels = zone_labels,
+  analyzed_start = "2002-01-01",
+  view_end = "2004-01-01"
+)
+```
+
+## Terme de six mois
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3.4
+
+changes <- data.frame(
+  date = c("2008-07-01", "2008-10-01"),
+  label = c("+10 % loi", "+5 % taux"),
+  type = c("vertical", "diagonal")
+)
+
+zone_labels <- data.frame(
+  date = c("2008-04-01", "2008-09-01", "2008-12-01"),
+  y = c(50, 50, 15),
+  label = c("1", "2", "3")
+)
+
+tarifr::rate_level_diagram(
+  start_date = "2008-01-01",
+  end_date = "2009-01-01",
+  experience_period = "calendar",
+  policy_term_months = 6,
+  period_months = 12,
+  changes = changes,
+  zone_labels = zone_labels,
+  analyzed_start = "2008-01-01"
+)
+```
+
+## Trimestre d'année d'accident
+
+```{r}
+#| fig-width: 8
+#| fig-height: 3.4
+
+changes <- data.frame(
+  date = c("2014-02-15", "2014-10-01"),
+  label = c("+6.5 % bénéfice", "+4.3 % bénéfice"),
+  type = c("diagonal", "diagonal")
+)
+
+zone_labels <- data.frame(
+  date = c("2014-10-18", "2014-11-10", "2014-12-12"),
+  y = c(82, 45, 9),
+  label = c("A", "B", "C")
+)
+
+tarifr::rate_level_diagram(
+  start_date = "2014-01-01",
+  end_date = "2015-01-01",
+  experience_period = "accident",
+  policy_term_months = 12,
+  period_months = 3,
+  minor_grid_months = 1,
+  changes = changes,
+  zone_labels = zone_labels,
+  analyzed_start = "2014-10-01"
+)
+```
+
+## Trimestre d'année de police
+
+```{r}
+#| fig-width: 8
+#| fig-height: 3.4
+
+changes <- data.frame(
+  date = c("2014-02-15", "2014-10-01"),
+  label = c("+6.5 % bénéfice", "+4.3 % bénéfice"),
+  type = c("vertical", "vertical")
+)
+
+zone_labels <- data.frame(
+  date = c("2014-02-07", "2014-06-15", "2014-11-20"),
+  y = c(5, 32, 76),
+  label = c("A", "B", "C")
+)
+
+tarifr::rate_level_diagram(
+  start_date = "2014-01-01",
+  end_date = "2015-01-01",
+  experience_period = "policy",
+  policy_term_months = 12,
+  period_months = 3,
+  minor_grid_months = 1,
+  changes = changes,
+  zone_labels = zone_labels,
+  analyzed_start = "2014-01-01",
+  view_end = "2015-04-01"
+)
+```

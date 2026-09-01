@@ -1,0 +1,14 @@
+.reveal .slides section.act-example-slide {
+  border-color: rgba(0, 156, 222, 0.24);
+  border-left: 0.22rem solid var(--act-laval-blue);
+  padding-left: 0.86em;
+}
+
+.reveal .slides section.act-example-solution-slide {
+  border-color: rgba(61, 139, 95, 0.24);
+  border-left-color: #3d8b5f;
+}
+
+.reveal .slides section.act-example-slide h2 {
+  color: var(--act-charcoal);
+}

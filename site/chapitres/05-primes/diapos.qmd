@@ -1,0 +1,1983 @@
+---
+format:
+  revealjs: default
+fig-width: 11
+fig-height: 4
+metadata-files:
+  - ../_diapos.yml
+---
+
+```{r}
+#| label: setup
+#| echo: false
+#| include: false
+#| cache: false
+
+library(tarifr)
+library(here)
+here::i_am("site/chapitres/05-primes/diapos.qmd")
+source(here("site/_extensions/alpa12/dynamic-year/dynamic-year.R"))
+source(here("site/chapitres/donnees-exemple.R"))
+
+annees_primes <- vapply(-2:0, dynamic_year, integer(1))
+entetes_primes_ac <- paste("AC", annees_primes)
+entetes_primes_ap <- paste("AP", annees_primes)
+entetes_primes_force <- c(dynamic_date("YYYY-01-01", -1), dynamic_date("YYYY-06-15", -1), dynamic_date("YYYY-01-01", 0))
+
+livres_taux <- data.frame(
+  "Livre de taux" = 1:4,
+  "Date de prise d’effet" = c(
+    "Initial",
+    dynamic_date("YYYY-07-01", -3),
+    dynamic_date("YYYY-01-01", -2),
+    dynamic_date("YYYY-04-01", -1)
+  ),
+  "Changement global" = c("—", "5\u00A0%", "10\u00A0%", "-1\u00A0%"),
+  check.names = FALSE
+)
+```
+
+## Lectures recommandées
+
+Ce chapitre est adapté du chapitre 5 du texte _Basic Ratemaking_ :
+
+[Werner, G. et Modlin, C. (2016). _Basic Ratemaking_, Casualty Actuarial Society, 5e édition.](http://www.casact.org/library/studynotes/Werner_Modlin_Ratemaking.pdf)
+
+## Contenu du chapitre {.progress-overview}
+
+# Compilation et définition des primes {data-progress-label="Compilation" subtitle="Primes écrites et acquises selon une base d’année de calendrier et de police"}
+
+## Compilation des primes
+
+Deux méthodes différentes s’appliquent pour compiler les **primes** :
+
+- Année de calendrier
+  - Année d’accident et année de sinistre rapporté utilisent l’année de calendrier pour les unités d’exposition et les primes
+- Année de police
+
+:::: {.question title="Compilation des primes"}
+
+##
+
+Pour les polices suivantes, représenter sur une ligne du temps chacune des polices ainsi que le pourcentage du terme de la police qui est expiré.
+
+```{r}
+#| label: premium-polices-table
+#| echo: false
+#| output: asis
+
+afficher_table(
+  tableau_polices(polices_primes, "prime", "Prime"),
+  align = c("l", "l", "l", "r"),
+  formats = list(list(colonnes = 4, type = "montant", digits = 0))
+)
+```
+
+##
+
+```{r}
+#| label: premium-calendar-preview
+#| fig-alt: "Aperçu de polices annuelles réparties sur deux années de calendrier."
+
+tarifr::rate_level_diagram(
+  start_date = dynamic_date("YYYY-01-01", -2),
+  end_date = dynamic_date("YYYY-01-01", 1),
+  experience_period = "calendar",
+  policy_term_months = 12,
+  period_months = 12,
+  show_date_labels = TRUE,
+  show_period_fill = FALSE,
+  show_period_labels = FALSE,
+  mar = marge_schema_exposition
+)
+```
+
+::: {.solution}
+
+##
+
+```{r}
+#| label: premium-calendar-overview
+#| fig-alt: "Polices annuelles réparties sur deux années de calendrier pour illustrer la comptabilisation des primes."
+
+tarifr::rate_level_diagram(
+  start_date = dynamic_date("YYYY-01-01", -2),
+  end_date = dynamic_date("YYYY-01-01", 1),
+  experience_period = "calendar",
+  policy_term_months = 12,
+  period_months = 12,
+  policies = polices_primes,
+  show_date_labels = TRUE,
+  show_period_fill = FALSE,
+  show_period_labels = FALSE,
+  mar = marge_schema_exposition
+)
+```
+:::
+
+::::
+
+## Année de calendrier
+
+Considère toutes les **primes des transactions** ayant eu lieu durant les 12 mois de l’année de calendrier, sans égard à la date d’effet de la police.
+
+Représentation avec les données de l’exemple.
+
+::: {.r-stack}
+```{r}
+#| label: premium-calendar-written
+#| fig-alt: "Périodes de polices annuelles retenues pour mesurer les primes écrites par année de calendrier."
+
+tarifr::rate_level_diagram(
+  start_date = dynamic_date("YYYY-01-01", -2),
+  end_date = dynamic_date("YYYY-01-01", 1),
+  experience_period = "calendar",
+  policy_term_months = 12,
+  period_months = 12,
+  policies = polices_primes,
+  show_date_labels = TRUE,
+  mar = marge_schema_exposition
+)
+```
+
+::: {.fragment}
+```{r}
+#| label: premium-calendar-written-end
+#| fig-alt: "Primes écrites durant une année de calendrier, incluant la police entrée en vigueur le 31 décembre."
+
+tarifr::rate_level_diagram(
+  start_date = dynamic_date("YYYY-01-01", -2),
+  end_date = dynamic_date("YYYY-01-01", 1),
+  hide_after_date = dynamic_date("YYYY-01-01", 0),
+  analyzed_start = dynamic_date("YYYY-01-01", -1),
+  analyzed_end = dynamic_date("YYYY-01-01", 0),
+  experience_period = "calendar",
+  policy_term_months = 12,
+  period_months = 12,
+  policies = polices_primes,
+  show_date_labels = TRUE,
+  mar = marge_schema_exposition
+)
+```
+:::
+:::
+
+## Année de calendrier — primes écrites
+
+Primes écrites pour l’année de calendrier {{< dynamic-year -1 >}} avec les données de l’exemple.
+
+```{r}
+#| label: premium-calendar-written-period
+#| fig-alt: "Dates d’entrée en vigueur utilisées pour attribuer les primes écrites à une année de calendrier."
+
+tarifr::rate_level_diagram(
+  start_date = dynamic_date("YYYY-01-01", -2),
+  end_date = dynamic_date("YYYY-01-01", 1),
+  experience_period = "calendar",
+  policy_term_months = 12,
+  period_months = 12,
+  policies = polices_primes,
+  points = points_2011,
+  show_date_labels = TRUE,
+  mar = marge_schema_exposition
+)
+```
+
+---
+
+```{r}
+#| label: premium-table-ac-ecrites
+#| echo: false
+#| output: asis
+
+afficher_table(
+  tableau_primes(polices_primes, primes_exemple$ac_ecrites, entetes_primes_ac),
+  align = c("l", "l", "l", "r", "r", "r", "r"),
+  formats = list(list(colonnes = 4:7, type = "montant")),
+  lignes_gras = "derniere",
+  entetes_groupes = list(list(label = "Primes écrites ($)", colonnes = 5:7))
+)
+```
+
+::: aside
+Données vues au 31 décembre {{< dynamic-year 0 >}}.
+:::
+
+## Année de calendrier — primes acquises
+
+Primes acquises avec les données de l’exemple.
+
+```{r}
+#| label: premium-calendar-earned
+#| fig-alt: "Portions des primes gagnées durant une année de calendrier."
+
+tarifr::rate_level_diagram(
+  start_date = dynamic_date("YYYY-01-01", -2),
+  end_date = dynamic_date("YYYY-01-01", 1),
+  highlight_earned_start = dynamic_date("YYYY-01-01", -1),
+  highlight_earned_end = dynamic_date("YYYY-01-01", 0),
+  experience_period = "calendar",
+  policy_term_months = 12,
+  period_months = 12,
+  policies = polices_primes,
+  show_date_labels = TRUE,
+  mar = marge_schema_exposition
+)
+```
+
+---
+
+```{r}
+#| label: premium-table-ac-acquises
+#| echo: false
+#| output: asis
+
+afficher_table(
+  tableau_primes(polices_primes, primes_exemple$ac_acquises, entetes_primes_ac),
+  align = c("l", "l", "l", "r", "r", "r", "r"),
+  formats = list(list(colonnes = 4:7, type = "montant")),
+  lignes_gras = "derniere",
+  entetes_groupes = list(list(label = "Primes acquises ($)", colonnes = 5:7))
+)
+```
+
+::: aside
+Données vues au 31 décembre {{< dynamic-year 0 >}}.
+:::
+
+## Année de police
+
+Considère toutes les primes des polices ayant une date effective dans l’année.
+
+Représentation avec les données de l’exemple.
+
+```{r}
+#| label: premium-policy-overview
+#| fig-alt: "Polices annuelles regroupées selon leur année de police pour illustrer la comptabilisation des primes."
+
+tarifr::rate_level_diagram(
+  start_date = dynamic_date("YYYY-01-01", -2),
+  end_date = dynamic_date("YYYY-01-01", 1),
+  analyzed_start = dynamic_date("YYYY-01-01", -1),
+  analyzed_end = dynamic_date("YYYY-01-01", 0),
+  experience_period = "policy",
+  policy_term_months = 12,
+  period_months = 12,
+  policies = polices_primes,
+  view_end = dynamic_date("YYYY-01-01", 2),
+  show_date_labels = TRUE,
+  mar = marge_schema_exposition
+)
+```
+
+## Année de police — primes écrites
+
+Primes écrites pour l’année de police {{< dynamic-year -1 >}} avec les données de l’exemple.
+
+```{r}
+#| label: premium-policy-written
+#| fig-alt: "Périodes complètes des polices retenues pour mesurer les primes écrites par année de police."
+
+tarifr::rate_level_diagram(
+  start_date = dynamic_date("YYYY-01-01", -2),
+  end_date = dynamic_date("YYYY-01-01", 1),
+  experience_period = "policy",
+  policy_term_months = 12,
+  period_months = 12,
+  policies = polices_primes,
+  points = points_2011,
+  view_end = dynamic_date("YYYY-01-01", 2),
+  show_date_labels = TRUE,
+  mar = marge_schema_exposition
+)
+```
+
+---
+
+```{r}
+#| label: premium-table-ap-ecrites
+#| echo: false
+#| output: asis
+
+afficher_table(
+  tableau_primes(polices_primes, primes_exemple$ap_ecrites, entetes_primes_ap),
+  align = c("l", "l", "l", "r", "r", "r", "r"),
+  formats = list(list(colonnes = 4:7, type = "montant")),
+  lignes_gras = "derniere",
+  entetes_groupes = list(list(label = "Primes écrites ($)", colonnes = 5:7))
+)
+```
+
+::: aside
+Données vues au 31 décembre {{< dynamic-year 0 >}}.
+:::
+
+## Année de police — primes acquises
+
+Toutes les primes acquises sont assignées à l’année où la police a été écrite.
+
+
+```{r}
+#| label: premium-policy-earned
+#| fig-alt: "Périodes complètes des polices utilisées pour mesurer les primes acquises par année de police."
+
+tarifr::rate_level_diagram(
+  start_date = dynamic_date("YYYY-01-01", -2),
+  end_date = dynamic_date("YYYY-01-01", 1),
+  highlight_earned_start = dynamic_date("YYYY-01-01", -1),
+  highlight_earned_end = dynamic_date("YYYY-01-01", 0),
+  experience_period = "policy",
+  policy_term_months = 12,
+  period_months = 12,
+  policies = polices_primes,
+  view_end = dynamic_date("YYYY-01-01", 2),
+  show_date_labels = TRUE,
+  mar = marge_schema_exposition
+)
+```
+
+---
+
+```{r}
+#| label: premium-table-ap-acquises
+#| echo: false
+#| output: asis
+
+afficher_table(
+  tableau_primes(polices_primes, primes_exemple$ap_acquises, entetes_primes_ap),
+  align = c("l", "l", "l", "r", "r", "r", "r"),
+  formats = list(list(colonnes = 4:7, type = "montant")),
+  lignes_gras = "derniere",
+  entetes_groupes = list(list(label = "Primes acquises ($)", colonnes = 5:7))
+)
+```
+
+::: aside
+Données vues au 31 décembre {{< dynamic-year 0 >}}.
+:::
+
+
+## Primes non acquises
+
+Portion des primes qui n’est pas encore acquise, à une certaine date.
+
+Montant total de primes que la compagnie n’a pas encore acquis et auquel les assurés ont droit en cas d’annulation, sujet à une table d’annulation.
+
+---
+
+Pour une police individuelle vue à une certaine date, on a :
+
+$$
+\text{Prime écrite}
+= \text{Prime acquise}
++ \text{Prime non acquise}
+$$
+
+Pour un groupe de polices, la formule dépend de la méthode de compilation des données :
+
+- La compilation par année de police suit la formule plus haut, à un certain point dans le temps
+- Pour la compilation par année de calendrier, la formule diffère
+
+## Primes non acquises — année de calendrier
+
+Pour la compilation par année de calendrier, on a :
+
+$$
+\begin{aligned}
+&\text{Primes non acquises à la fin de l’année de calendrier}= \\[0.5em]
+& \text{Primes non acquises au début de l’année de calendrier} \\
+&+ \text{Primes écrites de l’année de calendrier} \\
+&- \text{Primes acquises de l’année de calendrier} \\ \\
+&\text{Ce qui reste à acquérir en fin d’année}= \\[0.5em]
+& \text{Ce qui restait à acquérir en début d’année} \\
+&+ \text{Ce qui a été vendu cette année} \\
+&- \text{Ce qui a été acquis cette année}
+\end{aligned}
+$$
+
+## Primes en force
+
+Primes totales **du terme** pour toutes les polices en effet à une certaine date, c’est-à-dire les polices sujettes à une perte.
+
+Primes en force au {{< dynamic-date "YYYY-06-15" -1 >}} avec les données de l’exemple :
+
+```{r}
+#| label: premium-in-force
+#| fig-alt: "Polices en vigueur à une date donnée, utilisées pour mesurer les primes en vigueur."
+
+tarifr::rate_level_diagram(
+  start_date = dynamic_date("YYYY-01-01", -2),
+  end_date = dynamic_date("YYYY-01-01", 1),
+  experience_period = "calendar",
+  policy_term_months = 12,
+  period_months = 12,
+  policies = polices_primes,
+  reference_lines = data.frame(
+    date = dynamic_date("YYYY-06-15", -1),
+    label = dynamic_date("YYYY-06-15", -1)
+  ),
+  show_date_labels = TRUE,
+  show_period_fill = FALSE,
+  show_period_labels = FALSE,
+  mar = marge_schema_exposition
+)
+```
+
+---
+
+Les primes en force sont souvent le meilleur **estimé de la distribution du portefeuille** à une certaine date et sont souvent utilisées pour calculer l’impact d’un changement de taux sur un portefeuille existant.
+
+---
+
+Données de l’exemple.
+
+```{r}
+#| label: premium-table-en-force
+#| echo: false
+#| output: asis
+
+afficher_table(
+  tableau_primes(polices_primes, primes_exemple$en_force, entetes_primes_force),
+  align = c("l", "l", "l", "r", "r", "r", "r"),
+  formats = list(list(colonnes = 4:7, type = "montant")),
+  lignes_gras = "derniere",
+  entetes_groupes = list(list(
+    label = "Primes en force ($) en date du",
+    colonnes = 5:7
+  ))
+)
+```
+
+:::: {.question title="Transaction en cours de terme"}
+
+##
+
+La police D de l’exemple (terme d'un an, écrite le {{< dynamic-date "YYYY-07-01" -1 >}}) fait une transaction le {{< dynamic-date "YYYY-01-01" 0 >}}. À ce moment, sa prime annuelle passe de 400 \$ à 800 \$.
+
+Calculer :
+
+- La prime totale que ce client va payer pour cette police
+- La prime en force au {{< dynamic-date "YYYY-09-01" -1 >}}
+- La prime en force au {{< dynamic-date "YYYY-02-01" 0 >}}
+
+::: {.solution}
+
+##
+
+Prime totale :
+
+$$
+400 \times 0.5 + 800 \times 0.5 = 600\$
+$$
+
+Prime en force au {{< dynamic-date "YYYY-09-01" -1 >}} :
+
+$$
+400\$
+$$
+
+Prime en force au {{< dynamic-date "YYYY-02-01" 0 >}} :
+
+$$
+800\$
+$$
+
+:::
+
+::::
+
+:::: {.question title="Compilation des primes"}
+
+##
+
+Exemple adapté de la question 3 de l’examen 5, automne 2017 de la CAS.
+
+La compagnie n’écrit que des polices annuelles.
+
+```{r}
+#| label: compilation-primes-donnees
+#| echo: false
+#| include: false
+
+polices_compilation <- data.frame(
+  police = LETTERS[1:4],
+  effective = c(
+    dynamic_date("YYYY-07-01", -2),
+    dynamic_date("YYYY-10-01", -2),
+    dynamic_date("YYYY-01-01", -1),
+    dynamic_date("YYYY-07-01", -1)
+  ),
+  prime_annuelle = c(200, 240, 260, 280),
+  check.names = FALSE
+)
+
+tableau_compilation_polices <- polices_compilation[1:3]
+names(tableau_compilation_polices) <- c("Police", "Date effective", "Prime annuelle (\\$)")
+tableau_compilation_polices_total <- rbind(
+  tableau_compilation_polices,
+  data.frame(
+    Police = "Total",
+    "Date effective" = NA_character_,
+    "Prime annuelle (\\$)" = NA_real_,
+    check.names = FALSE
+  )
+)
+
+mois_acquis_ac <- c(6, 9, 12, 6)
+fractions_ac <- mois_acquis_ac / 12
+primes_ac_acquises <- polices_compilation[[3]] * fractions_ac
+primes_ac_ecrites <- c(0, 0, polices_compilation[[3]][3:4])
+mois_acquis_ap <- c(0, 0, 12, 9)
+primes_ap_acquises <- polices_compilation[[3]] * mois_acquis_ap / 12
+primes_ap_ecrites <- primes_ap_acquises
+
+tableau_compilation_ac_acquises <- tableau_compilation_polices_total
+tableau_compilation_ac_acquises[[4]] <- c(
+  paste0(polices_compilation[[3]], " × ", mois_acquis_ac, "/12 = ", primes_ac_acquises),
+  sum(primes_ac_acquises)
+)
+names(tableau_compilation_ac_acquises)[4] <- paste(
+  "Primes acquises pour année de calendrier",
+  dynamic_year(-1),
+  "(\\$)"
+)
+tableau_compilation_ac_ecrites <- tableau_compilation_polices_total
+tableau_compilation_ac_ecrites[[4]] <- c(primes_ac_ecrites, sum(primes_ac_ecrites))
+names(tableau_compilation_ac_ecrites)[4] <- paste(
+  "Primes écrites pour année de calendrier",
+  dynamic_year(-1),
+  "(\\$)"
+)
+tableau_compilation_ap_acquises <- tableau_compilation_polices_total
+tableau_compilation_ap_acquises[[4]] <- c(
+    "0",
+    "0",
+    as.character(primes_ap_acquises[[3]]),
+    paste0(
+      polices_compilation[[3]][[4]], " × ", mois_acquis_ap[[4]],
+      "/12 = ", primes_ap_acquises[[4]]
+    ),
+    sum(primes_ap_acquises)
+)
+names(tableau_compilation_ap_acquises)[4] <- paste(
+  "Primes acquises pour année de police",
+  dynamic_year(-1),
+  "(\\$)"
+)
+tableau_compilation_ap_ecrites <- tableau_compilation_polices_total
+tableau_compilation_ap_ecrites[[4]] <- c(
+    "0",
+    "0",
+    as.character(primes_ap_ecrites[[3]]),
+    paste0(
+      polices_compilation[[3]][[4]], " − ", polices_compilation[[3]][[4]],
+      " × ", 12 - mois_acquis_ap[[4]], "/12 = ", primes_ap_ecrites[[4]]
+    ),
+    sum(primes_ap_ecrites)
+)
+names(tableau_compilation_ap_ecrites)[4] <- paste(
+  "Primes écrites pour année de police",
+  dynamic_year(-1),
+  "(\\$)"
+)
+```
+
+```{r}
+#| label: compilation-primes-polices-table
+#| echo: false
+#| output: asis
+
+afficher_table(
+  tableau_compilation_polices,
+  align = c("l", "l", "r"),
+  formats = list(list(colonnes = 3, type = "montant", digits = 0))
+)
+```
+
+La police D a été annulée le {{< dynamic-date "YYYY-03-31" 0 >}}.
+
+##
+
+Calculer les éléments suivants pour l’année de calendrier {{< dynamic-year -1 >}} :
+
+- Primes acquises
+- Primes écrites
+
+Calculer les éléments suivants, vus au {{< dynamic-date "YYYY-12-31" 0 >}} :
+
+- Primes acquises pour l’année de police {{< dynamic-year -1 >}}
+- Primes écrites pour l’année de police {{< dynamic-year -1 >}}
+
+Décrire brièvement un avantage et un désavantage de la méthode de compilation des données par année de calendrier.
+
+::: {.solution}
+
+##
+
+### Primes acquises AC {{< dynamic-year -1 >}}
+
+```{r}
+#| label: compilation-primes-ac-acquises-table
+#| echo: false
+#| output: asis
+
+afficher_table(
+  tableau_compilation_ac_acquises,
+  align = c("l", "l", "r", "r"),
+  formats = list(list(colonnes = 3, type = "montant", digits = 0)),
+  lignes_gras = "derniere"
+)
+```
+
+##
+
+### Primes écrites AC {{< dynamic-year -1 >}}
+
+```{r}
+#| label: compilation-primes-ac-ecrites-table
+#| echo: false
+#| output: asis
+
+afficher_table(
+  tableau_compilation_ac_ecrites,
+  align = c("l", "l", "r", "r"),
+  formats = list(list(colonnes = 3, type = "montant", digits = 0)),
+  lignes_gras = "derniere"
+)
+```
+
+::: {.callout-caution .text-smaller title="Attention"}
+L’annulation de la police D le {{< dynamic-date "YYYY-03-31" 0 >}} n’a aucun impact sur les primes écrites de l’année de calendrier {{< dynamic-year -1 >}}. Cette annulation aura un impact sur les primes écrites de l’année de calendrier {{< dynamic-year 0 >}}.
+:::
+
+##
+
+### Primes acquises AP {{< dynamic-year -1 >}}
+
+Données vues au {{< dynamic-date "YYYY-12-31" 0 >}}.
+
+```{r}
+#| label: compilation-primes-ap-acquises-table
+#| echo: false
+#| output: asis
+
+afficher_table(
+  tableau_compilation_ap_acquises,
+  align = c("l", "l", "r", "r"),
+  formats = list(list(colonnes = 3, type = "montant", digits = 0)),
+  lignes_gras = "derniere"
+)
+```
+
+::: {.callout-tip .text-smaller title="Rappel"}
+La police D a été annulée le {{< dynamic-date "YYYY-03-31" 0 >}}.
+:::
+
+##
+
+### Primes écrites AP {{< dynamic-year -1 >}}
+
+```{r}
+#| label: compilation-primes-ap-ecrites-table
+#| echo: false
+#| output: asis
+
+afficher_table(
+  tableau_compilation_ap_ecrites,
+  align = c("l", "l", "r", "r"),
+  formats = list(list(colonnes = 3, type = "montant", digits = 0)),
+  lignes_gras = "derniere"
+)
+```
+
+::: {.callout-tip .text-smaller title="Rappel"}
+La police D a été annulée le {{< dynamic-date "YYYY-03-31" 0 >}}.
+:::
+
+##
+
+Avantages de l’année de calendrier :
+
+- Les données sont disponibles rapidement lorsque l’année de calendrier est terminée
+- Aucun coût supplémentaire pour compiler les données selon cette méthode, car cette information est normalement disponible pour les rapports financiers
+
+Inconvénient de l’année de calendrier :
+
+- Mauvais appariement entre les primes et sinistres
+
+:::
+
+::::
+
+## Polices avec terme non annuel
+
+Voir les principes du chapitre 4 pour la compilation des primes écrites et acquises.
+
+
+:::: {.question title="Polices de 6 mois et de 12 mois"}
+
+##
+
+Exemple adapté de la question 2 de l’examen 5, printemps 2016 de la CAS.
+
+Une compagnie d’assurance écrit des polices d’assurance automobile de durées de 6 mois et de 12 mois.
+
+```{r}
+#| label: polices-termes-donnees
+#| echo: false
+#| include: false
+
+polices_termes <- data.frame(
+  police = c("A", "A", "B", "B", "C"),
+  effective_originale = c(
+    dynamic_date("YYYY-01-01", -1), dynamic_date("YYYY-01-01", -1),
+    dynamic_date("YYYY-07-01", -1), dynamic_date("YYYY-07-01", -1),
+    dynamic_date("YYYY-10-01", -1)
+  ),
+  expiration_originale = c(
+    dynamic_date("YYYY-12-31", -1), dynamic_date("YYYY-12-31", -1),
+    dynamic_date("YYYY-06-30", 0), dynamic_date("YYYY-06-30", 0),
+    dynamic_date("YYYY-03-31", 0)
+  ),
+  effective_transaction = c(
+    dynamic_date("YYYY-01-01", -1), dynamic_date("YYYY-07-01", -1),
+    dynamic_date("YYYY-07-01", -1), dynamic_date("YYYY-09-30", -1),
+    dynamic_date("YYYY-10-01", -1)
+  ),
+  territoire = c(1, 1, 1, 2, 2),
+  prime_terme = c(1000, NA, 500, 400, 1000),
+  check.names = FALSE
+)
+notes_transactions <- c(
+  "Début d’une nouvelle police",
+  "Police annulée",
+  "Début d’une nouvelle police",
+  "Relocalisation dans le territoire 2",
+  "Début d’une nouvelle police"
+)
+tableau_polices_termes <- polices_termes
+names(tableau_polices_termes) <- c(
+  "Police", "Date effective", "Date d’expiration", "Date de transaction", "Territoire", "Prime du terme ($)"
+)
+
+prime_a <- polices_termes[[6]][[1]]
+prime_b_territoire_1 <- polices_termes[[6]][[3]]
+prime_b_territoire_2 <- polices_termes[[6]][[4]]
+prime_c <- polices_termes[[6]][[5]]
+
+primes_ecrites_termes <- c(
+  prime_a - prime_a * 6 / 12,
+  prime_b_territoire_1 - prime_b_territoire_1 * 9 / 12 +
+    prime_b_territoire_2 * 9 / 12,
+  prime_c
+)
+primes_acquises_termes <- c(
+  prime_a * 6 / 12,
+  prime_b_territoire_1 * 3 / 12 + prime_b_territoire_2 * 3 / 12,
+  prime_c * 3 / 6
+)
+primes_force_termes <- c(0, prime_b_territoire_2, prime_c)
+unites_termes <- matrix(c(0.5, 0, 0.25, 0.25, 0, 0.25), ncol = 2, byrow = TRUE)
+format_entier <- function(x) {
+  format(x, scientific = FALSE, trim = TRUE, big.mark = "\u00A0")
+}
+
+tableau_primes_ecrites_termes <- data.frame(
+  "Police" = c("A", "B", "C", "Total"),
+  "Primes écrites pour l’année de calendrier" = c(
+    paste0(
+      format_entier(prime_a), " − ", format_entier(prime_a),
+      " × 6/12 = ", format_entier(primes_ecrites_termes[[1]])
+    ),
+    paste0(
+      format_entier(prime_b_territoire_1), " − ",
+      format_entier(prime_b_territoire_1), " × 9/12 + ",
+      format_entier(prime_b_territoire_2), " × 9/12 = ",
+      format_entier(primes_ecrites_termes[[2]])
+    ),
+    format_entier(prime_c),
+    sum(primes_ecrites_termes)
+  ),
+  check.names = FALSE
+)
+tableau_primes_acquises_termes <- data.frame(
+  "Police" = c("A", "B", "C", "Total"),
+  "Primes acquises pour l’année de calendrier" = c(
+    paste0(
+      format_entier(prime_a), " × 6/12 = ",
+      format_entier(primes_acquises_termes[[1]])
+    ),
+    paste0(
+      format_entier(prime_b_territoire_1), " × 3/12 + ",
+      format_entier(prime_b_territoire_2), " × 3/12 = ",
+      format_entier(primes_acquises_termes[[2]])
+    ),
+    paste0(
+      format_entier(prime_c), " × 3/6 = ", format_entier(prime_c),
+      " × 2 × 3/12 = ", format_entier(primes_acquises_termes[[3]])
+    ),
+    sum(primes_acquises_termes)
+  ),
+  check.names = FALSE
+)
+tableau_primes_force_termes <- data.frame(
+  "Police" = c("A", "B", "C", "Total"),
+  "Primes en force ($)" = c(primes_force_termes, sum(primes_force_termes)),
+  check.names = FALSE
+)
+tableau_unites_termes <- data.frame(
+  "Police" = c("A", "B", "C", "Total"),
+  "Unités acquises (territoire 1)" = c("6/12 = 0,5", "3/12 = 0,25", "0", sum(unites_termes[, 1])),
+  "Unités acquises (territoire 2)" = c("0", "3/12 = 0,25", "3/12 = 0,25", sum(unites_termes[, 2])),
+  check.names = FALSE
+)
+```
+
+::: {.text-smaller}
+```{r}
+#| label: polices-termes-table
+#| echo: false
+#| output: asis
+
+afficher_table(
+  setNames(
+    cbind(polices_termes, notes_transactions),
+    c(
+      "Police", "Date effective", "Date d’expiration", "Date de transaction",
+      "Territoire", "Prime du terme ($)", "Note"
+    )
+  ),
+  align = c("l", "l", "l", "l", "r", "r", "l"),
+  formats = list(
+    list(colonnes = 5, type = "nombre", digits = 0),
+    list(colonnes = 6, type = "montant", digits = 0)
+  )
+)
+```
+
+:::
+
+##
+
+La prime écrite du terme représente la prime de la police si les caractéristiques montrées étaient en place de la date effective de la police à la date d’expiration de la police.
+
+Calculer :
+
+- Les primes écrites pour l’année de calendrier {{< dynamic-year -1 >}}, vues au {{< dynamic-date "YYYY-12-31" -1 >}}
+- Les primes acquises pour l’année de calendrier {{< dynamic-year -1 >}}, vues au {{< dynamic-date "YYYY-12-31" -1 >}}
+- Les primes en force, vues au {{< dynamic-date "YYYY-10-01" -1 >}}
+- Les unités acquises pour l’année de calendrier {{< dynamic-year -1 >}} séparément pour les territoires 1 et 2, vues au {{< dynamic-date "YYYY-12-31" -1 >}}
+
+::: {.solution}
+
+##
+
+### Primes écrites pour l’année de calendrier {{< dynamic-year -1 >}}
+
+```{r}
+#| label: polices-termes-ecrites-table
+#| echo: false
+#| output: asis
+
+names(tableau_primes_ecrites_termes)[2] <- paste(
+  "Primes écrites pour l’année de calendrier",
+  dynamic_year(-1),
+  "($)"
+)
+afficher_table(
+  tableau_primes_ecrites_termes,
+  align = c("l", "r"),
+  lignes_gras = "derniere"
+)
+```
+
+##
+
+### Primes acquises pour l’année de calendrier {{< dynamic-year -1 >}}
+
+```{r}
+#| label: polices-termes-acquises-table
+#| echo: false
+#| output: asis
+
+names(tableau_primes_acquises_termes)[2] <- paste(
+  "Primes acquises pour l’année de calendrier",
+  dynamic_year(-1),
+  "($)"
+)
+afficher_table(
+  tableau_primes_acquises_termes,
+  align = c("l", "r"),
+  lignes_gras = "derniere"
+)
+```
+
+##
+
+### Primes en force au {{< dynamic-date "YYYY-10-01" -1 >}}
+
+```{r}
+#| label: polices-termes-force-table
+#| echo: false
+#| output: asis
+
+names(tableau_primes_force_termes)[2] <- paste(
+  "Primes en force au",
+  dynamic_date("YYYY-10-01", -1),
+  "($)"
+)
+afficher_table(
+  tableau_primes_force_termes,
+  align = c("l", "r"),
+  formats = list(list(colonnes = 2, type = "montant", digits = 0)),
+  lignes_gras = "derniere"
+)
+```
+
+On prend la prime du terme (1 000 \$) pour le calcul de la prime en force de la police C et non la prime annuelle (2 000 \$).
+
+##
+
+### Unités acquises pour l’année de calendrier {{< dynamic-year -1 >}} par territoire
+
+```{r}
+#| label: polices-termes-unites-table
+#| echo: false
+#| output: asis
+
+afficher_table(
+  setNames(
+    tableau_unites_termes,
+    c("Police", "Unités acquises (territoire 1)", "Unités acquises (territoire 2)")
+  ),
+  align = c("l", "r", "r"),
+  lignes_gras = "derniere"
+)
+```
+
+:::
+
+::::
+
+## Calcul pour un bloc d’unités d’exposition
+
+Rappel du chapitre 4 :
+
+Il est possible de faire un calcul approximatif lorsque les données pour les unités individuelles ne sont pas disponibles.
+
+- On assume dans ce cas que les polices sont écrites au point milieu de la période (par exemple le 15e du mois pour des données mensuelles).
+- L’approximation est valable si les polices sont écrites uniformément dans la période. Cette hypothèse est moins réaliste lorsqu’on applique l’approche à de plus longues périodes, par exemple les trimestres ou les années.
+
+# Primes au taux courant {data-progress-label="Taux courant" subtitle="Méthode du parallélogramme et Extension of Exposures"}
+
+## Taux courant {.english-subtitle subtitle="Current Rate Level"}
+
+On répond à la question :
+
+> Quelle aurait été la prime d’une police historique si cette même police (*exactement !*) avait été émise aujourd’hui ?
+
+---
+
+Deux méthodes permettent d'ajuster la prime au taux courant :
+
+- Méthode qui recalcule la prime pour chaque unité d’exposition
+  - Ajuste la prime police par police
+- Méthode du parallélogramme
+  - Ajuste la prime agrégée d'un groupe de police
+
+## Méthode qui recalcule la prime pour chaque unité d’exposition {.english-subtitle subtitle="Extension of Exposures"}
+
+Cette méthode consiste à tarifer toutes les polices pour mettre les primes historiques au montant qui serait chargé au taux courant, c’est-à-dire au taux actuel.
+
+Avantage : plus précis que la méthode du parallélogramme.
+
+Dans le passé, la mise au taux courant était pratiquement impossible, à cause des calculs nécessaires. Avec les capacités informatiques d’aujourd’hui, le seul obstacle est d’avoir les données requises.
+
+:::: {.question title="Prime chargée et prime au taux courant"}
+
+```{r}
+#| label: taux-courant-donnees
+#| echo: false
+#| include: false
+
+changements_tarif <- data.frame(
+  numero = 1:4,
+  date = c(
+    "Initial",
+    dynamic_date("YYYY-07-01", -3),
+    dynamic_date("YYYY-01-01", -2),
+    dynamic_date("YYYY-04-01", -1)
+  ),
+  changement = c("—", "5\u00A0%", "10\u00A0%", "-1\u00A0%"),
+  taux = c(900, 950, 1045, 1045),
+  facteur_x = c(1, 1, 1, 1),
+  facteur_y = c(0.6, 0.6, 0.6, 0.7),
+  facteur_z = c(1.1, 1.1, 1.1, 1.05),
+  frais = c(1000, 1000, 1100, 1090)
+)
+
+afficher_changements_tarif <- function(
+  lignes = seq_len(nrow(changements_tarif)),
+  ligne_active = NULL
+) {
+  tableau <- changements_tarif[lignes, , drop = FALSE]
+  names(tableau) <- c(
+    "Chang. de tarif.",
+    "Date de prise d’effet des taux",
+    "Chang. de tarif. global",
+    "Taux par unité ($)",
+    "X",
+    "Y",
+    "Z",
+    "Frais de police ($)"
+  )
+
+  afficher_table(
+    tableau,
+    align = c("r", "l", "r", rep("r", 5)),
+    formats = list(
+      list(colonnes = 1, type = "nombre", digits = 0),
+      list(colonnes = c(4, 8), type = "montant", symbole = TRUE, digits = 0),
+      list(colonnes = 5:7, type = "nombre", digits = 2)
+    ),
+    lignes_gras = if (is.null(ligne_active)) integer() else match(ligne_active, lignes),
+    entetes_groupes = list(list(label = "Facteur de classe", colonnes = 5:7))
+  )
+}
+```
+
+## {.text-small}
+
+L’algorithme de tarification pour un portefeuille est :
+
+::: {.text-smaller}
+$$
+\text{Prime}
+= \text{Unité} \times \text{Taux par unité} \times \text{Facteur de classe}
++ \text{Frais de police}
+$$
+
+
+```{r}
+#| label: taux-courant-table
+#| echo: false
+#| output: asis
+
+afficher_changements_tarif()
+```
+
+:::
+
+Une police est effective le {{< dynamic-date "YYYY-03-01" -2 >}} avec 10 unités de la classe Y. Calculer : 
+
+- La prime chargée
+- La prime au taux courant
+
+::: {.solution}
+
+##
+
+Pour calculer la prime chargée, il faut déterminer quels taux étaient en vigueur au {{< dynamic-date "YYYY-03-01" -2 >}}.
+
+```{r}
+#| label: taux-charge-table
+#| echo: false
+#| output: asis
+
+afficher_changements_tarif(ligne_active = 3)
+```
+
+$$
+\text{Prime chargée}
+= 10 \times 1045 \times 0.6 + 1100
+= 7370 \$
+$$
+
+##
+
+Pour calculer la prime au taux courant, il faut déterminer quels taux sont actuellement en vigueur.
+
+```{r}
+#| label: taux-courant-actuel-table
+#| echo: false
+#| output: asis
+
+afficher_changements_tarif(ligne_active = 4)
+```
+
+$$
+\text{Prime au taux courant}
+= 10 \times 1045 \times 0.7 + 1090
+= 8405 \$
+$$
+
+:::
+
+::::
+
+## Méthode du parallélogramme {.english-subtitle subtitle="Parallelogram Method"}
+
+- Cette méthode est calculée à partir d’un **groupe de polices**, elle est donc moins précise que la mise au taux courant
+- Cette méthode assume que les polices sont **écrites uniformément dans la période**
+- On ajuste les primes historiques agrégées par un facteur moyen pour les mettre au niveau courant
+- La façon d’appliquer cette méthode varie par :
+  - Terme de police
+  - Méthode de compilation des données (année de calendrier ou année de police)
+  - Quelles polices sont affectées par le changement de taux (en vigueur ou au renouvellement)
+
+---
+
+Six étapes du calcul standard :
+
+1. Déterminer le moment et l’amplitude du changement de taux dans et après la période d’expérience et
+   grouper les polices selon le moment de chaque changement de taux
+1. Calculer la portion des primes acquises de l’année correspondant à chaque livre de taux
+1. Calculer l’index cumulatif de niveau de taux pour chaque livre de taux
+1. Calculer la moyenne pondérée de l’index cumulatif pour chaque année
+1. Calculer le facteur de mise au taux courant _(ang. : on-level factor)_
+1. Appliquer le facteur de mise au taux courant aux primes acquises de l’année en question
+
+---
+
+### Étape 1 : Moments et amplitudes des changements de taux
+
+Avec les données de l’exemple 5.6 :
+
+```{r}
+#| label: premium-livres-taux-1
+#| echo: false
+#| output: asis
+
+afficher_table(livres_taux, align = c("r", "l", "r"))
+```
+
+---
+
+### Étape 2 : Portion des primes acquises de l’année correspondant à chaque taux
+
+Supposons qu’un actuaire essaie d’ajuster les primes acquises pour l’année de calendrier {{< dynamic-year -2 >}} avec les données de l’exemple.
+
+```{r}
+#| label: onlevel-calendar
+#| fig-alt: "Diagramme des changements de taux et des primes acquises par année de calendrier."
+#| echo: false
+
+changes <- data.frame(
+  date = c(dynamic_date("YYYY-07-01", -3), dynamic_date("YYYY-01-01", -2), dynamic_date("YYYY-04-01", -1)),
+  label = c("+5\u00A0%", "+10\u00A0%", "-1\u00A0%"),
+  type = c("diagonal", "diagonal", "diagonal")
+)
+
+zones <- data.frame(
+  date = c(dynamic_date("YYYY-03-01", -2), dynamic_date("YYYY-07-15", -2), dynamic_date("YYYY-10-01", -2)),
+  y = c(82, 70, 18),
+  label = c("1", "2", "3")
+)
+
+tarifr::rate_level_diagram(
+  start_date = dynamic_date("YYYY-01-01", -3),
+  end_date = dynamic_date("YYYY-01-01"),
+  experience_period = "calendar",
+  policy_term_months = 12,
+  period_months = 12,
+  changes = changes,
+  zone_labels = zones,
+  analyzed_start = dynamic_date("YYYY-01-01", -2)
+)
+```
+
+---
+
+:::: {.columns}
+
+::: {.column}
+```{r}
+#| label: onlevel-calendar-focused
+#| fig-alt: "Agrandissement d’une année de calendrier montrant les portions de primes soumises à chaque niveau de taux."
+#| fig-width: 6
+#| fig-height: 6
+#| echo: false
+#| cache: false
+tarifr::rate_level_diagram(
+  start_date = dynamic_date("YYYY-01-01", -3),
+  end_date = dynamic_date("YYYY-01-01"),
+  experience_period = "calendar",
+  policy_term_months = 12,
+  period_months = 12,
+  changes = changes,
+  zone_labels = zones,
+  analyzed_start = dynamic_date("YYYY-01-01", -2),
+  view_start = dynamic_date("YYYY-01-01", -2),
+  view_end = dynamic_date("YYYY-01-01", -1),
+  show_date_labels = TRUE
+)
+```
+:::
+
+::: {.column}
+
+```{r}
+#| label: onlevel-calendar-portions-donnees
+#| echo: false
+#| include: false
+
+portions_primes_acquises <- c(0.125, 0.375, 0.5, 0)
+tableau_portions_primes <- data.frame(
+  "Livre de taux" = livres_taux[[1]],
+  "Portion des primes acquises de l’année" = c(
+    "0,5 × 0,5 / 2 = 0,125",
+    "1 − 0,125 − 0,5 = 0,375",
+    "1 × 1 / 2 = 0,5",
+    "0"
+  ),
+  check.names = FALSE
+)
+index_niveau_taux <- c(1, 1.05, 1.10, 0.99)
+index_cumulatif_taux <- cumprod(index_niveau_taux)
+tableau_index_taux <- data.frame(
+  "Livre de taux" = livres_taux[[1]],
+  "Date de prise d’effet du taux" = livres_taux[[2]],
+  "Chang. de taux global" = livres_taux[[3]],
+  "Index de niveau de taux" = index_niveau_taux,
+  "Index cumulatif de niveau de taux" = index_cumulatif_taux,
+  check.names = FALSE
+)
+```
+
+```{r}
+#| label: onlevel-calendar-portions-table
+#| echo: false
+#| output: asis
+
+afficher_table(tableau_portions_primes, align = c("r", "r"))
+```
+
+:::
+::::
+
+---
+
+### Étape 3 : Index cumulatif de changement de taux
+
+Avec les données de l’exemple :
+
+```{r}
+#| label: onlevel-calendar-index-table
+#| echo: false
+#| output: asis
+
+afficher_table(
+  tableau_index_taux,
+  align = c("r", "l", "r", "r", "r"),
+  formats = list(
+    list(colonnes = 4, type = "nombre", digits = 2),
+    list(colonnes = 5, type = "nombre", digits = 4)
+  )
+)
+```
+
+---
+
+### Étape 4 : Moyenne pondérée de l’index cumulatif pour chaque année
+
+Avec les données de l’exemple, la moyenne pondérée de l’index cumulatif pour l’année de calendrier {{< dynamic-year -2 >}} est :
+
+$$
+0.125 \times 1
++ 0.375 \times 1.05
++ 0.5 \times 1.1550
+= 1.0963
+$$
+
+---
+
+### Étape 5 : Facteur de mise au taux courant
+
+$$
+\begin{aligned}
+&\text{Facteur de mise au taux courant} = \\ \\
+&\frac{\text{Index cumulatif courant}}{\text{Moyenne pondérée de l’index cumulatif}}
+\end{aligned}
+$$
+
+Avec les données de l’exemple, le facteur de mise au taux courant pour les **primes acquises de l’année de calendrier {{< dynamic-year -2 >}}** est :
+
+$$
+\frac{1.1435}{1.0963} = 1.0431
+$$
+
+---
+
+### Étape 6 : Appliquer le facteur de mise au taux courant aux primes acquises
+
+Avec les données de l’exemple, on obtiendrait les primes acquises au taux courant de l’année de calendrier {{< dynamic-year -2 >}} avec :
+
+$$
+\begin{aligned}
+&\text{Primes acquises AC }`r dynamic_year(-2)`\text{ au taux courant} \\
+&= \text{Primes acquises AC }`r dynamic_year(-2)`
+\times \text{Facteur de mise au taux courant} \\
+&= \text{Primes acquises AC }`r dynamic_year(-2)` \times 1.0431
+\end{aligned}
+$$
+
+:::: {.question title="Parallélogramme — AC, 6 mois"}
+
+## 
+
+Avec les mêmes données de changement de taux qu’à l’exemple précédent, mais avec des **polices de 6 mois**, trouver le facteur de mise au taux courant pour les primes de l’**année de calendrier** {{< dynamic-year -2 >}}.
+
+::: {.solution}
+
+##
+
+### Étape 1 : Moments et amplitudes des changements de taux
+
+```{r}
+#| label: premium-livres-taux-2
+#| echo: false
+#| output: asis
+
+afficher_table(livres_taux, align = c("r", "l", "r"))
+```
+
+##
+
+### Étape 2 : Portion des primes acquises de l’année correspondant à chaque taux
+
+```{r}
+#| label: onlevel-calendar-sixmonth
+#| fig-alt: "Diagramme des changements de taux et des primes acquises pour des polices semestrielles."
+#| echo: false
+
+zones <- data.frame(
+  date = c(dynamic_date("YYYY-06-01", -3), dynamic_date("YYYY-03-01", -2), dynamic_date("YYYY-09-01", -2), dynamic_date("YYYY-10-01", -1)),
+  y = c(50, 70, 30, 50),
+  label = c("1", "2", "3", "4")
+)
+
+tarifr::rate_level_diagram(
+  start_date = dynamic_date("YYYY-01-01", -3),
+  end_date = dynamic_date("YYYY-01-01", 0),
+  experience_period = "calendar",
+  policy_term_months = 6,
+  period_months = 12,
+  changes = changes,
+  zone_labels = zones,
+  analyzed_start = dynamic_date("YYYY-01-01", -2),
+  view_end = dynamic_date("YYYY-01-01", 0)
+)
+```
+
+##
+### Étape 2 : Portion des primes acquises de l’année correspondant à chaque taux
+
+Avec les données de l’exemple :
+
+- Zone 1 dans l’année de calendrier {{< dynamic-year -2 >}} : 0
+- Zone 2 dans l’année de calendrier {{< dynamic-year -2 >}} :
+
+$$
+0.5 \times 0.5 \times 1 = 0.25
+$$
+
+- Zone 3 dans l’année de calendrier {{< dynamic-year -2 >}} :
+
+$$
+1 - 0.25 = 0.75
+$$
+
+##
+### Étape 3 : Index cumulatif de changement de taux
+
+Les index cumulatifs de changement de taux pour chaque niveau de taux sont les mêmes que pour des polices annuelles.
+
+```{r}
+#| label: onlevel-calendar-sixmonth-index-table
+#| echo: false
+#| output: asis
+
+afficher_table(
+  tableau_index_taux,
+  align = c("r", "l", "r", "r", "r"),
+  formats = list(
+    list(colonnes = 4, type = "nombre", digits = 2),
+    list(colonnes = 5, type = "nombre", digits = 4)
+  )
+)
+```
+
+##
+
+### Étape 4 : Moyenne pondérée de l’index cumulatif pour chaque année
+
+Moyenne pondérée de l’index cumulatif pour l’année de calendrier {{< dynamic-year -2 >}} :
+
+$$
+1.0500 \times 0.250 + 1.1550 \times 0.750 = 1.1288
+$$
+
+##
+
+### Étape 5 : Facteur de mise au taux courant
+
+Facteur de mise au taux courant pour l’année de calendrier {{< dynamic-year -2 >}} :
+$$
+\frac{1.1435}{1.1288} = 1.0130
+$$
+:::
+
+::::
+
+## Parallélogramme en année de police
+
+Calcul par **année de police** pour des polices annuelles :
+
+```{r}
+#| label: onlevel-policy
+#| fig-alt: "Diagramme des changements de taux et des primes regroupées par année de police."
+#| echo: false
+
+zones <- data.frame(
+  date = c(dynamic_date("YYYY-09-01", -3), dynamic_date("YYYY-04-01", -2), dynamic_date("YYYY-11-01", -2), dynamic_date("YYYY-01-01", 0)),
+  y = 50,
+  label = c("1", "2", "3", "4")
+)
+
+tarifr::rate_level_diagram(
+  start_date = dynamic_date("YYYY-01-01", -3),
+  end_date = dynamic_date("YYYY-01-01", 0),
+  experience_period = "policy",
+  policy_term_months = 12,
+  period_months = 12,
+  changes = changes,
+  zone_labels = zones
+)
+```
+
+---
+
+Avec les données de l’exemple, pour l’année de police {{< dynamic-year -1 >}} :
+
+```{r}
+#| label: onlevel-policy-focus
+#| fig-alt: "Agrandissement d’une année de police montrant les portions de primes soumises à chaque niveau de taux."
+#| echo: false
+
+tarifr::rate_level_diagram(
+  start_date = dynamic_date("YYYY-01-01", -3),
+  end_date = dynamic_date("YYYY-01-01", 0),
+  experience_period = "policy",
+  policy_term_months = 12,
+  period_months = 12,
+  changes = changes,
+  analyzed_start = dynamic_date("YYYY-01-01", -1),
+  zone_labels = zones
+)
+```
+
+---
+
+Portion des primes acquises par taux :
+
+- Zone 3 : $(3/12) \times 1 = 0.25$
+- Zone 4 : $(9/12) \times 1 = 0.75$
+
+Moyenne pondérée de l’index cumulatif pour l’année de police {{< dynamic-year -1 >}} :
+
+$$
+0.25 \times 1.155 + 0.75 \times 1.1435 = 1.1464
+$$
+
+Facteur de mise au taux courant :
+
+$$
+\frac{1.1435}{1.1464} = 0.9975
+$$
+
+## Parallélogramme avec changement de taux requis par la loi
+
+- Un changement dans la loi pourrait nécessiter que le changement de taux soit appliqué à toutes les polices à une certaine date, même à celles qui sont actuellement en force.
+  - Dans ce cas particulier, le changement de taux est représenté par une ligne verticale.
+
+
+```{r}
+#| label: onlevel-law-change
+#| fig-alt: "Diagramme combinant les changements de taux et un changement législatif dans une année de calendrier."
+#| echo: false
+
+law_changes <- data.frame(
+  date = c(dynamic_date("YYYY-07-01", -3), dynamic_date("YYYY-01-01", -2), dynamic_date("YYYY-07-01", -2), dynamic_date("YYYY-04-01", -1)),
+  label = c("+5\u00A0%", "+10\u00A0%", "-5\u00A0% (ch. légal)", "-1\u00A0%"),
+  type = c("diagonal", "diagonal", "vertical", "diagonal")
+)
+
+zones <- data.frame(
+  date = c(dynamic_date("YYYY-02-20", -2), dynamic_date("YYYY-04-01", -2), dynamic_date("YYYY-05-15", -2), dynamic_date("YYYY-08-15", -2), dynamic_date("YYYY-10-15", -2), dynamic_date("YYYY-04-01", -1)),
+  y = c(85, 50, 15, 80, 37.5, 50),
+  label = c("1", "2a", "3a", "2b", "3b", "4")
+)
+
+tarifr::rate_level_diagram(
+  start_date = dynamic_date("YYYY-01-01", -3),
+  end_date = dynamic_date("YYYY-01-01", 0),
+  experience_period = "calendar",
+  policy_term_months = 12,
+  period_months = 12,
+  changes = law_changes,
+  zone_labels = zones,
+  analyzed_start = dynamic_date("YYYY-01-01", -2),
+  view_end = dynamic_date("YYYY-01-01", 0)
+)
+```
+
+---
+
+::: {.text-smaller}
+
+```{r}
+#| label: onlevel-law-change-donnees
+#| echo: false
+#| include: false
+
+index_loi <- c(1, 1.05, 0.9975, 1.155, 1.09725, 1.0862775)
+tableau_changement_loi <- data.frame(
+  "Livre" = c("1", "2a", "2b", "3a", "3b", "4"),
+  "Index cumulatif" = index_loi,
+  "Proportion des primes acquises" = c(
+    "$0.5 \\times 0.5 / 2 = 0.125$",
+    "$0.5 - 0.125 - 0.125 = 0.25$",
+    "$0.5 \\times 0.5 / 2 = 0.125$",
+    "$0.5 \\times 0.5 / 2 = 0.125$",
+    "$0.5 - 0.125 = 0.375$",
+    "0"
+  ),
+  check.names = FALSE
+)
+names(tableau_changement_loi)[3] <- paste(
+  "Proportion des primes acquises AC",
+  dynamic_year(-2)
+)
+```
+
+```{r}
+#| label: onlevel-law-change-table
+#| echo: false
+#| output: asis
+
+afficher_table(
+  tableau_changement_loi,
+  align = c("l", "r", "r"),
+  formats = list(list(colonnes = 2, type = "nombre", digits = 4))
+)
+```
+
+Moyenne pondérée de l’index cumulatif pour l’année de calendrier {{< dynamic-year -2 >}} :  
+$0.125(1) + 0.25(1.05) + 0.125(0.9975) + 0.125(1.155) + 0.375(1.0973) + 0(1.0863) = 1.06805$
+
+Facteur de mise au taux courant : $\frac{1.0863}{1.06805} = 1.0171$
+
+:::
+
+## Méthode du parallélogramme
+
+### Limites de la méthode
+
+- La méthode assume que les polices sont écrites **uniformément** dans l’année. Cette hypothèse peut être inappropriée pour certaines lignes d’affaires
+  - On pourrait raffiner la méthode du parallélogramme et faire l’**analyse par trimestre**, par exemple
+  - On pourrait aussi calculer la **distribution réelle** des polices écrites pour calculer le niveau de taux historique de façon plus précise
+    Les polices doivent alors être agrégées selon le niveau de taux applicable plutôt qu’une période de temps standard
+- La méthode applique une série de **changements de taux globaux**. La prime pour certaines classes ou couvertures
+  peut ne pas être au taux courant si le changement de taux varie par classe ou couverture
+
+## {.remember-slide}
+
+Le facteur de **mise au taux courant** ajuste les primes pour refléter le montant de prime qui aurait été payé dans une période future pour une police historique.
+
+- Méthode qui recalcule la prime pour chaque unité d’exposition
+- Méthode du parallélogramme
+
+
+# Développement des primes {data-progress-label=""}
+
+## Développement des primes {.english-subtitle subtitle="Premium Development"}
+
+
+Dans certains cas, l’actuaire ne connaît pas le montant ultime de primes pour la période d’expérience au moment où l’analyse est produite :
+
+- Données avec année incomplète
+- Lignes d’affaires avec primes ajustées
+
+Dans ces cas, l’actuaire doit estimer comment les primes vont se développer à l’ultime.
+
+Ce sujet sera couvert dans le chapitre suivant, concernant les sinistres.
+
+# Tendance dans les unités d’exposition {data-progress-label=""}
+
+## Tendance dans les unités d’exposition {.english-subtitle subtitle="Exposure Trend"}
+
+Un changement de taux n’est pas la seule chose qui peut faire changer le niveau de prime moyen.
+
+- Le niveau de prime moyen peut changer dans des lignes d’affaires où l’**unité d’exposition** est sensible à l’**inflation**, par exemple les salaires et les recettes
+- Dans ce cas, il est typique de projeter les unités d’exposition (et donc les primes) au niveau d’inflation futur
+
+# Tendance dans les primes {data-progress-label="Tendance" subtitle="Projection en une étape et en deux étapes"}
+
+## Tendance dans les primes {.english-subtitle subtitle="Premium Trend"}
+
+Le niveau moyen de prime peut aussi changer à la suite de changements dans les caractéristiques des polices écrites (changement de distribution).
+
+Le changement du niveau de prime moyen résultant est appelé la tendance dans les primes.
+
+On répond donc à la question :
+
+> Comment les modifications dans les caractéristiques des assurés influencent-elles le niveau de prime moyen?
+
+## {.remember-slide}
+
+Le facteur de **tendance** ajuste les primes pour refléter les changements anticipés dans les caractéristiques des assurés qui auront un impact sur la prime moyenne.
+
+## Tendance dans les primes
+
+Exemples de causes d’un changement de niveau de prime moyen :
+
+- La prime en assurance habitation varie selon le montant d’assurance, qui est généralement indexé automatiquement au renouvellement pour suivre l’inflation, ce qui fait augmenter le niveau de prime moyen.
+- Une compagnie décide de transférer tous ses assurés actuels à un **déductible plus élevé** au renouvellement. En assumant que les renouvellements
+  sont répartis dans l’année, il y aura une diminution du niveau de prime moyen pendant la période de transition. Cette tendance ne continuera pas après la transition.
+
+---
+
+Normalement, les **primes moyennes écrites au taux courant** sont utilisées pour calculer la tendance dans les primes, car elles reflètent plus rapidement les changements dans la distribution du portefeuille.
+
+Le facteur de tendance dans les primes est ensuite appliqué aux primes acquises.
+
+Deux méthodes pour ajuster les données historiques pour la tendance dans les primes :
+
+- Projection en une étape _(ang. : one-step trending)_
+- Projection en deux étapes _(ang. : two-step trending)_
+
+
+## Projection en une étape {.english-subtitle subtitle="One-Step Trending"}
+
+La tendance dans les primes est basée sur le changement historique dans la prime moyenne. Il est important d’utiliser les primes au taux courant pour ce calcul.
+
+Le facteur sélectionné est appliqué aux primes historiques pour les projeter afin de considérer les changements de distribution de portefeuille.
+
+La période de projection va de la **date moyenne souscrite des polices avec des primes acquises dans la période historique** à la **date moyenne souscrite pour les polices qui seront en effet lorsque les taux seront en effet**.
+
+---
+
+En assumant une quantité de données adéquate, il est préférable d’utiliser des données par trimestre plutôt que des données annuelles, car cela permet de voir la tendance plus rapidement.
+
+Une courbe de tendance, exponentielle ou linéaire, peut être utilisée pour guider la sélection du facteur de tendance.
+
+Lorsque les changements dans la prime moyenne sont assez constants d’une période à l’autre, il n’est pas nécessaire d’utiliser une courbe de tendance.
+
+:::: {.question title="Projection en une étape"}
+
+##
+
+::: {.columns}
+
+::: {.column}
+
+Avec les données suivantes, calculer le facteur de projection pour les primes acquises de l’année de calendrier {{< dynamic-year -3 >}} :
+
+- Vous planifiez une révision de taux qui sera en vigueur à compter du {{< dynamic-date "YYYY-01-01" -1 >}} pour une période de 12 mois.
+- Les polices sont annuelles.
+- Les primes et unités écrites par trimestre sont utilisées pour sélectionner la tendance.
+
+:::
+
+::: {.column}
+```{r}
+#| label: projection-une-etape-donnees
+#| echo: false
+#| output: asis
+
+afficher_table(
+  donnees_projection_une_etape,
+  align = c("l", "r", "r"),
+  formats = list(
+    list(colonnes = 2, type = "montant", symbole = TRUE),
+    list(colonnes = 3, type = "nombre", digits = 0)
+  )
+)
+```
+
+:::
+
+:::
+
+::: {.solution}
+
+##
+
+On détermine d’abord le facteur de tendance.
+
+::: {.columns .text-smaller}
+
+::: {.column width="72%"}
+
+```{r}
+#| label: projection-une-etape-tendance
+#| echo: false
+#| output: asis
+
+donnees_tendance <- donnees_projection_une_etape
+prime_moyenne <- donnees_tendance[[2]] / donnees_tendance[[3]]
+changement_annuel <- c(
+  rep("—", 4),
+  format_pourcentage(prime_moyenne[5:12] / prime_moyenne[1:8] - 1, digits = 1)
+)
+
+donnees_tendance_affichage <- data.frame(
+  "Trimestre" = donnees_tendance[[1]],
+  "Primes écrites au taux courant" = donnees_tendance[[2]],
+  "Unités écrites" = donnees_tendance[[3]],
+  "Primes écrites moyennes au taux courant" = prime_moyenne,
+  "Changement annuel" = changement_annuel,
+  check.names = FALSE
+)
+
+afficher_table(
+  donnees_tendance_affichage,
+  align = c("l", "r", "r", "r", "r"),
+  formats = list(
+    list(colonnes = c(2, 4), type = "montant", symbole = TRUE),
+    list(colonnes = 3, type = "nombre", digits = 0)
+  )
+)
+```
+
+:::
+
+::: {.column width="28%"}
+
+En se basant sur ces données, il est raisonnable de croire que la prime moyenne augmentera de 2 % par année et donc de choisir un facteur de tendance de 2 %.
+
+:::
+
+::::
+
+##
+
+Il faut ensuite déterminer la période de projection :
+
+```{r}
+#| label: trend-projection-diagram
+#| fig-alt: "Période de tendance entre le point moyen des données historiques et la période de projection annuelle."
+#| echo: false
+#| fig-height: 2.5
+
+experience_average_date <- dynamic_date("YYYY-01-01", -3)
+prospective_average_date <- dynamic_date("YYYY-07-01", -1)
+
+tarifr::trend_period_diagram(
+  experience_start = dynamic_date("YYYY-01-01", -3),
+  experience_end = dynamic_date("YYYY-01-01", -2),
+  prospective_start = dynamic_date("YYYY-01-01", -1),
+  prospective_end = dynamic_date("YYYY-01-01", 0),
+  experience_period_type = "calendar",
+  trend_type = "premium",
+  policy_term_months = 12,
+  experience_average_date = experience_average_date,
+  prospective_average_date = prospective_average_date
+)
+```
+
+- Date moyenne souscrite des polices avec des primes acquises l’année de calendrier {{< dynamic-year -3 >}} : `r experience_average_date`
+- Date moyenne souscrite pour les polices qui seront en effet du {{< dynamic-date "YYYY-01-01" -1 >}} au {{< dynamic-date "YYYY-12-31" -1 >}} : `r prospective_average_date`
+- Période de projection : 2,5 années
+
+
+##
+
+Avec un facteur de tendance annuel de 2 % et une période de projection de 2,5 années, le facteur de projection pour les primes acquises de l’année de calendrier {{< dynamic-year -3 >}} est :
+
+$$
+1.02^{2.5} = 1.0508
+$$
+
+:::
+
+::::
+
+## Projection en une étape
+
+### Conditions qui affectent la longueur de la période de projection
+
+- Terme de polices
+- Méthode utilisée pour la compilation des primes
+- Durée durant laquelle les taux seront en vigueur
+
+---
+
+- Termes différents de 12 mois :
+  - Exemple avec des polices 6 mois
+
+```{r}
+#| label: trend-projection-diagram-6months
+#| fig-alt: "Période de tendance entre le point moyen des données historiques et la période de projection semestrielle."
+#| echo: false
+#| fig-height: 2.5
+
+tarifr::trend_period_diagram(
+  experience_start = dynamic_date("YYYY-01-01", -3),
+  experience_end = dynamic_date("YYYY-01-01", -2),
+  prospective_start = dynamic_date("YYYY-01-01", -1),
+  prospective_end = dynamic_date("YYYY-01-01", 0),
+  experience_period_type = "calendar",
+  trend_type = "premium",
+  policy_term_months = 6,
+  experience_average_date = dynamic_date("YYYY-04-01", -3),
+  prospective_average_date = dynamic_date("YYYY-07-01", -1),
+  xlim_start = dynamic_date("YYYY-01-01", -4),
+  axis_dates = seq.Date(
+    dynamic_date("YYYY-01-01", -4),
+    dynamic_date("YYYY-01-01", 0),
+    by = "year"
+  )
+)
+```
+
+Réponse : Période de projection : 2,25 années
+
+---
+
+- Primes historiques compilées en année de police plutôt qu’en année de calendrier (on reprend l'exemple):
+  - Année de police {{< dynamic-year -3 >}} plutôt qu’année de calendrier {{< dynamic-year -3 >}}
+  - **Début de la période : {{< dynamic-date "YYYY-07-01" -3 >}}**
+  - Fin de la période ne change pas
+  - Période de projection : 2 ans
+- Si les taux proposés seront effectifs pendant plus ou moins qu’un an, cela change la date de fin de la période de projection
+  - Exemple : taux effectifs pendant 2 ans, du {{< dynamic-date "YYYY-01-01" -1 >}} au {{< dynamic-date "YYYY-12-31" 0 >}}
+  - Début de la période ne change pas
+  - **Fin de la période : {{< dynamic-date "YYYY-01-01" 0 >}}**
+  - Période de projection : 3 ans
+
+## {.remember-slide}
+
+Période de projection
+
+- Début : date moyenne souscrite des polices avec des primes acquises dans la période historique
+- Fin : date moyenne souscrite pour les polices qui seront en effet lorsque les taux seront en effet
+
+## Projection en deux étapes {.english-subtitle subtitle="Two-Step Trending"}
+
+La méthode de projection en deux étapes est utilisée lorsque l’actuaire s’attend à un facteur de tendance différent dans la période future.
+
+- La première étape servira à ajuster les primes historiques au niveau le plus récent pour lequel des données sont disponibles
+  - Facteur de tendance est basé sur des **données historiques**
+- La deuxième étape servira à appliquer un facteur de tendance espéré pour le futur
+  - Facteur de tendance est basé sur une **hypothèse** actuarielle
+
+---
+
+
+### Étape 1 : Facteur de tendance courante _(ang. : current trend factor)_
+Le facteur de tendance courante sert à ajuster nos primes à la fin de la période historique.
+
+$$
+\begin{aligned}
+&\text{Facteur de tendance courante} = \\ \\
+&\frac{\text{Prime écrite moyenne au taux courant la plus récente}}{\text{Prime acquise moyenne au taux courant historique}}
+\end{aligned}
+$$
+
+---
+
+### Étape 2 : Facteur de tendance projetée
+
+Le facteur de tendance projetée sert à projeter la prime dans la période de police future.
+L’actuaire sélectionne le changement annuel espéré pour la période projetée par rapport au niveau courant.
+
+:::: {.question title="Projection en deux étapes"}
+
+##
+
+Avec les données suivantes vues au 31 décembre {{< dynamic-year -3 >}}, calculer le facteur de projection pour les primes acquises de l’année de calendrier {{< dynamic-year -3 >}} à l’aide de la méthode de projection des primes en deux étapes :
+
+- Prime acquise moyenne au taux courant pour l’année de calendrier {{< dynamic-year -3 >}} : 740 \$
+- Prime écrite moyenne au taux courant pour le dernier trimestre de {{< dynamic-year -3 >}} : 753 \$
+- Les polices sont annuelles.
+- Le changement annuel espéré des primes pour la période projetée par rapport au niveau actuel est de -1 %.
+- Vous planifiez une révision de taux qui sera en vigueur à compter du 1er janvier {{< dynamic-year -1 >}} pour une période de 12 mois.
+
+::: {.solution}
+
+##
+
+### Étape 1 : Facteur de tendance courante
+
+::: {.text-xs}
+$$
+\begin{aligned}
+\text{Facteur de tendance courante}
+&= \frac{\text{Prime écrite moyenne au taux courant la plus récente}}{\text{Prime acquise moyenne au taux courant historique}} \\
+&= \frac{753}{740} \\
+&= 1.0176
+\end{aligned}
+$$
+
+:::
+
+Ce facteur met les primes historiques au niveau du 4e trimestre de {{< dynamic-year -3 >}}.
+
+Date moyenne souscrite de ce trimestre : {{< dynamic-date "YYYY-11-15" -3 >}}.
+
+##
+
+### Étape 2 : Facteur de tendance projetée
+
+- La date moyenne souscrite pour l’année de police {{< dynamic-year -1 >}} est le {{< dynamic-date "YYYY-07-01" -1 >}}
+- La période de projection pour l’étape 2 va du {{< dynamic-date "YYYY-11-15" -3 >}} au {{< dynamic-date "YYYY-07-01" -1 >}} :
+
+$$
+1.625 \text{ années}
+$$
+
+Le facteur de tendance projetée est donc :
+
+$$
+0.99^{1.625}
+$$
+
+##
+
+Le facteur de tendance total pour les primes acquises de l’année de calendrier {{< dynamic-year -3 >}} est :
+
+$$
+1.0176 \times 0.99^{1.625} = 1.0011
+$$
+
+##
+
+```{r}
+#| label: projection-deux-etapes-diagramme
+#| fig-alt: "Projection en deux étapes reliant les périodes historique, actuelle et future par deux tendances successives."
+#| echo: false
+#| fig-height: 4
+#| cache: false
+
+tarifr::two_step_trend_diagram(
+  experience_start = dynamic_date("YYYY-01-01", -3),
+  experience_end = dynamic_date("YYYY-01-01", -2),
+  current_date = dynamic_date("YYYY-11-15", -3),
+  prospective_start = dynamic_date("YYYY-01-01", -1),
+  prospective_end = dynamic_date("YYYY-01-01", 0),
+  experience_average_date = dynamic_date("YYYY-01-01", -3),
+  prospective_average_date = dynamic_date("YYYY-07-01", -1),
+  axis_dates = seq.Date(
+    dynamic_date("YYYY-01-01", -3),
+    dynamic_date("YYYY-01-01", 1),
+    by = "year"
+  )
+)
+```
+
+:::
+
+::::
+
+## {.remember-slides}

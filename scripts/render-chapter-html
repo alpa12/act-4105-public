@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+quarto_cmd="${repo_root}/scripts/quarto"
+
+if [[ "$#" -eq 0 ]]; then
+  while IFS= read -r chapter; do
+    "${quarto_cmd}" render "${chapter}" --no-cache
+  done < <(find "${repo_root}/site/chapitres" -mindepth 2 -maxdepth 2 -type f -name diapos.qmd | sort)
+else
+  for chapter in "$@"; do
+    "${quarto_cmd}" render "${chapter}" --no-cache
+  done
+fi

@@ -1,0 +1,9 @@
+---
+title: "Sinistres et frais de règlement de sinistres"
+description: "Présente la compilation des sinistres, les ajustements de l’expérience historique et le traitement des frais de règlement de sinistres."
+label: "Sinistres et frais de règlement de sinistres"
+week-id: 4
+chapitres:
+  - path: /chapitres/06-sinistres
+    title: "Sinistres et frais de règlement de sinistres"
+---

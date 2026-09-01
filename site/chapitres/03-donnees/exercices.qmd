@@ -1,0 +1,144 @@
+---
+metadata-files:
+  - ../_exercices.yml
+---
+
+:::: {.question}
+Expliquez la façon de compiler les primes et sinistres selon les méthodes suivantes :
+
+::: {.question}
+Année de calendrier
+
+::: {.solution}
+Les primes et unités acquises d’une année de calendrier impliquent toutes les primes et unités d’exposition acquises durant la période de 12 mois, sans égard à la date effective de la police.
+
+Les sinistres payés durant une année de calendrier considèrent tous les sinistres payés dans l’année de calendrier, sans égard à la date d’accident ou à la date rapportée.
+
+Les sinistres rapportés pour l’année de calendrier sont les sinistres payés plus le changement dans les provisions par cas durant la période de 12 mois.
+:::
+:::
+
+::: {.question}
+Année d’accident
+
+::: {.solution}
+Les primes et unités acquises d’une année d’accident impliquent toutes les primes et unités d’exposition acquises durant la période de 12 mois, sans égard à la date effective de la police.
+
+La compilation des sinistres considère les sinistres qui ont eu lieu durant la période de 12 mois, sans égard au moment où la police a été écrite ou au moment où le sinistre est rapporté.
+
+Les sinistres payés par année d’accident incluent les paiements seulement pour les sinistres qui ont lieu dans l’année.
+
+Les sinistres rapportés sont les sinistres payés et les provisions par cas seulement pour les sinistres qui ont eu lieu dans l’année.
+:::
+:::
+
+::: {.question}
+Année de police
+
+::: {.solution}
+Toutes les primes et unités d’exposition acquises sur les polices écrites durant l’année sont considérées dans les primes et unités acquises de l’année de police.
+
+Les sinistres rapportés pour l’année de police consistent en les paiements faits plus les provisions par cas seulement pour les réclamations couvertes par les polices écrites durant l’année.
+:::
+:::
+
+::: {.question}
+Année de sinistre rapporté
+
+::: {.solution}
+Les primes et unités acquises d’une année de sinistre rapporté impliquent toutes les primes et unités d’exposition acquises durant la période de 12 mois, sans égard à la date effective de la police.
+
+La compilation des sinistres considère les sinistres qui sont rapportés durant la période de 12 mois, sans égard au moment où la police a été écrite ou au moment où le sinistre a eu lieu.
+
+Les sinistres payés par année de sinistre rapporté incluent les paiements seulement pour les sinistres qui sont rapportés dans l’année.
+
+Les sinistres rapportés sont les sinistres payés et les provisions par cas seulement pour les sinistres qui sont rapportés dans l’année.
+:::
+:::
+::::
+
+:::: {.question}
+Donnez un avantage et un inconvénient pour chacune des méthodes de compilation suivantes :
+
+::: {.question}
+Année de calendrier
+
+::: {.solution}
+Avantages :
+
+- Les données sont disponibles rapidement lorsque l’année de calendrier est terminée.
+- Aucun coût supplémentaire pour compiler les données selon cette méthode, car cette information est normalement disponible pour les rapports financiers.
+
+Inconvénient :
+
+- Mauvais appariement entre les primes et sinistres.
+:::
+:::
+
+::: {.question}
+Année d’accident
+
+::: {.solution}
+Avantage :
+
+- Meilleur appariement des primes et sinistres que l’année de calendrier.
+
+Inconvénient :
+
+- Nécessite une estimation du développement futur sur les sinistres rapportés.
+:::
+:::
+
+::: {.question}
+Année de police
+
+::: {.solution}
+Avantage :
+
+- Meilleur appariement des primes et sinistres.
+
+Inconvénient :
+
+- Les données prennent plus de temps à se développer que pour l’année de calendrier et l’année d’accident puisque les unités d’exposition ne sont pas acquises à la fin de l’année.
+:::
+:::
+::::
+
+:::: {.question}
+(CAS Examen 5, Automne 2013 – Q3) Lorsqu’on compile les données en préparation à une analyse de tarification, deux des trois objectifs généraux sont :
+
+- d’avoir un bon appariement des sinistres et des primes pour la police
+- d’utiliser l’information disponible la plus récente
+
+Discutez dans quelle mesure chacune des méthodes suivantes réussit à atteindre chacun de ces deux objectifs généraux :
+
+::: {.question}
+Année de calendrier
+
+::: {.solution}
+L’année de calendrier ne satisfait pas bien l’objectif d’appariement entre les sinistres et les primes, car les primes acquises proviennent des polices écrites durant l’année de calendrier précédente ou durant l’année de calendrier courante et les sinistres, quant à eux, peuvent inclure des paiements ou des changements de réserve dans des réclamations provenant de polices écrites il y a plusieurs années.
+
+L’année de calendrier est celle qui permet d’utiliser les données le plus rapidement, et les données sont fixes à la fin de l’année.
+:::
+:::
+
+::: {.question}
+Année d’accident
+
+::: {.solution}
+L’année d’accident permet un meilleur appariement des primes et des sinistres que l’année de calendrier puisque les sinistres des accidents ayant lieu dans l’année sont comparés aux primes acquises dans la même année.
+
+L’année d’accident permet d’utiliser les données rapidement pour les primes. Pour les sinistres, cependant, il faut estimer le développement futur sur les sinistres puisque les données ne sont pas fixes/disponibles à la fin de l’année.
+:::
+:::
+
+::: {.question}
+Année de police
+
+::: {.solution}
+L’année de police est celle qui permet le meilleur appariement des primes et des sinistres.
+
+Cependant, les données prennent plus de temps à se développer que pour l’année de calendrier et l’année d’accident puisque les unités d’exposition ne sont pas acquises à la fin de l’année.
+:::
+:::
+::::

@@ -1,0 +1,605 @@
+---
+format:
+  revealjs: default
+metadata-files:
+  - ../_diapos.yml
+---
+
+## Lectures recommandées
+
+Ce chapitre est adapté du chapitre 3 du texte _Basic Ratemaking_ :
+
+[Werner, G. et Modlin, C. (2016). _Basic Ratemaking_, Casualty Actuarial Society, 5e édition.](http://www.casact.org/library/studynotes/Werner_Modlin_Ratemaking.pdf)
+
+## Contenu du chapitre {.progress-overview}
+
+# Introduction {data-progress-label="Intro" .unnumbered}
+
+## Équation fondamentale
+
+L’objectif de la tarification est de balancer l’équation fondamentale en assurance :
+
+$$
+\begin{aligned}
+\text{Prime} ={}& \text{Sinistres} \\
+&+ \text{Frais de règlement de sinistre} \\
+&+ \text{Frais de souscription de police} \\
+&+ \text{Profit de souscription}
+\end{aligned}
+$$
+
+La tarification est **prospective**. Le but de la prime d’assurance est de couvrir les coûts et le profit cible pour la prochaine période de police.
+
+L’expérience passée est utilisée afin de projeter le futur. Tous les **ajustements nécessaires** aux primes, sinistres et frais devront être apportés afin de les rendre prédictifs du futur.
+
+## Garbage in, garbage out
+
+La qualité du taux final dépend largement de la qualité et la quantité de données disponibles.
+
+Les compagnies utilisent généralement leurs données historiques internes pour projeter la rentabilité future.
+
+Il est impératif que la compagnie collecte et maintienne des données historiques pertinentes et consistantes.
+
+Un actuaire doit comprendre l’impact de ne pas avoir une information particulière et devrait tester la sensibilité des résultats de son analyse à des changements d’hypothèse.
+
+::: {.notes}
+Vous pouvez construire le meilleur modèle prédictif qui soit : si vos données sont de mauvaise qualité, la prime résultante sera aussi de mauvaise qualité. La première étape dans la tarification est donc de s’assurer que les données balancent et qu’elles sont exactes.
+:::
+
+
+# Données internes {data-progress-label="Internes" subtitle="Données de polices, données de sinistres et données comptables"}
+
+## Données internes
+
+Le type d’analyse de tarification impacte grandement le type de données nécessaires.
+
+Il est non essentiel de connaître les caractéristiques individuelles des différents assurés pour une analyse de rentabilité globale d’un produit.
+
+Une amélioration de la segmentation des taux nécessite une bonne quantité de données pour chaque item analysé.
+
+---
+
+Deux types de données internes impliquées dans une révision de tarification :
+
+::: {.columns}
+::: {.column width="50%"}
+### Données associées à chaque risque
+
+- Unités d’exposition
+- Primes
+- Nombre de sinistres
+- Montant des sinistres
+- Variables prédictives
+:::
+
+::: {.column width="50%"}
+### Données comptables
+
+- Frais de souscription
+- Frais de règlement de sinistres non alloués
+
+::: {.text-small}
+Ces données sont disponibles au département de la comptabilité, mais les frais sont habituellement agrégés au total, et non disponibles par risque.
+:::
+:::
+:::
+
+## Données des risques
+
+Les analyses de tarification nécessitent d’avoir les données de réclamations rattachées aux données de polices correspondantes.
+
+Les compagnies sauvegardent typiquement ces données dans deux bases de données distinctes :
+
+- Bases de données de polices
+- Bases de données de sinistres
+
+## Base de données de polices
+
+La façon de définir une ligne (ou un record) pour la base de données de polices dépend de la façon de mesurer les unités
+d’exposition et la façon de calculer la prime
+
+---
+
+Exemples d’organisation de base de données :
+
+::: {.columns}
+::: {.column width="50%"}
+### Assurance habitation
+
+Une ligne par police annuelle par :
+
+- Maison, ou
+- Maison et couverture
+:::
+
+::: {.column width="50%"}
+### Assurance auto
+
+Une ligne par police annuelle par :
+
+- Véhicule, ou
+- Véhicule et conducteur, ou
+- Véhicule, conducteur et couverture
+:::
+:::
+
+On a aussi des lignes additionnelles lorsqu’une modification en cours de terme est faite à la police.
+
+::: {.notes}
+Par exemple, 2 conducteurs × 2 autos × 6 couvertures = 24 lignes.
+:::
+
+---
+
+
+Champs typiquement présents pour chaque ligne d’une base de données de polices :
+
+- Identifiant de police
+- Identifiant(s) du risque
+  - Ex. assurance auto : numéro de véhicule / numéro de conducteur
+- Dates importantes
+  - Date effective de police
+  - Date d’expiration de police
+  - Date de début de la couverture
+  - Date d’effet de la transaction
+
+
+---
+
+Champs typiquement présents pour chaque ligne d’une base de données de polices :
+
+- Prime
+  - Prime écrite pour chaque ligne
+  - La prime acquise et la prime en force peuvent être calculées avec l’information de chaque ligne.
+- Unité d’exposition
+  - Unité écrite associée avec chaque ligne
+- Caractéristiques
+  - Variables de tarification
+  - Variables de souscription
+  - Autres caractéristiques de la police et du risque
+
+---
+
+Puisqu’une ligne additionnelle est générée pour une modification en cours de terme, les caractéristiques présentes sur une ligne sont celles en effet durant la période d’exposition.
+
+Il est préférable de capturer des informations qui ne changent pas dans le temps. Exemples :
+
+- Date de naissance et non l’âge de l’assuré
+- Année modèle et non l’âge du véhicule
+
+:::: {.question title="Base de données de polices"}
+
+## {.text-smaller}
+
+Vous avez 3 polices dans votre base de données de polices :
+
+| Police | Écriture | Prime annuelle | Territoire | Franchise |
+|:--|:--|--:|--:|--:|
+| A | {{< dynamic-date "YYYY-01-01" -2 >}} | 1 100 | 1 | 250 |
+| B | {{< dynamic-date "YYYY-04-01" -2 >}} | 600 | 2 | 250 |
+| C | {{< dynamic-date "YYYY-07-01" -2 >}} | 1 000 | 3 | 500 |
+
+Informations additionnelles :
+
+- La police A est en vigueur pendant toute l’année
+- La police B est annulée le {{< dynamic-date "YYYY-12-31" -2 >}}
+- La police C fait une modification en cours de terme le {{< dynamic-date "YYYY-01-01" -1 >}} : baisse de la franchise à 250
+- La nouvelle prime annuelle de la police C est 1 200
+
+##
+
+Compléter la base de données suivante.
+
+| Police | Date eff. police | Date exp. police | Date eff. transaction | Franchise | Territoire | Unité écrite | Prime écrite |
+|:--|:--|:--|:--|--:|--:|--:|--:|
+| … | … | … | … | … | … | … | … |
+
+::: {.solution}
+
+##
+
+| Police | Date eff. police | Date exp. police | Date eff. transaction | Franchise | Territoire | Unité écrite | Prime écrite |
+|:--|:--|:--|:--|--:|--:|--:|--:|
+| A | {{< dynamic-date "YYYY-01-01" -2 >}} | {{< dynamic-date "YYYY-12-31" -2 >}} | {{< dynamic-date "YYYY-01-01" -2 >}} | 250 | 1 | 1 | 1 100 |
+| B | {{< dynamic-date "YYYY-04-01" -2 >}} | {{< dynamic-date "YYYY-03-31" -1 >}} | {{< dynamic-date "YYYY-04-01" -2 >}} | 250 | 2 | 1 | 600 |
+| B | {{< dynamic-date "YYYY-04-01" -2 >}} | {{< dynamic-date "YYYY-03-31" -1 >}} | {{< dynamic-date "YYYY-12-31" -2 >}} | 250 | 2 | -0,25 | -150 |
+| C | {{< dynamic-date "YYYY-07-01" -2 >}} | {{< dynamic-date "YYYY-06-30" -1 >}} | {{< dynamic-date "YYYY-07-01" -2 >}} | 500 | 3 | 1 | 1 000 |
+| C | {{< dynamic-date "YYYY-07-01" -2 >}} | {{< dynamic-date "YYYY-06-30" -1 >}} | {{< dynamic-date "YYYY-01-01" -1 >}} | 500 | 3 | -0,5 | -500 |
+| C | {{< dynamic-date "YYYY-07-01" -2 >}} | {{< dynamic-date "YYYY-06-30" -1 >}} | {{< dynamic-date "YYYY-01-01" -1 >}} | 250 | 3 | 0,5 | 600 |
+
+##
+
+### Autre solution possible (base de données plus sophistiquée)
+
+Il est aussi possible d’agréger les unités et primes lorsque les données sont les mêmes
+
+| Police | Date eff. police | Date exp. police | Date eff. transaction | Franchise | Territoire | Unité écrite | Prime écrite |
+|:--|:--|:--|:--|--:|--:|--:|--:|
+| A | {{< dynamic-date "YYYY-01-01" -2 >}} | {{< dynamic-date "YYYY-12-31" -2 >}} | {{< dynamic-date "YYYY-01-01" -2 >}} | 250 | 1 | 1 | 1 100 |
+| B | {{< dynamic-date "YYYY-04-01" -2 >}} | {{< dynamic-date "YYYY-03-31" -1 >}} | {{< dynamic-date "YYYY-04-01" -2 >}} | 250 | 2 | 0,75 | 450 |
+| C | {{< dynamic-date "YYYY-07-01" -2 >}} | {{< dynamic-date "YYYY-06-30" -1 >}} | {{< dynamic-date "YYYY-07-01" -2 >}} | 500 | 3 | 0,5 | 500 |
+| C | {{< dynamic-date "YYYY-07-01" -2 >}} | {{< dynamic-date "YYYY-06-30" -1 >}} | {{< dynamic-date "YYYY-01-01" -1 >}} | 250 | 3 | 0,5 | 600 |
+
+:::
+
+::::
+
+## Base de données de sinistres
+
+Une ligne représente généralement une transaction rattachée à une réclamation spécifique : paiement ou changement de réserve.
+
+Les champs contiennent les dates ou des variables explicatives en lien avec les sinistres.
+
+De la même façon que les bases de données de polices, les réclamations impliquant plusieurs couvertures ou causes de perte peuvent être représentées avec des lignes séparées ou différents champs dans la base de données.
+
+---
+
+Champs typiquement présents pour chaque ligne d’une base de données de sinistres :
+
+- Identifiant de police
+- Identifiant(s) du risque
+  - Nécessaire(s) pour lier l’information des sinistres avec la ligne correspondante dans la base de données de polices
+- Identifiant de réclamation
+  - Un seul identifiant pour chaque réclamation est utilisé lorsqu’une réclamation a plusieurs transactions
+- Identifiant du demandeur
+
+---
+
+Champs typiquement présents pour chaque ligne d’une base de données de sinistres :
+
+- Dates importantes
+  - Date de sinistre
+  - Date rapportée
+  - Date de transaction : date de paiement, de changement de réserve ou de changement de statut de la réclamation
+- Statut de réclamation
+  - Ouverte, fermée, ré-ouverte, refermée
+- Nombre de réclamations
+  - Nombre de réclamations par couverture
+
+---
+
+Champs typiquement présents pour chaque ligne d’une base de données de sinistres :
+
+- Sinistres payés
+  - Paiement fait pour chaque ligne
+- Lorsque plusieurs couvertures, périls ou types de perte sont impliqués, les paiements peuvent être dans un champ séparé ou sur différentes lignes.
+- Les paiements pour catastrophes doivent être identifiables sur une ligne séparée ou avec un indicateur de catastrophe.
+- Identifiant d’événement
+  - Identifie les événements extraordinaires (catastrophes) impliquant cette réclamation.
+
+---
+
+Champs typiquement présents pour chaque ligne d’une base de données de sinistres :
+
+- Provision par cas
+  - Indique la provision par cas ou le changement à la provision par cas au moment où la transaction est enregistrée.
+  - Comme pour les sinistres payés, les provisions par cas sont enregistrées dans un champ séparé ou une ligne séparée lorsque plusieurs couvertures, périls ou types de perte sont impliqués, ou lorsqu’il faut distinguer les réclamations catastrophiques et non catastrophiques.
+
+---
+
+Champs typiquement présents pour chaque ligne d’une base de données de sinistres :
+
+- Frais de règlement de sinistre non alloués
+  - Ils ne sont normalement pas enregistrés dans la base de données de sinistres puisqu’ils ne peuvent pas être assignés à une réclamation en particulier.
+- Frais de règlement de sinistre alloués
+  - Présents dans la base de données de sinistres
+  - Certains champs supplémentaires peuvent identifier la catégorie de frais.
+  - Pour plusieurs produits d’assurance, les compagnies ne déterminent pas de provision par cas pour les frais de règlement alloués.
+  - Comme pour les sinistres, capturés séparément par couverture, péril, réclamation catastrophique ou non catastrophique lorsqu’applicable
+
+---
+
+Champs typiquement présents pour chaque ligne d’une base de données de sinistres :
+
+- Sauvetage et subrogation
+  - **Sauvetage** : Lorsqu’une compagnie remplace un bien, elle devient propriétaire du bien
+    endommagé. Le bien endommagé peut être réparé et vendu, ce qui vient
+    compenser une partie du paiement fait pour le sinistre. Ces recouvrements
+    se nomment sauvetage.
+  - **Subrogation** : Lorsqu’une compagnie paie pour un sinistre, elle a le droit de subroger,
+    c’est-à-dire de récupérer les pertes, en totalité ou en partie, auprès du
+    tiers responsable ou ayant contribué à l’événement causant la perte.
+
+Les montants récupérables grâce au sauvetage ou à la subrogation sont
+suivis et liés à la réclamation originale lorsque possible.
+
+---
+
+Champs typiquement présents pour chaque ligne d’une base de données de sinistres :
+
+- Caractéristiques de la réclamation
+  - Les compagnies peuvent collecter des informations liées aux réclamations, par exemple le type de blessure ou l’information du médecin.
+  - Il est très important de réaliser que, même si ces informations peuvent être intéressantes pour certaines analyses (par exemple l’analyse de réserves), seulement les caractéristiques connues au moment de la modélisation sont disponibles pour utiliser dans l’algorithme de tarification.
+
+:::: {.question title="Base de données de sinistres"}
+
+##
+
+Vous avez les 3 polices avec leur historique de sinistre.
+
+### Police A
+
+- Premier sinistre
+  - Perte le {{< dynamic-date "YYYY-01-10" -2 >}}, rapportée le {{< dynamic-date "YYYY-01-15" -2 >}}. Provision par cas de 10 000.
+  - Le {{< dynamic-date "YYYY-03-01" -2 >}} : paiement de 1 000, qui engendre une diminution de la provision par cas de 1 000.
+  - Le {{< dynamic-date "YYYY-05-01" -2 >}} : paiement final de 900. Réclamation fermée.
+
+### Police B
+
+- Aucun sinistre
+
+##
+
+### Police C
+- Premier sinistre
+  - Perte le {{< dynamic-date "YYYY-10-01" -2 >}}, rapportée le {{< dynamic-date "YYYY-10-15" -2 >}}. Provision par cas de 18 000.
+  - Le {{< dynamic-date "YYYY-12-15" -2 >}} : paiement de 2 000. Diminution de la provision par cas à 17 000.
+  - Le {{< dynamic-date "YYYY-03-01" -1 >}} : paiement de 7 000 et réduction de la réserve à 15 000.
+  - Le {{< dynamic-date "YYYY-03-01" 0 >}} : paiement final de 15 000. L’assureur reçoit 1 000 en « sauvetage » en vendant le bien endommagé. La réclamation est fermée.
+- Deuxième sinistre
+  - Perte le {{< dynamic-date "YYYY-02-01" -1 >}}, rapportée le {{< dynamic-date "YYYY-02-15" -1 >}}. Provision par cas de 15 000.
+  - Le {{< dynamic-date "YYYY-12-01" -1 >}} : paiement de 1 000 à une firme d’avocats pour ce sinistre. Réclamation fermée sans autre paiement.
+
+##
+
+Compléter la base de données suivante.
+
+::: {.text-smaller}
+
+| Police | # récl. | Date d'accident | Date rapportée | Date de transaction | Statut | Pmt sinistre | Prov. par cas | Pmt frais règl. sin. alloués| Sauvetage/subrog. |
+|:--|--:|:--|:--|:--|:--|--:|--:|--:|--:|
+| … | … | … | … | … | … | … | … | … | … |
+
+:::
+
+::: {.solution}
+
+## {.text-xs}
+  
+| Police | # récl. | Date d'accident | Date rapportée | Date de transaction | Statut | Pmt sinistre | Prov. par cas | Pmt frais règl. sin. alloués| Sauvetage/subrog. |
+|:--|--:|:--|:--|:--|:--|--:|--:|--:|--:|
+| A | 1 | {{< dynamic-date "YYYY-01-10" -2 >}} | {{< dynamic-date "YYYY-01-15" -2 >}} | {{< dynamic-date "YYYY-01-15" -2 >}} | Ouv. | 0 | 10 000 | 0 | 0 |
+| A | 1 | {{< dynamic-date "YYYY-01-10" -2 >}} | {{< dynamic-date "YYYY-01-15" -2 >}} | {{< dynamic-date "YYYY-03-01" -2 >}} | Ouv. | 1 000 | 9 000 | 0 | 0 |
+| A | 1 | {{< dynamic-date "YYYY-01-10" -2 >}} | {{< dynamic-date "YYYY-01-15" -2 >}} | {{< dynamic-date "YYYY-05-01" -2 >}} | Ferm. | 900 | 0 | 0 | 0 |
+| C | 2 | {{< dynamic-date "YYYY-10-01" -2 >}} | {{< dynamic-date "YYYY-10-15" -2 >}} | {{< dynamic-date "YYYY-10-15" -2 >}} | Ouv. | 0 | 18 000 | 0 | 0 |
+| C | 2 | {{< dynamic-date "YYYY-10-01" -2 >}} | {{< dynamic-date "YYYY-10-15" -2 >}} | {{< dynamic-date "YYYY-12-15" -2 >}} | Ouv. | 2 000 | 17 000 | 0 | 0 |
+| C | 2 | {{< dynamic-date "YYYY-10-01" -2 >}} | {{< dynamic-date "YYYY-10-15" -2 >}} | {{< dynamic-date "YYYY-03-01" -1 >}} | Ouv. | 7 000 | 15 000 | 0 | 0 |
+| C | 2 | {{< dynamic-date "YYYY-10-01" -2 >}} | {{< dynamic-date "YYYY-10-15" -2 >}} | {{< dynamic-date "YYYY-03-01" 0 >}} | Ferm. | 15 000 | 0 | 0 | 1 000 |
+| C | 3 | {{< dynamic-date "YYYY-02-01" -1 >}} | {{< dynamic-date "YYYY-02-15" -1 >}} | {{< dynamic-date "YYYY-02-15" -1 >}} | Ouv. | 0 | 15 000 | 0 | 0 |
+| C | 3 | {{< dynamic-date "YYYY-02-01" -1 >}} | {{< dynamic-date "YYYY-02-15" -1 >}} | {{< dynamic-date "YYYY-12-01" -1 >}} | Ferm. | 0 | 0 | 1 000 | 0 |
+
+:::
+
+::::
+
+## Données comptables
+
+Certaines données nécessaires pour la tarification ne sont pas associables à une police ni même à un produit en particulier.
+
+Les **frais de souscription** et les **frais de règlement de sinistre non alloués** sont dans cette catégorie et doivent être suivis au niveau global.
+
+Les frais de souscription incluent les frais généraux, les frais de commission et courtage, les autres frais d’acquisition et les taxes, licences et frais d’association.
+
+Même s’il est possible d’assigner certaines de ces dépenses, telles les commissions, à des polices spécifiques, la plupart de ces dépenses ne peuvent pas être assignées.
+
+---
+
+Les **frais de règlement de sinistre alloués** sont attribuables directement à une réclamation et sont donc capturés dans la base de données de **sinistres**.
+
+Les **frais de règlement de sinistre non alloués** ne peuvent être attribuables à une réclamation en particulier et sont donc suivis au **niveau global**.
+
+Généralement, les compagnies suivent les frais de souscription et les frais de règlement de sinistre non alloués par année de calendrier.
+
+Il est aussi possible d’estimer ces frais par ligne d’affaires.
+
+# Compilation des données {data-progress-label="Compilation" subtitle="Année de calendrier, année d'accident, année de police et année de sinistre rapporté"}
+
+## Objectifs
+
+Trois objectifs s’appliquent lorsqu’on compile les données pour des analyses de tarification :
+
+- Faire correspondre les sinistres et les primes pour la police
+- Utiliser les données récentes le plus rapidement possible
+- Minimiser le coût lié à l’extraction et au traitement des données
+
+::: {.notes}
+Exemple de finances personnelles : Où attribuer mon retour d'impôts reçu en mai 2026? À l'année 2025, ou à l'année 2026?
+:::
+
+## Méthodes
+
+Quatre méthodes communes pour compiler ou organiser les données :
+
+- Année de calendrier
+- Année d’accident
+- Année de police
+- Année de sinistre rapporté
+
+::: {.text-smaller}
+Notes : 
+
+- On utilisera l’année, mais on pourrait aussi utiliser des mois ou trimestres.
+- Sauf pour l’année de calendrier, la période annuelle n’a pas besoin d’être du 1er janvier au 31 décembre; elle pourrait, par exemple, aller du 1er juillet au 30 juin.
+:::
+
+## Année de calendrier (AC) {.english-subtitle subtitle="Calendar Year (CY)"}
+
+### Définition
+
+Considère toutes les primes et sinistres pour les **transactions** qui ont lieu dans les 12 mois de l’année de calendrier, sans égard à la date d’effet de police, l’année d’accident ou l’année de sinistre rapporté.
+
+### Primes et unités acquises
+
+Les primes et unités acquises d’une année de calendrier impliquent toutes les primes et unités d’exposition acquises durant la période de 12 mois.
+
+**À la fin de l’année de calendrier**, toutes les primes et unités d’exposition sont **fixes**.
+
+---
+
+### Sinistres
+
+Les sinistres payés durant une année de calendrier considèrent tous les paiements dans l’année de calendrier, sans égard à la date d’accident ou la date rapportée.
+
+Les sinistres rapportés pour l’année de calendrier sont les sinistres payés plus le changement dans les provisions par cas durant la période de 12 mois.
+
+**À la fin de l’année de calendrier**, tous les sinistres rapportés sont **fixes**.
+
+---
+
+### Avantages de l’année de calendrier
+
+- Les données sont disponibles rapidement lorsque l’année de calendrier est terminée
+- Aucun coût supplémentaire pour compiler les données selon cette méthode, car cette information est normalement disponible pour les rapports financiers
+
+### Inconvénient de l’année de calendrier
+
+- Mauvais appariement entre les primes et sinistres
+  - Les primes acquises durant l’année de calendrier proviennent des polices en force durant l’année, écrites durant l’année de calendrier précédente ou durant l’année de calendrier courante
+  - Les sinistres peuvent inclure des paiements ou des changements de réserve dans des réclamations provenant de polices écrites il y a plusieurs années
+
+---
+
+###
+
+Cette méthode de compilation peut être appropriée pour des lignes d’affaires ou des couvertures individuelles pour lesquelles les réclamations sont rapportées et réglées relativement rapidement.
+
+## Année d’accident (AA) {.english-subtitle subtitle="Accident Year (AY)"}
+
+### Primes et unités acquises
+
+Cette méthode de compilation est identique à la méthode d’année de calendrier pour les primes et unités d’exposition.
+
+---
+
+### Sinistres
+
+La compilation des sinistres considère les **sinistres qui ont eu lieu durant la période de 12 mois**, sans égard au moment où la police a été écrite ou au moment où le sinistre est rapporté.
+
+Les sinistres payés par année d’accident incluent les paiements seulement pour les sinistres qui ont lieu dans l’année.
+
+Les sinistres rapportés sont les sinistres payés et les provisions par cas seulement pour les sinistres qui ont eu lieu dans l’année.
+
+À la fin de l’année d’accident, les sinistres payés et rapportés vont souvent changer lorsque des réclamations additionnelles sont rapportées, lorsque des réclamations sont payées ou lorsque les réserves changent.
+
+---
+
+### Avantage de l’année d’accident
+
+- Meilleur appariement des primes et sinistres que l’année de calendrier
+
+Les sinistres des accidents ayant lieu dans l’année sont comparés aux primes acquises sur les polices dans la même année.
+
+### Inconvénient de l’année d’accident
+
+- Puisque l’année d’accident n’est pas fixe (fermée) à la fin de l’année, le développement futur sur les sinistres doit être estimé
+
+---
+
+###
+
+Le fait de sélectionner une date d’évaluation quelques mois après la fin de l’année peut permettre aux données de se développer et donc peut améliorer l’estimation des sinistres ultimes.
+
+## Année de police (AP) {.english-subtitle subtitle="Policy Year (PY)"}
+
+### Définition
+
+Considère toutes les primes et sinistres liés aux **transactions sur les polices écrites** durant la période de 12 mois, sans égard au moment où le sinistre a lieu ou quand il est rapporté, réservé ou payé.
+
+### Primes et unités acquises
+
+Toutes les primes et unités d’exposition acquises sur les polices écrites durant l’année sont considérées dans les primes et unités acquises de l’année de police.
+
+Les primes et unités ne sont pas fixes avant la date d’expiration de toutes les polices écrites dans l’année.
+
+---
+
+### Sinistres
+
+Les sinistres rapportés pour l’année de police représentent les paiements faits plus les provisions par cas seulement pour les réclamations couvertes par les polices écrites durant l’année.
+
+À la fin de l’année de police, les sinistres vont souvent changer car d’autres réclamations additionnelles surviennent, des réclamations sont payées ou les réserves changent.
+
+---
+
+### Avantage de l’année de police
+
+- Méthode présentant le meilleur appariement des primes et sinistres
+  - Les sinistres des polices écrites durant l’année sont comparés aux primes acquises sur les mêmes polices
+
+### Inconvénient de l’année de police
+
+- Les données prennent plus de temps à se développer que pour l’année de calendrier et l’année d’accident, puisque les unités d’exposition ne sont pas acquises à la fin de l’année
+
+## Année de sinistre rapporté (AR) {.english-subtitle subtitle="Report Year (RY)"}
+
+### Définition
+
+Similaire à l’année d’accident, sauf que les sinistres sont compilés selon la **date rapportée** plutôt que la date d’accident.
+
+Méthode utilisée typiquement pour les produits des lignes commerciales avec polices sur base de réclamations présentées (_ang. : claims-made policies_).
+
+## Données nécessaires
+
+### Analyse de niveau de taux
+
+Les données peuvent être très sommaires si le but de l’analyse est de connaître le niveau de suffisance des taux.
+
+On peut compiler les primes, sinistres et unités d’exposition par année (année de calendrier, année d’accident, année de police ou année de sinistre rapporté).
+
+---
+
+### Analyse de segmentation
+
+Si on veut revoir la segmentation, les données doivent être à un niveau plus granulaire.
+
+Pour une analyse unidimensionnelle, les données peuvent être agrégées par année (typiquement par année d’accident ou année de police) pour chaque niveau de la variable de tarification analysée.
+
+Pour une analyse de plusieurs variables simultanément, il est préférable d’organiser les données au niveau police ou au niveau risque. On pourrait aussi agréger les données pour chaque combinaison unique des variables de tarification étudiées.
+
+## Données limitées
+
+Il arrive parfois qu’un actuaire soit tenu de faire une analyse de tarification, mais que les données idéales ne soient pas disponibles.
+
+Dans ce cas, l’actuaire doit travailler avec les données disponibles et utiliser son jugement actuariel.
+
+# Données externes {data-progress-label="Externes"}
+
+## Données externes
+
+- Plans statistiques
+- Autres données agrégées de l’industrie
+- Taux des compétiteurs
+- Données de fournisseurs externes
+
+Il est de la responsabilité de l’actuaire de prendre en considération la qualité des données (raisonnables, appropriées, exhaustives, etc.).
+
+
+## Plans statistiques {.english-subtitle subtitle="Statistical Plans"}
+
+Les plans statistiques requièrent que les compagnies envoient certaines données de façon uniformisée.
+
+Cette information est normalement disponible au public et peut être une bonne source d’information pour la tarification.
+
+## Autres données agrégées de l’industrie
+
+Données envoyées sur base volontaire par les compagnies.
+
+Les données sont agrégées et peuvent être utiles pour l’industrie de l’assurance ou même parfois pour les régulateurs ou pour le public.
+
+## Taux des compétiteurs
+
+Disponibles pour certains produits ou lignes d’affaires.
+
+Il faut être très prudent dans l’utilisation des taux des compétiteurs, car chaque compagnie a des assurés, des buts, des niveaux de dépenses et des processus opérationnels différents.
+
+## Données de fournisseurs externes
+
+- Données économiques
+  - Indice des prix à la consommation
+- Données géo-démographiques (caractéristiques moyennes dans une zone en particulier)
+  - Densité de population pour prédire la fréquence, indices météorologiques, indices de vol
+- Autres exemples :
+  - Fichier central des sinistres et infractions au code de la sécurité routière en assurance automobile
+  - Cote de crédit en lignes personnelles ou l’équivalent pour les entreprises
+  - Distance d’une borne fontaine en assurance habitation
+  - Type de sol pour assurance tremblement de terre

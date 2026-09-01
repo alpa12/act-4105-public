@@ -1,0 +1,234 @@
+<script id="act-print-preflight">
+(function () {
+  const root = document.documentElement;
+  let observer = null;
+  let scheduled = false;
+  let passCount = 0;
+  let cachedSectionTitles = [];
+
+  function isPrintMode() {
+    return (
+      root.classList.contains("reveal-print") ||
+      root.classList.contains("print-pdf") ||
+      /(?:[?&](?:view=print|print-pdf)(?:[=&]|$))/.test(window.location.search)
+    );
+  }
+
+  function text(element) {
+    return element ? element.textContent.replace(/\s+/g, " ").trim() : "";
+  }
+
+  function getSlidesRoot() {
+    return document.querySelector(".reveal .slides");
+  }
+
+  function collectSectionTitles() {
+    const slidesRoot = getSlidesRoot();
+    const titles = [];
+    const seen = new Set();
+
+    if (!slidesRoot) {
+      return cachedSectionTitles;
+    }
+
+    Array.from(slidesRoot.querySelectorAll(":scope > section.title-slide.level1, :scope > section.slide.level1"))
+      .filter(function (section) {
+        return !section.classList.contains("progress-overview");
+      })
+      .forEach(function (section) {
+        const heading = section.querySelector("h1, h2");
+        const title = text(heading).replace(/^\d+\.\s*/, "");
+        if (title && !seen.has(title)) {
+          seen.add(title);
+          titles.push(title);
+        }
+      });
+
+    if (titles.length > 0) {
+      cachedSectionTitles = titles;
+    }
+
+    return cachedSectionTitles;
+  }
+
+  function ensureOverviewList(section) {
+    const titles = collectSectionTitles();
+    let list = section.querySelector(":scope > .act-print-overview-list");
+
+    section.classList.add("act-print-overview");
+
+    if (!list) {
+      list = document.createElement("ol");
+      list.className = "act-print-overview-list";
+      list.setAttribute("aria-label", "Sections du chapitre");
+      section.appendChild(list);
+    }
+
+    if (titles.length === 0 || list.getAttribute("data-act-print-titles") === titles.join("\n")) {
+      return;
+    }
+
+    list.innerHTML = "";
+    titles.forEach(function (title, index) {
+      const item = document.createElement("li");
+      const number = document.createElement("span");
+      const label = document.createElement("span");
+
+      number.className = "act-print-overview-number";
+      number.textContent = String(index + 1);
+      label.className = "act-print-overview-title";
+      label.textContent = title;
+
+      item.appendChild(number);
+      item.appendChild(label);
+      list.appendChild(item);
+    });
+    list.setAttribute("data-act-print-titles", titles.join("\n"));
+  }
+
+  function neutralizeOverviewFragments(section) {
+    section.querySelectorAll(".rpb-overview-fragments .fragment").forEach(function (fragment) {
+      fragment.classList.remove("fragment", "visible", "current-fragment");
+      fragment.setAttribute("data-act-print-fragment", "neutralized");
+    });
+  }
+
+  function prepareOverviewSlides() {
+    document.querySelectorAll("section.progress-overview").forEach(function (section) {
+      ensureOverviewList(section);
+      neutralizeOverviewFragments(section);
+    });
+
+    const overviewPages = Array.from(document.querySelectorAll(".pdf-page"))
+      .filter(function (page) {
+        return Boolean(page.querySelector("section.progress-overview"));
+      });
+
+    overviewPages.forEach(function (page, index) {
+      const section = page.querySelector("section.progress-overview");
+      if (section) {
+        ensureOverviewList(section);
+        neutralizeOverviewFragments(section);
+      }
+      if (index > 0) {
+        page.remove();
+      }
+    });
+  }
+
+  function eagerLoadImages() {
+    document.querySelectorAll("img[data-src]").forEach(function (image) {
+      image.setAttribute("src", image.getAttribute("data-src"));
+      image.removeAttribute("loading");
+    });
+  }
+
+  function apply() {
+    scheduled = false;
+    if (!isPrintMode()) {
+      return;
+    }
+
+    passCount += 1;
+    eagerLoadImages();
+    prepareOverviewSlides();
+    root.setAttribute("data-act-print-preflight", String(passCount));
+    if (document.querySelector(".pdf-page")) {
+      root.classList.add("act-print-preflight-ready");
+    }
+  }
+
+  function scheduleApply() {
+    if (scheduled) {
+      return;
+    }
+    scheduled = true;
+    window.requestAnimationFrame(apply);
+  }
+
+  function startObserver() {
+    if (observer || !isPrintMode()) {
+      return;
+    }
+
+    observer = new MutationObserver(scheduleApply);
+    observer.observe(document.documentElement, {
+      childList: true,
+      subtree: true
+    });
+    scheduleApply();
+  }
+
+  function hookReveal(reveal) {
+    if (!reveal || reveal.__actPrintPreflightHooked || typeof reveal.initialize !== "function") {
+      return reveal;
+    }
+
+    const initialize = reveal.initialize.bind(reveal);
+    reveal.initialize = function (config) {
+      startObserver();
+      apply();
+      const result = initialize(config);
+
+      if (typeof reveal.on === "function") {
+        reveal.on("ready", scheduleApply);
+        reveal.on("pdf-ready", scheduleApply);
+      }
+
+      return result;
+    };
+    reveal.__actPrintPreflightHooked = true;
+    return reveal;
+  }
+
+  function installRevealSetter() {
+    const existing = window.Reveal;
+    let current = existing ? hookReveal(existing) : existing;
+
+    try {
+      Object.defineProperty(window, "Reveal", {
+        configurable: true,
+        get: function () {
+          return current;
+        },
+        set: function (value) {
+          current = hookReveal(value);
+        }
+      });
+    } catch (_error) {
+      if (existing) {
+        hookReveal(existing);
+      }
+    }
+  }
+
+  installRevealSetter();
+  startObserver();
+  document.addEventListener("DOMContentLoaded", scheduleApply);
+  window.addEventListener("load", scheduleApply);
+  window.addEventListener("beforeprint", apply);
+
+  if (window.matchMedia) {
+    const printMedia = window.matchMedia("print");
+    const onPrintMedia = function (event) {
+      if (event.matches) {
+        apply();
+      }
+    };
+
+    if (printMedia.addEventListener) {
+      printMedia.addEventListener("change", onPrintMedia);
+    } else if (printMedia.addListener) {
+      printMedia.addListener(onPrintMedia);
+    }
+  }
+
+  window.__actPrintPreflightApply = apply;
+  const interval = window.setInterval(function () {
+    scheduleApply();
+    if (passCount > 80) {
+      window.clearInterval(interval);
+    }
+  }, 80);
+})();
+</script>

@@ -1,0 +1,40 @@
+---
+title: "Licence et crédits"
+---
+
+Sauf indication contraire, le contenu pédagogique original de ce site dont
+Alexandre Parent détient les droits est offert sous licence [CC BY-SA
+4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.fr). Le code source
+original est distribué sous licence MIT. Les éléments tiers demeurent soumis à
+leurs licences ou autorisations respectives.
+
+## Contenu pédagogique original
+
+La licence [Creative Commons Attribution - Partage dans les mêmes conditions
+4.0 International](https://creativecommons.org/licenses/by-sa/4.0/deed.fr)
+permet de partager et d'adapter le contenu visé, à condition de créditer
+l'auteur, de lier la licence, de signaler les modifications et de diffuser les
+adaptations sous la même licence.
+
+Cette licence vise uniquement les éléments originaux dont Alexandre Parent
+détient les droits. Elle ne vise pas le code ni les éléments décrits ci-dessous.
+
+## Code source
+
+Le code original, dont le package `tarifr`, les scripts, filtres Lua, feuilles
+de style et JavaScript, est offert sous [licence
+MIT](https://github.com/alpa12/act-4105/blob/main/LICENSE-CODE). Cette licence
+ne s'applique pas automatiquement au contenu de `site/` ni aux ressources
+tierces.
+
+## Crédits et exclusions
+
+Les notes et exercices sont adaptés de matériel préparé
+par Stéphanie Carrier, avec autorisation de les adapter.
+
+Les questions historiques de la CAS, *Basic Ratemaking* de Werner et Modlin,
+le *Statement of Principles*, les captures ClicAssure, les logos et marques,
+les extensions et ressources vendorisées ainsi que les médias dont la
+provenance n'est pas documentée ne sont pas couverts par les licences du site.
+Ils ne sont pas présentés comme ayant été créés ou licenciés par Alexandre
+Parent.

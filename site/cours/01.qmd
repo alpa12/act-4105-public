@@ -1,0 +1,11 @@
+---
+title: "Introduction à la tarification"
+description: "Introduit les notions de base, les ratios et les principes de la tarification en assurance de dommages."
+label: "Introduction à la tarification"
+week-id: 1
+chapitres:
+  - path: /chapitres/01-introduction
+    title: "Introduction"
+  - path: /chapitres/02-principes-tarif-cas
+    title: "Principes de tarification de la CAS"
+---

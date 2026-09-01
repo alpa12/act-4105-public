@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dynamic Year User"
+  short_description: "Use the Dynamic Year Quarto extension"
+  default_prompt: "Use $dynamic-year-user to add dynamic years and dates to a Quarto document."

@@ -1,0 +1,52 @@
+---
+metadata-files:
+  - ../_exercices.yml
+---
+
+::: {.question}
+Donner trois raisons pour lesquelles on doit utiliser des procédures actuarielles adéquates afin de déterminer les primes d’assurance.
+
+::: {.solution}
+- Pour assurer la solidité financière de l’assurance
+- Pour promouvoir l’équité
+- Pour favoriser la disponibilité de la couverture pour le consommateur
+:::
+:::
+
+:::: {.question}
+(CAS Examen 5, 2000 – Q42) Selon le texte *Statement of Principles Regarding Property and Casualty Insurance Ratemaking*, la tarification produit des estimés actuariellement fiables des coûts si les taux sont basés sur trois principes.
+
+::: {.question}
+Nommez ces trois principes.
+
+::: {.solution}
+- Un taux est un estimé de la valeur espérée des coûts futurs.
+- Un taux couvre tous les coûts associés au transfert de risque.
+- Un taux couvre tous les coûts associés au transfert de risque individuel.
+:::
+:::
+
+::: {.question}
+Si un taux est fiable d’un point de vue actuariel, il répond à quatre critères fréquemment utilisés par les actuaires. Nommez ces quatre critères.
+
+::: {.solution}
+Un taux est actuariellement fiable s’il est :
+
+- Raisonnable
+- Non excessif
+- Non inadéquat
+- Non injustement discriminatoire
+:::
+:::
+::::
+
+::: {.question}
+(CAS Examen 5, 2005 – Q35) Donner les quatre principes de tarification de la *Casualty Actuarial Society*.
+
+::: {.solution}
+- Un taux est un estimé de la valeur espérée des coûts futurs.
+- Un taux couvre tous les coûts associés au transfert de risque.
+- Un taux couvre tous les coûts associés au transfert de risque individuel.
+- Un taux est raisonnable, non excessif, non inadéquat et non injustement discriminatoire s’il est un estimé actuariellement fiable de la valeur espérée de tous les coûts futurs associés au transfert de risque individuel.
+:::
+:::

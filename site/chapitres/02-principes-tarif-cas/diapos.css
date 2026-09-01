@@ -1,0 +1,25 @@
+.reveal .principle-statement {
+  border: 0.08em solid #3f596f;
+  border-left-width: 0.4em;
+  background: #f7fafc;
+  color: #1f2a33;
+  font-weight: 650;
+  line-height: 1.25;
+  margin: 0.35em 0 0.9em;
+  padding: 0.55em 0.75em;
+}
+
+.reveal .principle-statement p {
+  margin: 0;
+}
+
+.reveal .principle-explanation {
+  font-size: 0.78em;
+  line-height: 1.22;
+}
+
+.reveal .principle-explanation p,
+.reveal .principle-explanation ul {
+  margin-top: 0.55em;
+  margin-bottom: 0.55em;
+}

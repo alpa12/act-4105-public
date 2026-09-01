@@ -1,0 +1,161 @@
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  function toAlpha(index) {
+    let value = index;
+    let label = "";
+
+    while (value > 0) {
+      value -= 1;
+      label = String.fromCharCode(97 + (value % 26)) + label;
+      value = Math.floor(value / 26);
+    }
+
+    return label;
+  }
+
+  function toRoman(index) {
+    const numerals = [
+      ["m", 1000],
+      ["cm", 900],
+      ["d", 500],
+      ["cd", 400],
+      ["c", 100],
+      ["xc", 90],
+      ["l", 50],
+      ["xl", 40],
+      ["x", 10],
+      ["ix", 9],
+      ["v", 5],
+      ["iv", 4],
+      ["i", 1]
+    ];
+
+    let value = index;
+    let label = "";
+
+    for (const [symbol, amount] of numerals) {
+      while (value >= amount) {
+        label += symbol;
+        value -= amount;
+      }
+    }
+
+    return label;
+  }
+
+  function formatQuestionLabel(index, level) {
+    const styleIndex = (level - 1) % 3;
+
+    if (styleIndex === 0) {
+      return index + ".";
+    }
+
+    if (styleIndex === 1) {
+      return toAlpha(index) + ")";
+    }
+
+    return toRoman(index) + ")";
+  }
+
+  function getQuestionPrompt(question) {
+    for (const child of question.children) {
+      if (
+        child.classList.contains("question-block") ||
+        child.classList.contains("question-grading") ||
+        child.classList.contains("proof") ||
+        child.classList.contains("solution")
+      ) {
+        continue;
+      }
+
+      return child;
+    }
+
+    return null;
+  }
+
+  function applyQuestionNumbering(questions, level) {
+    const directQuestions = Array.from(questions);
+
+    directQuestions.forEach(function (question, index) {
+      const prompt = getQuestionPrompt(question);
+      if (prompt && !prompt.querySelector(":scope > .question-label")) {
+        const label = document.createElement("span");
+        label.className = "question-label";
+        label.textContent = formatQuestionLabel(index + 1, level) + " ";
+        prompt.prepend(label);
+      }
+
+      const nestedQuestions = Array.from(question.children).filter(function (child) {
+        return child.classList.contains("question-block");
+      });
+
+      if (nestedQuestions.length > 0) {
+        applyQuestionNumbering(nestedQuestions, level + 1);
+      }
+    });
+  }
+
+  const diapoLinks = document.querySelectorAll('a[href$="diapos.html"], a[href*="/diapos.html"]');
+
+  for (const link of diapoLinks) {
+    link.setAttribute("target", "_blank");
+    link.setAttribute("rel", "noopener noreferrer");
+  }
+
+  const topLevelQuestions = Array.from(document.querySelectorAll(".question-block")).filter(function (question) {
+    return !question.parentElement || !question.parentElement.closest(".question-block");
+  });
+
+  applyQuestionNumbering(topLevelQuestions, 1);
+
+  const questionBlocks = document.querySelectorAll(".question-block");
+
+  for (const question of questionBlocks) {
+    const solution = question.querySelector(":scope > .proof.solution, :scope > .solution");
+    if (!solution) {
+      continue;
+    }
+
+    if (solution.parentElement && solution.parentElement.matches("details.solution-fold")) {
+      continue;
+    }
+
+    const grading = question.querySelector(":scope > .question-grading");
+    const details = document.createElement("details");
+    details.className = "solution-fold";
+
+    const summary = document.createElement("summary");
+    summary.textContent = "Solution";
+    details.appendChild(summary);
+
+    const title = solution.querySelector(".proof-title");
+    if (title) {
+      const titleContainer = title.parentElement;
+      title.remove();
+      if (titleContainer && !titleContainer.textContent.trim()) {
+        titleContainer.remove();
+      }
+    }
+
+    while (solution.firstChild) {
+      details.appendChild(solution.firstChild);
+    }
+
+    if (grading) {
+      const heading = document.createElement("div");
+      heading.className = "grading-title";
+      heading.textContent = "Barème";
+      details.appendChild(heading);
+
+      while (grading.firstChild) {
+        details.appendChild(grading.firstChild);
+      }
+
+      grading.remove();
+    }
+
+    solution.replaceWith(details);
+  }
+});
+</script>

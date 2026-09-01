@@ -1,0 +1,4 @@
+Ce cahier regroupe les exercices du chapitre et leurs corrigés.
+
+- Tentez chaque exercice avant de consulter la solution.
+- Utilisez les solutions pour vérifier votre raisonnement et repérer les notions à revoir.

@@ -1,0 +1,706 @@
+---
+format:
+  revealjs: default
+execute:
+  echo: false
+fig-width: 10
+fig-height: 3.8
+metadata-files:
+  - ../_diapos.yml
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+library(tarifr)
+source("../../_extensions/alpa12/dynamic-year/dynamic-year.R")
+```
+
+## Lectures recommandées
+
+Ce chapitre est adapté du chapitre 7 du texte _Basic Ratemaking_ :
+
+[Werner, G. et Modlin, C. (2016). _Basic Ratemaking_, Casualty Actuarial Society, 5e édition.](http://www.casact.org/library/studynotes/Werner_Modlin_Ratemaking.pdf)
+
+## Contenu du chapitre {.progress-overview}
+
+- Notation
+- Méthodes de projection des frais de souscription
+- Tendances dans les frais
+- Provision pour profit de souscription
+- Taux de sinistre permis
+
+::: {.aside}
+Adapté de : Werner, G. et Modlin, C. (2016), _Basic Ratemaking_, Casualty Actuarial Society.
+:::
+
+# Notation {data-progress-label="Notation" subtitle="Les composantes de la prime indiquée et leur expression par unité"}
+
+## Notation
+
+Équation fondamentale en assurance :
+
+$$
+\begin{aligned}
+\text{Prime} ={}& \text{Sinistres} \\
+&+ \text{Frais de règlement de sinistres} \\
+&+ \text{Frais de souscription} \\
+&+ \text{Profit de souscription}
+\end{aligned}
+$$
+
+---
+
+$$
+\begin{align}
+P &= L + E_L + (E_F + V \times P) + Q_T \times P \\ \\
+P &= \frac{L + E_L + E_F}{1.0 - V - Q_T}
+\qquad
+\frac{P}{X} = \bar{P} = \frac{\bar{L} + \bar{E}_L + \bar{E}_F}{1.0 - V - Q_T}
+\end{align}
+$$
+
+:::: {.columns .text-xs}
+::: {.column}
+- $X$ : Unités d’exposition
+- $P$ : Prime
+- $L$ : Sinistres
+- $E_L$ : Frais de règlement de sinistres
+- $E_F$ : Frais de souscription fixes
+- $E_V$ : Frais de souscription variables
+- $Q_T$ : Profit de souscription cible
+
+
+:::
+::: {.column}
+- Quantités moyennes obtenues en divisant par $X$ :
+- $\bar{P}$ : Prime moyenne
+- $\bar{L}$ : Prime pure
+- $\bar{E}_L$ : Frais de règlement de sinistres moyens
+- $\bar{E}_F$ : Frais de souscription fixes par unité
+- $V$ : Provision pour frais variables = $E_V / P$
+:::
+::::
+
+:::: {.question title="Prime indiquée par unité d’exposition"}
+
+##
+
+Avec les données suivantes :
+
+- Sinistre moyen espéré incluant frais de règlement de sinistres : 180 $
+- Frais de souscription fixes par unité : 20 $
+- Frais de souscription variables : 15 % de la prime
+- Profit de souscription cible : 5 % de la prime
+
+Déterminer la prime indiquée par unité d’exposition.
+
+::: {.solution}
+
+##
+
+$$
+\bar{P}
+= \frac{\bar{L} + \bar{E}_L + \bar{E}_F}{1 - V - Q_T}
+= \frac{180 + 20}{1 - 0.15 - 0.05}
+= 250\ \text{\$}
+$$
+
+- $180 \$$ pour payer les sinistres et frais de règlement de sinistres
+- $20 \$$ pour payer les frais de souscription fixes
+- $0.15 \times 250 = 37.50 \$$ pour payer les frais de souscription variables
+- $0.05 \times 250 = 12.50 \$$ pour payer le profit espéré
+
+:::
+
+::::
+
+# Méthodes de projection des frais de souscription {data-progress-label="Projection des frais" subtitle="Traiter les frais fixes et variables dans le calcul du taux indiqué"}
+
+## Frais de souscription
+
+Rappel des différentes catégories de frais de souscription :
+
+- Commissions et courtage
+- Autres frais d’acquisition
+- Frais généraux
+- Taxes, licences et frais d’association *(Ang. : Taxes, licenses and fees)*
+
+Certains frais varient en proportion des primes alors que d’autres frais sont plutôt fixes par unité.
+
+## Méthodes de projection des frais de souscription
+
+1. Méthode avec toutes dépenses variables *(Ang. : All Variable Expense Method)*
+1. Méthode basée sur la prime *(Ang. : Premium-based Projection Method)*
+1. Méthode basée sur les unités d’exposition/polices *(Ang. : Exposure/Policy-based Projection Method)*
+
+
+---
+
+**Traitement des frais variables**
+: Les trois méthodes divisent les dépenses variables par les primes.
+
+**Traitement des frais fixes**
+: Les deux premières méthodes divisent aussi les frais fixes par les primes alors que la dernière méthode divise les frais fixes par les unités, ou le nombre de polices.
+
+**Primes ou unités à utiliser dans le calcul**
+: Les frais encourus à l’émission de la police sont divisés par les primes écrites ou les unités écrites  .
+  Les frais encourus durant le terme de police sont divisés par les primes acquises ou les unités acquises.
+
+---
+
+- Typiquement, la moyenne sur quelques années sera utilisée pour sélectionner le ratio de frais
+- Comme la tarification est une projection des coûts futurs, l’actuaire doit sélectionner un ratio de frais qui est compatible avec les frais espérés dans le futur et qui pourrait différer du ratio historique
+  - Exemple : Si la structure de commission est appelée à changer (ex : passe de 15% à 20% de la prime), l’actuaire devrait utiliser le pourcentage de commission espéré dans le futur et non le pourcentage historique
+  - Exemple : Si des coupures de postes réduisant les salaires ont eu lieu récemment, la sélection du ratio de frais devrait être basée sur les dépenses espérées et non sur les salaires historiques
+
+## Méthode avec toutes dépenses variables
+
+- Aucune distinction entre les frais de souscription fixes et variables : tous sont considérés comme des frais variables en pourcentage de la prime
+- Le ratio de frais de souscription est calculé en divisant les frais historiques par les primes écrites et/ou les primes acquises de la même période historique
+- Rappel du chapitre 1 : si l’information est disponible, il est plus précis de diviser les frais généraux par les primes acquises et tous les autres frais par les primes écrites
+
+```{r}
+#| label: frais-souscription-donnees
+#| include: false
+
+annees_frais <- vapply(-2:-1, dynamic_year, integer(1))
+
+donnees_frais <- data.frame(
+  categorie = c(
+    "Commissions et courtage ('000\u00A0\\$)",
+    "Autres frais d’acquisition ('000\u00A0\\$)",
+    "Frais généraux ('000\u00A0\\$)",
+    "Taxes, licences et frais d’association ('000\u00A0\\$)",
+    "Primes écrites ('000\u00A0\\$)",
+    "Primes acquises ('000\u00A0\\$)",
+    "Unités écrites ('000)",
+    "Unités acquises ('000)"
+  ),
+  annee_1 = c(23000, 7960, 7900, 14040, 156000, 131000, 155, 130),
+  annee_2 = c(24750, 8000, 8300, 14850, 165000, 138000, 165, 138),
+  part_fixe = c(0, 0.5, 0.75, 0.25, NA, NA, NA, NA),
+  check.names = FALSE
+)
+names(donnees_frais) <- c("", as.character(annees_frais), "% des frais assumés fixes")
+
+frais_historiques <- as.matrix(donnees_frais[1:4, 2:3])
+primes_ecrites <- as.numeric(donnees_frais[5, 2:3])
+primes_acquises <- as.numeric(donnees_frais[6, 2:3])
+unites_ecrites <- as.numeric(donnees_frais[7, 2:3])
+unites_acquises <- as.numeric(donnees_frais[8, 2:3])
+parts_fixes <- as.numeric(donnees_frais[1:4, 4])
+
+denominateurs_primes <- rbind(
+  primes_ecrites,
+  primes_ecrites,
+  primes_acquises,
+  primes_ecrites
+)
+denominateurs_unites <- rbind(
+  unites_ecrites,
+  unites_ecrites,
+  unites_acquises,
+  unites_ecrites
+)
+
+arrondir_ratios <- function(ratios) {
+  ratios_arrondis <- round(ratios, 3)
+  ratios_arrondis[4, ] <- round(ratios[4, ], 4)
+  ratios_arrondis
+}
+
+ratios_tous_variables_bruts <- frais_historiques / denominateurs_primes
+ratios_fixes_bruts <- ratios_tous_variables_bruts * parts_fixes
+ratios_variables_bruts <- ratios_tous_variables_bruts * (1 - parts_fixes)
+
+ratios_tous_variables <- arrondir_ratios(ratios_tous_variables_bruts)
+ratios_fixes <- arrondir_ratios(ratios_fixes_bruts)
+ratios_variables <- arrondir_ratios(ratios_variables_bruts)
+frais_fixes_par_unite <- (frais_historiques / denominateurs_unites) * parts_fixes
+
+selection_tous_variables <- round(rowMeans(ratios_tous_variables_bruts), 3)
+selection_fixes <- round(rowMeans(ratios_fixes_bruts), 3)
+selection_fixes[4] <- round(mean(ratios_fixes_bruts[4, ]), 4)
+selection_variables <- round(rowMeans(ratios_variables_bruts), 3)
+selection_variables[4] <- round(mean(ratios_variables_bruts[4, ]), 4)
+
+tableau_frais <- donnees_frais[1:6, 1:3]
+tableau_frais_avec_parts_fixes <- donnees_frais[1:6, 1:4]
+tableau_frais_avec_unites <- donnees_frais[, 1:4]
+tableau_frais_fixes_par_unite <- data.frame(
+  categorie = as.character(donnees_frais[[1]][1:4]),
+  annee_1 = frais_fixes_par_unite[, 1],
+  annee_2 = frais_fixes_par_unite[, 2],
+  check.names = FALSE
+)
+names(tableau_frais_fixes_par_unite) <- c("", as.character(annees_frais))
+
+tableau_ratios <- function(ratios, selection) {
+  tableau <- data.frame(
+    donnees_frais[1:4, 1],
+    ratios[, 1],
+    ratios[, 2],
+    selection,
+    check.names = FALSE
+  )
+  names(tableau) <- c("", as.character(annees_frais), "Sélection")
+  tableau
+}
+```
+
+:::: {.question title="Méthode avec toutes dépenses variables"}
+
+##
+
+Avec la méthode de projection des frais de souscription avec toutes dépenses variables, calculer le pourcentage de frais de souscription variables à inclure dans votre analyse de tarification.
+
+```{r}
+#| label: frais-toutes-variables-question-table
+#| output: asis
+
+afficher_table(
+  tableau_frais,
+  align = c("l", "r", "r"),
+  formats = list(list(colonnes = 2:3, type = "nombre", digits = 0))
+)
+```
+
+::: {.solution}
+
+##
+
+```{r}
+#| label: frais-toutes-variables-solution-table
+#| output: asis
+
+afficher_table(
+  tableau_ratios(ratios_tous_variables, selection_tous_variables),
+  align = c("l", "r", "r", "r"),
+  formats = list(list(colonnes = 2:4, type = "pourcentage", digits = 2)),
+  entetes_groupes = list(list(
+    label = "Ratio des frais variables",
+    colonnes = 2:4
+  )),
+  entetes_calculs = c("(1)", "(2)", "(3)", "(4) = ((2) + (3)) / 2")
+)
+```
+
+Les ratios pour les catégories commissions et courtage, autres frais d’acquisition et taxes, licences et frais d’association utilisent les primes écrites au dénominateur alors que le ratio pour les frais généraux utilise les primes acquises.
+
+##
+
+Le ratio de frais variables est donc : $0.149 + 0.050 + 0.060 + 0.090 = 0.349$.
+
+Si le sinistre moyen espéré par unité incluant frais de règlement de sinistres est de 180 $ et que le profit cible est de 5 % de la prime, la prime indiquée moyenne par unité est de :
+
+$$
+\bar{P}
+= \frac{180 + 0}{1 - 0.349 - 0.05}
+= 299.50
+$$
+
+Il n’y a aucun frais fixe dans l’équation car tous les frais de souscription sont assumés être variables.
+
+:::
+
+::::
+
+---
+
+### Problèmes potentiels de cette méthode
+
+- Sous-estime la prime requise pour les risques avec une prime relativement petite
+- Surestime la prime requise pour les risques avec une prime relativement grande
+
+## Méthode basée sur la prime
+
+- Comme la méthode précédente, elle assume que le ratio de frais de souscription pour la période projetée sera cohérent avec celui de la période historique
+- La différence avec la méthode précédente est qu’elle considère les frais fixes et les frais variables séparément et les divise par les primes écrites ou acquises
+
+:::: {.question title="Méthode basée sur la prime"}
+
+##
+
+Avec la méthode de projection des frais de souscription basée sur la prime, calculer les pourcentages de frais de souscription fixes et variables à inclure dans votre analyse de tarification.
+
+```{r}
+#| label: frais-base-prime-question-table
+#| output: asis
+
+afficher_table(
+  tableau_frais_avec_parts_fixes,
+  align = c("l", "r", "r", "r"),
+  formats = list(
+    list(colonnes = 2:3, type = "nombre", digits = 0),
+    list(colonnes = 4, type = "pourcentage", digits = 0)
+  )
+)
+```
+
+::: {.solution}
+
+##
+
+:::: {.columns}
+::: {.column}
+
+```{r}
+#| label: frais-base-prime-fixes-table
+#| output: asis
+
+afficher_table(
+  tableau_ratios(ratios_fixes, selection_fixes),
+  align = c("l", "r", "r", "r"),
+  formats = list(list(colonnes = 2:4, type = "pourcentage", digits = 2)),
+  entetes_groupes = list(list(
+    label = "Ratio des frais fixes",
+    colonnes = 2:4
+  )),
+  entetes_calculs = c("(1)", "(2)", "(3)", "(4) = ((2) + (3)) / 2")
+)
+```
+
+:::
+::: {.column .text-small}
+
+Aucun frais de la catégorie commissions et courtage n’est assumé fixe.
+
+Exemples de calcul pour {{< dynamic-year -2 >}} :
+
+$$
+\begin{align}
+\frac{7\,960}{156\,000} \times 0.5 &= 2.6 \% \\ \\
+\frac{7\,900}{131\,000} \times 0.75 &= 4.5 \% \\ \\
+\frac{14\,040}{156\,000} \times 0.25 &= 2.25 \%
+\end{align}
+$$
+
+:::
+::::
+
+##
+
+:::: {.columns}
+::: {.column}
+
+```{r}
+#| label: frais-base-prime-variables-table
+#| output: asis
+
+afficher_table(
+  tableau_ratios(ratios_variables, selection_variables),
+  align = c("l", "r", "r", "r"),
+  formats = list(list(colonnes = 2:4, type = "pourcentage", digits = 2)),
+  entetes_groupes = list(list(
+    label = "Ratio des frais variables",
+    colonnes = 2:4
+  )),
+  entetes_calculs = c("(1)", "(2)", "(3)", "(4) = ((2) + (3)) / 2")
+)
+```
+
+:::
+::: {.column .text-small}
+
+Tous les frais de la catégorie commissions et courtage sont assumés variables.
+
+Exemples de calcul pour {{< dynamic-year -2 >}} :
+
+$$
+\begin{align}
+\frac{7\,960}{156\,000} \times 0.5 &= 2.6 \% \\ \\
+\frac{7\,900}{131\,000} \times 0.25 &= 1.5 \% \\ \\
+\frac{14\,040}{156\,000} \times 0.75 &= 6.75 \%
+\end{align}
+$$
+
+:::
+::::
+
+## {.text-smaller}
+
+Le ratio de frais fixes est donc : $0 + 0.025 + 0.045 + 0.0225 = 0.0925$.
+
+Le ratio de frais variables est donc : $0.149 + 0.025 + 0.015 + 0.0675 = 0.2565$.
+
+::: {.text-xs}
+*On note que la somme du ratio de frais fixes et du ratio de frais variables donne le même résultat que le ratio dans la méthode de projection avec toutes dépenses variables.*
+:::
+
+Si la prime moyenne projetée au taux courant est de 500 $, les frais fixes projetés par unité sont donc : $0.0925 \times 500 = 46.25$.
+
+Si le sinistre moyen espéré par unité incluant frais de règlement de sinistres est de 180 $ et que le profit cible est de 5 % de la prime, la prime indiquée moyenne par unité est de :
+
+$$
+\bar{P}
+= \frac{180 + 46.25}{1 - 0.2565 - 0.05}
+= 326.24
+$$
+
+:::
+
+::::
+
+---
+
+
+### Problèmes potentiels de cette méthode
+
+- Suppose que les ratios historiques seront les mêmes dans la période projetée
+- Le ratio pour la portion des frais fixes peut présenter des distorsions si le niveau de primes historiques et le niveau de primes projetées diffèrent significativement
+  Exemples et solutions :
+  - Changement de taux récents : calculer les ratios en utilisant les primes au taux courant
+  - Changement dans le niveau de prime moyenne : calculer les ratios en utilisant les primes au niveau projeté
+  - Prime inéquitable par région si le ratio est national : calculer des ratios par province ou état
+
+
+## Méthode basée sur les unités d’exposition/polices
+
+- Les frais variables sont traités comme pour la méthode basée sur la prime
+- Les frais fixes sont divisés par le nombre d’unités écrites ou acquises plutôt que par les primes, ou divisés par le nombre de polices si les frais fixes sont présumés constants par police
+
+:::: {.question title="Méthode basée sur les unités d’exposition"}
+
+##
+
+Avec la méthode de projection des frais de souscription basée sur les unités d’exposition, calculer les frais fixes par unité et le pourcentage de frais variables à inclure dans votre analyse de tarification.
+
+::: {.text-small}
+```{r}
+#| label: frais-base-unites-question-table
+#| output: asis
+
+afficher_table(
+  tableau_frais_avec_unites,
+  align = c("l", "r", "r", "r"),
+  formats = list(
+    list(colonnes = 2:3, type = "nombre", digits = 0),
+    list(colonnes = 4, type = "pourcentage", digits = 0)
+  )
+)
+```
+
+:::
+
+::: {.solution}
+
+##
+
+Mêmes calculs qu’à l’exemple précédent pour les frais variables :
+
+```{r}
+#| label: frais-base-unites-variables-table
+#| output: asis
+
+afficher_table(
+  tableau_ratios(ratios_variables, selection_variables),
+  align = c("l", "r", "r", "r"),
+  formats = list(list(colonnes = 2:4, type = "pourcentage", digits = 2)),
+  entetes_groupes = list(list(
+    label = "Ratio des frais variables",
+    colonnes = 2:4
+  )),
+  entetes_calculs = c("(1)", "(2)", "(3)", "(4) = ((2) + (3)) / 2")
+)
+```
+
+##
+
+:::: {.columns}
+::: {.column}
+
+```{r}
+#| label: frais-base-unites-fixes-table
+#| output: asis
+
+afficher_table(
+  tableau_frais_fixes_par_unite,
+  align = c("l", "r", "r"),
+  formats = list(list(colonnes = 2:3, type = "montant", symbole = TRUE)),
+  entetes_groupes = list(list(
+    label = "Frais fixes",
+    colonnes = 2:3
+  ))
+)
+```
+
+:::
+::: {.column .smaller}
+
+Aucun frais de la catégorie commissions et courtage n’est assumé fixe.
+
+Exemples de calcul pour {{< dynamic-year -2 >}} :
+
+$$
+\frac{7\,960}{155} \times 0.5 = 25.68
+$$
+
+$$
+\frac{7\,900}{130} \times 0.75 = 45.58
+$$
+
+$$
+\frac{14\,040}{155} \times 0.25 = 22.65
+$$
+
+:::
+::::
+
+:::
+
+::::
+
+---
+
+### Problèmes potentiels et améliorations futures
+
+- Requiert de séparer les frais en frais fixes et variables. Cette étape est présentement faite au jugement
+- Comme elle assume que les frais fixes ne varient pas par unité (ou police), elle alloue les frais fixes à chaque province/état basé sur la proportion des unités (ou polices) dans cette province. Les frais peuvent varier par province/région (ex. : publicité)
+- Certains frais qui sont considérés fixes varient selon certaines caractéristiques (ex. : nouvelle affaire versus renouvellement)
+- Des études supplémentaires pourraient permettre de mieux considérer les économies d’échelle. En attendant, les données internes permettant d’évaluer la tendance dans les frais ainsi que le jugement de l’actuaire devrait suffire
+
+## {.remember-slide}
+
+**Projection des frais** : Les trois méthodes divisent les frais variables par les primes. Elles se distinguent par le traitement des frais fixes, divisés par les primes ou par les unités/polices.
+
+# Tendances dans les frais {data-progress-label="Tendance des frais" subtitle="Projeter les frais selon leur base et le moment où ils sont encourus"}
+
+## Tendance dans les frais de souscription {.english-subtitle subtitle="Trending expenses"}
+
+### Frais variables
+
+- Changent automatiquement lorsque la prime change
+  - Il n’est donc pas nécessaire d’appliquer une tendance au ratio de frais variables
+
+---
+
+### Frais fixes
+
+- Méthode basée sur la prime : aucune projection nécessaire si les frais fixes moyens et la prime moyenne changent au même taux
+- Méthode basée sur les unités d’exposition/polices : aucune projection nécessaire si la base d’exposition est sensible à l’inflation
+
+Sinon, les frais fixes moyens risquent de changer d’une année à l’autre et une projection est alors appropriée.
+
+---
+
+La sélection de la tendance dans les frais est basée sur le changement historique dans les frais moyens ou sur l’indice des prix à la consommation.
+
+La période de projection va de la **date moyenne où les frais sont encourus dans la période historique** à la **date moyenne où les frais seront encourus dans la période où les taux seront en vigueur**.
+
+---
+
+### Frais encourus à [l’émission]{.underline} de la police
+
+::: {.text-xs}
+
+Exemple : polices annuelles. Les taux seront en vigueur pendant un an. Les frais, soit les commissions, autres frais d’acquisition, taxes, licences et frais d’association, sont donnés pour l’année de calendrier {{< dynamic-year -3 >}}.
+
+```{r}
+#| label: expense-trend-issued
+#| fig-alt: "Période de tendance des frais entre les dates moyennes d'émission historique et projetée."
+#| fig-height: 2.2
+
+tarifr::trend_period_diagram(
+  experience_start = dynamic_date("YYYY-01-01", -3),
+  experience_end = dynamic_date("YYYY-01-01", -2),
+  prospective_start = dynamic_date("YYYY-01-01", -1),
+  prospective_end = dynamic_date("YYYY-01-01", 0),
+  experience_period_type = "calendar",
+  trend_type = "premium",
+  policy_term_months = 12,
+  experience_average_date = dynamic_date("YYYY-07-01", -3),
+  prospective_average_date = dynamic_date("YYYY-07-01", -1),
+  experience_label = paste("AC", dynamic_year(-3)),
+  prospective_label = paste(dynamic_year(-1), "-", dynamic_year(0)),
+  y_axis_label = "% du terme de police expiré"
+)
+```
+
+- Date de début de projection : {{< dynamic-date YYYY-07-01 -3 >}}, date moyenne à laquelle les frais sont payés dans la période historique
+- Date de fin de projection :  {{< dynamic-date YYYY-07-01 -1 >}}, date moyenne de souscription dans la période où les taux seront en vigueur
+:::
+---
+
+### Frais encourus [durant le terme]{.underline} de la police
+
+::: {.text-scale scale=0.78}
+
+Exemple : polices annuelles. Les taux seront en vigueur pendant un an. Les frais généraux sont donnés pour l’année de calendrier {{< dynamic-year -3 >}}.
+
+```{r}
+#| label: expense-trend-earned
+#| fig-alt: "Période de tendance des frais entre les dates moyennes d'acquisition historique et projetée."
+#| fig-height: 2.2
+
+tarifr::trend_period_diagram(
+  experience_start = dynamic_date("YYYY-01-01", -3),
+  experience_end = dynamic_date("YYYY-01-01", -2),
+  prospective_start = dynamic_date("YYYY-01-01", -1),
+  prospective_end = dynamic_date("YYYY-01-01", 0),
+  experience_period_type = "calendar",
+  trend_type = "premium",
+  policy_term_months = 12,
+  experience_average_date = dynamic_date("YYYY-07-01", -3),
+  prospective_average_date = dynamic_date("YYYY-12-31", -1),
+  experience_label = paste("AC", dynamic_year(-3)),
+  prospective_label = paste(dynamic_year(-1), "-", dynamic_year(0)),
+  y_axis_label = "% du terme de police expiré"
+)
+```
+
+- Date de début de projection : {{< dynamic-date YYYY-07-01 -3 >}}, date moyenne à laquelle les frais sont payés dans la période historique
+- Date de fin de projection :  {{< dynamic-date YYYY-07-01 -1 >}}, date moyenne d’acquisition dans la période où les taux seront en vigueur, soit 6 mois après la date moyenne souscrite
+
+:::
+
+## {.remember-slide}
+
+**Tendance** : Les frais variables suivent automatiquement la prime.  
+Les frais fixes nécessitent une tendance seulement si leur base ne progresse pas au même rythme, selon la date moyenne où ils sont encourus.
+
+# Provision pour profit de souscription {data-progress-label="Profit" subtitle="La marge nécessaire pour atteindre les objectifs financiers de l'assureur"}
+
+## Profit total
+
+Deux sources du profit total d’une compagnie d’assurance :
+
+- Profit d’investissement
+- Profit de souscription
+
+$$
+\begin{aligned}
+\text{Profit de souscription} ={}& \text{Primes} \\
+&- \text{Sinistres} \\
+&- \text{Frais de règlement de sinistres} \\
+&- \text{Frais de souscription}
+\end{aligned}
+$$
+
+---
+
+Le profit de souscription cible varie d’une compagnie à l’autre et d’une ligne d’affaire à l’autre.
+
+- Pour les lignes d’affaires où les sinistres prennent du temps à survenir, le revenu d’investissement peut être plus élevé et permettre un profit de souscription cible un peu plus bas
+- Une compagnie d’assurance pourrait décider de diminuer son profit de souscription cible afin d’aller chercher de la croissance à court terme et espérer faire plus de profit à plus long terme
+
+# Taux de sinistre permis {data-progress-label="PLR" subtitle="La portion de la prime disponible pour les sinistres après les autres provisions"}
+
+## Taux de sinistre permis {.english-subtitle subtitle="Total Permissible Loss Ratio"}
+
+Taux de sinistre permis : $PLR = 1.0 - F - V - Q_T$
+
+Où :
+
+$$
+F = \frac{\text{frais de souscription fixes}}{\text{primes}} \\ \\
+V = \frac{\text{frais de souscription variables}}{\text{primes}} \\ \\
+Q_T = \text{profit de souscription cible}
+$$
+
+## {.remember-slide}
+
+Le taux de sinistre permis est la portion de la prime qui reste disponible pour les sinistres après les frais fixes, les frais variables et le profit cible.
+
+## {.remember-slides}

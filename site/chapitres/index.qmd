@@ -1,0 +1,18 @@
+---
+title: "Chapitres du cours"
+
+listing:
+  - id: chapters
+    type: custom
+    template: listing-chapitres.ejs.md
+    contents:
+      - "[0-9][0-9]-*/exercices.qmd"
+    fields: [order, title, description]
+    sort:
+      - "order"
+    sort-ui: false
+    filter-ui: false
+---
+
+::: {#chapters}
+:::

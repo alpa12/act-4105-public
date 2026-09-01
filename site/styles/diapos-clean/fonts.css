@@ -1,0 +1,82 @@
+/* Roboto is the body and heading family used by the local copy of the Clean
+   RevealJS theme. These static weights mirror the upstream theme's Google
+   Fonts request while keeping the presentation fully offline. */
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 200;
+  font-display: swap;
+  src: url("../../assets/vendor/roboto/roboto-200-normal.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("../../assets/vendor/roboto/roboto-300-normal.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../../assets/vendor/roboto/roboto-400-normal.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Roboto";
+  font-style: italic;
+  font-weight: 200;
+  font-display: swap;
+  src: url("../../assets/vendor/roboto/roboto-200-italic.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Roboto";
+  font-style: italic;
+  font-weight: 300;
+  font-display: swap;
+  src: url("../../assets/vendor/roboto/roboto-300-italic.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Roboto";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../../assets/vendor/roboto/roboto-400-italic.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Overpass";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../../assets/vendor/overpass/overpass-regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Overpass";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../../assets/vendor/overpass/overpass-regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Overpass";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../../assets/vendor/overpass/overpass-semibold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Overpass";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../../assets/vendor/overpass/overpass-bold.woff2") format("woff2");
+}

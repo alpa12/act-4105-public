@@ -1,0 +1,599 @@
+---
+metadata-files:
+  - ../_exercices.yml
+execute:
+  echo: false
+---
+
+```{r}
+#| echo: false
+#| include: false
+
+library(tarifr)
+```
+
+::: {.question}
+Expliquer la différence entre une caractéristique de risque, une classe de risque et un système de classification des risques.
+
+::: {.solution}
+Une **caractéristique de risque** est un facteur ou une caractéristique mesurable ou observable utilisé pour assigner un risque à une classe de risques dans un système de classification des risques (par exemple, le sexe ou l’âge).
+
+Une **classe de risques** est un sous-ensemble de risques regroupés sous un système de classification des risques. Par exemple, « homme de 0 à 30 ans » est une classe de risques si les seules variables sont le sexe et l’âge de l’assuré.
+
+Un **système de classification des risques** est le système utilisé pour assigner chaque risque à un groupe selon les coûts espérés de la couverture fournie. Par exemple, selon les caractéristiques individuelles du risque, un assuré peut être classé parmi les hommes de 0 à 30 ans, les hommes de 30 ans et plus, les femmes de 0 à 30 ans ou les femmes de 30 ans et plus.
+:::
+:::
+
+::: {.question}
+Lors de votre dernière analyse de tarification en assurance automobile, vous avez constaté que le sexe du conducteur était une variable prédictive des coûts futurs. Cependant, pour des raisons d’affaires, votre compagnie a décidé de ne pas utiliser le sexe du conducteur en assurance automobile, même si son principal concurrent l’utilise. Comment évalueriez-vous si votre compagnie est sujette à l’anti-sélection ?
+
+::: {.solution}
+Il faut valider le taux de sinistre et la croissance par année et par classe (hommes et femmes). Si l’espérance des coûts est différente selon le sexe de l’assuré, la compagnie attirera davantage les assurés de la classe dont les coûts espérés sont les plus élevés, puisqu’elle ne reflète pas cette différence dans la prime alors que son concurrent le fait.
+
+En général, l’anti-sélection se traduit par une croissance non rentable dans un segment, soit un segment qui croît fortement tout en présentant un mauvais taux de sinistre.
+:::
+:::
+
+::: {.question}
+(CAS Examen 5, 2004 – Q40 modifiée)
+
+Certaines compagnies utilisent la cote de crédit comme variable de tarification. Évaluez cette variable selon deux critères d’évaluation des variables de tarification.
+
+::: {.solution}
+Plusieurs réponses sont possibles. Par exemple :
+
+- **Contrôlabilité** : cette variable est en quelque sorte contrôlable, puisque les personnes ont un certain contrôle sur leur façon de gérer leurs finances.
+- **Respect de la vie privée** : ce critère n’est pas respecté, puisque la plupart des personnes considèrent leur information de crédit comme confidentielle.
+- **Causalité** : ce critère n’est pas respecté, puisqu’une mauvaise cote de crédit ne cause pas directement des sinistres en assurance.
+- **Objectivité** : la cote de crédit est une donnée objective.
+- **Vérifiabilité** : la cote de crédit peut être vérifiée auprès des institutions de crédit.
+- **Faible coût d’administration** : bien qu’il y ait des frais pour obtenir l’information, ils sont généralement faibles par rapport aux bénéfices associés à son utilisation en tarification.
+:::
+:::
+
+:::: {.question}
+(CAS Examen 5, 2007 – Q44)
+
+Expliquer les concepts suivants.
+
+::: {.question}
+Anti-sélection
+
+::: {.solution}
+L’anti-sélection survient lorsqu’un assureur n’utilise pas une variable de tarification utilisée par d’autres assureurs. Ces derniers attirent alors les assurés présentant les caractéristiques de faibles risques, car leur prime est plus basse. L’assureur qui n’utilise pas la variable se retrouve avec une plus grande proportion de risques élevés et présente donc un taux de sinistre plus élevé.
+:::
+:::
+
+::: {.question}
+Écrémage des risques (*skimming the cream*)
+
+::: {.solution}
+L’écrémage des risques survient lorsqu’un assureur ne reflète pas une caractéristique dans sa tarification, mais l’utilise plutôt dans la souscription de ses risques ou dans ses stratégies de marketing. Ses taux ne sont pas nécessairement plus bas, mais il attire davantage d’assurés présentant des caractéristiques de faibles risques et présente ainsi un taux de sinistre plus bas.
+:::
+:::
+::::
+
+:::: {.question}
+(CAS Examen 5, 2008 – Q28)
+
+Une compagnie d’assurance veut utiliser la couleur du véhicule comme variable de tarification dans son système de classification des risques.
+
+::: {.question}
+Identifier deux critères d’évaluation opérationnels des variables de tarification et évaluer la variable « couleur du véhicule » selon chacun de ces critères.
+
+::: {.solution}
+Plusieurs réponses sont possibles. Par exemple :
+
+- **Objectivité** : la couleur du véhicule peut être sujette à interprétation (par exemple, turquoise peut être considéré vert ou bleu, et orange brûlé peut être considéré orange ou brun).
+- **Vérifiabilité** : la couleur pourrait être obtenue d’une source externe, comme le numéro d’identification du véhicule. Cependant, un véhicule peut être repeint; il faudrait alors l’inspecter visuellement.
+- **Faible coût d’administration** : il peut être coûteux d’obtenir l’information d’une source externe ou d’inspecter visuellement chaque véhicule. Ce coût peut dépasser les bénéfices liés à l’utilisation de la variable.
+:::
+:::
+
+::: {.question}
+Identifier deux critères d’évaluation sociaux des variables de tarification et évaluer la variable « couleur du véhicule » selon chacun de ces critères.
+
+::: {.solution}
+Plusieurs réponses sont possibles. Par exemple :
+
+- **Causalité** : même s’il était possible d’établir un lien statistique entre la couleur du véhicule et les sinistres, il serait peu intuitif pour le public de conclure que la couleur est une cause directe de perte.
+- **Contrôlabilité** : les assurés choisissent la couleur de leur véhicule et ont donc un certain contrôle sur leur classe.
+- **Respect de la vie privée** : comme le véhicule est utilisé en public, sa couleur ne constitue pas une intrusion dans la vie privée.
+:::
+:::
+::::
+
+:::: {.question}
+(CAS Examen 5, 2008 – Q29)
+
+Les compagnies ABC et XYZ chargent des taux adéquats d’un point de vue actuariel et ont des structures de tarification similaires. L’industrie de l’assurance a découvert une nouvelle caractéristique de tarification qui différencie bien les coûts de sinistres prospectifs.
+
+::: {.question}
+Expliquer l’impact de cette nouvelle caractéristique sur les deux compagnies, en supposant que la compagnie ABC l’implante tout en maintenant le même taux moyen, alors que la compagnie XYZ maintient son plan de tarification existant.
+
+::: {.solution}
+ABC offrira un taux moins élevé aux assurés présentant les caractéristiques de faibles risques, ce qui attirera ce type d’assurés. ABC offrira un taux plus élevé aux assurés présentant les caractéristiques de risques élevés, ce qui les incitera à s’assurer chez XYZ, où leur prime sera plus basse. XYZ subira donc de l’anti-sélection et présentera des profits moindres.
+:::
+:::
+
+::: {.question}
+En supposant que les régulateurs interdisent l’implantation de cette nouvelle variable de tarification, identifier et expliquer brièvement deux façons dont les compagnies pourraient bénéficier de cette caractéristique.
+
+::: {.solution}
+
+- La compagnie pourrait appliquer une souscription plus serrée pour ce type de risque.
+- La compagnie pourrait cibler les assurés ayant des caractéristiques de faibles risques dans ses campagnes de marketing.
+:::
+:::
+::::
+
+:::: {.question}
+(CAS Examen 5, 2009 – Q34)
+
+Une compagnie d’assurance considère utiliser un facteur de tarification fondé sur un profil psychologique détaillé.
+
+::: {.question}
+Identifier et expliquer brièvement deux critères désirables d’une variable de tarification.
+
+::: {.solution}
+Plusieurs réponses sont possibles. Par exemple :
+
+- Une variable de tarification doit être peu coûteuse à administrer : le coût d’obtention de l’information ne doit pas surpasser les bénéfices liés à son utilisation.
+- Une variable de tarification doit respecter la vie privée des assurés.
+:::
+:::
+
+::: {.question}
+Évaluer si le facteur de tarification fondé sur le profil psychologique détaillé respecte chacun des critères identifiés en a.
+
+::: {.solution}
+
+- Le coût d’obtention de l’information liée au profil psychologique est probablement très élevé par rapport aux bénéfices.
+- L’utilisation du profil psychologique viole vraisemblablement le critère de respect de la vie privée.
+:::
+:::
+::::
+
+:::: {.question}
+(CAS Examen 5, Printemps 2015 – Q13 modifiée)
+
+Une compagnie d’assurance automobile utilise l’algorithme de tarification suivant :
+
+$$
+\text{Prime} = 1\,000\ \text{\$} \times \text{facteur d’âge du conducteur} \times \text{facteur de groupe de véhicule}
+$$
+
+```{r}
+#| label: exercice9-donnees-age
+#| include: false
+
+q8_unites <- data.frame(
+  "Groupe de véhicule" = c("A", "B", "C", "Total"),
+  "< 25 ans" = c(250, 75, 75, 400),
+  "≥ 25 ans" = c(100, 200, 500, 800),
+  Total = c(350, 275, 575, 1200),
+  check.names = FALSE
+)
+q8_sinistres <- data.frame(
+  "Âge du conducteur" = c("< 25 ans", "≥ 25 ans", "Total"),
+  "Sinistres et frais de règlement de sinistres" = c(235800, 482560, 718360),
+  check.names = FALSE
+)
+q8_relativites <- data.frame(
+  Variable = c("Groupe de véhicule A", "Groupe de véhicule B", "Groupe de véhicule C", "Âge < 25 ans", "Âge ≥ 25 ans"),
+  "Différentiel actuel" = c(0.8, 1, 1.3, 1, 0.75),
+  check.names = FALSE
+)
+q8_expositions_age <- colSums(q8_unites[1:3, 2:3])
+q8_sinistres_age <- q8_sinistres[1:2, 2]
+q8_relativites_vehicule <- q8_relativites[1:3, 2]
+q8_relativites_age <- q8_relativites[4:5, 2]
+q8_moyenne_vehicule <- c(
+  sum(q8_unites[1:3, 2] * q8_relativites_vehicule) / q8_expositions_age[1],
+  sum(q8_unites[1:3, 3] * q8_relativites_vehicule) / q8_expositions_age[2]
+)
+q8_unites_ajustees <- q8_expositions_age * q8_moyenne_vehicule
+q8_primes_courantes <- c(
+  sum(q8_unites[1:3, 2] * 1000 * q8_relativites_vehicule * q8_relativites_age[1]),
+  sum(q8_unites[1:3, 3] * 1000 * q8_relativites_vehicule * q8_relativites_age[2])
+)
+q8_prime_pure <- q8_sinistres_age / q8_expositions_age
+q8_prime_pure_ajustee <- q8_sinistres_age / q8_unites_ajustees
+q8_taux_sinistre <- q8_sinistres_age / q8_primes_courantes
+q8_resultats_age <- data.frame(
+  "Âge du conducteur" = c("< 25 ans (base)", "≥ 25 ans", "Total"),
+  Unités = c(q8_expositions_age, sum(q8_expositions_age)),
+  "Sinistres et frais de règlement de sinistres" = c(q8_sinistres_age, sum(q8_sinistres_age)),
+  "Prime pure" = c(q8_prime_pure, sum(q8_sinistres_age) / sum(q8_expositions_age)),
+  "Différentiel indiqué (prime pure)" = c(q8_prime_pure / q8_prime_pure[1], (sum(q8_sinistres_age) / sum(q8_expositions_age)) / q8_prime_pure[1]),
+  "Différentiel moyen du véhicule" = c(q8_moyenne_vehicule, sum(q8_unites_ajustees) / sum(q8_expositions_age)),
+  "Unités ajustées" = c(q8_unites_ajustees, sum(q8_unites_ajustees)),
+  "Prime pure ajustée" = c(q8_prime_pure_ajustee, sum(q8_sinistres_age) / sum(q8_unites_ajustees)),
+  "Différentiel indiqué (prime pure ajustée)" = c(q8_prime_pure_ajustee / q8_prime_pure_ajustee[1], (sum(q8_sinistres_age) / sum(q8_unites_ajustees)) / q8_prime_pure_ajustee[1]),
+  "Primes au taux courant" = c(q8_primes_courantes, sum(q8_primes_courantes)),
+  "Taux de sinistre" = c(q8_taux_sinistre, sum(q8_sinistres_age) / sum(q8_primes_courantes)),
+  "Facteur de changement" = c(q8_taux_sinistre / q8_taux_sinistre[1], (sum(q8_sinistres_age) / sum(q8_primes_courantes)) / q8_taux_sinistre[1]),
+  "Différentiel actuel" = c(q8_relativites_age, NA_real_),
+  "Différentiel indiqué (taux de sinistre)" = c(q8_taux_sinistre / q8_taux_sinistre[1] * q8_relativites_age, NA_real_),
+  check.names = FALSE
+)
+```
+
+```{r}
+#| label: exercice9-unites-age
+#| output: asis
+
+afficher_table(
+  q8_unites,
+  align = c("l", "r", "r", "r"),
+  formats = list(list(colonnes = 2:4, type = "nombre", digits = 0)),
+  lignes_gras = "derniere",
+  entetes_groupes = list(list(label = "Âge du conducteur", colonnes = 2:3))
+)
+```
+
+```{r}
+#| label: exercice9-sinistres-age
+#| output: asis
+
+afficher_table(
+  q8_sinistres,
+  align = c("l", "r"),
+  formats = list(list(colonnes = 2, type = "montant", symbole = TRUE)),
+  lignes_gras = "derniere"
+)
+```
+
+```{r}
+#| label: exercice9-relativites-age
+#| output: asis
+
+afficher_table(
+  q8_relativites,
+  align = c("l", "r"),
+  formats = list(list(colonnes = 2, type = "nombre", digits = 2))
+)
+```
+
+::: {.question}
+Discuter brièvement de l’utilisation de la variable « âge du conducteur » dans le plan de classification de l’assureur par rapport à deux considérations pertinentes.
+
+::: {.solution}
+Plusieurs considérations sont pertinentes. Par exemple :
+
+- **Objectivité** : l’âge est une variable objective lorsqu’il est déterminé à partir de la date de naissance.
+- **Homogénéité** : les conducteurs de moins de 25 ans sont probablement assez différents des conducteurs de 25 ans et plus, en termes de sinistres, pour justifier des classes distinctes.
+- **Crédibilité** : il y a peu de données dans cet exemple, mais la proportion d’unités dans chaque groupe est raisonnable par rapport au total.
+- **Causalité** : il est intuitif que l’âge, et donc l’expérience, soit lié aux sinistres.
+- **Faible coût d’administration** : cette information est peu coûteuse à obtenir.
+- **Contrôlabilité** : l’âge est hors du contrôle de l’assuré, ce qui peut rendre son utilisation plus difficile à accepter par le public.
+:::
+:::
+
+::: {.question}
+Calculer les différentiels indiqués par âge du conducteur selon la **méthode de la prime pure**.
+
+::: {.solution}
+La classe de base est celle des conducteurs de moins de 25 ans. La prime pure est égale aux sinistres et frais de règlement de sinistres divisés par les unités d’exposition.
+
+```{r}
+#| label: exercice9-prime-pure-age
+#| output: asis
+
+afficher_table(
+  q8_resultats_age[, c(1:5)],
+  align = c("l", "r", "r", "r", "r"),
+  formats = list(
+    list(colonnes = 2, type = "nombre", digits = 0),
+    list(colonnes = 3:4, type = "montant", symbole = TRUE),
+    list(colonnes = 5, type = "nombre", digits = 4)
+  ),
+  lignes_gras = "derniere",
+  entetes_calculs = c("(1)", "(2)", "(3)", "(4) = (3) / (2)", "(5) = (4) / (4) de la base")
+)
+```
+:::
+:::
+
+::: {.question}
+Calculer les différentiels indiqués par âge du conducteur selon la **méthode de la prime pure ajustée**.
+
+::: {.solution}
+On ajuste les unités d’exposition par le différentiel moyen du groupe de véhicule dans chaque groupe d’âge, puis on calcule la prime pure avec les unités ajustées.
+
+```{r}
+#| label: exercice9-prime-pure-ajustee-age
+#| output: asis
+
+afficher_table(
+  q8_resultats_age[, c(1, 3, 6:9)],
+  align = c("l", "r", "r", "r", "r", "r"),
+  formats = list(
+    list(colonnes = 2, type = "montant", symbole = TRUE),
+    list(colonnes = 3, type = "nombre", digits = 4),
+    list(colonnes = 4, type = "nombre", digits = 2),
+    list(colonnes = 5, type = "montant", symbole = TRUE),
+    list(colonnes = 6, type = "nombre", digits = 4)
+  ),
+  lignes_gras = "derniere",
+  entetes_calculs = c("(1)", "(2)", "(3)", "(4) = (3) × unités", "(5) = (2) / (4)", "(6) = (5) / (5) de la base")
+)
+```
+:::
+:::
+
+::: {.question}
+Calculer les différentiels indiqués par âge du conducteur selon la **méthode du taux de sinistre**.
+
+::: {.solution}
+Les primes sont recalculées au taux courant pour chaque unité d’exposition. Le différentiel indiqué est le facteur de changement du taux de sinistre multiplié par le différentiel actuel.
+
+```{r}
+#| label: exercice9-taux-sinistre-age
+#| output: asis
+
+afficher_table(
+  q8_resultats_age[, c(1, 10:14)],
+  align = c("l", "r", "r", "r", "r", "r"),
+  formats = list(
+    list(colonnes = 2, type = "montant", symbole = TRUE),
+    list(colonnes = 3, type = "pourcentage", digits = 1),
+    list(colonnes = 4:6, type = "nombre", digits = 4)
+  ),
+  lignes_gras = "derniere",
+  entetes_calculs = c("(1)", "(2)", "(3) = (2) / (1)", "(4) = (3) / (3) de la base", "(5)", "(6) = (4) × (5)")
+)
+```
+:::
+:::
+::::
+
+::: {.question}
+(CAS Examen 5, Printemps 2014 – Q8 modifiée)
+
+Une compagnie d’assurance automobile utilise seulement deux variables de tarification : le territoire et le sexe de l’assuré. Aucun ajustement des différentiels ne tient compte des frais, et le territoire 2 demeure la classe de base.
+
+```{r}
+#| label: exercice9-donnees-territoire
+#| include: false
+
+q9_unites <- data.frame(
+  Territoire = c("1", "2", "3", "Total"),
+  Homme = c(180, 500, 350, 1030),
+  Femme = c(120, 500, 150, 770),
+  Total = c(300, 1000, 500, 1800),
+  check.names = FALSE
+)
+q9_sinistres <- data.frame(
+  Territoire = c("1", "2", "3", "Total"),
+  "Sinistres et frais de règlement de sinistres" = c(11127, 51335, 32983, 95445),
+  check.names = FALSE
+)
+q9_relativites <- data.frame(
+  Variable = c("Territoire 1", "Territoire 2", "Territoire 3", "Homme", "Femme"),
+  "Différentiel actuel" = c(0.75, 1, 1.125, 1, 0.8),
+  check.names = FALSE
+)
+q9_relativites_territoire <- q9_relativites[1:3, ]
+names(q9_relativites_territoire) <- c("Territoire", "Différentiels actuels")
+q9_relativites_sexe <- q9_relativites[4:5, ]
+names(q9_relativites_sexe) <- c("Sexe de l’assuré", "Différentiels actuels")
+q9_rel_sexe <- q9_relativites[4:5, 2]
+q9_unites_totales <- q9_unites[1:3, 4]
+q9_moyenne_sexe <- (q9_unites[1:3, 2] * q9_rel_sexe[1] + q9_unites[1:3, 3] * q9_rel_sexe[2]) / q9_unites_totales
+q9_unites_ajustees <- q9_unites_totales * q9_moyenne_sexe
+q9_prime_pure_ajustee <- q9_sinistres[1:3, 2] / q9_unites_ajustees
+q9_resultats_territoire <- data.frame(
+  Territoire = c("1", "2 (base)", "3", "Total"),
+  "Différentiel moyen pour le sexe de l’assuré" = c(q9_moyenne_sexe, NA_real_),
+  "Unités d’exposition ajustées" = c(q9_unites_ajustees, sum(q9_unites_ajustees)),
+  "Sinistres et frais de règlement de sinistres" = q9_sinistres[, 2],
+  "Prime pure ajustée" = c(q9_prime_pure_ajustee, sum(q9_sinistres[1:3, 2]) / sum(q9_unites_ajustees)),
+  "Différentiel indiqué" = c(q9_prime_pure_ajustee / q9_prime_pure_ajustee[2], (sum(q9_sinistres[1:3, 2]) / sum(q9_unites_ajustees)) / q9_prime_pure_ajustee[2]),
+  check.names = FALSE
+)
+```
+
+```{r}
+#| label: exercice9-unites-territoire
+#| output: asis
+
+afficher_table(
+  q9_unites,
+  align = c("l", "r", "r", "r"),
+  formats = list(list(colonnes = 2:4, type = "nombre", digits = 0)),
+  lignes_gras = "derniere",
+  entetes_groupes = list(list(label = "Unités acquises", colonnes = 1:4))
+)
+```
+
+```{r}
+#| label: exercice9-sinistres-territoire
+#| output: asis
+
+afficher_table(
+  q9_sinistres,
+  align = c("l", "r"),
+  formats = list(list(colonnes = 2, type = "montant", symbole = TRUE)),
+  lignes_gras = "derniere"
+)
+```
+
+:::: {.columns}
+
+::: {.column}
+
+```{r}
+#| label: exercice9-relativites-territoire
+#| output: asis
+
+afficher_table(
+  q9_relativites_territoire,
+  align = c("l", "r"),
+  formats = list(list(colonnes = 2, type = "nombre", digits = 3))
+)
+```
+
+:::
+
+::: {.column}
+
+```{r}
+#| label: exercice9-relativites-sexe
+#| output: asis
+
+afficher_table(
+  q9_relativites_sexe,
+  align = c("l", "r"),
+  formats = list(list(colonnes = 2, type = "nombre", digits = 3))
+)
+```
+
+:::
+
+::::
+
+Calculer les différentiels indiqués par territoire, en tenant compte de toute distorsion que le sexe de l’assuré peut causer.
+
+::: {.solution}
+La méthode de la prime pure ajustée est plus précise que la méthode de la prime pure dans ce cas-ci, car la distribution selon le sexe de l’assuré n’est pas la même dans tous les territoires :
+
+- Territoire 1 : 60 % d’hommes et 40 % de femmes
+- Territoire 2 : 50 % d’hommes et 50 % de femmes
+- Territoire 3 : 70 % d’hommes et 30 % de femmes
+
+On ajuste les unités de chaque territoire par le différentiel moyen associé au sexe de l’assuré, puis on compare les primes pures ajustées à celle du territoire 2.
+
+```{r}
+#| label: exercice9-prime-pure-ajustee-territoire
+#| output: asis
+
+afficher_table(
+  q9_resultats_territoire,
+  align = c("l", "r", "r", "r", "r", "r"),
+  formats = list(
+    list(colonnes = 2, type = "nombre", digits = 4),
+    list(colonnes = 3, type = "nombre", digits = 0),
+    list(colonnes = 4:5, type = "montant", symbole = TRUE),
+    list(colonnes = 6, type = "nombre", digits = 4)
+  ),
+  lignes_gras = "derniere",
+  entetes_calculs = c("(1)", "(2)", "(3) = unités × (2)", "(4)", "(5) = (4) / (3)", "(6) = (5) / (5) du territoire 2")
+)
+```
+:::
+:::
+
+::: {.question}
+(CAS Examen 5, 2012 – Q13 modifiée)
+
+Avec l’information suivante, utiliser la méthode du taux de sinistre pour calculer les différentiels indiqués par territoire. Les classes « territoire 1 » et « aucun rabais pour bon conducteur » demeurent les classes de base.
+
+```{r}
+#| label: exercice9-donnees-taux-sinistre
+#| include: false
+
+q10_taux <- data.frame(
+  Variable = c("Prime de base", "Rabais pour bon conducteur", "Facteur territoire 1", "Facteur territoire 2"),
+  "Taux du 2011/01/01" = c(200, 0.85, 1, 1.1),
+  "Taux du 2011/07/01" = c(250, 0.75, 1, 1.1),
+  check.names = FALSE
+)
+q10_unites <- data.frame(
+  Territoire = c("1", "2", "Total"),
+  Oui = c(750, 600, 1350),
+  Non = c(250, 150, 400),
+  Total = c(1000, 750, 1750),
+  check.names = FALSE
+)
+q10_sinistres <- data.frame(
+  Territoire = c("1", "2", "Total"),
+  Oui = c(90000, 80000, 170000),
+  Non = c(40000, 20000, 60000),
+  Total = c(130000, 100000, 230000),
+  check.names = FALSE
+)
+q10_prime_base <- q10_taux[1, 3]
+q10_rabais <- q10_taux[2, 3]
+q10_rel_territoire <- q10_taux[3:4, 3]
+q10_primes_courantes <- q10_unites[1:2, 2] * q10_prime_base * q10_rabais * q10_rel_territoire +
+  q10_unites[1:2, 3] * q10_prime_base * q10_rel_territoire
+q10_sinistres_totaux <- q10_sinistres[1:2, 4]
+q10_taux_sinistre <- q10_sinistres_totaux / q10_primes_courantes
+q10_facteur_changement <- q10_taux_sinistre / q10_taux_sinistre[1]
+q10_resultats_taux_sinistre <- data.frame(
+  Territoire = c("1 (base)", "2", "Total"),
+  "Primes au taux courant" = c(q10_primes_courantes, sum(q10_primes_courantes)),
+  "Sinistres et frais de règlement de sinistres" = c(q10_sinistres_totaux, sum(q10_sinistres_totaux)),
+  "Taux de sinistre" = c(q10_taux_sinistre, sum(q10_sinistres_totaux) / sum(q10_primes_courantes)),
+  "Facteur de changement" = c(q10_facteur_changement, (sum(q10_sinistres_totaux) / sum(q10_primes_courantes)) / q10_taux_sinistre[1]),
+  "Différentiel courant" = c(q10_rel_territoire, NA_real_),
+  "Différentiel indiqué" = c(q10_facteur_changement * q10_rel_territoire, NA_real_),
+  check.names = FALSE
+)
+```
+
+```{r}
+#| label: exercice9-taux
+#| output: asis
+
+afficher_table(
+  q10_taux,
+  align = c("l", "r", "r"),
+  formats = list(list(colonnes = 2:3, type = "nombre", digits = 2))
+)
+```
+
+```{r}
+#| label: exercice9-unites-bon-conducteur
+#| output: asis
+
+afficher_table(
+  q10_unites,
+  align = c("l", "r", "r", "r"),
+  formats = list(list(colonnes = 2:4, type = "nombre", digits = 0)),
+  lignes_gras = "derniere",
+  entetes_groupes = list(list(label = "Rabais pour bon conducteur", colonnes = 2:3))
+)
+```
+
+```{r}
+#| label: exercice9-sinistres-bon-conducteur
+#| output: asis
+
+afficher_table(
+  q10_sinistres,
+  align = c("l", "r", "r", "r"),
+  formats = list(list(colonnes = 2:4, type = "montant", symbole = TRUE)),
+  lignes_gras = "derniere",
+  entetes_groupes = list(list(label = "Rabais pour bon conducteur", colonnes = 2:3))
+)
+```
+
+L’algorithme de tarification est le suivant :
+
+$$
+\text{Prime} = \text{Prime de base} \times \text{facteur de rabais pour bon conducteur} \times \text{facteur de territoire}
+$$
+
+::: {.solution}
+La méthode du taux de sinistre exige de calculer les primes au taux courant pour chaque territoire. On utilise les taux les plus récents, soit ceux du 2011/07/01, et la prime de chaque unité d’exposition est recalculée à l’aide de l’algorithme de tarification.
+
+```{r}
+#| label: exercice9-resultats-taux-sinistre
+#| output: asis
+
+afficher_table(
+  q10_resultats_taux_sinistre,
+  align = c("l", "r", "r", "r", "r", "r", "r"),
+  formats = list(
+    list(colonnes = 2:3, type = "montant", symbole = TRUE),
+    list(colonnes = 4, type = "pourcentage", digits = 1),
+    list(colonnes = 5:7, type = "nombre", digits = 4)
+  ),
+  lignes_gras = "derniere",
+  entetes_calculs = c("(1)", "(2)", "(3)", "(4) = (3) / (2)", "(5) = (4) / (4) du territoire 1", "(6)", "(7) = (5) × (6)")
+)
+```
+:::
+:::

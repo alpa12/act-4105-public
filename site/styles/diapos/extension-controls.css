@@ -1,0 +1,49 @@
+.reveal {
+  --act-extension-controls-left: clamp(0.72rem, 1.8vw, 1.2rem);
+  --act-extension-controls-bottom: clamp(0.72rem, 2.2vh, 1.25rem);
+  --act-extension-controls-gap: clamp(0.42rem, 0.9vw, 0.58rem);
+  --act-extension-controls-z-index: 60;
+}
+
+.reveal .act-reveal-extension-controls {
+  position: fixed !important;
+  top: auto !important;
+  right: auto !important;
+  bottom: var(--act-extension-controls-bottom) !important;
+  left: var(--act-extension-controls-left) !important;
+  z-index: var(--act-extension-controls-z-index) !important;
+  display: flex !important;
+  flex-wrap: nowrap;
+  gap: var(--act-extension-controls-gap);
+  align-items: center;
+  justify-content: flex-start;
+  pointer-events: none;
+}
+
+.reveal .act-reveal-extension-controls > .act-reveal-extension-control {
+  position: static !important;
+  top: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  left: auto !important;
+  z-index: auto !important;
+  display: inline-flex !important;
+  gap: var(--act-extension-controls-gap);
+  align-items: center;
+  justify-content: center;
+  margin: 0 !important;
+  pointer-events: auto;
+}
+
+.reveal .act-reveal-extension-controls > .act-reveal-extension-control > * {
+  pointer-events: auto;
+}
+
+.reveal .act-reveal-extension-controls .slide-chalkboard-buttons > span,
+.reveal .act-reveal-extension-controls > .slide-chalkboard-buttons > span {
+  margin-right: 0 !important;
+}
+
+html.print-pdf .reveal .act-reveal-extension-controls {
+  display: none !important;
+}

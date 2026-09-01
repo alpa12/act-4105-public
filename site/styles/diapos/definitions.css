@@ -1,0 +1,32 @@
+.reveal .slides section dl {
+  margin: 0.65em 0;
+  font-family: inherit;
+  font-weight: lighter;
+}
+
+.reveal .slides section dt {
+  font-family: inherit;
+  font-weight: lighter;
+  margin-top: 0.65em;
+}
+
+.reveal .slides section dd {
+  font-family: inherit;
+  font-weight: lighter;
+  margin-left: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.reveal .slides section dd p {
+  margin: 0;
+}
+
+.reveal .slides section dt em,
+.reveal .slides section dd em {
+  font-weight: lighter;
+}
+
+.reveal .slides section dt strong,
+.reveal .slides section dd strong {
+  font-weight: 700;
+}

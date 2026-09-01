@@ -1,0 +1,16 @@
+Package: act4105course
+Title: ACT-4105 Course Site Environment
+Version: 0.0.0.9000
+Description: Declares the R dependencies needed to render and validate the
+    ACT-4105 / ACT-6006 Quarto course site.
+License: MIT
+Encoding: UTF-8
+Imports:
+    here,
+    knitr,
+    rmarkdown,
+    tarifr,
+    testthat,
+    yaml
+Remotes:
+    local::tarifr

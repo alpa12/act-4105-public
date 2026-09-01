@@ -1,0 +1,123 @@
+project:
+  type: website
+  resources:
+    - mathjax-config.js
+    - assets/vendor/**
+  preview:
+    port: 6108
+  render:
+    - "*.qmd"
+    - "cours/*.qmd"
+    - "chapitres/**/*.qmd"
+
+quarto-required: "=1.10.17"
+
+lang: fr
+
+base-year: 2026
+
+website:
+  title: "Tarification en assurance IARD"
+  description: "Site du cours de tarification en assurance IARD (ACT-4105 / ACT-6006) de l'École d'Actuariat de l'Université Laval"
+  # TODO site-url: https://posit-conf-2025.github.io/llm
+
+  favicon: assets/ulaval-favicon.svg
+
+  # TODO repo-url: https://github.com/posit-conf-2025/llm
+  # repo-subdir: site
+  # repo-actions: [edit, issue]
+
+  navbar:
+    title: "ACT-4105 / ACT-6006"
+    left:
+      - href: index.qmd
+        text: Accueil
+      - text: Cours
+        menu:
+          - href: cours/index.qmd
+            text: Toutes les séances
+          - href: cours/01.qmd
+            text: "Cours 1 : Introduction à la tarification"
+          - href: cours/02.qmd
+            text: "Cours 2 : Données et Base d’exposition"
+          - href: cours/03.qmd
+            text: "Cours 3 : Primes"
+          - href: cours/04.qmd
+            text: "Cours 4 : Sinistres et frais de règlement de sinistres"
+          - href: cours/05.qmd
+            text: "Cours 5 : Autres frais et profit et Indiqué global"
+          - href: cours/06.qmd
+            text: "Cours 6 : Classification traditionnelle des risques"
+          - href: cours/07.qmd
+            text: "Cours 7 : Examen 1"
+      - text: Notes
+        menu:
+          - href: chapitres/index.qmd
+            text: Tous les chapitres
+          - href: chapitres/01-introduction/diapos.qmd
+            text: "Chapitre 1 : Introduction"
+          - href: chapitres/02-principes-tarif-cas/diapos.qmd
+            text: "Chapitre 2 : Principes de tarification de la CAS"
+          - href: chapitres/03-donnees/diapos.qmd
+            text: "Chapitre 3 : Données pour la tarification"
+          - href: chapitres/04-base-exposition/diapos.qmd
+            text: "Chapitre 4 : Base d’exposition"
+          - href: chapitres/05-primes/diapos.qmd
+            text: "Chapitre 5 : Primes"
+          - href: chapitres/06-sinistres/diapos.qmd
+            text: "Chapitre 6 : Sinistres et frais de règlement de sinistres"
+          - href: chapitres/07-autres-frais-et-profit/diapos.qmd
+            text: "Chapitre 7 : Autres frais et profit"
+          - href: chapitres/08-indique-global/diapos.qmd
+            text: "Chapitre 8 : Indiqué global"
+          - href: chapitres/09-classification-traditionnelle-des-risques/diapos.qmd
+            text: "Chapitre 9 : Classification traditionnelle des risques"
+      - text: Exercices
+        menu:
+          - href: chapitres/index.qmd
+            text: Tous les chapitres
+          - href: chapitres/01-introduction/exercices.qmd
+            text: "Chapitre 1 : Introduction"
+          - href: chapitres/02-principes-tarif-cas/exercices.qmd
+            text: "Chapitre 2 : Principes de tarification de la CAS"
+          - href: chapitres/03-donnees/exercices.qmd
+            text: "Chapitre 3 : Données pour la tarification"
+          - href: chapitres/04-base-exposition/exercices.qmd
+            text: "Chapitre 4 : Base d’exposition"
+          - href: chapitres/05-primes/exercices.qmd
+            text: "Chapitre 5 : Primes"
+          - href: chapitres/06-sinistres/exercices.qmd
+            text: "Chapitre 6 : Sinistres et frais de règlement de sinistres"
+          - href: chapitres/07-autres-frais-et-profit/exercices.qmd
+            text: "Chapitre 7 : Autres frais et profit"
+          - href: chapitres/08-indique-global/exercices.qmd
+            text: "Chapitre 8 : Indiqué global"
+          - href: chapitres/09-classification-traditionnelle-des-risques/exercices.qmd
+            text: "Chapitre 9 : Classification traditionnelle des risques"
+    right:
+      - href: licence.qmd
+        text: Licence et crédits
+
+  page-footer:
+    center: "Alexandre Parent, 2026 · [Licence et crédits](/licence.qmd)"
+    right: "En cas de différence, le site de cours sur la plateforme Brio prévaut."
+
+filters:
+  - filters/chapter-pagetitle.lua
+  - filters/course-overview.lua
+  - filters/notes-de-cours.lua
+  - filters/exercices-questions.lua
+  - filters/exercise-study-view.lua
+
+format:
+  html:
+    css: styles/site.css
+    html-math-method:
+      method: mathjax
+      url: "/assets/vendor/mathjax/tex-mml-chtml-mathjax-newcm.js"
+    include-before-body:
+      - text: |
+          <script src="/mathjax-config.js"></script>
+    include-after-body:
+      - includes/site-behavior.html
+      - includes/exercise-study-mode.html

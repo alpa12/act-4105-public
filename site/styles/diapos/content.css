@@ -1,0 +1,142 @@
+.reveal .compact-slide-image img {
+  height: auto !important;
+  width: min(42%, 26rem) !important;
+  max-height: 35vh;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+/*
+ * Knitr writes RevealJS figures to figure-revealjs/. Size these wide plots
+ * from the card's content width instead of RevealJS's r-stretch calculation.
+ */
+.reveal .slides section img[data-src*="figure-revealjs/"],
+.reveal .slides section img[src*="figure-revealjs/"] {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+}
+
+.reveal .slides section mjx-container[display="true"] {
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.reveal .slides section .english-subtitle-text {
+  display: inline-block;
+  margin-left: 0.45em;
+  color: inherit;
+  font-size: 0.72em;
+  font-style: italic;
+  font-weight: inherit;
+  opacity: 0.92;
+  white-space: normal;
+}
+
+/* Quarto reduces callout text to 0.7em by default. Keep callouts at the
+ * selected slide body size so .text-* classes remain the author's control. */
+.reveal .slides section div.callout {
+  font-size: inherit;
+}
+
+.reveal .MathJax_Display {
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+/*
+ * Plain Pandoc tables use the course's compact presentation treatment.
+ * smart-typst-tables supplies its own RevealJS scale, layout and cell
+ * spacing; applying these rules to both would compound their font scaling.
+ */
+.reveal table:not(.smart-table) {
+  box-sizing: border-box;
+  width: fit-content !important;
+  max-width: 100%;
+  margin: 0.55em auto;
+  font-size: 0.8em !important;
+  line-height: 1.12;
+}
+
+/*
+ * A text-size class may be applied directly to a Markdown table. The table
+ * retains its 80% relationship to the selected body size.
+ */
+.reveal table:not(.smart-table).text-xs,
+.reveal table:not(.smart-table).text-smaller,
+.reveal table:not(.smart-table).smaller,
+.reveal table:not(.smart-table).text-small,
+.reveal table:not(.smart-table).text-medium,
+.reveal table:not(.smart-table).text-large,
+.reveal table:not(.smart-table).text-larger,
+.reveal table:not(.smart-table).text-xl {
+  font-size: calc(
+    var(--r-main-font-size) * var(--act-body-text-scale) * var(--act-text-scale) * 0.8
+  ) !important;
+}
+
+.reveal table:not(.smart-table) th,
+.reveal table:not(.smart-table) td {
+  padding: 0.08em 0.32em;
+}
+
+.reveal table:not(.smart-table) th {
+  white-space: nowrap;
+}
+
+.reveal table:not(.smart-table) th > p,
+.reveal table:not(.smart-table) td > p {
+  margin: 0;
+  line-height: inherit;
+  white-space: nowrap;
+}
+
+/* Pandoc may retain paragraph wrappers in transformed cells. They should not
+ * add block margins, but wrapping remains the extension's own decision. */
+.reveal table.smart-table th > p,
+.reveal table.smart-table td > p {
+  margin: 0;
+  line-height: inherit;
+}
+
+/* smart-typst-tables establishes RevealJS table type on its wrapper. When a
+ * text-scale class is placed directly on a table, keep its established course
+ * ratio relative to that wrapper instead of resetting it against Reveal's
+ * 40px base type. */
+.reveal .slides section table.smart-table.text-xs {
+  font-size: 0.7513em;
+}
+
+.reveal .slides section table.smart-table.text-smaller,
+.reveal .slides section table.smart-table.smaller {
+  font-size: 0.8264em;
+}
+
+.reveal .slides section table.smart-table.text-small {
+  font-size: 0.9091em;
+}
+
+.reveal .slides section table.smart-table.text-medium {
+  font-size: 1em;
+}
+
+.reveal .slides section table.smart-table.text-large {
+  font-size: 1.1em;
+}
+
+.reveal .slides section table.smart-table.text-larger {
+  font-size: 1.21em;
+}
+
+.reveal .slides section table.smart-table.text-xl {
+  font-size: 1.331em;
+}
+
+.reveal .slides section table.smart-table.text-scale {
+  font-size: calc(1em * var(--act-text-scale, 1));
+}
+.reveal .underline {
+  text-decoration: underline;
+}

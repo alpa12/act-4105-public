@@ -1,0 +1,376 @@
+.reveal p,
+.reveal li,
+.reveal dt,
+.reveal dd {
+  text-wrap: pretty;
+}
+
+.reveal div.center {
+  text-align: center;
+}
+
+.reveal strong {
+  color: var(--act-charcoal);
+  font-weight: 500;
+}
+
+.reveal a {
+  color: var(--act-accent);
+  text-decoration-color: rgba(143, 17, 23, 0.48);
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.12em;
+}
+
+.reveal a:hover {
+  color: var(--act-laval-red);
+  text-decoration-color: var(--act-laval-red);
+}
+
+.reveal blockquote {
+  margin: 0.72em 0 1em;
+  padding: 0.82em 1.15em 0.9em 1.2em;
+  border: 1px solid rgba(143, 17, 23, 0.16);
+  border-left: 0.24em solid var(--act-accent);
+  border-radius: 0.18em 0.45em 0.45em 0.18em;
+  background:
+    linear-gradient(110deg, rgba(253, 231, 232, 0.78), rgba(255, 242, 191, 0.42));
+  box-shadow: 0 0.22em 0.7em rgba(31, 35, 40, 0.07);
+  color: var(--act-charcoal);
+  font-size: 0.96em;
+  font-weight: 500;
+  line-height: 1.22;
+}
+
+.reveal blockquote p {
+  margin: 0;
+}
+
+.reveal ul,
+.reveal ol {
+  margin-top: 0.28em;
+}
+
+.reveal li {
+  margin-bottom: 0.17em;
+}
+
+.reveal ul li::marker,
+.reveal ol li::marker {
+  color: var(--act-accent);
+}
+
+.reveal li > ul > li::before {
+  content: "→";
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: var(--act-accent);
+  width: 1em;
+  margin: 0;
+}
+
+.reveal li > ul > li {
+  position: relative;
+  list-style: none !important;
+  padding-left: 1.5em;
+}
+
+.reveal li > ul {
+  margin-left: -0.8em;
+}
+
+.reveal li > ul > li::marker {
+  content: none !important;
+}
+
+/* The remember-slide filter wraps each revealed item in a div. Its nested
+ * lists therefore do not match the ordinary `li > ul` rule above, while the
+ * filter also restores a disc marker. This also applies to a list placed in
+ * a Quarto column. Keep the clean-theme arrow, but remove that competing
+ * marker and use the course burgundy for recap sub-points. */
+.reveal .slides section:is(.remember-slide, .remember-slides, .remember-slides-recap)
+  .remember-slide-content li > div > ul {
+  list-style-type: none !important;
+}
+
+.reveal .slides section:is(.remember-slide, .remember-slides, .remember-slides-recap)
+  .remember-slide-content li > div > ul > li::before {
+  color: var(--act-accent);
+}
+
+.reveal .slides section:is(.remember-slide, .remember-slides, .remember-slides-recap)
+  .remember-slide-content li > div > .columns .column > ul {
+  list-style-type: none !important;
+}
+
+.reveal .slides section:is(.remember-slide, .remember-slides, .remember-slides-recap)
+  .remember-slide-content li > div > .columns .column > ul > li {
+  position: relative;
+  list-style: none !important;
+  padding-left: 1.5em;
+}
+
+.reveal .slides section:is(.remember-slide, .remember-slides, .remember-slides-recap)
+  .remember-slide-content li > div > .columns .column > ul > li::before {
+  content: "→";
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: var(--act-accent);
+  width: 1em;
+  margin: 0;
+}
+
+.reveal .slides section:is(.remember-slide, .remember-slides, .remember-slides-recap)
+  .remember-slide-content li > div > .columns .column > ul > li::marker {
+  content: none !important;
+}
+
+/* Smart tables own their visual profile through CSS variables injected by
+ * smart-typst-tables. Keep the clean-theme skin for ordinary Pandoc tables
+ * only, so the extension can preserve its calculated geometry and profile. */
+.reveal table:not(.smart-table) {
+  border-collapse: collapse;
+  border: 1px solid rgba(37, 40, 45, 0.16);
+  border-radius: 0.42rem;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 0.14rem 0.36rem rgba(31, 35, 40, 0.05);
+  font-variant-numeric: tabular-nums;
+  overflow: hidden;
+}
+
+.reveal table:not(.smart-table) th {
+  background: linear-gradient(180deg, #fdebed 0%, var(--act-accent-soft) 100%);
+  color: var(--act-charcoal);
+  font-weight: 650;
+  letter-spacing: 0.01em;
+}
+
+.reveal table:not(.smart-table) th,
+.reveal table:not(.smart-table) td {
+  border-color: rgba(31, 35, 40, 0.12);
+}
+
+.reveal .slides table:not(.smart-table) thead th {
+  border-bottom: 0.12em solid rgba(143, 17, 23, 0.26);
+}
+
+.reveal .slides table:not(.smart-table) {
+  border-bottom: 1px solid rgba(37, 40, 45, 0.16);
+}
+
+.reveal .slides table:not(.smart-table) tbody tr + tr td {
+  border-top: 1px solid rgba(37, 40, 45, 0.09);
+}
+
+.reveal .slides table:not(.smart-table) tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.reveal .slides table:not(.smart-table) tbody tr:nth-child(even) {
+  background: rgba(37, 40, 45, 0.025);
+}
+
+/* The Anti-selection lists align icons and statements without table chrome. */
+.reveal .no-borders-table-list table {
+  margin: 0.22em 0 0.62em;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.reveal .no-borders-table-list thead {
+  display: none;
+}
+
+.reveal .no-borders-table-list table th,
+.reveal .no-borders-table-list table td {
+  padding: 0.04em 0;
+  border: 0;
+  background: transparent;
+  vertical-align: middle;
+}
+
+.reveal .no-borders-table-list table td:first-child {
+  width: 4.5rem;
+  padding-right: 0.45rem;
+}
+
+.reveal .no-borders-table-list table p {
+  margin: 0;
+}
+
+.reveal .no-borders-table-list .smart-table-scroll,
+.reveal .no-borders-table-list .smart-table-wrap,
+.reveal .no-borders-table-list table.smart-table {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.reveal .no-borders-table-list .smart-table-wrap {
+  margin: 0.22em 0 0.62em;
+}
+
+.reveal .no-borders-table-list table.smart-table tbody tr,
+.reveal .no-borders-table-list table.smart-table tbody tr:nth-child(even),
+.reveal .no-borders-table-list table.smart-table tbody td {
+  border: 0;
+  background: transparent;
+}
+
+.reveal .no-borders-table-list table.smart-table tbody td {
+  padding: 0.04em 0;
+  vertical-align: middle;
+}
+
+.reveal .no-borders-table-list table.smart-table tbody td:first-child {
+  width: 4.5rem !important;
+  padding-right: 0.45rem;
+}
+
+.reveal .no-borders-table-list table.smart-table tbody td:nth-child(2) {
+  text-align: left !important;
+}
+
+/* The extension owns smart-table layout; the course theme only supplies this
+ * visual profile. Its translucent paper surface keeps the table light inside
+ * the clean slide card while using the Laval red as a restrained accent. */
+.reveal .smart-table-wrap.smart-table-target-reveal {
+  border: 1px solid rgba(143, 17, 23, 0.18);
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: none;
+}
+
+/* These lists deliberately use smart-table geometry without its frame. */
+.reveal .no-borders-table-list .smart-table-wrap.smart-table-target-reveal {
+  border: 0 !important;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+/* `clean` gives every table and its last row a grey bottom rule. Smart tables
+ * already have their own row rules and their wrapper supplies the frame, so
+ * suppress that inherited rule rather than adding a second table baseline. */
+.reveal .slides table.smart-table,
+.reveal .slides table.smart-table tbody tr:last-child > th,
+.reveal .slides table.smart-table tbody tr:last-child > td {
+  border-bottom: 0;
+}
+
+.reveal .smart-table.smart-table-target-reveal {
+  --smart-table-header-fill: linear-gradient(
+    180deg,
+    rgba(215, 25, 32, 0.14) 0%,
+    rgba(143, 17, 23, 0.1) 100%
+  );
+  /* The multi-level treatment moves this gradient to the full `thead`, so it
+   * is painted once from top to bottom instead of restarting in each cell. */
+  --smart-table-grouped-header-fill: transparent;
+  --smart-table-group-boundary-color: rgba(143, 17, 23, 0.28);
+  --smart-table-group-boundary-width: 1px;
+  --smart-table-stripe-fill: rgba(143, 17, 23, 0.035);
+  --smart-table-header-stroke: rgba(143, 17, 23, 0.5);
+  --smart-table-row-stroke: rgba(37, 40, 45, 0.1);
+  --smart-table-header-stroke-width: 2px;
+  --smart-table-row-stroke-width: 1px;
+  color: var(--act-charcoal);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Paint one continuous gradient across every physical row of a grouped
+ * header. The extension's per-cell fill is intentionally made transparent so
+ * that the section background remains visible through each header cell. */
+.reveal .smart-table.smart-table-target-reveal.smart-table-has-grouped-headers thead {
+  background: var(--smart-table-header-fill);
+}
+
+.reveal .smart-table.smart-table-target-reveal.smart-table-has-grouped-headers thead th {
+  background: transparent !important;
+}
+
+/* Calculation-header tables receive their semantic row classes from
+ * smart-typst-tables. Paint their gradient once across both `labels` and
+ * `calculations`, then let the final calculation row carry the header rule. */
+.reveal .smart-table.smart-table-target-reveal.tableau-colonnes-calculees thead {
+  background: var(--smart-table-header-fill);
+}
+
+.reveal .smart-table.smart-table-target-reveal.tableau-colonnes-calculees thead th {
+  background: transparent !important;
+  text-align: center !important;
+}
+
+.reveal .tableau-calculs-sur-une-ligne
+  .smart-table-header-row-calculations > th {
+  font-weight: 650;
+  white-space: nowrap;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+/* Delineate a merged group from its child labels, without drawing a false
+ * level boundary below an ordinary or empty header cell on its left. */
+.reveal .smart-table.smart-table-target-reveal.smart-table-has-grouped-headers
+  thead tr:not(:last-child) > th.smart-table-header-group:not([rowspan]) {
+  border-bottom: 1px solid var(--smart-table-group-boundary-color) !important;
+}
+
+/* Group boundaries explain an internal span; the table frame already marks
+ * its outer edges, so do not duplicate those two vertical lines. */
+.reveal .smart-table.smart-table-target-reveal.smart-table-has-grouped-headers
+  thead tr > th:first-child.smart-table-header-group-start {
+  border-inline-start: 0;
+}
+
+.reveal .smart-table.smart-table-target-reveal.smart-table-has-grouped-headers
+  thead tr > th:last-child.smart-table-header-group-end {
+  border-inline-end: 0;
+}
+
+.reveal .smart-table.smart-table-target-reveal thead tr:first-child th:first-child {
+  border-top-left-radius: calc(0.5rem - 1px);
+}
+
+.reveal .smart-table.smart-table-target-reveal thead tr:first-child th:last-child {
+  border-top-right-radius: calc(0.5rem - 1px);
+}
+
+.reveal .smart-table.smart-table-target-reveal tbody tr:last-child td:first-child {
+  border-bottom-left-radius: calc(0.5rem - 1px);
+}
+
+.reveal .smart-table.smart-table-target-reveal tbody tr:last-child td:last-child {
+  border-bottom-right-radius: calc(0.5rem - 1px);
+}
+
+/* The extension's 58vh cap for tables inside Quarto columns is too short on
+ * the clean card: a readable 0.8em table can fit in the available slide area
+ * but is needlessly put in a vertical scrollbar. Keep the configured Reveal
+ * ceiling instead. Deliberately scrollable slides retain the extension's
+ * unrestricted behaviour. */
+.reveal .slides section:not(.scrollable) .columns .smart-table-scroll.smart-table-reveal {
+  max-height: var(--smart-table-reveal-max-height, 70vh);
+}
+
+.reveal .callout {
+  border: 1px solid rgba(37, 40, 45, 0.16);
+  border-left: 0.22rem solid var(--act-accent);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 0.25rem 0.7rem rgba(31, 35, 40, 0.06);
+}
+
+.reveal .callout.callout-tip {
+  border-left-color: var(--act-copper);
+  background: #fff;
+}
+
+.reveal .callout-title-container {
+  color: var(--act-charcoal);
+  font-weight: 500;
+}

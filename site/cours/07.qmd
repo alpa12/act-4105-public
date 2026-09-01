@@ -1,0 +1,7 @@
+---
+title: "Examen 1"
+description: "Premier examen du cours."
+label: "Examen 1"
+week-id: 7
+chapitres: []
+---

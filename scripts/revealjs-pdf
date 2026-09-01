@@ -1,0 +1,180 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SRC=""
+OUT=""
+WAIT=15000
+RENDER=1
+OUTLINE_H1_H2=0
+
+usage() {
+  cat <<'EOF'
+Usage: scripts/revealjs-pdf INPUT [options]
+
+Options:
+  -o, --out FILE       Output PDF path
+      --wait MS        Time to wait for RevealJS before printing (default: 15000)
+      --no-render      Use an existing HTML render for a .qmd input
+      --outline-h1-h2  Embed an H1/H2 navigation outline in the PDF
+  -h, --help           Show this help
+EOF
+}
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -o|--out)
+      [[ $# -ge 2 ]] || { echo "revealjs-pdf: --out requires a path" >&2; exit 2; }
+      OUT="$2"
+      shift 2
+      ;;
+    --wait)
+      [[ $# -ge 2 ]] || { echo "revealjs-pdf: --wait requires milliseconds" >&2; exit 2; }
+      WAIT="$2"
+      shift 2
+      ;;
+    --no-render)
+      RENDER=0
+      shift
+      ;;
+    --outline-h1-h2)
+      OUTLINE_H1_H2=1
+      shift
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    --*)
+      echo "revealjs-pdf: unknown option: $1" >&2
+      exit 2
+      ;;
+    *)
+      [[ -z "$SRC" ]] || { echo "revealjs-pdf: only one input is supported" >&2; exit 2; }
+      SRC="$1"
+      shift
+      ;;
+  esac
+done
+
+[[ -n "$SRC" ]] || { echo "revealjs-pdf: need a .qmd or .html input" >&2; exit 2; }
+[[ "$WAIT" =~ ^[0-9]+$ ]] || { echo "revealjs-pdf: --wait must be a number of milliseconds" >&2; exit 2; }
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+PREFLIGHT="$PROJECT_ROOT/site/includes/revealjs-print-preflight.html"
+QUARTO_CMD="$PROJECT_ROOT/scripts/quarto"
+
+CHROME="${CSK_CHROME:-}"
+if [[ -z "$CHROME" ]]; then
+  CHROME="$(find "$HOME/.local/share/quarto/chromium" -type f \
+    \( -name chrome -o -name chromium -o -name chrome.exe -o -name Chromium \) \
+    2>/dev/null | head -1 || true)"
+fi
+if [[ -z "$CHROME" || ! -x "$CHROME" ]]; then
+  for candidate in \
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+    "$HOME"/.cache/ms-playwright/chromium-*/chrome-linux64/chrome \
+    "$HOME"/.cache/ms-playwright/chromium-*/chrome-linux/chrome \
+    /usr/bin/chromium \
+    /usr/bin/chromium-browser \
+    /usr/bin/google-chrome; do
+    [[ -x "$candidate" ]] && { CHROME="$candidate"; break; }
+  done
+fi
+[[ -n "$CHROME" && -x "$CHROME" ]] || {
+  echo "revealjs-pdf: no Chrome/Chromium found; set CSK_CHROME=/path/to/chrome" >&2
+  exit 3
+}
+
+case "$SRC" in
+  *.qmd)
+    if [[ "$RENDER" -eq 1 ]]; then
+      echo "revealjs-pdf: rendering $SRC" >&2
+      RLOG="$(mktemp)"
+      "$QUARTO_CMD" render "$SRC" 2>&1 | tee "$RLOG" >&2
+      REPORTED="$(grep -aoE 'Output created: .+' "$RLOG" | tail -1 | sed 's/^Output created: //')"
+      rm -f "$RLOG"
+      HTML=""
+      for base in "." "$(dirname "$SRC")" "$(dirname "$SRC")/.."; do
+        [[ -n "$REPORTED" && -f "$base/$REPORTED" ]] && { HTML="$base/$REPORTED"; break; }
+      done
+      [[ -n "$HTML" ]] || HTML="$(find "$(dirname "$SRC")" -name "$(basename "${SRC%.qmd}").html" -type f 2>/dev/null | head -1)"
+    else
+      HTML="${SRC%.qmd}.html"
+    fi
+    ;;
+  *.html)
+    HTML="$SRC"
+    ;;
+  *)
+    echo "revealjs-pdf: input must be a .qmd or .html file" >&2
+    exit 2
+    ;;
+esac
+
+[[ -f "$HTML" ]] || { echo "revealjs-pdf: HTML output not found: $HTML" >&2; exit 4; }
+[[ -n "$OUT" ]] || OUT="${HTML%.html}.pdf"
+
+DIR="$(cd "$(dirname "$HTML")" && pwd)"
+FILE="$(basename "$HTML")"
+HTML="$DIR/$FILE"
+OUT="$(cd "$(dirname "$OUT")" && pwd)/$(basename "$OUT")"
+
+# Serve from the nearest Quarto output root that owns site_libs, so chapter
+# links to shared styles, scripts and vendor assets resolve exactly as they do
+# in the rendered site.
+SERVER_ROOT="$DIR"
+SERVER_FILE="$FILE"
+candidate="$DIR"
+while [[ "$candidate" != "/" ]]; do
+  if [[ -d "$candidate/site_libs" ]]; then
+    SERVER_ROOT="$candidate"
+    root_length=${#SERVER_ROOT}
+    SERVER_FILE="${HTML:$((root_length + 1))}"
+    break
+  fi
+  candidate="$(dirname "$candidate")"
+done
+
+PORTFILE="$(mktemp)"
+CHROME_PROFILE="$(mktemp -d -t revealjs-pdf-chrome.XXXXXX)"
+node "$PROJECT_ROOT/scripts/lib/revealjs/static-server.mjs" \
+  --root "$SERVER_ROOT" \
+  --preflight "$PREFLIGHT" \
+  --inject-preflight >"$PORTFILE" 2>/dev/null &
+SRV_PID=$!
+
+cleanup() {
+  kill "$SRV_PID" 2>/dev/null || true
+  wait "$SRV_PID" 2>/dev/null || true
+  rm -f "$PORTFILE"
+  rm -rf "$CHROME_PROFILE"
+}
+trap cleanup EXIT INT TERM
+
+PORT=""
+for _ in $(seq 1 50); do
+  PORT="$(sed -n 's/^PORT=//p' "$PORTFILE")"
+  [[ -n "$PORT" ]] && break
+  kill -0 "$SRV_PID" 2>/dev/null || break
+  sleep 0.1
+done
+[[ "$PORT" =~ ^[0-9]+$ ]] || { echo "revealjs-pdf: server failed to start" >&2; exit 5; }
+
+echo "revealjs-pdf: serving $SERVER_FILE from $SERVER_ROOT (source: $HTML)" >&2
+echo "revealjs-pdf: printing to $OUT" >&2
+export_args=(
+  --chrome "$CHROME"
+  --port "$PORT"
+  --path "/$SERVER_FILE?print-pdf"
+  --out "$OUT"
+  --wait "$WAIT"
+  --profile "$CHROME_PROFILE"
+)
+if [[ "$OUTLINE_H1_H2" -eq 1 ]]; then
+  export_args+=(--outline-h1-h2)
+fi
+node "$PROJECT_ROOT/scripts/lib/revealjs/export-pdf.mjs" "${export_args[@]}"
+
+[[ -s "$OUT" ]] || { echo "revealjs-pdf: failed to create PDF" >&2; exit 7; }
+echo "revealjs-pdf: done - $(du -h "$OUT" | cut -f1) $OUT" >&2

@@ -1,0 +1,1202 @@
+---
+format:
+  revealjs: default
+execute:
+  echo: false
+fig-width: 11
+fig-height: 4
+metadata-files:
+  - ../_diapos.yml
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+library(tarifr)
+library(here)
+here::i_am("site/chapitres/04-base-exposition/diapos.qmd")
+source(here("site/_extensions/alpa12/dynamic-year/dynamic-year.R"))
+source(here("site/chapitres/donnees-exemple.R"))
+
+annees_exemple <- vapply(-2:0, dynamic_year, integer(1))
+entetes_ac <- paste("AC", annees_exemple)
+entetes_ap <- paste("AP", annees_exemple)
+entetes_force <- c(
+  dynamic_date("YYYY-01-01", -1),
+  dynamic_date("YYYY-06-15", -1),
+  dynamic_date("YYYY-01-01", 0)
+)
+
+```
+
+## Lectures recommandées
+
+Ce chapitre est adapté du chapitre 4 du texte _Basic Ratemaking_ :
+
+[Werner, G. et Modlin, C. (2016). _Basic Ratemaking_, Casualty Actuarial Society, 5e édition.](http://www.casact.org/library/studynotes/Werner_Modlin_Ratemaking.pdf)
+
+## Contenu du chapitre {.progress-overview}
+
+# Critères pour la sélection d’une base d’exposition {data-progress-label="Critères" subtitle="Proportionnelle aux sinistres espérés, pratique et considère les bases d'exposition historiques"}
+
+## Critères
+
+Une bonne base d’exposition devrait :
+
+- Être proportionnelle aux sinistres espérés
+- Être pratique
+- Considérer les bases d’exposition historiques
+
+::: {.notes}
+Rappel du chapitre 2 : les caractéristiques désirables d’une base d’exposition sont de varier avec le risque, d’être pratique et d’être vérifiable.
+:::
+
+## Proportionnelle aux sinistres espérés
+
+La base d’exposition doit être **directement** proportionnelle aux sinistres espérés.
+
+- D’autres facteurs vont influencer les sinistres et seront reflétés dans la tarification ou dans la souscription des risques
+- Le facteur qui a la relation la plus directe avec les sinistres devrait être sélectionné comme base d’exposition. La base d’exposition serait ainsi plus facilement comprise par les assurés
+- Lorsqu’elle est proportionnelle aux sinistres espérés, la base d’exposition devrait être sensible à tous changements dans l’exposition au risque
+
+::: {.notes}
+Exemple pour le dernier point : salaire des employés en _workers compensation_.
+:::
+
+:::: {.question title="Base d’exposition en assurance habitation"}
+
+##
+
+En vous basant sur le critère qu’une base d’exposition doit être proportionnelle aux sinistres espérés, est-il préférable d’utiliser le nombre de maisons-années assurées ou le montant du bâtiment comme base d’exposition en assurance habitation?
+
+::: {.solution}
+
+## {.text-small}
+
+Toutes choses étant égales par ailleurs, les sinistres espérés pour une habitation assurée pendant deux ans sont équivalents à deux fois les sinistres espérés pour une seule habitation.
+
+Les sinistres espérés en assurance habitation varient selon plusieurs caractéristiques, dont le montant d’assurance.
+
+Les sinistres espérés pour une habitation de 200 000 $ sont supérieurs à ceux d’une maison de 100 000 $, mais pas deux fois plus. En cas de perte totale, le montant du sinistre sera deux fois plus élevé, mais en cas de perte partielle, le montant du sinistre risque d’être plus équivalent.
+
+Le nombre de maisons-années est donc plus directement proportionnel aux sinistres espérés que le montant d’assurance, et est donc une meilleure base d’exposition.
+
+Le montant du bâtiment influence aussi les sinistres espérés et sera donc une variable de tarification.
+
+:::
+
+::::
+
+## Pratique
+
+La base d’exposition devrait être **objective**, relativement **facile et non coûteuse à obtenir et vérifier**.
+
+- De cette façon, elle sera cohérente d’un risque à l’autre et dans le temps.
+- Lorsqu’elle est bien définie et objective, il devient très difficile pour les assurés et les souscripteurs de manipuler cette information afin d’en tirer profit (risque moral).
+  - Plus de risque moral avec une base d’exposition de nombre de kilomètres annuels qu’avec le nombre de voitures-années en assurance auto.
+
+---
+
+En responsabilité des fabricants en assurance des entreprises, les recettes sont une base d’exposition plus pratique que le nombre de produits vendus, quoique moins proportionnelle aux sinistres.
+
+On dit alors que les recettes sont un _proxy_ des produits, plus précis pour les biens consommés rapidement que pour les biens durables pendant plusieurs années.
+
+## Bases d’exposition historiques
+
+Au fil du temps, on peut découvrir une base d’exposition plus précise ou plus pratique que celle qu’on utilise actuellement.
+
+Même si les avantages sont clairs, un changement de base d’exposition doit être considéré prudemment avant l’implantation :
+
+- Peut faire de grandes dislocations (changements) de prime
+- Requiert un changement à l’algorithme de tarification
+- Nécessite un ajustement significatif des données pour analyses futures
+
+## Bases d’exposition typiques
+
+| Ligne d’affaires | Base d’exposition typique |
+|:--|:--|
+| Assurance automobile | Véhicules-années acquis |
+| Assurance habitation | Maisons-années acquises |
+| _Workers Compensation_ | Salaires |
+| Responsabilité civile des entreprises | Recettes, salaires, superficie, nombre d’unités |
+| Assurance biens pour entreprises | Montant d’assurance |
+| Responsabilité professionnelle des médecins | Nombre de médecins-années |
+| Responsabilité professionnelle | Nombre de professionnels (avocats, comptables) |
+| Couverture pour articles spécifiques (ex. bijoux) | Valeur de l’item |
+
+## {.remember-slide}
+
+Critères d'une base d'exposition
+
+- Proportionnelle aux sinistres espérés
+- Pratique
+  - Objective, relativement facile et non coûteuse à obtenir et vérifier
+- Considère les bases d’exposition historiques
+
+# Base d’exposition pour les risques commerciaux {data-progress-label=""}
+
+## Risques commerciaux
+
+Les grands risques commerciaux présentent un défi unique pour la tarification et pour l’utilisation d’une base d’exposition conventionnelle.
+
+Les polices d’assurance présentent différentes couvertures qui utilisent des bases d’exposition différentes :
+
+- Revenus pour la responsabilité civile des entreprises
+- Montant d’assurance pour l’assurance biens d’un immeuble commercial
+
+::: {.notes}
+La tarification est souvent faite via du _composite rating_ ou du _loss-rated composite rating_.
+:::
+
+# Compilation des unités d’exposition {data-progress-label="Compilation" subtitle="Unités écrites et acquises selon une base d'année de calendrier et de police"}
+
+## Compilation des unités d’exposition
+
+Deux méthodes différentes s’appliquent pour compiler les **unités d’exposition** :
+
+- Année de calendrier
+  - Année d'accident et année de sinistre rapporté utilisent l'année de calendrier pour les unités d'exposition et les primes
+- Année de police
+
+:::: {.question title="Illustrer les unités d'exposition"}
+
+##
+
+Pour les polices suivantes, représenter sur une ligne du temps chacune des polices ainsi que le pourcentage du terme de la police qui est expiré.
+
+```{r}
+#| label: expo-polices-annuelles-table
+#| echo: false
+#| output: asis
+
+afficher_table(
+  tableau_polices(polices_annuelles, "unite", "Unité d’exposition"),
+  align = c("l", "l", "l", "r"),
+  formats = list(list(colonnes = 4, type = "nombre", digits = 2))
+)
+```
+
+##
+
+```{r}
+#| label: expo-calendar-preview
+#| fig-alt: "Aperçu de polices annuelles réparties sur deux années de calendrier."
+
+tarifr::rate_level_diagram(
+  start_date = dynamic_date("YYYY-01-01", -2),
+  end_date = dynamic_date("YYYY-01-01", 1),
+  experience_period = "calendar",
+  policy_term_months = 12,
+  period_months = 12,
+  show_date_labels = TRUE,
+  show_period_fill = FALSE,
+  show_period_labels = FALSE,
+  mar = marge_schema_exposition
+)
+```
+
+::: {.solution}
+
+##
+
+```{r}
+#| label: expo-calendar-one-policy
+#| fig-alt: "Une police annuelle représentée sur une ligne du temps de deux années de calendrier."
+
+tarifr::rate_level_diagram(
+  start_date = dynamic_date("YYYY-01-01", -2),
+  end_date = dynamic_date("YYYY-01-01", 1),
+  experience_period = "calendar",
+  policy_term_months = 12,
+  period_months = 12,
+  policies = polices_annuelles[1, ],
+  show_date_labels = TRUE,
+  show_period_fill = FALSE,
+  show_period_labels = FALSE,
+  mar = marge_schema_exposition
+)
+```
+
+Police A, écrite le {{< dynamic-date "YYYY-10-01" -2 >}}.
+
+
+##
+
+```{r}
+#| label: expo-calendar-overview
+#| fig-alt: "Polices annuelles réparties sur deux années de calendrier pour illustrer les unités d'exposition."
+
+tarifr::rate_level_diagram(
+  start_date = dynamic_date("YYYY-01-01", -2),
+  end_date = dynamic_date("YYYY-01-01", 1),
+  experience_period = "calendar",
+  policy_term_months = 12,
+  period_months = 12,
+  policies = polices_annuelles,
+  show_date_labels = TRUE,
+  show_period_fill = FALSE,
+  show_period_labels = FALSE,
+  mar = marge_schema_exposition
+)
+```
+:::
+::::
+
+## Année de calendrier
+
+Considère toutes les **transactions** durant les 12 mois de l’année de calendrier, sans égard à la date d’effet de la police.
+
+Représentation avec les données de l’exemple.
+
+::: {.r-stack}
+```{r}
+#| label: expo-calendar-written
+#| fig-alt: "Périodes de polices annuelles retenues pour mesurer les unités d'exposition écrites par année de calendrier."
+
+tarifr::rate_level_diagram(
+  start_date = dynamic_date("YYYY-01-01", -2),
+  end_date = dynamic_date("YYYY-01-01", 1),
+  experience_period = "calendar",
+  policy_term_months = 12,
+  period_months = 12,
+  policies = polices_annuelles,
+  show_date_labels = TRUE,
+  mar = marge_schema_exposition
+)
+```
+
+::: {.fragment}
+```{r}
+#| label: expo-calendar-written-end-31-dec
+#| fig-alt: "Polices annuelles écrites durant une année de calendrier, incluant celle entrée en vigueur le 31 décembre."
+
+tarifr::rate_level_diagram(
+  start_date = dynamic_date("YYYY-01-01", -2),
+  end_date = dynamic_date("YYYY-01-01", 1),
+  hide_after_date = dynamic_date("YYYY-01-01", 0),
+  analyzed_start = dynamic_date("YYYY-01-01", -1),
+  analyzed_end = dynamic_date("YYYY-01-01", 0),
+  experience_period = "calendar",
+  policy_term_months = 12,
+  period_months = 12,
+  policies = polices_annuelles,
+  show_date_labels = TRUE,
+  mar = marge_schema_exposition
+)
+```
+:::
+:::
+
+## Année de calendrier — unités écrites
+
+Unités écrites pour l’année de calendrier {{< dynamic-year -1 >}} avec les données de l’exemple :
+
+```{r}
+#| label: expo-calendar-written-points
+#| fig-alt: "Dates d'entrée en vigueur utilisées pour compter les unités d'exposition écrites par année de calendrier."
+
+tarifr::rate_level_diagram(
+  start_date = dynamic_date("YYYY-01-01", -2),
+  end_date = dynamic_date("YYYY-01-01", 1),
+  experience_period = "calendar",
+  policy_term_months = 12,
+  period_months = 12,
+  points = points_2011,
+  policies = polices_annuelles,
+  show_date_labels = TRUE,
+  mar = marge_schema_exposition
+)
+```
+
+---
+
+```{r}
+#| label: expo-table-ac-ecrites
+#| echo: false
+#| output: asis
+
+afficher_table(
+  tableau_unites(polices_annuelles, unites_annuelles$ac_ecrites, entetes_ac),
+  align = c("l", "l", "l", "r", "r", "r", "r"),
+  formats = list(list(colonnes = 4:7, type = "nombre", digits = 2)),
+  lignes_gras = "derniere",
+  entetes_groupes = list(list(label = "Unités écrites", colonnes = 5:7))
+)
+```
+
+::: aside
+Données vues au 31 décembre {{< dynamic-year 0 >}}.
+:::
+
+## Année de calendrier — annulation
+
+Chaque police contribue seulement aux unités écrites d’une seule année de calendrier dans cet exemple.
+
+Si une police est annulée en cours de terme, elle va contribuer aux unités écrites de deux années si la date d’annulation n’est pas dans la même année de calendrier que la date d’effet de police.
+
+Exemple :
+
+- Police D, du {{< dynamic-date "YYYY-07-01" -1 >}} au {{< dynamic-date "YYYY-06-30" 0 >}}, est annulée le {{< dynamic-date "YYYY-03-31" 0 >}}
+- Elle contribuera à :
+  - 1 unité écrite dans l’année de calendrier {{< dynamic-year -1 >}}
+  - -0,25 unité écrite dans l’année de calendrier {{< dynamic-year 0 >}}
+
+## Année de calendrier — unités acquises
+
+Unités acquises avec les données de l’exemple.
+
+```{r}
+#| label: expo-calendar-earned
+#| fig-alt: "Portions de polices gagnées durant une année de calendrier pour mesurer les unités d'exposition acquises."
+
+tarifr::rate_level_diagram(
+  start_date = dynamic_date("YYYY-01-01", -2),
+  end_date = dynamic_date("YYYY-01-01", 1),
+  highlight_earned_start = dynamic_date("YYYY-01-01", -1),
+  highlight_earned_end = dynamic_date("YYYY-01-01", 0),
+  experience_period = "calendar",
+  policy_term_months = 12,
+  period_months = 12,
+  policies = polices_annuelles,
+  show_date_labels = TRUE,
+  mar = marge_schema_exposition
+)
+```
+
+---
+
+```{r}
+#| label: expo-table-ac-acquises
+#| echo: false
+#| output: asis
+
+afficher_table(
+  tableau_unites(polices_annuelles, unites_annuelles$ac_acquises, entetes_ac),
+  align = c("l", "l", "l", "r", "r", "r", "r"),
+  formats = list(list(colonnes = 4:7, type = "nombre", digits = 2)),
+  lignes_gras = "derniere",
+  entetes_groupes = list(list(label = "Unités acquises", colonnes = 5:7))
+)
+```
+
+::: aside
+Données vues au 31 décembre {{< dynamic-year 0 >}}.
+:::
+
+## Année de police
+
+Considère toutes les unités d’exposition sur les **polices** ayant une date effective dans l’année.
+
+Représentation avec les données de l’exemple.
+
+```{r}
+#| label: expo-policy-overview
+#| fig-alt: "Polices annuelles regroupées selon leur année de police."
+
+tarifr::rate_level_diagram(
+  start_date = dynamic_date("YYYY-01-01", -2),
+  end_date = dynamic_date("YYYY-01-01", 1),
+  analyzed_start = dynamic_date("YYYY-01-01", -1),
+  analyzed_end = dynamic_date("YYYY-01-01", 0),
+  experience_period = "policy",
+  policy_term_months = 12,
+  period_months = 12,
+  policies = polices_annuelles,
+  view_end = dynamic_date("YYYY-01-01", 2),
+  show_date_labels = TRUE,
+  mar = marge_schema_exposition
+)
+```
+
+## Année de police — unités écrites
+
+Unités écrites pour l’année de police {{< dynamic-year -1 >}} avec les données de l’exemple.
+
+```{r}
+#| label: expo-policy-written
+#| fig-alt: "Périodes complètes des polices retenues pour mesurer les unités d'exposition écrites par année de police."
+
+tarifr::rate_level_diagram(
+  start_date = dynamic_date("YYYY-01-01", -2),
+  end_date = dynamic_date("YYYY-01-01", 1),
+  experience_period = "policy",
+  policy_term_months = 12,
+  period_months = 12,
+  policies = polices_annuelles,
+  points = points_2011,
+  view_end = dynamic_date("YYYY-01-01", 2),
+  show_date_labels = TRUE,
+  mar = marge_schema_exposition
+)
+```
+
+---
+
+```{r}
+#| label: expo-table-ap-ecrites
+#| echo: false
+#| output: asis
+
+afficher_table(
+  tableau_unites(polices_annuelles, unites_annuelles$ap_ecrites, entetes_ap),
+  align = c("l", "l", "l", "r", "r", "r", "r"),
+  formats = list(list(colonnes = 4:7, type = "nombre", digits = 2)),
+  lignes_gras = "derniere",
+  entetes_groupes = list(list(label = "Unités écrites", colonnes = 5:7))
+)
+```
+
+::: aside
+Données vues au 31 décembre {{< dynamic-year 0 >}}.
+:::
+
+## Année de police — annulation
+
+Puisque les données par année de police sont agrégées par date d’effet de police, l’unité écrite liée à la nouvelle affaire et l’unité écrite liée à l’annulation sont toutes comptabilisées dans la même année de police.
+
+Exemple :
+
+- Police D, du {{< dynamic-date "YYYY-07-01" -1 >}} au {{< dynamic-date "YYYY-06-30" 0 >}}, est annulée le {{< dynamic-date "YYYY-03-31" 0 >}}
+- Elle contribuera à 0,75 unité écrite dans l’année de police {{< dynamic-year -1 >}}
+
+## Année de police — unités acquises
+
+Toutes les unités acquises sont assignées à l’année où la police a été écrite.
+
+```{r}
+#| label: expo-policy-written-points
+#| fig-alt: "Dates d'entrée en vigueur utilisées pour compter les unités d'exposition écrites par année de police."
+
+tarifr::rate_level_diagram(
+  start_date = dynamic_date("YYYY-01-01", -2),
+  end_date = dynamic_date("YYYY-01-01", 1),
+  highlight_earned_start = dynamic_date("YYYY-01-01", -1),
+  highlight_earned_end = dynamic_date("YYYY-01-01", 0),
+  experience_period = "policy",
+  policy_term_months = 12,
+  period_months = 12,
+  policies = polices_annuelles,
+  view_end = dynamic_date("YYYY-01-01", 2),
+  show_date_labels = TRUE,
+  mar = marge_schema_exposition
+)
+```
+
+---
+
+```{r}
+#| label: expo-table-ap-acquises
+#| echo: false
+#| output: asis
+
+afficher_table(
+  tableau_unites(polices_annuelles, unites_annuelles$ap_acquises, entetes_ap),
+  align = c("l", "l", "l", "r", "r", "r", "r"),
+  formats = list(list(colonnes = 4:7, type = "nombre", digits = 2)),
+  lignes_gras = "derniere",
+  entetes_groupes = list(list(label = "Unités acquises", colonnes = 5:7))
+)
+```
+
+::: aside
+Données vues au 31 décembre {{< dynamic-year 0 >}}.
+:::
+
+## Unités non acquises
+
+Portion des unités écrites pour laquelle la couverture n’a pas encore été fournie.
+
+S’applique à des polices individuelles ainsi qu’à un groupe de polices.
+
+---
+
+Pour une police individuelle vue à une certaine date, on a :
+
+$$
+\text{Unités écrites}
+= \text{Unités acquises}
++ \text{Unités non acquises}
+$$
+
+Pour un groupe de polices, la formule dépend de la méthode de compilation des données :
+
+- La compilation par année de police suit la formule plus haut, à un certain point dans le temps.
+- Pour la compilation par année de calendrier, la formule diffère.
+
+## Unités non acquises — année de calendrier
+
+Pour la compilation par année de calendrier, on a :
+
+$$
+\begin{aligned}
+&\text{Unités non acquises à la fin de l’année de calendrier}= \\[0.5em]
+& \text{Unités non acquises au début de l’année de calendrier} \\
+&+ \text{Unités écrites de l’année de calendrier} \\
+&- \text{Unités acquises de l’année de calendrier} \\ \\
+&\text{Ce qui reste à acquérir en fin d’année}= \\[0.5em]
+& \text{Ce qui restait à acquérir en début d’année} \\
+&+ \text{Ce qui a été vendu cette année} \\
+&- \text{Ce qui a été acquis cette année}
+\end{aligned}
+$$
+
+## Unités en force
+
+- Unités qui sont sujettes à une perte, à un certain moment dans le temps
+- Ne dépend pas de la méthode de compilation (AC ou AP)
+
+Unités en force au {{< dynamic-date "YYYY-06-15" -1 >}} avec les données de l’exemple :
+
+```{r}
+#| label: expo-policy-in-force
+#| fig-alt: "Périodes complètes des polices utilisées pour mesurer les unités d'exposition acquises par année de police."
+
+tarifr::rate_level_diagram(
+  start_date = dynamic_date("YYYY-01-01", -2),
+  end_date = dynamic_date("YYYY-01-01", 1),
+  experience_period = "calendar",
+  policy_term_months = 12,
+  period_months = 12,
+  policies = polices_annuelles,
+  reference_lines = data.frame(
+    date = dynamic_date("YYYY-06-15", -1),
+    label = dynamic_date("YYYY-06-15", -1)
+  ),
+  show_date_labels = TRUE,
+  show_period_fill = FALSE,
+  show_period_labels = FALSE,
+  mar = marge_schema_exposition
+)
+```
+
+## Unités en force
+
+Données de l’exemple, en assumant que le nombre d’unités assurées est le **nombre de maisons**.
+
+```{r}
+#| label: expo-table-en-force
+#| echo: false
+#| output: asis
+
+afficher_table(
+  tableau_unites(
+    polices_annuelles,
+    unites_annuelles$en_force,
+    entetes_force,
+    nom_unite = "Nombre de maisons assurées"
+  ),
+  align = c("l", "l", "l", "r", "r", "r", "r"),
+  formats = list(list(colonnes = 4:7, type = "nombre", digits = 2)),
+  lignes_gras = "derniere",
+  entetes_groupes = list(list(
+    label = "Unités en force en date du",
+    colonnes = 5:7
+  ))
+)
+```
+
+## Polices avec terme non annuel
+
+Si le terme est différent d’un an, la compilation des données pour chaque type d’exposition sera faite différemment.
+
+:::: {.question title="Polices semi-annuelles"}
+
+##
+
+Avec ces polices, calculer toutes les quantités demandées.
+
+```{r}
+#| label: expo-table-polices-semiannuelles
+#| echo: false
+#| output: asis
+
+afficher_table(
+  tableau_polices(polices_semiannuelles, "unite", "Unité d’exposition"),
+  align = c("l", "l", "l", "r"),
+  formats = list(list(colonnes = 4, type = "nombre", digits = 2))
+)
+```
+
+##
+
+Les mêmes idées de compilation s’appliquent, mais les unités du terme sont de 0,50 plutôt que 1,00.
+
+```{r}
+#| label: expo-semiannual-calendar
+#| fig-alt: "Polices semestrielles réparties sur deux années de calendrier."
+
+tarifr::rate_level_diagram(
+  start_date = dynamic_date("YYYY-01-01", -2),
+  end_date = dynamic_date("YYYY-01-01", 1),
+  experience_period = "calendar",
+  policy_term_months = 6,
+  period_months = 12,
+  policies = polices_semiannuelles,
+  show_date_labels = TRUE,
+  show_period_fill = FALSE,
+  show_period_labels = FALSE,
+  mar = marge_schema_exposition
+)
+```
+
+##
+
+### Polices semi-annuelles — AC écrit
+
+```{r}
+#| label: expo-table-semi-ac-ecrites
+#| echo: false
+#| output: asis
+
+afficher_table(
+  tableau_unites(polices_semiannuelles, unites_semiannuelles$ac_ecrites, entetes_ac),
+  align = c("l", "l", "l", "r", "r", "r", "r"),
+  formats = list(list(colonnes = 4:7, type = "nombre", digits = 2)),
+  lignes_gras = "derniere",
+  entetes_groupes = list(list(label = "Unités écrites", colonnes = 5:7))
+)
+```
+
+::: aside
+Données vues au 31 décembre {{< dynamic-year 0 >}}.
+:::
+
+##
+
+### Polices semi-annuelles — AC acquis
+
+```{r}
+#| label: expo-table-semi-ac-acquises
+#| echo: false
+#| output: asis
+
+afficher_table(
+  tableau_unites(polices_semiannuelles, unites_semiannuelles$ac_acquises, entetes_ac),
+  align = c("l", "l", "l", "r", "r", "r", "r"),
+  formats = list(list(colonnes = 4:7, type = "nombre", digits = 2)),
+  lignes_gras = "derniere",
+  entetes_groupes = list(list(label = "Unités acquises", colonnes = 5:7))
+)
+```
+
+::: aside
+Données vues au 31 décembre {{< dynamic-year 0 >}}.
+:::
+
+##
+
+### Polices semi-annuelles — AP écrit
+
+```{r}
+#| label: expo-table-semi-ap-ecrites
+#| echo: false
+#| output: asis
+
+afficher_table(
+  tableau_unites(polices_semiannuelles, unites_semiannuelles$ap_ecrites, entetes_ap),
+  align = c("l", "l", "l", "r", "r", "r", "r"),
+  formats = list(list(colonnes = 4:7, type = "nombre", digits = 2)),
+  lignes_gras = "derniere",
+  entetes_groupes = list(list(label = "Unités écrites", colonnes = 5:7))
+)
+```
+
+::: aside
+Données vues au 31 décembre {{< dynamic-year 0 >}}.
+:::
+
+##
+
+### Polices semi-annuelles — AP acquis
+
+```{r}
+#| label: expo-table-semi-ap-acquises
+#| echo: false
+#| output: asis
+
+afficher_table(
+  tableau_unites(polices_semiannuelles, unites_semiannuelles$ap_acquises, entetes_ap),
+  align = c("l", "l", "l", "r", "r", "r", "r"),
+  formats = list(list(colonnes = 4:7, type = "nombre", digits = 2)),
+  lignes_gras = "derniere",
+  entetes_groupes = list(list(label = "Unités acquises", colonnes = 5:7))
+)
+```
+
+::: aside
+Données vues au 31 décembre {{< dynamic-year 0 >}}.
+:::
+
+##
+
+### Polices semi-annuelles — unités en force
+
+En assumant que le nombre d’unités assurées est le nombre de maisons :
+
+```{r}
+#| label: expo-table-semi-en-force
+#| echo: false
+#| output: asis
+
+afficher_table(
+  tableau_unites(
+    polices_semiannuelles,
+    unites_semiannuelles$en_force,
+    entetes_force,
+    nom_unite = "Unité d'exposition"
+  ),
+  align = c("l", "l", "l", "r", "r", "r", "r"),
+  formats = list(list(colonnes = 4:7, type = "nombre", digits = 2)),
+  lignes_gras = "derniere",
+  entetes_groupes = list(list(
+    label = "Unités en force en date du",
+    colonnes = 5:7
+  ))
+)
+```
+
+::::
+
+## Calcul pour un bloc d’unités d’exposition
+
+- En général, les bases de données permettent de calculer les unités écrites, en force, acquises et non acquises pour les unités individuelles.
+- Il est possible de faire un calcul approximatif lorsque les données pour les unités individuelles ne sont pas disponibles.
+  - On assume dans ce cas que les polices sont écrites au point milieu de la période (par exemple le 15e du mois pour des données mensuelles).
+  - L’approximation est valable si les polices sont écrites uniformément dans la période.
+
+---
+
+Pour des polices écrites uniformément pendant le mois de mars {{< dynamic-year -1 >}} :
+
+```{r}
+#| label: groupe-de-polices--separees
+#| fig-alt: "Groupe de polices rapprochées dans le temps, représentées sur des lignes distinctes."
+
+polices <- data.frame(
+  start = seq.Date(
+    as.Date(dynamic_date("YYYY-03-01", -1)),
+    as.Date(dynamic_date("YYYY-03-31", -1)),
+    by = "3 days"
+  )
+)
+
+tarifr::rate_level_diagram(
+  start_date = dynamic_date("YYYY-01-01", -1),
+  end_date = dynamic_date("YYYY-06-01", -1),
+  experience_period = "calendar",
+  period_months = 1,
+  policies = polices,
+  show_date_labels = TRUE,
+  show_period_fill = FALSE,
+  show_period_labels = FALSE,
+  mar = marge_schema_exposition
+)
+```
+
+---
+
+Date moyenne à laquelle les polices sont écrites : {{< dynamic-date "YYYY-03-15" -1 >}}
+
+```{r}
+#| label: groupe-de-polices--rassemblees
+#| fig-alt: "Même groupe de polices rassemblé en un bloc pour approximer leur exposition."
+
+tarifr::rate_level_diagram(
+  start_date = dynamic_date("YYYY-01-01", -1),
+  end_date = dynamic_date("YYYY-06-01", -1),
+  experience_period = "calendar",
+  period_months = 1,
+  policies = data.frame(start = as.Date(dynamic_date("YYYY-03-15", -1))),
+  highlight_earned_start = dynamic_date("YYYY-03-15", -1),
+  highlight_earned_end = dynamic_date("YYYY-03-15"), # je triche pour mettre la ligne en gras.
+  show_date_labels = TRUE,
+  show_period_fill = FALSE,
+  show_period_labels = FALSE,
+  mar = marge_schema_exposition
+)
+```
+
+
+
+
+## Bloc d’unités — unités en force {.text-smaller}
+
+```{r}
+#| label: donnees-bloc
+#| include: false
+
+mois_bloc <- c("Jan", "Fév", "Mars", "Avr", "Mai", "Juin", "Juil", "Août", "Sept", "Oct", "Nov", "Déc")
+bloc_unites <- data.frame(
+  mois = paste(mois_bloc, dynamic_year(-2)),
+  unites = rep(240, 12),
+  date_effective = sprintf("%d-%02d-15", dynamic_year(-2), 1:12),
+  en_force_debut = c(rep(240, 6), rep(0, 6)),
+  en_force_milieu = 240,
+  en_force_fin = c(rep(0, 6), rep(240, 6)),
+  portion_debut = paste0(seq(23, 1, by = -2), "/24"),
+  portion_fin = paste0(seq(1, 23, by = 2), "/24"),
+  acquises_debut = seq(230, 10, by = -20),
+  acquises_fin = seq(10, 230, by = 20)
+)
+
+tableau_bloc_force <- data.frame(
+  "Mois écrit" = bloc_unites$mois,
+  "Unités d'exposition" = bloc_unites$unites,
+  "Date effective assumée" = bloc_unites$date_effective,
+  en_force_debut = bloc_unites$en_force_debut,
+  en_force_milieu = bloc_unites$en_force_milieu,
+  en_force_fin = bloc_unites$en_force_fin,
+  check.names = FALSE
+)
+entetes_bloc_force <- c(
+  dynamic_date("YYYY-07-01", -2),
+  dynamic_date("YYYY-01-01", -1),
+  dynamic_date("YYYY-07-01", -1)
+)
+names(tableau_bloc_force)[4:6] <- entetes_bloc_force
+total_bloc_force <- tableau_bloc_force[1, , drop = FALSE]
+total_bloc_force[1, ] <- ""
+total_bloc_force[[1]] <- "Total"
+total_bloc_force[c(2, 4:6)] <- as.list(c(
+  sum(bloc_unites$unites),
+  sum(bloc_unites$en_force_debut),
+  sum(bloc_unites$en_force_milieu),
+  sum(bloc_unites$en_force_fin)
+))
+tableau_bloc_force <- rbind(tableau_bloc_force, total_bloc_force)
+
+tableau_bloc_acquis <- data.frame(
+  "Mois écrit" = bloc_unites$mois,
+  "Unités" = bloc_unites$unites,
+  portion_debut = bloc_unites$portion_debut,
+  portion_fin = bloc_unites$portion_fin,
+  acquises_debut = bloc_unites$acquises_debut,
+  acquises_fin = bloc_unites$acquises_fin,
+  check.names = FALSE
+)
+names(tableau_bloc_acquis)[3:6] <- c(
+  dynamic_year(-2),
+  dynamic_year(-1),
+  dynamic_year(-2),
+  dynamic_year(-1)
+)
+total_bloc_acquis <- tableau_bloc_acquis[1, , drop = FALSE]
+total_bloc_acquis[1, ] <- ""
+total_bloc_acquis[[1]] <- "Total"
+total_bloc_acquis[c(2, 5:6)] <- as.list(c(
+  sum(bloc_unites$unites),
+  sum(bloc_unites$acquises_debut),
+  sum(bloc_unites$acquises_fin)
+))
+tableau_bloc_acquis <- rbind(tableau_bloc_acquis, total_bloc_acquis)
+```
+
+```{r}
+#| label: expo-bloc-en-force-table
+#| echo: false
+#| output: asis
+
+afficher_table(
+  tableau_bloc_force,
+  align = c("l", "r", "l", "r", "r", "r"),
+  formats = list(list(colonnes = c(2, 4:6), type = "nombre", digits = 0)),
+  lignes_gras = "derniere",
+  entetes_groupes = list(list(
+    label = "Unités en force en date du",
+    colonnes = 4:6
+  ))
+)
+```
+
+## Bloc d’unités — unités acquises {.text-small}
+
+::: {smart-tables-width="full"}
+
+```{r}
+#| label: expo-bloc-acquises-table
+#| echo: false
+#| output: asis
+
+afficher_table(
+  tableau_bloc_acquis,
+  align = c("l", "r", "l", "l", "r", "r"),
+  formats = list(list(colonnes = c(2, 5:6), type = "nombre", digits = 0)),
+  lignes_gras = "derniere",
+  entetes_groupes = list(
+    list(
+      label = "Portion des unités acquise en",
+      colonnes = 3:4
+    ),
+    list(
+      label = "Unités acquises dans l'année de calendrier",
+      colonnes = 5:6
+    )
+  )
+)
+```
+
+:::
+
+::: {.notes}
+Pour janvier, on acquiert 23/24, soit 11,5 mois sur 12.
+:::
+
+:::: {.question title="Véhicules-années pour polices semi-annuelles"}
+
+##
+
+Exemple adapté de la question 1 de l’examen 5, automne 2016 de la CAS.
+
+Avec les polices suivantes écrites durant les années de calendrier {{< dynamic-year -3 >}} à {{< dynamic-year -1 >}} :
+
+```{r}
+#| label: expo-semiannual-example-data
+#| echo: false
+#| include: false
+
+dates_effectives <- as.Date(c(
+  dynamic_date("YYYY-04-01", -3),
+  dynamic_date("YYYY-10-01", -3),
+  dynamic_date("YYYY-04-01", -2),
+  dynamic_date("YYYY-10-01", -2),
+  dynamic_date("YYYY-04-01", -1),
+  dynamic_date("YYYY-10-01", -1)
+))
+dates_expirations <- as.Date(c(
+  dynamic_date("YYYY-09-30", -3),
+  dynamic_date("YYYY-03-31", -2),
+  dynamic_date("YYYY-09-30", -2),
+  dynamic_date("YYYY-03-31", -1),
+  dynamic_date("YYYY-09-30", -1),
+  dynamic_date("YYYY-03-31", 0)
+))
+nombre_polices <- c(100, 110, 105, 100, 110, 105)
+
+tableau_polices_semiannuelles_exemple <- data.frame(
+  "Date effective" = as.character(dates_effectives),
+  "Date d’expiration" = as.character(dates_expirations),
+  "Nombre de polices" = nombre_polices,
+  check.names = FALSE
+)
+
+mois_calendrier <- function(dates) {
+  12L * as.integer(format(dates, "%Y")) +
+    as.integer(format(dates, "%m"))
+}
+
+annee_ecrites <- dynamic_year(-2)
+annee_acquises <- dynamic_year(-1)
+date_fin_en_force <- as.Date(dynamic_date("YYYY-12-31", -2))
+
+duree_polices_mois <- mois_calendrier(dates_expirations) - mois_calendrier(dates_effectives) + 1L
+portions_ecrites <- duree_polices_mois / 12
+lignes_ecrites <- which(as.integer(format(dates_effectives, "%Y")) == annee_ecrites)
+lignes_en_force <- which(
+  dates_effectives <= date_fin_en_force & dates_expirations >= date_fin_en_force
+)
+
+debut_annee_acquise <- as.Date(dynamic_date("YYYY-01-01", -1))
+fin_annee_acquise <- as.Date(dynamic_date("YYYY-12-31", -1))
+debut_acquis_mois <- pmax(
+  mois_calendrier(dates_effectives),
+  mois_calendrier(debut_annee_acquise)
+)
+fin_acquis_mois <- pmin(
+  mois_calendrier(dates_expirations),
+  mois_calendrier(fin_annee_acquise)
+)
+mois_acquis <- pmax(fin_acquis_mois - debut_acquis_mois + 1L, 0L)
+portions_acquises <- mois_acquis / 12
+lignes_acquises <- which(portions_acquises > 0)
+
+unites_ecrites <- sum(nombre_polices[lignes_ecrites] * portions_ecrites[lignes_ecrites])
+unites_en_force <- sum(nombre_polices[lignes_en_force])
+unites_acquises <- sum(nombre_polices * portions_acquises)
+
+termes_ecrits <- paste(
+  paste(nombre_polices[lignes_ecrites], portions_ecrites[lignes_ecrites], sep = " \\times "),
+  collapse = " + "
+)
+termes_acquis <- paste(
+  paste0(
+    nombre_polices[lignes_acquises],
+    " \\times \\frac{",
+    mois_acquis[lignes_acquises],
+    "}{12}"
+  ),
+  collapse = " + "
+)
+
+tableau_polices_semiannuelles_acquises <- tableau_polices_semiannuelles_exemple
+tableau_polices_semiannuelles_acquises[[paste(
+  "Nombre de mois acquis en AC",
+  annee_acquises
+)]] <- mois_acquis
+```
+
+```{r}
+#| label: expo-semiannual-example-input-table
+#| echo: false
+#| output: asis
+
+afficher_table(
+  tableau_polices_semiannuelles_exemple,
+  align = c("l", "l", "r"),
+  formats = list(list(colonnes = 3, type = "nombre", digits = 0))
+)
+```
+
+##
+
+Toutes les polices ont des termes de 6 mois.
+
+Calculer :
+
+- Les véhicules-années écrits pour l’année de calendrier {{< dynamic-year -2 >}}
+- Le nombre de véhicules en force vu au 31 décembre {{< dynamic-year -2 >}}
+- Les véhicules-années acquis pour l’année de calendrier {{< dynamic-year -1 >}}
+
+::: {.solution}
+
+##
+
+### Unités écrites pour AC {{< dynamic-year -2 >}}
+
+Considère toutes les unités écrites du {{< dynamic-date "YYYY-01-01" -2 >}} au {{< dynamic-date "YYYY-12-31" -2 >}} :
+
+```{r}
+#| label: expo-semiannual-example-written-table
+#| echo: false
+#| output: asis
+
+afficher_table(
+  tableau_polices_semiannuelles_exemple,
+  align = c("l", "l", "r"),
+  formats = list(list(colonnes = 3, type = "nombre", digits = 0)),
+  lignes_gras = lignes_ecrites
+)
+```
+
+$$
+`r termes_ecrits`
+= `r format(unites_ecrites, nsmall = 1, trim = TRUE, decimal.mark = ".")` \text{ unités écrites}
+$$
+
+##
+
+### Unités en force au 31 décembre {{< dynamic-year -2 >}}
+
+Véhicules qui sont sujets à une perte au {{< dynamic-date "YYYY-12-31" -2 >}} :
+
+```{r}
+#| label: expo-semiannual-example-in-force-table
+#| echo: false
+#| output: asis
+
+afficher_table(
+  tableau_polices_semiannuelles_exemple,
+  align = c("l", "l", "r"),
+  formats = list(list(colonnes = 3, type = "nombre", digits = 0)),
+  lignes_gras = lignes_en_force
+)
+```
+
+Donc : `r format(unites_en_force, nsmall = 0, trim = TRUE, decimal.mark = ",")` véhicules en force au {{< dynamic-date "YYYY-12-31" -2 >}}.
+
+##
+
+### Unités acquises pour AC {{< dynamic-year -1 >}}
+
+Calculer les véhicules-années acquis pour l’année de calendrier {{< dynamic-year -1 >}} :
+
+```{r}
+#| label: expo-semiannual-example-earned-table
+#| echo: false
+#| output: asis
+
+afficher_table(
+  tableau_polices_semiannuelles_acquises,
+  align = c("l", "l", "r", "r"),
+  formats = list(list(colonnes = 3:4, type = "nombre", digits = 0)),
+  lignes_gras = lignes_acquises
+)
+```
+
+$$
+`r termes_acquis`
+= `r format(unites_acquises, nsmall = 2, trim = TRUE, decimal.mark = ".")` \text{ unités acquises}
+$$
+
+Donc : **`r format(unites_acquises, nsmall = 2, trim = TRUE, decimal.mark = ",")` véhicules acquis**.
+
+:::
+
+::::
+
+:::: {.question title="Unités d’exposition avec termes mixtes"}
+
+##
+
+Exemple adapté de la question 1 de l’examen 5, printemps 2017 de la CAS.
+
+Le portefeuille d’assurance d’une compagnie consiste en :
+
+- 1 000 polices de deux ans avec une date effective du {{< dynamic-date "YYYY-04-01" -2 >}}
+- 1 000 polices d'un an avec une date effective du {{< dynamic-date "YYYY-07-01" -2 >}}
+
+Calculer les données suivantes :
+
+- Unités écrites pour l’année de calendrier {{< dynamic-year -2 >}}
+- Unités acquises pour l’année de calendrier {{< dynamic-year -2 >}}
+- Unités acquises pour l’année de calendrier {{< dynamic-year -1 >}}
+
+::: {.solution}
+
+##
+
+Unités écrites pour l’année de calendrier {{< dynamic-year -2 >}} :
+
+$$
+1000 \times 2 + 1000 \times 1 = 3000
+$$
+
+Unités acquises pour l’année de calendrier {{< dynamic-year -2 >}} :
+
+$$
+1000 \times \frac{9}{12} + 1000 \times \frac{6}{12} = 1250
+$$
+
+Unités acquises pour l’année de calendrier {{< dynamic-year -1 >}} :
+
+$$
+1000 \times \frac{12}{12} + 1000 \times \frac{6}{12} = 1500
+$$
+
+:::
+
+::::
+
+## {.remember-slide}
+
+Compilation des unités d’exposition
+
+- AC vs AP (+ avantages et inconvénients des méthodes)
+- Unités acquises vs écrites vs en force
+- Annulation de polices
+- Termes de polices non annuels
+- Bloc d’unités d’exposition
+
+# Tendance dans les unités d’exposition {data-progress-label=""}
+
+## Tendance dans les unités d’exposition
+
+Pour certaines lignes d’affaires, les unités d’exposition sont sensibles à des influences liées au temps, comme l’inflation.
+
+Les salaires et les recettes, par exemple, sont grandement affectés par l’inflation.
+
+Dans ce cas, il peut être plus prudent de mesurer la tendance dans les unités d’exposition historiques et de projeter les unités d’exposition au niveau futur.
+
+Le prochain chapitre couvrira le calcul de tendance dans les primes. La même démarche sera applicable aux unités d'exposition.
+
+## {.remember-slides}

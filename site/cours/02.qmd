@@ -1,0 +1,11 @@
+---
+title: "Données et Base d’exposition"
+description: "Présente les données utiles en tarification, leur organisation et leur compilation, ainsi que la sélection et la compilation des unités d’exposition."
+label: "Données et Base d’exposition"
+week-id: 2
+chapitres:
+  - path: /chapitres/03-donnees
+    title: "Données pour la tarification"
+  - path: /chapitres/04-base-exposition
+    title: "Base d’exposition"
+---

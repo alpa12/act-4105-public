@@ -1,0 +1,172 @@
+---
+metadata-files:
+  - ../_exercices.yml
+---
+
+::: {.question}
+(CAS Examen 5, Printemps 2015 - Q9)
+
+Avec les données suivantes :
+
+| Type de frais | Montant de frais pour 2014 |
+|---|---:|
+| Autres frais d'acquisition | 4 000 $ |
+| Frais généraux | 17 000 $ |
+| Commissions et courtage | 23 000 $ |
+| Taxes, licences et frais d'association | 5 000 $ |
+
+- Primes écrites 2014 : 200 000 $
+- Primes acquises 2014 : 170 000 $
+- Sinistres et frais de règlement de sinistres par unité : 250 $
+- Provision pour profit : 3 %
+- Les frais généraux sont encourus tout au long du terme de la police.
+- Les autres frais de souscription sont encourus à l'émission de la police.
+
+Calculer la prime moyenne indiquée par unité.
+
+::: {.solution}
+Puisqu'on n'a pas le nombre d'expositions ni le pourcentage des frais qui sont assumés être fixes, on assume que tous les frais sont variables.
+
+Provision pour frais variables :
+
+$$
+\frac{4000 + 23000 + 5000}{200000} + \frac{17000}{170000} = 0.26
+$$
+
+Prime moyenne indiquée :
+
+$$
+\frac{250}{1 - 0.26 - 0.03} = 352.11
+$$
+:::
+:::
+
+::: {.question}
+(CAS Examen 5, Automne 2013 - Q7a)
+
+La méthode de projection des frais de souscription basée sur la prime (*premium-based projection method*) et la méthode de projection basée sur les unités d'exposition/polices (*exposure/policy-based projection method*) sont deux méthodes pour calculer la provision pour frais dans la tarification.
+
+Pour chaque méthode, décrire brièvement comment les frais fixes et les frais variables sont traités.
+
+::: {.solution}
+Méthode de projection basée sur la prime (*premium-based projection method*) : les frais fixes et les frais variables sont séparés et divisés par les primes écrites ou les primes acquises pour obtenir un ratio de frais fixes et un ratio de frais variables. Si les frais fixes moyens ne changent pas au même taux que la prime moyenne, un facteur de projection peut être nécessaire.
+
+Méthode de projection basée sur les unités d'exposition (*exposure-based projection method*) : les frais variables sont séparés et ensuite divisés par les primes écrites ou les primes acquises pour obtenir le ratio de frais variables. Les frais fixes sont séparés et divisés par les unités écrites ou les unités acquises pour obtenir un frais fixe moyen par unité. Ce frais doit être projeté s'il y a une tendance dans les frais fixes d'une année à l'autre.
+:::
+:::
+
+:::: {.question}
+Pour votre analyse de tarification, vous devez projeter la portion fixe de vos frais de souscription pour l'année de calendrier 2015. Vos taux proposés seront en vigueur à compter du 1er janvier 2017 pour une durée de deux ans. Avec les données suivantes :
+
+- Les frais généraux sont encourus durant tout le terme de la police.
+- Les autres frais de souscription sont encourus à l'émission de la police.
+- Vous utilisez la méthode basée sur les unités d'exposition/polices (*exposure-based projection method*) pour projeter vos frais de souscription.
+- Les contrats sont annuels.
+
+::: {.question}
+Déterminer quelle sera la période de projection pour la portion fixe de frais généraux.
+
+::: {.solution}
+La période de projection va de la date moyenne où les frais sont encourus dans la période historique à la date moyenne où les frais seront encourus dans la période où les taux seront en vigueur.
+
+Pour les frais généraux, la date de début est le 1er juillet 2015, soit le point milieu de l'année de calendrier dans laquelle les frais sont payés dans la période historique.
+
+La date moyenne souscrite dans la période future est le point milieu entre le 1er janvier 2017 et le 1er janvier 2019, soit le 1er janvier 2018. Comme les contrats sont annuels, la date à laquelle les frais seront payés dans la période future est 6 mois après la date moyenne souscrite, soit le 1er juillet 2018.
+
+La période de projection pour les frais généraux est donc de 3 années.
+:::
+:::
+
+::: {.question}
+Déterminer quelle sera la période de projection pour la portion fixe de autres frais d'acquisition.
+
+::: {.solution}
+Pour les autres frais, la date de début est aussi le 1er juillet 2015.
+
+La date de fin est la date moyenne souscrite dans la période future, soit le 1er janvier 2018.
+
+La période de tendance est donc de 2.5 années.
+:::
+:::
+::::
+
+:::: {.question}
+En tant qu'actuaire, vous faites une révision de taux pour des taux qui seront en vigueur le 1er janvier 2017 pour une période de 12 mois. Avec les données suivantes :
+
+| Type de frais ou mesure | 2014 | 2015 | % des frais qui sont fixes |
+|---|---:|---:|---:|
+| Frais généraux | 84 560 $ | 108 586 $ | 75 % |
+| Frais de commissions et courtage | 232 086 $ | 267 540 $ | 0 % |
+| Autres frais d'acquisition | 108 310 $ | 124 839 $ | 50 % |
+| Taxes, licences et frais d'association | 46 416 $ | 53 769 $ | 10 % |
+| Primes écrites | 1 547 234 $ | 1 783 348 $ | - |
+| Primes acquises | 1 291 186 $ | 1 645 235 $ | - |
+| Unités écrites | 2 210 | 2 377 | - |
+| Unités acquises | 1 721 | 2 194 | - |
+
+La prime projetée au taux courant est 750 $.
+
+::: {.question}
+Quels seraient vos estimés pour le ratio de frais fixes et le ratio de frais variables selon la méthode de projection avec toutes dépenses variables (*all variable expense method*)?
+
+::: {.solution}
+| Type de frais | 2014 | 2015 | Sélection |
+|---|---:|---:|---:|
+| Frais généraux | $84560 / 1291186 = 0.065$ | $108586 / 1645235 = 0.066$ | 0.0655 |
+| Frais de commissions et courtage | $232086 / 1547234 = 0.15$ | $267540 / 1783348 = 0.15$ | 0.15 |
+| Autres frais d'acquisition | $108310 / 1547234 = 0.07$ | $124839 / 1783348 = 0.07$ | 0.07 |
+| Taxes, licences et frais d'association | $46416 / 1547234 = 0.03$ | $53769 / 1783348 = 0.03$ | 0.03 |
+| **Total** |  |  | **0.3155** |
+
+Le ratio de frais variables serait 31.55 % et le ratio de frais fixes est 0 %.
+:::
+:::
+
+::: {.question}
+En assumant que les frais fixes moyens changent au même rythme que la prime moyenne, quels seraient vos estimés pour le ratio de frais fixes et le ratio de frais variables selon la méthode de projection basée sur la prime (*premium-based projection method*)?
+
+::: {.solution}
+| Type de frais | Frais variables 2014 | Frais variables 2015 | Sélection variable | Frais fixes |
+|---|---:|---:|---:|---:|
+| Frais généraux | $0.25 \times 84560 / 1291186 = 0.01637$ | $0.25 \times 108586 / 1645235 = 0.0165$ | 0.0164 | $0.0655 - 0.0164 = 0.0491$ |
+| Frais de commissions et courtage | $1 \times 232086 / 1547234 = 0.15$ | $1 \times 267540 / 1783348 = 0.15$ | 0.15 | $0.15 - 0.15 = 0$ |
+| Autres frais d'acquisition | $0.5 \times 108310 / 1547234 = 0.035$ | $0.5 \times 124839 / 1783348 = 0.035$ | 0.035 | $0.07 - 0.035 = 0.035$ |
+| Taxes, licences et frais d'association | $0.9 \times 46416 / 1547234 = 0.027$ | $0.9 \times 53769 / 1783348 = 0.027$ | 0.027 | $0.03 - 0.027 = 0.003$ |
+| **Total** |  |  | **0.2284** | **0.0871** |
+
+Le ratio de frais variables serait 22.84 % et le ratio de frais fixes serait 8.71 %.
+:::
+:::
+
+::: {.question}
+En assumant une tendance annuelle de 2 % dans les frais, quels seraient vos estimés pour le ratio de frais fixes et le ratio de frais variables selon la méthode de projection des frais basée sur les unités d'exposition (*exposure-based projection method*)?
+
+::: {.solution}
+Le ratio de frais variables serait le même qu'en b, donc 22.84 %.
+
+La période de projection pour les frais encourus à l'émission va :
+
+- du 1er juillet 2014 au 1er juillet 2017 pour l'année 2014 (période de projection = 3 ans);
+- du 1er juillet 2015 au 1er juillet 2017 pour l'année 2015 (période de projection = 2 ans).
+
+La période de projection pour les frais encourus durant tout le terme de police va :
+
+- du 1er juillet 2014 au 1er janvier 2018 pour l'année 2014 (période de projection = 3.5 ans);
+- du 1er juillet 2015 au 1er janvier 2018 pour l'année 2015 (période de projection = 2.5 ans).
+
+| Type de frais | Frais fixes par unité projetés 2014 | Frais fixes par unité projetés 2015 | Sélection (moyenne arithmétique) |
+|---|---:|---:|---:|
+| Frais généraux | $(1.02^{3.5}) \times 0.75 \times 84560 / 1721 = 39.50$ | $(1.02^{2.5}) \times 0.75 \times 108586 / 2194 = 39.00$ | 39.25 $ |
+| Frais de commissions et courtage | 0 | 0 | 0 $ |
+| Autres frais d'acquisition | $(1.02^3) \times 0.5 \times 108310 / 2210 = 26.00$ | $(1.02^2) \times 0.5 \times 124839 / 2377 = 27.32$ | 26.66 $ |
+| Taxes, licences et frais d'association | $(1.02^3) \times 0.1 \times 46416 / 2210 = 2.23$ | $(1.02^2) \times 0.1 \times 53769 / 2377 = 2.35$ | 2.29 $ |
+| **Total** |  |  | **68.20 $** |
+
+Le ratio des frais fixes est donc :
+
+$$
+\frac{68.20}{750} = 0.0909
+$$
+:::
+:::
+::::

@@ -1,0 +1,273 @@
+---
+metadata-files:
+  - ../_exercices.yml
+---
+
+:::: {.question}
+Pour balancer l’équation fondamentale en assurance, on doit toujours considérer le principe selon lequel la tarification est prospective. Votre collègue utilise l’expérience de 2015 pour prédire l’expérience de 2016 et refuse d’ajuster son expérience pour considérer la baisse de taux de 5 % effectuée en décembre 2015.
+
+::: {.question}
+Quel est l’impact de ne pas ajuster son expérience pour considérer ce changement de taux?
+
+::: {.solution}
+La prime pourrait ne pas être suffisante pour atteindre le profit cible.
+:::
+:::
+
+::: {.question}
+Autre que les changements de taux, nommez trois facteurs à considérer qui peuvent nécessiter un ajustement à appliquer à l’expérience passée pour prédire l’expérience future.
+
+::: {.solution}
+Changements opérationnels, inflation, changement dans la distribution du portefeuille,
+changements légaux.
+:::
+:::
+::::
+
+:::: {.question}
+::: {.question}
+Qu’est-ce qu’une unité d’exposition?
+
+::: {.solution}
+Une unité d’exposition est l’unité qui sert de base pour le calcul de la prime d’assurance et qui mesure l’exposition aux sinistres d’une police.
+:::
+:::
+
+::: {.question}
+Nommez deux exemples d’unité d’exposition.
+
+::: {.solution}
+- Assurance auto : un véhicule assuré pour une année
+- Assurance habitation : une maison assurée pour une année
+- Assurance responsabilité civile des entreprises : recettes annuelles
+:::
+:::
+::::
+
+::: {.question}
+Nommez et définissez quatre façons de mesurer les primes.
+
+::: {.solution}
+- Primes écrites : primes associées aux polices écrites durant une période déterminée.
+
+- Primes en force : prime totale du terme des polices qui sont en vigueur à une certaine date.
+
+- Primes acquises : portion des primes écrites pour laquelle la couverture a déjà été fournie, à une certaine date.
+
+- Primes non acquises : portion des primes écrites pour laquelle la couverture n’a pas encore été fournie, à une certaine date.
+:::
+:::
+
+:::: {.question}
+(CAS Examen 5, 2010 – Q11)
+
+::: {.question}
+Expliquez comment la formule standard en économie $Prix = Coût + Profit$ se compare à l’équation fondamentale en assurance.
+
+::: {.solution}
+L’équation fondamentale est :
+
+Prime = Sinistres + Frais de règlement de sinistre + Frais de souscription de police + Profit de souscription
+
+La prime est l’équivalent du prix. Les sinistres, frais de règlement de sinistre, frais de souscription de police sont l’équivalent du coût. Le profit de souscription est l’équivalent du profit.
+:::
+:::
+
+::: {.question}
+La compagnie ABC a remplacé ses ajusteurs en sinistre inexpérimentés avec des ajusteurs expérimentés qui ont une meilleure connaissance du produit d’assurance. Expliquez l’impact de ce changement sur chaque composante de l’équation fondamentale en assurance.
+
+::: {.solution}
+- En supposant que les ajusteurs seront meilleurs pour négocier les réclamations, les sinistres vont diminuer.
+- Les frais de règlement de sinistre non alloués risquent d’augmenter en ayant des ajusteurs plus expérimentés. On peut supposer que les frais de règlement de sinistre n’augmenteront pas autant que la baisse des sinistres.
+- Les frais de souscription ne seront pas affectés par ce changement d’ajusteur.
+- Si on suppose que la prime reste la même, le profit de souscription va augmenter. Si on suppose que le profit cible ne change pas, la prime va diminuer.
+:::
+:::
+::::
+
+
+
+::: {.question}
+(CAS Examen 5, 2004 - Q9) Lequel des énoncés suivants est vrai en ce qui a trait à la provision pour frais dans la tarification :
+
+1. Les taxes, licences et frais d’association n’incluent pas l’impôt sur le revenu.
+1. Les autres frais d’acquisition incluent les dépenses de commission et courtage.
+1. Les frais généraux représentent tous les coûts associés au règlement des sinistres non attribuables à une réclamation particulière.
+
+::: {.solution}
+1. Vrai
+1. Faux. Les frais de commissions et courtage sont dans une catégorie séparée.
+1. Faux. La définition donnée est celle des frais de règlement non alloués.
+:::
+:::
+
+:::: {.question}
+(Werner and Modlin, Chapitre 1) Avec les données suivantes vues au 31 décembre 2015 :
+
+| Donnée | Valeur |
+|---|---:|
+| Nombre de réclamations | 100 000 |
+| Montant total de sinistre | 300 000 000 $ |
+| Nombre d’unités acquises | 2 000 000 |
+| Nombre d’unités écrites | 3 000 000 |
+| Nombre d’unités en force | 5 000 000 |
+| Primes acquises | 400 000 000 $ |
+
+Calculez les ratios suivants :
+
+::: {.question}
+Fréquence
+
+::: {.solution}
+Fréquence = 100 000 / 2 000 000 = 5 %
+:::
+:::
+
+::: {.question}
+Sévérité
+
+::: {.solution}
+Sévérité = 300 000 000 \$ / 100 000 = 3 000 \$
+:::
+:::
+
+::: {.question}
+Prime pure
+
+::: {.solution}
+Prime pure = 300 000 000 \$ / 2 000 000 = 0.05 × 3 000 \$ = 150 \$
+:::
+:::
+
+::: {.question}
+Prime moyenne
+
+::: {.solution}
+Prime moyenne = 400 000 000 \$ / 2 000 000 = 200 \$
+:::
+:::
+
+::: {.question}
+Taux de sinistre
+
+::: {.solution}
+Taux de sinistre = 300 000 000 \$ / 400 000 000 \$ = 75 %
+:::
+:::
+::::
+
+::: {.question}
+(CAS Examen 5, 2010 – Q12) Avec les données suivantes :
+
+| Donnée | Valeur |
+|---|---:|
+| Primes acquises 2008 | 200 000 $ |
+| Sinistres encourus 2008 | 125 000 $ |
+| Ratio frais de règlement | 0.14 |
+| Ratio frais de souscription | 0.25 |
+
+Calculez le taux combiné.
+
+::: {.solution}
+$$
+\begin{aligned}
+\text{Taux combiné}
+&= \text{Taux de sinistre}
++ \frac{\text{Frais de règl. de sinistres}}{\text{Primes acquises}}
++ \text{Ratio frais de souscription} \\
+&= \text{Taux de sinistre}
+\left(
+1 + \frac{\text{Frais de règl. de sinistres}}{\text{Montant total de sinistres}}
+\right)
++ \text{Ratio frais de souscription} \\
+&= \frac{125000}{200000}(1 + 0.14) + 0.25 = 96.25\%
+\end{aligned}
+$$
+:::
+:::
+
+::: {.question}
+(CAS Examen 5, 2011 – Q8) Avec les données suivantes :
+
+|  | Année de calendrier 2010 |
+|---|---:|
+| Prime écrite | 280.00 $ |
+| Prime acquise | 308.00 $ |
+| Commission | 33.60 $ |
+| Taxes, licences et frais d’association | 9.80 $ |
+| Frais généraux | 36.96 $ |
+| Frais de règlement de sinistres | 8.2 % |
+| Taux combiné | 100 % |
+
+Calculez le ratio frais d’opération pour 2010.
+
+::: {.solution}
+En utilisant la définition suivante du ratio frais de souscription :
+
+(Frais généraux / Prime acquise) + (Commission et autres frais d’acquisition, taxes, licences et frais d’association) / Prime écrite.
+
+$$
+\begin{aligned}
+\text{Taux combiné}
+&= \text{Taux de sinistre}
++ \frac{\text{Frais de règl. de sinistres}}{\text{Primes acquises}}
++ \text{Ratio frais de souscription} \\
+&= \text{Taux de sinistre}
+\left(
+1 + \frac{\text{Frais de règl. de sinistres}}{\text{Montant total de sinistres}}
+\right)
++ \text{Ratio frais de souscription}
+\end{aligned}
+$$
+
+$$
+\text{Ratio frais de souscription}
+= \frac{33.60 + 9.80}{280}
++ \frac{36.96}{308}
+= 27.5\%
+$$
+
+$$
+100\%
+= \text{Taux de sinistre} \times (1 + 8.2\%) + 27.5\%
+\Rightarrow \text{Taux de sinistre} = 67.0\%
+$$
+
+$$
+\text{Ratio frais d’opération}
+= \text{Taux combiné} - \text{taux de sinistre}
+= 100\% - 67\% = 33\%
+$$
+:::
+:::
+
+:::: {.question}
+Avec les données suivantes :
+
+| Âge de l’assuré | Nombre de soumissions | Nombre de nouvelles affaires (soumissions acceptées) |
+|---|---:|---:|
+| < 30 ans | 2154 | 96 |
+| De 30 ans à 50 ans | 5252 | 323 |
+| > 50 ans | 3211 | 489 |
+| Total | 10617 | 908 |
+
+::: {.question}
+Calculez le taux de transformation par groupe d’âge.
+
+::: {.solution}
+\< 30 ans : 96 / 2154 = 4.46 %
+
+Entre 30 et 50 ans : 323 / 5252 = 6.15 %
+
+\> 50 ans : 489 / 3211 = 15.23 %
+:::
+:::
+
+::: {.question}
+Donner une cause pour laquelle une compagnie présenterait un taux de transformation bas dans un segment particulier.
+
+::: {.solution}
+La compagnie a des taux non compétitifs pour ce segment.
+:::
+:::
+::::

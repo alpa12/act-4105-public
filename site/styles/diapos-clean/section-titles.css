@@ -1,0 +1,33 @@
+.reveal .slides section.title-slide.level1 {
+  border-color: rgba(215, 25, 32, 0.24) !important;
+  background: #fff !important;
+}
+
+.reveal .slides section.title-slide.level1::before {
+  background: var(--act-laval-red, var(--act-accent));
+}
+
+.reveal .slides section.title-slide.level1 h1 {
+  color: var(--act-charcoal);
+  font-weight: 330;
+  letter-spacing: -0.01em;
+  line-height: 1.02;
+  max-width: min(100%, 12.5em);
+  padding-left: 1.08em;
+  text-indent: -1.08em;
+}
+
+.reveal .slides section.title-slide.level1 > .section-subtitle {
+  max-width: min(100%, 24em);
+  margin-left: calc(var(--r-heading1-size, 2.5em) * 1.08);
+  margin-top: calc(var(--r-heading1-size, 2.5em) * 0.26);
+  color: var(--act-burgundy);
+  font-family: var(--r-heading-font, var(--r-main-font));
+  font-size: calc(var(--r-heading1-size, 2.5em) * 0.50);
+  font-weight: 420;
+  letter-spacing: 0.01em;
+  line-height: 1.22;
+  padding: 0;
+  text-indent: 0;
+  text-wrap: balance;
+}

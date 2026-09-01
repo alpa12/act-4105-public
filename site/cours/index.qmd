@@ -1,0 +1,22 @@
+---
+title: "Cours"
+subtitle: "Plan des séances et liens vers les notes et exercices"
+format: html
+listing:
+  - id: courses
+    type: custom
+    template: listing-courses.ejs.md
+    contents:
+      - "[0-9][0-9].qmd"
+    sort:
+      - "week-id"
+    sort-ui: false
+    filter-ui: false
+---
+
+## Progression
+
+Chaque séance indique sa date et regroupe les liens vers les notes et exercices associés.
+
+::: {#courses}
+:::

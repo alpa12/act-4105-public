@@ -1,0 +1,319 @@
+:root {
+  --rpb-top: 1.04svh;
+  --rpb-width: min(88vw, 1176px);
+  --rpb-max-width-per-slide: 10%;
+  --rpb-height: 0.207svh;
+  --rpb-gap: 0.326svh;
+  --rpb-label-size: 1.26svh;
+  --rpb-label-margin: 0.296svh;
+  --rpb-number-size: 1.555svh;
+  --rpb-number-offset: 0.385svh;
+  --rpb-number-height: 0.859svh;
+  --rpb-label-hover-lift: 0.044svh;
+  --rpb-number-hover-lift: 0.074svh;
+  --rpb-exit-lift: 0.267svh;
+  --rpb-track-color: color-mix(in srgb, currentColor 18%, transparent);
+  --rpb-fill-color: currentColor;
+  --rpb-label-color: color-mix(in srgb, currentColor 54%, transparent);
+  --rpb-label-active-color: currentColor;
+  --rpb-number-color: color-mix(in srgb, currentColor 68%, transparent);
+  --rpb-focus-color: currentColor;
+  --rpb-transition-duration: 220ms;
+  --rpb-overview-rise-duration: 1550ms;
+}
+
+/* Quarto decks with center: false can leave top-level vertical stacks at auto top. */
+.reveal .slides > section.stack {
+  top: 0;
+}
+
+.reveal .rpb-progress {
+  position: fixed;
+  top: var(--rpb-computed-top, var(--rpb-top));
+  left: var(--rpb-computed-left, 50%);
+  z-index: 31;
+  display: flex;
+  width: var(--rpb-computed-width, var(--rpb-width));
+  gap: var(--rpb-computed-gap, var(--rpb-gap));
+  align-items: flex-end;
+  color: var(--rpb-color, currentColor);
+  opacity: 1;
+  transform: translateX(-50%);
+  transition:
+    opacity 180ms ease,
+    visibility 180ms ease;
+}
+
+.reveal .rpb-progress.rpb-is-hidden {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.reveal .rpb-progress.rpb-is-overview-setup {
+  top: var(--rpb-overview-top, var(--rpb-top));
+  left: var(--rpb-overview-left, var(--rpb-computed-left, 50%));
+  width: var(--rpb-overview-width, var(--rpb-width));
+  transition:
+    opacity 180ms ease,
+    visibility 180ms ease;
+}
+
+.reveal .rpb-progress.rpb-is-overview-transition {
+  top: var(--rpb-computed-top, var(--rpb-top));
+  left: var(--rpb-computed-left, 50%);
+  width: var(--rpb-computed-width, var(--rpb-width));
+  transition:
+    top var(--rpb-overview-rise-duration) cubic-bezier(0.18, 0.72, 0.16, 1),
+    left var(--rpb-overview-rise-duration) cubic-bezier(0.18, 0.72, 0.16, 1),
+    width var(--rpb-overview-rise-duration) cubic-bezier(0.18, 0.72, 0.16, 1);
+}
+
+.reveal .rpb-item {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  appearance: none;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  text-align: inherit;
+  --rpb-progress-value: 0%;
+}
+
+.reveal .rpb-item:focus-visible {
+  outline: 2px solid var(--rpb-focus-color);
+  outline-offset: calc(var(--rpb-computed-height, var(--rpb-height)) * 1.29);
+  border-radius: calc(var(--rpb-computed-height, var(--rpb-height)) * 1.57);
+}
+
+.reveal .rpb-label {
+  display: block;
+  margin-bottom: var(--rpb-computed-label-margin, var(--rpb-label-margin));
+  overflow: hidden;
+  color: var(--rpb-label-color);
+  font-size: var(--rpb-computed-label-size, var(--rpb-label-size));
+  font-weight: 700;
+  line-height: 1.1;
+  text-align: center;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  transform-origin: center bottom;
+  transition:
+    color 180ms ease,
+    transform 180ms ease;
+  white-space: nowrap;
+}
+
+.reveal .rpb-track {
+  position: relative;
+  display: block;
+  overflow: visible;
+  width: 100%;
+  height: var(--rpb-computed-height, var(--rpb-height));
+  border-radius: 999px;
+  background: var(--rpb-track-color);
+  transition:
+    height 180ms ease,
+    background-color 180ms ease;
+}
+
+.reveal .rpb-fill {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: var(--rpb-progress-value);
+  height: 100%;
+  border-radius: inherit;
+  background: var(--rpb-fill-color);
+  transition: width var(--rpb-transition-duration) ease;
+}
+
+.reveal .rpb-ticks,
+.reveal .rpb-numbers {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.reveal .rpb-tick {
+  position: absolute;
+  top: 50%;
+  width: 1px;
+  height: 78%;
+  border-radius: 999px;
+  background: color-mix(in srgb, Canvas 88%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, currentColor 22%, transparent);
+  transform: translate(-0.5px, -50%);
+}
+
+.reveal .rpb-numbers {
+  top: calc(100% + var(--rpb-computed-number-offset, var(--rpb-number-offset)));
+  height: var(--rpb-computed-number-height, var(--rpb-number-height));
+  opacity: 0;
+  transition: opacity 170ms ease;
+}
+
+.reveal .rpb-number {
+  position: absolute;
+  top: 0;
+  display: inline-block;
+  width: max-content;
+  color: var(--rpb-number-color);
+  font-size: var(--rpb-computed-number-size, var(--rpb-number-size));
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  opacity: 0;
+  text-align: center;
+  transform: translateX(-50%);
+  transition:
+    color 170ms ease,
+    opacity 170ms ease,
+    transform 170ms ease;
+  white-space: nowrap;
+}
+
+.reveal .rpb-item.rpb-is-active .rpb-label,
+.reveal .rpb-item.rpb-is-hover-focus .rpb-label {
+  color: var(--rpb-label-active-color);
+}
+
+.reveal .rpb-item.rpb-is-active .rpb-label {
+  transform: scale(1.08);
+}
+
+.reveal .rpb-item.rpb-is-hover-focus .rpb-label {
+  transform: translateY(calc(var(--rpb-computed-label-hover-lift, var(--rpb-label-hover-lift)) * -1)) scale(1.18);
+}
+
+.reveal .rpb-item.rpb-is-active .rpb-track {
+  height: calc(var(--rpb-computed-height, var(--rpb-height)) * 1.8);
+}
+
+.reveal .rpb-item.rpb-is-hover-focus .rpb-track {
+  height: calc(var(--rpb-computed-height, var(--rpb-height)) * 2.7);
+}
+
+.reveal .rpb-item.rpb-is-complete .rpb-fill,
+.reveal .rpb-item.rpb-is-active .rpb-fill,
+.reveal .rpb-item.rpb-is-hover-focus .rpb-fill {
+  background: var(--rpb-fill-color);
+}
+
+.reveal .rpb-progress.rpb-is-hovering .rpb-item.rpb-is-hover-focus .rpb-numbers,
+.reveal .rpb-item.rpb-is-active.rpb-has-current-number .rpb-numbers {
+  opacity: 1;
+}
+
+.reveal .rpb-progress.rpb-is-hovering .rpb-item.rpb-is-hover-focus .rpb-number.rpb-is-sampled,
+.reveal .rpb-item.rpb-is-active .rpb-number.rpb-is-current {
+  opacity: 0.58;
+}
+
+.reveal .rpb-progress.rpb-is-hovering .rpb-item.rpb-is-hover-focus .rpb-number.rpb-is-hover-target,
+.reveal .rpb-item.rpb-is-active .rpb-number.rpb-is-current {
+  color: var(--rpb-label-active-color);
+  opacity: 1;
+  transform: translateX(-50%) translateY(calc(var(--rpb-computed-number-hover-lift, var(--rpb-number-hover-lift)) * -1));
+}
+
+.reveal .progress-overview.rpb-overview-slide {
+  position: relative;
+  display: block !important;
+  top: 0 !important;
+  height: 100%;
+  text-align: center;
+  transform: none !important;
+}
+
+.reveal .progress-overview.rpb-overview-slide > :not(h1):not(h2):not(.rpb-overview-shell) {
+  visibility: hidden;
+}
+
+.reveal .rpb-overview-shell {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  pointer-events: none;
+}
+
+.reveal .rpb-overview-title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--rpb-computed-width, var(--rpb-width));
+  min-height: 1.15em;
+  margin: 0;
+  color: var(--rpb-label-active-color);
+  font-family: var(--r-heading-font, inherit);
+  font-size: var(--r-heading1-size, 2.5em);
+  font-weight: var(--r-heading1-font-weight, 700);
+  line-height: 1.08;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  transition:
+    opacity 200ms ease,
+    transform 200ms ease;
+}
+
+.reveal .progress-overview.rpb-has-selection .rpb-overview-title {
+  opacity: 1;
+}
+
+.reveal .rpb-overview-preview {
+  position: absolute;
+  top: auto;
+  bottom: 12.8%;
+  left: 50%;
+  height: auto;
+  width: var(--rpb-computed-width, var(--rpb-width));
+  transform: translateX(-50%);
+}
+
+.reveal .rpb-overview-preview .rpb-item {
+  cursor: default;
+}
+
+.reveal .rpb-overview-fragments {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.reveal .progress-overview.rpb-is-exiting.present > :not(.rpb-overview-shell) {
+  opacity: 0 !important;
+  transform: translateY(calc(var(--rpb-computed-exit-lift, var(--rpb-exit-lift)) * -1));
+  transition:
+    opacity 380ms ease,
+    transform 380ms ease;
+}
+
+.reveal .progress-overview.rpb-is-exiting.present .rpb-overview-title {
+  opacity: 0 !important;
+  transform: translate(-50%, calc(-50% - var(--rpb-computed-exit-lift, var(--rpb-exit-lift))));
+  transition:
+    opacity 380ms ease,
+    transform 380ms ease;
+}
+
+.reveal .progress-overview.rpb-preview-covered.present .rpb-overview-preview {
+  visibility: hidden;
+  opacity: 0;
+}
+
+@media (max-width: 700px) {
+  :root {
+    --rpb-width: min(94vw, 912px);
+  }
+
+  .reveal .rpb-overview-title {
+    font-size: var(--r-heading1-size, 1.75em);
+  }
+}

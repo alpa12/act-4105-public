@@ -1,0 +1,76 @@
+.reveal .slides section.progress-overview.rpb-overview-slide {
+  overflow: hidden;
+}
+
+.reveal .slides section.progress-overview.rpb-overview-slide .rpb-overview-title {
+  width: min(82%, 18em);
+  font-size: clamp(1.45em, 5.2vmin, 2.15em);
+  line-height: 1.06;
+  overflow-wrap: break-word;
+  text-wrap: balance;
+}
+
+.reveal .slides section.progress-overview.rpb-overview-slide .rpb-overview-preview {
+  bottom: 8%;
+  width: min(86%, 1080px);
+}
+
+.reveal .slides section.progress-overview h2::after,
+.reveal .slides section.rpb-overview-slide h2::after {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.reveal .slides section.progress-overview h2,
+.reveal .slides section.rpb-overview-slide h2 {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.reveal .rpb-progress .rpb-label {
+  color: var(--rpb-label-color);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.reveal .rpb-progress .rpb-track {
+  background: var(--rpb-track-color);
+}
+
+.reveal .rpb-progress .rpb-fill {
+  background: var(--rpb-fill-color);
+}
+
+.reveal .rpb-progress .rpb-item.rpb-is-active .rpb-label,
+.reveal .rpb-progress .rpb-item.rpb-is-hover-focus .rpb-label {
+  color: var(--rpb-label-active-color);
+}
+
+.reveal .rpb-progress .rpb-item.rpb-is-active .rpb-track,
+.reveal .rpb-progress .rpb-item.rpb-is-hover-focus .rpb-track {
+  box-shadow: 0 0 0 1px rgba(31, 35, 40, 0.12);
+}
+
+.reveal .rpb-progress .rpb-item.rpb-is-active .rpb-fill,
+.reveal .rpb-progress .rpb-item.rpb-is-hover-focus .rpb-fill {
+  background: var(--act-laval-red);
+}
+
+.reveal .rpb-progress .rpb-number {
+  color: var(--rpb-number-color);
+  font-weight: 500;
+}
+
+@media (max-height: 620px), (max-width: 760px) {
+  .reveal {
+    --rpb-top: clamp(0.16rem, 0.42vh, 0.34rem);
+    --rpb-width: min(82vw, 760px);
+    --rpb-height: clamp(0.06rem, 0.12vmin, 0.1rem);
+    --rpb-label-font-size: clamp(0.26rem, 0.82vmin, 0.46rem);
+    --rpb-label-gap: clamp(0.06rem, 0.18vh, 0.12rem);
+    --rpb-number-font-size: clamp(0.24rem, 0.72vmin, 0.38rem);
+    --rpb-number-offset: clamp(0.06rem, 0.18vh, 0.12rem);
+    --rpb-number-height: clamp(0.22rem, 0.56vh, 0.32rem);
+    --rpb-clearance: clamp(0.06rem, 0.22vh, 0.12rem);
+  }
+}

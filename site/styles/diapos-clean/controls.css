@@ -1,0 +1,4 @@
+.reveal .slide-number,
+.reveal.has-logo .slide-number {
+  color: rgba(31, 35, 40, 0.66) !important;
+}

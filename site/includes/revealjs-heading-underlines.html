@@ -1,0 +1,166 @@
+<script>
+(function () {
+  const headingSelector = ".reveal .slides section h2:not(:empty)";
+  const underlineWidthVariable = "--act-heading-underline-width";
+  const minLineOverlapRatio = 0.4;
+
+  let scheduled = false;
+  let revealEventsBound = false;
+
+  function getElementScale(element) {
+    const rect = element.getBoundingClientRect();
+    return element.offsetWidth > 0 ? rect.width / element.offsetWidth : 1;
+  }
+
+  function addRectToLine(lines, rect) {
+    const matchingLines = lines
+      .map(function (candidate) {
+        const overlap = Math.min(candidate.bottom, rect.bottom) - Math.max(candidate.top, rect.top);
+        const minHeight = Math.min(candidate.bottom - candidate.top, rect.height);
+        return {
+          line: candidate,
+          overlap: overlap,
+          matches: minHeight > 0 && overlap / minHeight >= minLineOverlapRatio,
+        };
+      })
+      .filter(function (candidate) {
+        return candidate.matches;
+      })
+      .sort(function (a, b) {
+        return b.overlap - a.overlap;
+      });
+
+    let line = matchingLines.length > 0 ? matchingLines[0].line : null;
+
+    if (!line) {
+      line = {
+        top: rect.top,
+        bottom: rect.bottom,
+        left: rect.left,
+        right: rect.right,
+      };
+      lines.push(line);
+      return;
+    }
+
+    line.top = Math.min(line.top, rect.top);
+    line.bottom = Math.max(line.bottom, rect.bottom);
+    line.left = Math.min(line.left, rect.left);
+    line.right = Math.max(line.right, rect.right);
+  }
+
+  function measureHeadingUnderline(heading) {
+    const lines = [];
+    const textNodes = [];
+    // Chromium can report the full h2 block for a range spanning all of its
+    // contents in print mode. Measuring text nodes separately retains only
+    // the physical line boxes that the underline is meant to match.
+    const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT);
+
+    while (walker.nextNode()) {
+      if (walker.currentNode.data.trim()) {
+        textNodes.push(walker.currentNode);
+      }
+    }
+
+    textNodes.forEach(function (node) {
+      const range = document.createRange();
+      range.selectNodeContents(node);
+
+      Array.from(range.getClientRects()).forEach(function (rect) {
+        if (rect.width <= 0 || rect.height <= 0) {
+          return;
+        }
+        addRectToLine(lines, rect);
+      });
+
+      range.detach();
+    });
+
+    if (lines.length === 0) {
+      heading.style.removeProperty(underlineWidthVariable);
+      return;
+    }
+
+    const scale = getElementScale(heading) || 1;
+    const maxLineWidth = lines.reduce(function (maxWidth, line) {
+      return Math.max(maxWidth, line.right - line.left);
+    }, 0);
+
+    heading.style.setProperty(
+      underlineWidthVariable,
+      Math.ceil(maxLineWidth / scale) + "px"
+    );
+  }
+
+  function measureHeadingUnderlines() {
+    document.querySelectorAll(headingSelector).forEach(measureHeadingUnderline);
+  }
+
+  // RevealJS creates and lays out .pdf-page copies after its regular ready
+  // event. The PDF exporter calls this hook after matching Chrome's viewport
+  // to the printed page, so viewport-relative print spacing and title wraps
+  // are final before their line boxes determine the underline width.
+  window.__actMeasureHeadingUnderlines = function () {
+    measureHeadingUnderlines();
+
+    return new Promise(function (resolve) {
+      window.requestAnimationFrame(function () {
+        window.requestAnimationFrame(function () {
+          measureHeadingUnderlines();
+          resolve();
+        });
+      });
+    });
+  };
+
+  function scheduleMeasure() {
+    if (scheduled) {
+      return;
+    }
+
+    scheduled = true;
+    window.requestAnimationFrame(function () {
+      window.requestAnimationFrame(function () {
+        scheduled = false;
+        window.__actMeasureHeadingUnderlines();
+      });
+    });
+  }
+
+  function bindRevealEvents() {
+    if (revealEventsBound || !window.Reveal || typeof window.Reveal.on !== "function") {
+      return;
+    }
+
+    revealEventsBound = true;
+    window.Reveal.on("ready", scheduleMeasure);
+    window.Reveal.on("slidechanged", scheduleMeasure);
+    window.Reveal.on("overviewshown", scheduleMeasure);
+    window.Reveal.on("overviewhidden", scheduleMeasure);
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    bindRevealEvents();
+    scheduleMeasure();
+  });
+
+  window.addEventListener("load", function () {
+    bindRevealEvents();
+    scheduleMeasure();
+  });
+
+  window.addEventListener("resize", scheduleMeasure);
+
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(scheduleMeasure);
+  }
+
+  const observer = new MutationObserver(scheduleMeasure);
+  observer.observe(document.documentElement, {
+    childList: true,
+    characterData: true,
+    subtree: true,
+  });
+})();
+</script>

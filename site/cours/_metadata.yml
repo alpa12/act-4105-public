@@ -1,0 +1,6 @@
+first-class-date: 2026-09-01
+
+format:
+  html:
+    filters:
+      - ../filters/notes-de-cours.lua

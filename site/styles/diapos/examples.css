@@ -1,0 +1,12 @@
+.reveal .slides section.act-example-slide {
+  border-left: 0.18rem solid #4f7cac;
+  padding-left: 0.72rem;
+}
+
+.reveal .slides section.act-example-solution-slide {
+  border-left-color: #4f8f65;
+}
+
+.reveal .slides section.act-example-slide h2 {
+  color: #1f3349;
+}

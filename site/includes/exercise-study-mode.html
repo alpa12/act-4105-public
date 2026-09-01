@@ -1,0 +1,182 @@
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  window.setTimeout(function () {
+    const studyView = document.querySelector(".exercise-study-view");
+    const content = studyView && studyView.closest("#quarto-document-content");
+
+    if (!studyView || !content) {
+      return;
+    }
+
+    const controls = studyView.querySelector(".exercise-study-controls");
+    const notesPanel = studyView.querySelector("#exercise-study-notes");
+    const buttons = Array.from(studyView.querySelectorAll("[data-exercise-study-mode]"));
+
+    if (!controls || !notesPanel || buttons.length !== 2) {
+      return;
+    }
+
+    const layout = document.createElement("div");
+    layout.className = "exercise-study-layout";
+
+    const layoutShell = document.createElement("div");
+    layoutShell.className = "exercise-study-layout-shell";
+
+    const exercisesPanel = document.createElement("div");
+    exercisesPanel.className = "exercise-study-exercises";
+    exercisesPanel.setAttribute("role", "region");
+    exercisesPanel.setAttribute("aria-label", "Exercices");
+
+    let sibling = studyView.nextElementSibling;
+    while (sibling) {
+      const nextSibling = sibling.nextElementSibling;
+      exercisesPanel.appendChild(sibling);
+      sibling = nextSibling;
+    }
+
+    layout.append(exercisesPanel, notesPanel);
+    layoutShell.appendChild(layout);
+    studyView.appendChild(layoutShell);
+
+    const desktopViewport = window.matchMedia("(min-width: 992px)");
+
+    function updateNavbarOffset() {
+      const navbar = document.querySelector("#quarto-header");
+      const navbarHeight = navbar ? Math.ceil(navbar.getBoundingClientRect().height) : 0;
+      document.documentElement.style.setProperty(
+        "--exercise-study-navbar-offset",
+        (navbarHeight || 56) + "px"
+      );
+    }
+
+    function removeNotesFrame() {
+      notesPanel.replaceChildren();
+    }
+
+    function revealDeck(frame) {
+      try {
+        const deck = frame.contentWindow && frame.contentWindow.Reveal;
+        return deck && typeof deck.configure === "function"
+          ? deck
+          : null;
+      } catch (error) {
+        return null;
+      }
+    }
+
+    function enableNativeRevealControls(frame, attempt) {
+      if (!frame.isConnected) {
+        return;
+      }
+
+      const deck = revealDeck(frame);
+      if (deck) {
+        deck.configure({
+          controls: true,
+          controlsLayout: "edges",
+          controlsBackArrows: "faded"
+        });
+        return;
+      }
+
+      if (attempt < 20) {
+        window.setTimeout(function () {
+          enableNativeRevealControls(frame, attempt + 1);
+        }, 50);
+      }
+    }
+
+    function createNotesFrame() {
+      if (notesPanel.querySelector(".exercise-study-notes-frame")) {
+        return;
+      }
+
+      const frame = document.createElement("iframe");
+      frame.className = "exercise-study-notes-frame";
+      frame.src = notesPanel.dataset.diaposSrc;
+      frame.title = "Notes du chapitre";
+      frame.loading = "lazy";
+      frame.allowFullscreen = true;
+      frame.addEventListener("load", function () {
+        enableNativeRevealControls(frame, 0);
+      });
+      notesPanel.appendChild(frame);
+    }
+
+    function setMode(mode) {
+      const showNotes = mode === "notes" && desktopViewport.matches;
+
+      document.documentElement.classList.toggle("exercise-study-notes-active", showNotes);
+      studyView.classList.toggle("exercise-study-notes-active", showNotes);
+      notesPanel.hidden = !showNotes;
+      notesPanel.setAttribute("aria-hidden", String(!showNotes));
+
+      for (const button of buttons) {
+        const selected = showNotes
+          ? button.dataset.exerciseStudyMode === "notes"
+          : button.dataset.exerciseStudyMode === "exercises";
+        button.setAttribute("aria-pressed", String(selected));
+        button.setAttribute(
+          "aria-expanded",
+          String(showNotes && button.dataset.exerciseStudyMode === "notes")
+        );
+      }
+
+      if (showNotes) {
+        createNotesFrame();
+      } else {
+        removeNotesFrame();
+      }
+    }
+
+    controls.addEventListener("click", function (event) {
+      const button = event.target.closest("[data-exercise-study-mode]");
+      if (button) {
+        setMode(button.dataset.exerciseStudyMode);
+      }
+    });
+
+    controls.addEventListener("keydown", function (event) {
+      const currentIndex = buttons.indexOf(document.activeElement);
+      if (currentIndex === -1) {
+        return;
+      }
+
+      let nextIndex = currentIndex;
+      if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+        nextIndex = (currentIndex + buttons.length - 1) % buttons.length;
+      } else if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+        nextIndex = (currentIndex + 1) % buttons.length;
+      } else if (event.key === "Home") {
+        nextIndex = 0;
+      } else if (event.key === "End") {
+        nextIndex = buttons.length - 1;
+      } else {
+        return;
+      }
+
+      event.preventDefault();
+      const nextButton = buttons[nextIndex];
+      nextButton.focus();
+      setMode(nextButton.dataset.exerciseStudyMode);
+    });
+
+    function handleViewportChange() {
+      updateNavbarOffset();
+      if (!desktopViewport.matches) {
+        setMode("exercises");
+      }
+    }
+
+    if (desktopViewport.addEventListener) {
+      desktopViewport.addEventListener("change", handleViewportChange);
+    } else {
+      desktopViewport.addListener(handleViewportChange);
+    }
+    window.addEventListener("resize", updateNavbarOffset);
+
+    updateNavbarOffset();
+    setMode("exercises");
+  }, 0);
+});
+</script>
