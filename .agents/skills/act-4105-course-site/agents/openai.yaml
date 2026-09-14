@@ -1,0 +1,4 @@
+interface:
+  display_name: "ACT-4105 Course Site"
+  short_description: "Maintain the ACT-4105 Quarto course site."
+  default_prompt: "Use $act-4105-course-site to update this Quarto course site while preserving project conventions."

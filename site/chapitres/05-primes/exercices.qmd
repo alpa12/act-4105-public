@@ -13,12 +13,12 @@ library(tarifr)
 :::: {.question}
 (CAS Examen 5, 2009 – Q18)
 
-Les données suivantes sont les primes associées à cinq polices annuelles, où la prime est acquise uniformément dans l’année :
+Les données suivantes sont les primes associées à cinq polices annuelles, où la prime est acquise uniformément dans l’année :
 
 | Police | Date d’effet | Prime |
 |---|---|---:|
 | 1 | 1er janvier 2007 | 750 |
-| 2 | 1er avril 2007 | 1200 |
+| 2 | 1er avril 2007 | 1 200 |
 | 3 | 1er juillet 2007 | 900 |
 | 4 | 1er octobre 2007 | 800 |
 | 5 | 1er janvier 2008 | 850 |
@@ -44,9 +44,9 @@ Calculez les primes acquises totales pour l’année de calendrier 2008.
 | 3 | $900 \times \frac{6}{12} = 450$ |
 | 4 | $800 \times \frac{9}{12} = 600$ |
 | 5 | $850 \times \frac{12}{12} = 850$ |
-| **Total** | **2200** |
+| **Total** | **2 200** |
 
-Réponse : 2200
+Réponse : 2200
 :::
 :::
 
@@ -61,9 +61,9 @@ Calculez les primes acquises totales pour l’année de police 2007, vues au 31 
 | 3 | $900 \times \frac{9}{12} = 675$ |
 | 4 | $800 \times \frac{6}{12} = 400$ |
 | 5 | 0 |
-| **Total** | **3025** |
+| **Total** | **3 025** |
 
-Réponse : 3025
+Réponse : 3025
 :::
 :::
 
@@ -123,14 +123,14 @@ Avec la méthode du parallélogramme, déterminer les primes acquises au taux co
 
 | Année de calendrier | Primes acquises | Date d’effet | Changement de taux |
 |---|---:|---|---:|
-| 1997 | 10000 | 1er juillet 1997 | +5.2 % |
-| 1998 | 11500 | - | - |
-| 1999 | 14000 | 1er avril 1999 | +7.4 % |
+| 1997 | 10 000 | 1er juillet 1997 | +5.2 % |
+| 1998 | 11 500 | - | - |
+| 1999 | 14 000 | 1er avril 1999 | +7.4 % |
 
 Toutes les polices ont des termes de 2 ans et les polices sont écrites uniformément dans l’année.
 
 ::: {.solution}
-Le diagramme de l’année de calendrier 1999 se découpe en trois zones : un petit triangle avant le plein effet du changement du 1er juillet 1997, une grande zone au taux 1.052, puis un triangle après le changement du 1er avril 1999.
+Le diagramme de l’année de calendrier 1999 se découpe en trois zones : un petit triangle avant le plein effet du changement du 1er juillet 1997, une grande zone au taux 1.052, puis un triangle après le changement du 1er avril 1999.
 
 ```{r}
 #| echo: false
@@ -183,17 +183,17 @@ $$
 :::: {.question}
 (CAS Examen 5, 2004 – Q31)
 
-Avec les données suivantes :
+Avec les données suivantes :
 
 - Les polices sont écrites uniformément dans l’année.
 - Les polices ont des termes de 12 mois.
 - Un changement de taux requis par la loi affecte toutes les polices en force.
 
-En supposant les changements de taux suivants :
+En supposant les changements de taux suivants :
 
-- Changement de taux d’expérience le 1er octobre 2001 : +7 %
-- Changement de taux d’expérience le 1er juillet 2002 : +10 %
-- Changement de taux requis par la loi le 1er juillet 2003 : -5 %
+- Changement de taux d’expérience le 1er octobre 2001 : +7 %
+- Changement de taux d’expérience le 1er juillet 2002 : +10 %
+- Changement de taux requis par la loi le 1er juillet 2003 : -5 %
 
 ::: {.question}
 Calculez le facteur requis pour ajuster les primes acquises de l’année de calendrier 2002 au taux courant.
@@ -300,12 +300,12 @@ $$
 :::: {.question}
 (CAS Examen 5, 2010 – Q19)
 
-Avec les données suivantes pour une ligne d’affaires de la compagnie XYZ dans l’État X :
+Avec les données suivantes pour une ligne d’affaires de la compagnie XYZ dans l’État X :
 
 - Toutes les polices sont semestrielles.
 - Un changement de loi entre en vigueur le 1er juillet 2008 et s’applique à toutes les polices futures et à toutes les polices en force. L’impact sur les primes de ce changement est estimé à +10 %.
 - Une hausse de taux de 5 % est mise en place le 1er octobre 2008.
-- Les primes acquises pour l’année de calendrier 2008 sont 1 000 000 \$.
+- Les primes acquises pour l’année de calendrier 2008 sont 1 000 000 \$.
 
 ::: {.question}
 Dessinez et identifiez le diagramme pour les primes acquises pour l’année de calendrier 2008 reflétant la méthode du parallélogramme.
@@ -340,7 +340,7 @@ tarifr::rate_level_diagram(
 )
 ```
 
-Le diagramme pour l’année de calendrier 2008 est séparé en trois zones :
+Le diagramme pour l’année de calendrier 2008 est séparé en trois zones :
 
 | Zone | Description | Index de taux cumulatif | Aire année de calendrier 2008 |
 |---|---|---:|---:|
@@ -406,7 +406,7 @@ Le diagramme pour l’année de police 2008 est un parallélogramme couvrant les
 ::: {.question}
 (CAS Examen 5, Automne 2013 – Q2)
 
-Avec les données suivantes :
+Avec les données suivantes :
 
 - Toutes les polices ont des termes de 6 mois.
 - Les polices sont écrites uniformément durant chaque semestre et ne peuvent pas être annulées.
@@ -429,13 +429,13 @@ Avec les données suivantes :
 | 1er janvier 2012 – 30 juin 2012 | 175 | 150 |
 | 1er juillet 2012 – 31 décembre 2012 | 200 | 200 |
 
-En utilisant la méthode qui consiste à recalculer la prime pour chaque unité, calculez les primes acquises pour l’année de calendrier 2012 au taux courant.
+En utilisant la méthode qui consiste à recalculer la prime pour chaque unité d’exposition (*extension of exposures*), calculez les primes acquises pour l’année de calendrier 2012 au taux courant.
 
 ::: {.solution}
-Taux courant :
+Taux courant :
 
-- Classe A : $500 \times 1 + 55 = 555$
-- Classe B : $500 \times 0.8 + 55 = 455$
+- Classe A : $500 \times 1 + 55 = 555$
+- Classe B : $500 \times 0.8 + 55 = 455$
 
 | Date d’effet de police | Date d’effet supposée | % de la prime acquise dans l’année de calendrier 2012 |
 |---|---|---:|
@@ -444,32 +444,32 @@ Taux courant :
 | 1er janvier 2012 – 30 juin 2012 | 1er avril 2012 | 1 |
 | 1er juillet 2012 – 31 décembre 2012 | 1er octobre 2012 | 0.5 |
 
-\[
+$$
 \begin{aligned}
 \text{Primes acquises au taux courant}
 &= 555[125(0) + 150(0.5) + 175(1) + 200(0.5)] \\
 &\quad + 455[50(0) + 100(0.5) + 150(1) + 200(0.5)] \\
 &= 330\,750.
 \end{aligned}
-\]
+$$
 :::
 :::
 
 :::: {.question}
 (CAS Examen 5, Automne 2015 – Q1)
 
-Avec les données suivantes :
+Avec les données suivantes :
 
 | Date d’effet | Nombre de véhicules écrits à cette date d’effet |
 |---|---:|
-| 1er février 2013 | 1100 |
+| 1er février 2013 | 1 100 |
 | 1er août 2013 | 800 |
 | 1er février 2014 | 600 |
 | 1er août 2014 | 300 |
 
 - Toutes les polices ont des termes de 6 mois.
 - La base d’exposition est un véhicule-année.
-- La prime par véhicule est 500\$ pour un terme de 6 mois pour les polices en vigueur avant le 31 août 2014.
+- La prime par véhicule est 500 \$ pour un terme de 6 mois pour les polices en vigueur avant le 31 août 2014.
 - Un changement de taux uniforme de -18 % entre en vigueur le 1er septembre 2014.
 
 ::: {.question}
@@ -483,10 +483,10 @@ $\text{Unités acquises} = 1100(0.5)(0) + 800(0.5)\left(\frac{1}{6}\right) + 600
 :::
 
 ::: {.question}
-Calculez les primes acquises au taux courant pour l’année de calendrier 2014 en utilisant la méthode du parallélogramme et la méthode qui consiste à recalculer la prime pour toutes les unités (*extension of exposures*), puis discutez de la méthode la plus appropriée pour cette situation.
+Calculez les primes acquises au taux courant pour l’année de calendrier 2014 en utilisant la méthode du parallélogramme et la méthode qui consiste à recalculer la prime pour chaque unité d’exposition (*extension of exposures*), puis discutez de la méthode la plus appropriée pour cette situation.
 
 ::: {.solution}
-Méthode qui consiste à recalculer la prime pour chaque unité d’exposition (*extension of exposures*) :
+Méthode qui consiste à recalculer la prime pour chaque unité d’exposition (*extension of exposures*) :
 
 $$
 \text{Primes acquises au taux courant}
@@ -494,7 +494,7 @@ $$
 = 403169
 $$
 
-Méthode du parallélogramme :
+Méthode du parallélogramme :
 
 ```{r}
 #| echo: false
@@ -541,10 +541,10 @@ $$
 = 411380
 $$
 
-Les primes acquises au taux courant pour l’année de calendrier 2014 sont donc de :
+Les primes acquises au taux courant pour l’année de calendrier 2014 sont donc de :
 
-- 403 169 \$ avec la méthode qui consiste à recalculer la prime pour chaque unité d’exposition (*extension of exposures*)
-- 411 380 \$ selon la méthode du parallélogramme.
+- 403 169 \$ avec la méthode qui consiste à recalculer la prime pour chaque unité d’exposition (*extension of exposures*)
+- 411 380 \$ selon la méthode du parallélogramme.
 
 La méthode qui consiste à recalculer la prime pour chaque unité d’exposition est plus appropriée dans la présente situation, étant donné que la méthode du parallélogramme suppose que l’écriture des polices se fait uniformément dans l’année, ce qui n’est pas le cas ici avec davantage d’écriture en début d’année et une décroissance par la suite.
 :::
@@ -554,7 +554,7 @@ La méthode qui consiste à recalculer la prime pour chaque unité d’expositio
 ::: {.question}
 (CAS Examen 5, 2006 – Q27 a)
 
-Expliquez pourquoi utiliser la prime moyenne pour analyser la tendance dans les primes (*premium trend*) est plus précis que d’utiliser les primes totales.
+Expliquez pourquoi utiliser la prime moyenne pour analyser la tendance dans les primes est plus précis que d’utiliser les primes totales.
 
 ::: {.solution}
 La prime moyenne n’est pas biaisée par une hausse (ou baisse) d’unités écrites d’une année à l’autre, si la compagnie est en croissance (ou en décroissance) par exemple.
@@ -565,7 +565,7 @@ La prime moyenne n’est pas biaisée par une hausse (ou baisse) d’unités éc
 (CAS Examen 5, 2009 – Q20)
 
 ::: {.question}
-Expliquez pourquoi un actuaire devrait utiliser les primes écrites, plutôt que les primes acquises, pour analyser la tendance dans les primes (*premium trend*).
+Expliquez pourquoi un actuaire devrait utiliser les primes écrites, plutôt que les primes acquises, pour analyser la tendance dans les primes.
 
 ::: {.solution}
 Les primes écrites reflètent un changement dans la distribution du portefeuille plus rapidement que les primes acquises.
@@ -573,7 +573,7 @@ Les primes écrites reflètent un changement dans la distribution du portefeuill
 :::
 
 ::: {.question}
-Expliquez pourquoi un actuaire devrait utiliser les primes au taux courant pour analyser la tendance dans les primes (*premium trend*).
+Expliquez pourquoi un actuaire devrait utiliser les primes au taux courant pour analyser la tendance dans les primes.
 
 ::: {.solution}
 Si on n’utilisait pas les primes au taux courant, les changements de taux seraient aussi capturés dans le facteur de tendance, ce qui n’est pas ce qu’on souhaite.
@@ -584,12 +584,12 @@ Si on n’utilisait pas les primes au taux courant, les changements de taux sera
 ::: {.question}
 (CAS Examen 5, 2010 – Q18)
 
-Avec l’information suivante :
+Avec l’information suivante :
 
 | Année de calendrier | Unités acquises | Unités écrites | Primes acquises au taux courant | Primes écrites au taux courant |
 |---|---:|---:|---:|---:|
-| 2008 | 1000 | 1100 | 487500 | 550000 |
-| 2009 | 1200 | 1300 | 615000 | 682500 |
+| 2008 | 1 000 | 1 100 | 487 500 | 550 000 |
+| 2009 | 1 200 | 1 300 | 615 000 | 682 500 |
 
 - Toutes les polices sont annuelles.
 - La date d’effet proposée est le 1er janvier 2011.
@@ -599,7 +599,7 @@ Avec l’information suivante :
 Calculez les primes acquises pour l’année de calendrier 2008 au niveau prospectif en utilisant la méthode de projection en deux étapes (*two-step trending*).
 
 ::: {.solution}
-Étape 1 :
+Étape 1 :
 
 $$
 \text{Prime écrite moyenne au taux courant la plus récente}
@@ -608,12 +608,12 @@ $$
 $$
 
 $$
-\text{Facteur de premium trend courant}
+\text{Facteur de tendance courante}
 = \frac{525}{487500 / 1000}
 = 1.07692307
 $$
 
-Étape 2 :
+Étape 2 :
 
 La fin de la période de tendance est le 1er juillet 2011.
 
@@ -628,30 +628,30 @@ $$
 :::: {.question}
 (CAS Examen 5, 2012 – Q6)
 
-Avec l’information suivante pour une compagnie écrivant de l’assurance habitation :
+Avec l’information suivante pour une compagnie écrivant de l’assurance habitation :
 
-- La prime écrite moyenne du 4e trimestre de 2011 est 560\$.
+- La prime écrite moyenne du 4e trimestre de 2011 est 560 \$.
 - La date d’effet proposée pour le prochain changement de taux est le 1er juillet 2012.
-- Supposez un *premium trend* annuel prospectif de +5 %.
+- Supposez une tendance annuelle prospective dans les primes de +5 %.
 - Les révisions de tarification sont faites tous les deux ans.
 
 | Année de calendrier se terminant le | Unités acquises (maison-années) | Primes acquises au taux courant |
 |---|---:|---:|
-| 31 décembre 2009 | 10000 | 5000000 |
-| 31 décembre 2010 | 10000 | 5250000 |
-| 31 décembre 2011 | 10000 | 5512500 |
+| 31 décembre 2009 | 10 000 | 5 000 000 |
+| 31 décembre 2010 | 10 000 | 5 250 000 |
+| 31 décembre 2011 | 10 000 | 5 512 500 |
 
 ::: {.question}
 Utilisez la méthode de projection en deux étapes (*two-step trending*) pour calculer les primes acquises projetées pour l’année de calendrier se terminant le 31 décembre 2009.
 
 ::: {.solution}
 $$
-\text{Facteur de premium trend courant}
+\text{Facteur de tendance courante}
 = \frac{560}{5000000 / 10000}
 = 1.12
 $$
 
-Date moyenne de souscription du 4e trimestre 2011 : 15 novembre 2011.
+Date moyenne de souscription du 4e trimestre 2011 : 15 novembre 2011.
 
 Les taux seront en vigueur le 1er juillet 2012 pour 2 ans, donc la fin de la période de tendance est le 1er juillet 2013.
 
@@ -667,7 +667,7 @@ $$
 Après avoir complété l’analyse, l’actuaire réalise qu’il n’avait pas considéré que l’augmentation annuelle dans le montant d’assurance pour tenir compte de l’inflation a été matériellement réduite après le 1er janvier 2012. Discutez si des ajustements sont nécessaires pour compléter l’analyse en a.
 
 ::: {.solution}
-Cela signifie que la prime va augmenter moins que ce qu’il suppose. Il devrait diminuer son *premium trend* prospectif.
+Cela signifie que la prime va augmenter moins que ce qu’il suppose. Il devrait diminuer sa tendance prospective dans les primes.
 :::
 :::
 ::::
@@ -675,18 +675,18 @@ Cela signifie que la prime va augmenter moins que ce qu’il suppose. Il devrait
 :::: {.question}
 (CAS Examen 5, Printemps 2013 – Q2)
 
-Avec l’information suivante pour une compagnie d’assurance :
+Avec l’information suivante pour une compagnie d’assurance :
 
 - La date d’effet proposée pour le prochain changement de taux est le 1er janvier 2014.
 - Les taux seront en vigueur pendant un an.
 - Toutes les polices ont des termes annuels et sont écrites uniformément dans l’année.
-- La prime acquise pour l’année de calendrier 2012 au taux courant est 114 208 050 \$.
+- La prime acquise pour l’année de calendrier 2012 au taux courant est 114 208 050 \$.
 
 | Période de 12 mois se terminant le | Primes écrites au taux courant | Unités écrites |
 |---|---:|---:|
-| 31 décembre 2011 | 104 500 000 \$ | 110 000 |
-| 30 juin 2012 | 113 800 500 \$ | 121 000 |
-| 31 décembre 2012 | 123 916 100 \$ | 133 100 |
+| 31 décembre 2011 | 104 500 000 \$ | 110 000 |
+| 30 juin 2012 | 113 800 500 \$ | 121 000 |
+| 31 décembre 2012 | 123 916 100 \$ | 133 100 |
 
 ::: {.question}
 En utilisant la méthode de projection en une étape (*one-step trending*), calculez les primes acquises au taux courant projetées pour l’année de calendrier 2012 à utiliser pour calculer le changement de taux nécessaire.
@@ -722,7 +722,7 @@ tarifr::trend_period_diagram(
 | 30 juin 2012 | $113800500 / 121000 = 940.5$ |
 | 31 décembre 2012 | $123916100 / 133100 = 931$ |
 
-$\text{Premium trend semi-annuel} = -1\%$
+$\text{Tendance semestrielle dans les primes} = -1\%$
 
 $$
 \text{Primes acquises projetées}
@@ -733,7 +733,7 @@ $$
 :::
 
 ::: {.question}
-Discutez brièvement des raisons pour lesquelles un facteur de tendance dans les primes (*premium trend*) devrait être utilisé dans une analyse de niveau de taux indiqué.
+Discutez brièvement des raisons pour lesquelles un facteur de tendance dans les primes devrait être utilisé dans une analyse de niveau de taux indiqué.
 
 ::: {.solution}
 Il ajuste pour les différences de primes entre les primes projetées et historiques causées par un changement dans la distribution du portefeuille, par exemple.
@@ -741,15 +741,15 @@ Il ajuste pour les différences de primes entre les primes projetées et histori
 :::
 
 ::: {.question}
-Discutez brièvement des raisons pour lesquelles il est inapproprié d’utiliser les primes écrites aux taux historiques pour déterminer le facteur de tendance dans les primes (*premium trend*).
+Discutez brièvement des raisons pour lesquelles il est inapproprié d’utiliser les primes écrites aux taux historiques pour déterminer le facteur de tendance dans les primes.
 
 ::: {.solution}
-Les changements de taux seraient capturés dans le *premium trend*.
+Les changements de taux seraient capturés dans la tendance dans les primes.
 :::
 :::
 
 ::: {.question}
-La compagnie d’assurance décide de transférer tous ses assurés actuels d’une franchise de 100\$ à une franchise de 500\$ au renouvellement pendant l’année de calendrier 2013. Avec cette nouvelle information, discutez si les primes acquises projetées réelles seront plus élevées, plus basses ou inchangées par rapport à celles en a.
+La compagnie d’assurance décide de transférer tous ses assurés actuels d’une franchise de 100 \$ à une franchise de 500 \$ au renouvellement pendant l’année de calendrier 2013. Avec cette nouvelle information, discutez si les primes acquises projetées réelles seront plus élevées, plus basses ou inchangées par rapport à celles en a.
 
 ::: {.solution}
 Si la franchise augmente, la prime moyenne va diminuer. Les primes acquises projetées réelles seront plus basses que le calcul en a.

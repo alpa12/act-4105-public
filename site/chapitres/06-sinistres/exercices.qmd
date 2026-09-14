@@ -13,11 +13,11 @@ library(tarifr)
 :::: {.question}
 (CAS Examen 5, 2009 - Q22 a-b-c)
 
-Une compagnie d'assurance a commencé à écrire des polices annuelles en 2005. Avec l'information suivante pour les données de sinistres des polices écrites en 2005 :
+Une compagnie d'assurance a commencé à souscrire des polices annuelles en 2005. Avec les données suivantes sur les sinistres des polices souscrites en 2005 :
 
 **Données pour les accidents ayant eu lieu en 2005**
 
-| Année de calendrier | Paiements | Réserve à la fin de l'année |
+| Année de calendrier | Paiements | Provision par cas à la fin de l'année |
 |---|---:|---:|
 | 2005 | 1 000 000 $ | 500 000 $ |
 | 2006 | 300 000 $ | 300 000 $ |
@@ -26,7 +26,7 @@ Une compagnie d'assurance a commencé à écrire des polices annuelles en 2005. 
 
 **Données pour les accidents ayant eu lieu en 2006**
 
-| Année de calendrier | Paiements | Réserve à la fin de l'année |
+| Année de calendrier | Paiements | Provision par cas à la fin de l'année |
 |---|---:|---:|
 | 2005 | - | - |
 | 2006 | 1 500 000 $ | 1 000 000 $ |
@@ -37,7 +37,7 @@ Une compagnie d'assurance a commencé à écrire des polices annuelles en 2005. 
 Calculer les montants de sinistres rapportés pour l'année de calendrier 2006.
 
 ::: {.solution}
-Les sinistres rapportés pour l'année de calendrier 2006 sont les montants payés en 2006 plus le changement de réserve en 2006 :
+Les sinistres rapportés pour l'année de calendrier 2006 sont les montants payés en 2006 plus le changement de provision par cas en 2006 :
 
 $$
 300000 + 1500000 + (300000 - 500000) + (1000000 - 0) = 2600000
@@ -51,7 +51,7 @@ Réponse : 2.6 M$
 Calculer les sinistres rapportés pour l'année d'accident 2006 évalués au 31 décembre 2007.
 
 ::: {.solution}
-Les sinistres rapportés pour l'année d'accident 2006 sont la somme des paiements pour les années de calendrier 2006 et 2007 pour les sinistres ayant eu lieu en 2006, plus la réserve à la fin de 2007 pour les sinistres ayant eu lieu en 2006 :
+Les sinistres rapportés pour l'année d'accident 2006 sont la somme des paiements pour les années de calendrier 2006 et 2007 pour les sinistres ayant eu lieu en 2006, plus la provision par cas à la fin de 2007 pour les sinistres ayant eu lieu en 2006 :
 
 $$
 1500000 + 700000 + 200000 = 2400000
@@ -65,7 +65,7 @@ Réponse : 2.4 M$
 Calculer les sinistres rapportés pour l'année de police 2005 évalués au 31 décembre 2008.
 
 ::: {.solution}
-Comme les données présentées touchent seulement des polices écrites en 2005, les sinistres encourus vus au 31 décembre 2008 sont la somme des paiements plus la réserve à la fin de l'année de calendrier 2008 :
+Comme les données présentées touchent seulement des polices écrites en 2005, les sinistres rapportés vus au 31 décembre 2008 sont la somme des paiements plus la provision par cas à la fin de l'année de calendrier 2008 :
 
 $$
 1000000 + 300000 + 250000 + 50000 + 1500000 + 700000 + 100000 + 0 + 50000 = 3950000
@@ -79,24 +79,24 @@ Réponse : 3.95 M$
 :::: {.question}
 (CAS Examen 5, 2011 - Q6)
 
-Avec les données suivantes pour des réclamations associées avec des polices annuelles d'assurance habitation écrites en 2007 :
+Avec les données suivantes pour des réclamations associées à des polices annuelles d'assurance habitation écrites en 2007 :
 
-| No. réclamation | Année d'accident | Année rapportée | Date de transaction | Paiement | Provision par cas |
+| No. réclamation | Année d'accident | Année de sinistre rapporté | Date de transaction | Paiement | Provision par cas |
 |---:|---:|---:|---|---:|---:|
-| 1 | 2007 | 2007 | 1 avr 2007 | 100 $ | 300 $ |
-| 1 | 2007 | 2007 | 1 jul 2008 | 200 $ | 600 $ |
-| 1 | 2007 | 2007 | 1 jun 2009 | 500 $ | 0 $ |
-| 2 | 2007 | 2008 | 1 mai 2008 | 500 $ | 200 $ |
-| 2 | 2007 | 2008 | 1 jul 2009 | 200 $ | 0 $ |
-| 3 | 2008 | 2008 | 1 août 2008 | 50 $ | 200 $ |
-| 3 | 2008 | 2008 | 1 mar 2009 | 100 $ | 50 $ |
-| 3 | 2008 | 2008 | 1 jul 2010 | 200 $ | 0 $ |
+| 1 | 2007 | 2007 | 2007/04/01 | 100 $ | 300 $ |
+| 1 | 2007 | 2007 | 2008/07/01 | 200 $ | 600 $ |
+| 1 | 2007 | 2007 | 2009/06/01 | 500 $ | 0 $ |
+| 2 | 2007 | 2008 | 2008/05/01 | 500 $ | 200 $ |
+| 2 | 2007 | 2008 | 2009/07/01 | 200 $ | 0 $ |
+| 3 | 2008 | 2008 | 2008/08/01 | 50 $ | 200 $ |
+| 3 | 2008 | 2008 | 2009/03/01 | 100 $ | 50 $ |
+| 3 | 2008 | 2008 | 2010/07/01 | 200 $ | 0 $ |
 
 ::: {.question}
 Calculer les sinistres rapportés pour l'année de calendrier 2008.
 
 ::: {.solution}
-Somme des montants payés pour toutes les transactions qui ont eu lieu en 2008 plus les changements de réserve :
+Somme des montants payés pour toutes les transactions qui ont eu lieu en 2008 plus les changements de provision par cas :
 
 $$
 200 + 500 + 50 + (600 - 300) + (200 - 0) + (200 - 0) = 1450
@@ -129,7 +129,7 @@ $$
 :::
 
 ::: {.question}
-Calculer les sinistres rapportés pour l'année de sinistre rapporte 2008, évalués au 31 décembre 2009.
+Calculer les sinistres rapportés pour l'année de sinistre rapporté 2008, évalués au 31 décembre 2009.
 
 ::: {.solution}
 Pour toutes les transactions avant le 1er janvier 2010, on somme les montants payés plus les provisions par cas pour les sinistres avec date rapportée en 2008 :
@@ -150,7 +150,7 @@ Avec les données suivantes en assurance invalidité :
 - Le salaire moyen hebdomadaire est 1500 $.
 - Le bénéfice minimal est 48 % du salaire hebdomadaire moyen.
 - Le bénéfice maximal passe de 128 % du salaire hebdomadaire moyen à 112 % du salaire hebdomadaire moyen.
-- La distribution des travailleurs àinsi que leur salaire comparé au salaire hebdomadaire moyen est la suivante :
+- La distribution des travailleurs ainsi que leur salaire comparé au salaire hebdomadaire moyen est la suivante :
 
 | Ratio du salaire hebdomadaire versus le salaire moyen | Nombre de travailleurs | Salaires hebdomadaires totaux |
 |---|---:|---:|
@@ -217,7 +217,7 @@ Avec les données suivantes en assurance invalidité pour un employeur :
 - Bénéfice maximal proposé : 115 % du SAWW.
 
 ::: {.question}
-En assumant aucun changement dans la fréquence de sinistre, calculer l'effet combiné en % du changement de taux de compensation et du changement de bénéfice maximal sur la réclamation moyenne hebdomadaire.
+En supposant aucun changement dans la fréquence de sinistre, calculer l'effet combiné en % du changement de taux de compensation et du changement de bénéfice maximal sur la réclamation moyenne hebdomadaire.
 
 ::: {.solution}
 Notes :
@@ -272,7 +272,7 @@ La durée des paiements devrait diminuer, car plus de travailleurs seront sujets
 :::: {.question}
 (CAS Examen 5, Automne 2015 - Q5 a, b)
 
-Une compagnie d'assurance écrit des polices annuelles. L'historique de changements requis par la loi et des changements de couvertures qui affectent le niveau des bénéfices est le suivant :
+Une compagnie d'assurance écrit des polices annuelles. L'historique des changements requis par la loi et des changements de couverture qui affectent le niveau des bénéfices est le suivant :
 
 | Date effective | Impact direct du changement de bénéfice |
 |---|---:|
@@ -280,7 +280,7 @@ Une compagnie d'assurance écrit des polices annuelles. L'historique de changeme
 | 1er octobre 2014 | +4.3 % |
 
 ::: {.question}
-En assumant que les deux changements affectent seulement les polices écrites après la date effective du changement, calculer le facteur d'ajustement à appliquer aux sinistres pour le dernier trimestre d'accident de 2014 pour tenir compte de l'effet direct du changement de bénéfice.
+En supposant que les deux changements affectent seulement les polices écrites après la date effective du changement, calculer le facteur d'ajustement à appliquer aux sinistres pour le dernier trimestre d'accident de 2014 pour tenir compte de l'effet direct du changement de bénéfice.
 
 ::: {.solution}
 Étant donné que le changement affecte les sinistres des polices écrites après la date de changement, on représente l'impact de ces changements par des diagonales.
@@ -317,7 +317,7 @@ tarifr::rate_level_diagram(
 )
 ```
 
-| Région | Niveau de bénéfice | % aire dans le 4e trimestre d'année d'accident 2014 |
+| Région | Niveau de bénéfice | Aire (%) dans le 4e trimestre d'année d'accident 2014 |
 |---|---:|---:|
 | A | 1.00 | $1 - 0.625 - 0.125 = 0.25$ |
 | B | 1.065 | $(3/12)((10.5 - 3)/12)/0.25 = 0.625$ |
@@ -338,7 +338,7 @@ $$
 :::
 
 ::: {.question}
-En assumant que les deux changements affectent toutes les réclamations qui surviennent après la date effective du changement, calculer le facteur d'ajustement à appliquer aux sinistres pour le premier trimestre de l'année de police 2014 pour tenir compte de l'effet direct du changement de bénéfice.
+En supposant que les deux changements affectent toutes les réclamations qui surviennent après la date effective du changement, calculer le facteur d'ajustement à appliquer aux sinistres pour le premier trimestre de l'année de police 2014 pour tenir compte de l'effet direct du changement de bénéfice.
 
 ::: {.solution}
 Étant donné que le changement affecte toutes les réclamations qui surviennent après la date effective du changement, on illustre ce changement par des lignes horizontales.
@@ -376,7 +376,7 @@ tarifr::rate_level_diagram(
 )
 ```
 
-| Région | Niveau de bénéfice | % aire dans le 1er trimestre d'année de police 2014 |
+| Région | Niveau de bénéfice | Aire (%) dans le 1er trimestre d'année de police 2014 |
 |---|---:|---:|
 | A | 1.00 | $0.5(1.5/12)(1.5/12)/0.25 = 0.03125$ |
 | B | 1.065 | $1 - 0.03125 - 0.375 = 0.59375$ |
@@ -456,7 +456,7 @@ Il est important d'appliquer ces deux ajustements à notre expérience passée a
 - Le **facteur de tendance** projette les sinistres historiques de la date d'accident moyenne dans l'expérience à la date d'accident moyenne dans la période future pour tenir compte de l'inflation dans les montants de sinistres et du changement de fréquence notamment.
 - Le **facteur de développement des sinistres** projette des sinistres rapportés pour les amener à leur niveau ultime.
 
-Si l'un ou l'autre de ces changements n'était pas considéré dans l'établissement de la prime pour la période de police à venir, notre équation fondamentale en assurance ne serait pas balancée.
+Si l'un ou l'autre de ces changements n'était pas considéré dans l'établissement de la prime pour la période de police à venir, notre équation fondamentale en assurance ne serait pas équilibrée.
 :::
 :::
 
@@ -541,7 +541,7 @@ Avec les données suivantes, estimer les sinistres ultimes pour chaque année d'
 | 2018 | 3500 | 4400 |  |  |  |  |
 | 2019 | 5000 |  |  |  |  |  |
 
-Sinistres rapportés ('000 $) par âge (en mois) d'année de sinistre.
+Sinistres rapportés (&#39;000 $) par âge (en mois) d’année d’accident.
 
 ::: {.solution}
 Il faut d'abord calculer les facteurs de développement pour chaque année d'accident et sélectionner ensuite la moyenne pour développer nos sinistres à l'ultime :
@@ -558,7 +558,7 @@ Il faut d'abord calculer les facteurs de développement pour chaque année d'acc
 
 On procède ensuite à la projection des sinistres à l'ultime :
 
-| Année d'accident | Âge (mois) de l'année d'accident au 31 décembre 2019 | Sinistres rapportés ('000 $) au 31 décembre 2019 | Facteur de développement à l'ultime | Sinistres ultimes estimés ('000 $) |
+| Année d'accident | Âge (mois) de l'année d'accident au 31 décembre 2019 | Sinistres rapportés (&#39;000 $) au 31 décembre 2019 | Facteur de développement à l'ultime | Sinistres ultimes estimés (&#39;000 $) |
 |---:|---:|---:|---:|---:|
 | 2014 | 72 | 3350 | 1.00 | 3350 |
 | 2015 | 60 | 3800 | 1.00 | 3800 |
@@ -596,13 +596,13 @@ Avec les données suivantes, calculer les sinistres projetés pour chacune des a
 - Le facteur de tendance annuelle dans les sinistres est 4 %.
 
 ::: {.solution}
-En assumant que les polices sont écrites uniformément dans l'année, la date moyenne souscrite dans la période future est le point milieu entre le 1er janvier 2021 et le 1er janvier 2023, soit le 1er janvier 2022. En assumant que les sinistres surviennent uniformément dans le terme de police, la date moyenne d'accident dans la période future est 12 mois après la date moyenne écrite, soit le 1er janvier 2023. Les sinistres seront donc projetés au 1er janvier 2023.
+En supposant que les polices sont écrites uniformément dans l'année, la date moyenne souscrite dans la période future est le point milieu entre le 1er janvier 2021 et le 1er janvier 2023, soit le 1er janvier 2022. En supposant que les sinistres surviennent uniformément dans le terme de police, la date moyenne d'accident dans la période future est 12 mois après la date moyenne écrite, soit le 1er janvier 2023. Les sinistres seront donc projetés au 1er janvier 2023.
 
 | Année d'accident | Sinistres rapportés | Date moyenne d'accident | Durée de projection | Facteur de projection | Sinistres projetés |
 |---:|---:|---|---:|---:|---:|
-| 2017 | 750 000 $ | 1 jul 2017 | 5.5 | $1.04^{5.5}$ | 930 561 $ |
-| 2018 | 500 000 $ | 1 jul 2018 | 4.5 | $1.04^{4.5}$ | 596 513 $ |
-| 2019 | 450 000 $ | 1 jul 2019 | 3.5 | $1.04^{3.5}$ | 516 213 $ |
+| 2017 | 750 000 $ | 2017/07/01 | 5.5 | $1.04^{5.5}$ | 930 561 $ |
+| 2018 | 500 000 $ | 2018/07/01 | 4.5 | $1.04^{4.5}$ | 596 513 $ |
+| 2019 | 450 000 $ | 2019/07/01 | 3.5 | $1.04^{3.5}$ | 516 213 $ |
 :::
 :::
 

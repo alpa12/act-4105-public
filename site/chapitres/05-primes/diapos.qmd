@@ -51,7 +51,7 @@ Ce chapitre est adapté du chapitre 5 du texte _Basic Ratemaking_ :
 Deux méthodes différentes s’appliquent pour compiler les **primes** :
 
 - Année de calendrier
-  - Année d’accident et année de sinistre rapporté utilisent l’année de calendrier pour les unités d’exposition et les primes
+  - Année d’accident et année de sinistre rapporté utilisent l’année de calendrier pour les unités d’exposition et les primes.
 - Année de police
 
 :::: {.question title="Compilation des primes"}
@@ -358,9 +358,10 @@ Données vues au 31 décembre {{< dynamic-year 0 >}}.
 
 ## Primes non acquises
 
-Portion des primes qui n’est pas encore acquise, à une certaine date.
+**Primes non acquises**
+: Portion des primes qui n’est pas encore acquise, à une certaine date.
 
-Montant total de primes que la compagnie n’a pas encore acquis et auquel les assurés ont droit en cas d’annulation, sujet à une table d’annulation.
+: Montant total des primes que la compagnie n’a pas encore acquises et auquel les assurés ont droit en cas d’annulation, sujet à une table d’annulation.
 
 ---
 
@@ -374,8 +375,8 @@ $$
 
 Pour un groupe de polices, la formule dépend de la méthode de compilation des données :
 
-- La compilation par année de police suit la formule plus haut, à un certain point dans le temps
-- Pour la compilation par année de calendrier, la formule diffère
+- La compilation par année de police suit la formule plus haut, à un certain point dans le temps.
+- Pour la compilation par année de calendrier, la formule diffère.
 
 ## Primes non acquises — année de calendrier
 
@@ -396,7 +397,10 @@ $$
 
 ## Primes en force
 
-Primes totales **du terme** pour toutes les polices en effet à une certaine date, c’est-à-dire les polices sujettes à une perte.
+**Primes en force**
+: Primes totales **du terme** pour toutes les polices en effet à une certaine date, c’est-à-dire les polices sujettes à une perte.
+
+---
 
 Primes en force au {{< dynamic-date "YYYY-06-15" -1 >}} avec les données de l’exemple :
 
@@ -424,7 +428,7 @@ tarifr::rate_level_diagram(
 
 ---
 
-Les primes en force sont souvent le meilleur **estimé de la distribution du portefeuille** à une certaine date et sont souvent utilisées pour calculer l’impact d’un changement de taux sur un portefeuille existant.
+Les primes en force sont souvent la meilleure **estimation de la distribution du portefeuille** à une certaine date et sont souvent utilisées pour calculer l’impact d’un changement de taux sur un portefeuille existant.
 
 ---
 
@@ -451,7 +455,7 @@ afficher_table(
 
 ##
 
-La police D de l’exemple (terme d'un an, écrite le {{< dynamic-date "YYYY-07-01" -1 >}}) fait une transaction le {{< dynamic-date "YYYY-01-01" 0 >}}. À ce moment, sa prime annuelle passe de 400 \$ à 800 \$.
+La police D de l’exemple (terme d’un an, écrite le {{< dynamic-date "YYYY-07-01" -1 >}}) fait une transaction le {{< dynamic-date "YYYY-01-01" 0 >}}. À ce moment, sa prime annuelle passe de 400 \$ à 800 \$.
 
 Calculer :
 
@@ -697,8 +701,8 @@ La police D a été annulée le {{< dynamic-date "YYYY-03-31" 0 >}}.
 
 Avantages de l’année de calendrier :
 
-- Les données sont disponibles rapidement lorsque l’année de calendrier est terminée
-- Aucun coût supplémentaire pour compiler les données selon cette méthode, car cette information est normalement disponible pour les rapports financiers
+- Les données sont disponibles rapidement lorsque l’année de calendrier est terminée.
+- Aucun coût supplémentaire pour compiler les données selon cette méthode, car cette information est normalement disponible pour les rapports financiers.
 
 Inconvénient de l’année de calendrier :
 
@@ -964,7 +968,7 @@ Rappel du chapitre 4 :
 
 Il est possible de faire un calcul approximatif lorsque les données pour les unités individuelles ne sont pas disponibles.
 
-- On assume dans ce cas que les polices sont écrites au point milieu de la période (par exemple le 15e du mois pour des données mensuelles).
+- On suppose dans ce cas que les polices sont écrites au point milieu de la période (par exemple le 15e du mois pour des données mensuelles).
 - L’approximation est valable si les polices sont écrites uniformément dans la période. Cette hypothèse est moins réaliste lorsqu’on applique l’approche à de plus longues périodes, par exemple les trimestres ou les années.
 
 # Primes au taux courant {data-progress-label="Taux courant" subtitle="Méthode du parallélogramme et Extension of Exposures"}
@@ -977,14 +981,14 @@ On répond à la question :
 
 ---
 
-Deux méthodes permettent d'ajuster la prime au taux courant :
+Deux méthodes permettent d’ajuster la prime au taux courant :
 
-- Méthode qui recalcule la prime pour chaque unité d’exposition
+- Méthode qui consiste à recalculer la prime pour chaque unité d’exposition
   - Ajuste la prime police par police
 - Méthode du parallélogramme
-  - Ajuste la prime agrégée d'un groupe de police
+  - Ajuste la prime agrégée d’un groupe de polices.
 
-## Méthode qui recalcule la prime pour chaque unité d’exposition {.english-subtitle subtitle="Extension of Exposures"}
+## Méthode qui consiste à recalculer la prime pour chaque unité d’exposition {.english-subtitle subtitle="Extension of Exposures"}
 
 Cette méthode consiste à tarifer toutes les polices pour mettre les primes historiques au montant qui serait chargé au taux courant, c’est-à-dire au taux actuel.
 
@@ -1116,9 +1120,9 @@ $$
 
 ## Méthode du parallélogramme {.english-subtitle subtitle="Parallelogram Method"}
 
-- Cette méthode est calculée à partir d’un **groupe de polices**, elle est donc moins précise que la mise au taux courant
-- Cette méthode assume que les polices sont **écrites uniformément dans la période**
-- On ajuste les primes historiques agrégées par un facteur moyen pour les mettre au niveau courant
+- Cette méthode est calculée à partir d’un **groupe de polices**, elle est donc moins précise que la mise au taux courant.
+- Cette méthode suppose que les polices sont **écrites uniformément dans la période**.
+- On ajuste les primes historiques agrégées par un facteur moyen pour les mettre au niveau courant.
 - La façon d’appliquer cette méthode varie par :
   - Terme de police
   - Méthode de compilation des données (année de calendrier ou année de police)
@@ -1582,18 +1586,18 @@ Facteur de mise au taux courant : $\frac{1.0863}{1.06805} = 1.0171$
 
 ### Limites de la méthode
 
-- La méthode assume que les polices sont écrites **uniformément** dans l’année. Cette hypothèse peut être inappropriée pour certaines lignes d’affaires
-  - On pourrait raffiner la méthode du parallélogramme et faire l’**analyse par trimestre**, par exemple
-  - On pourrait aussi calculer la **distribution réelle** des polices écrites pour calculer le niveau de taux historique de façon plus précise
-    Les polices doivent alors être agrégées selon le niveau de taux applicable plutôt qu’une période de temps standard
+- La méthode suppose que les polices sont écrites **uniformément** dans l’année. Cette hypothèse peut être inappropriée pour certaines lignes d’affaires.
+  - On pourrait raffiner la méthode du parallélogramme et faire l’**analyse par trimestre**, par exemple.
+  - On pourrait aussi calculer la **distribution réelle** des polices écrites pour calculer le niveau de taux historique de façon plus précise.
+    Les polices doivent alors être agrégées selon le niveau de taux applicable plutôt qu’une période de temps standard.
 - La méthode applique une série de **changements de taux globaux**. La prime pour certaines classes ou couvertures
-  peut ne pas être au taux courant si le changement de taux varie par classe ou couverture
+  peut ne pas être au taux courant si le changement de taux varie par classe ou couverture.
 
 ## {.remember-slide}
 
 Le facteur de **mise au taux courant** ajuste les primes pour refléter le montant de prime qui aurait été payé dans une période future pour une police historique.
 
-- Méthode qui recalcule la prime pour chaque unité d’exposition
+- Méthode qui consiste à recalculer la prime pour chaque unité d’exposition
 - Méthode du parallélogramme
 
 
@@ -1617,16 +1621,16 @@ Ce sujet sera couvert dans le chapitre suivant, concernant les sinistres.
 
 Un changement de taux n’est pas la seule chose qui peut faire changer le niveau de prime moyen.
 
-- Le niveau de prime moyen peut changer dans des lignes d’affaires où l’**unité d’exposition** est sensible à l’**inflation**, par exemple les salaires et les recettes
-- Dans ce cas, il est typique de projeter les unités d’exposition (et donc les primes) au niveau d’inflation futur
+- Le niveau de prime moyen peut changer dans des lignes d’affaires où l’**unité d’exposition** est sensible à l’**inflation**, par exemple les salaires et les recettes.
+- Dans ce cas, il est typique de projeter les unités d’exposition (et donc les primes) au niveau d’inflation futur.
 
 # Tendance dans les primes {data-progress-label="Tendance" subtitle="Projection en une étape et en deux étapes"}
 
 ## Tendance dans les primes {.english-subtitle subtitle="Premium Trend"}
 
-Le niveau moyen de prime peut aussi changer à la suite de changements dans les caractéristiques des polices écrites (changement de distribution).
-
-Le changement du niveau de prime moyen résultant est appelé la tendance dans les primes.
+**Tendance dans les primes**
+: Le niveau moyen de prime peut aussi changer à la suite de changements dans les caractéristiques des polices écrites (changement de distribution).
+: Le changement du niveau de prime moyen résultant est appelé la tendance dans les primes.
 
 On répond donc à la question :
 
@@ -1641,7 +1645,7 @@ Le facteur de **tendance** ajuste les primes pour refléter les changements anti
 Exemples de causes d’un changement de niveau de prime moyen :
 
 - La prime en assurance habitation varie selon le montant d’assurance, qui est généralement indexé automatiquement au renouvellement pour suivre l’inflation, ce qui fait augmenter le niveau de prime moyen.
-- Une compagnie décide de transférer tous ses assurés actuels à un **déductible plus élevé** au renouvellement. En assumant que les renouvellements
+- Une compagnie décide de transférer tous ses assurés actuels à un **déductible plus élevé** au renouvellement. En supposant que les renouvellements
   sont répartis dans l’année, il y aura une diminution du niveau de prime moyen pendant la période de transition. Cette tendance ne continuera pas après la transition.
 
 ---
@@ -1666,7 +1670,7 @@ La période de projection va de la **date moyenne souscrite des polices avec des
 
 ---
 
-En assumant une quantité de données adéquate, il est préférable d’utiliser des données par trimestre plutôt que des données annuelles, car cela permet de voir la tendance plus rapidement.
+En supposant une quantité de données adéquate, il est préférable d’utiliser des données par trimestre plutôt que des données annuelles, car cela permet de voir la tendance plus rapidement.
 
 Une courbe de tendance, exponentielle ou linéaire, peut être utilisée pour guider la sélection du facteur de tendance.
 
@@ -1844,14 +1848,14 @@ Réponse : Période de projection : 2,25 années
 
 ---
 
-- Primes historiques compilées en année de police plutôt qu’en année de calendrier (on reprend l'exemple):
+- Primes historiques compilées en année de police plutôt qu’en année de calendrier (on reprend l’exemple) :
   - Année de police {{< dynamic-year -3 >}} plutôt qu’année de calendrier {{< dynamic-year -3 >}}
   - **Début de la période : {{< dynamic-date "YYYY-07-01" -3 >}}**
-  - Fin de la période ne change pas
+  - Fin de la période ne change pas.
   - Période de projection : 2 ans
-- Si les taux proposés seront effectifs pendant plus ou moins qu’un an, cela change la date de fin de la période de projection
+- Si les taux proposés seront effectifs pendant plus ou moins qu’un an, cela change la date de fin de la période de projection.
   - Exemple : taux effectifs pendant 2 ans, du {{< dynamic-date "YYYY-01-01" -1 >}} au {{< dynamic-date "YYYY-12-31" 0 >}}
-  - Début de la période ne change pas
+  - Début de la période ne change pas.
   - **Fin de la période : {{< dynamic-date "YYYY-01-01" 0 >}}**
   - Période de projection : 3 ans
 
@@ -1866,15 +1870,15 @@ Période de projection
 
 La méthode de projection en deux étapes est utilisée lorsque l’actuaire s’attend à un facteur de tendance différent dans la période future.
 
-- La première étape servira à ajuster les primes historiques au niveau le plus récent pour lequel des données sont disponibles
-  - Facteur de tendance est basé sur des **données historiques**
-- La deuxième étape servira à appliquer un facteur de tendance espéré pour le futur
-  - Facteur de tendance est basé sur une **hypothèse** actuarielle
+- La première étape servira à ajuster les primes historiques au niveau le plus récent pour lequel des données sont disponibles.
+  - Le facteur de tendance est basé sur des **données historiques**.
+- La deuxième étape servira à appliquer un facteur de tendance espéré pour le futur.
+  - Le facteur de tendance est basé sur une **hypothèse** actuarielle.
 
 ---
 
 
-### Étape 1 : Facteur de tendance courante _(ang. : current trend factor)_
+### Étape 1 : Facteur de tendance courante {.english-subtitle subtitle="Current Trend Factor"}
 Le facteur de tendance courante sert à ajuster nos primes à la fin de la période historique.
 
 $$

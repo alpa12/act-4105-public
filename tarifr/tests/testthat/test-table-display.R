@@ -134,7 +134,7 @@ test_that("afficher_table renders calculation headers as native Pandoc metadata"
     fixed = TRUE
   )
   expect_match(sortie, "| Territoire", fixed = TRUE)
-  expect_match(sortie, "\\(3\\) = \\(1\\) + \\(2\\)", fixed = TRUE)
+  expect_match(sortie, "(3) = (1) + (2)", fixed = TRUE)
 })
 
 test_that("calculation headers can follow grouped headers", {
@@ -153,7 +153,7 @@ test_that("calculation headers can follow grouped headers", {
   )
 
   expect_match(sortie, "Calcul", fixed = TRUE)
-  expect_match(sortie, "\\(3\\) = \\(1\\) + \\(2\\)", fixed = TRUE)
+  expect_match(sortie, "(3) = (1) + (2)", fixed = TRUE)
   expect_s3_class(sortie, "knit_asis")
 })
 

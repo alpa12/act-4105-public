@@ -213,8 +213,7 @@ normaliser_entetes_calculs <- function(entetes_calculs, n_colonnes) {
 }
 
 echapper_entete_calcul <- function(texte) {
-  texte <- gsub("\\(", "\\\\(", texte)
-  gsub("\\)", "\\\\)", texte)
+  texte
 }
 
 table_grille_entetes <- function(tableau, align, entetes_groupes, entetes_calculs = NULL) {

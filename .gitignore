@@ -1,0 +1,10 @@
+/.luarc.json
+site/chapitres/*/diapos_*/
+site/pdfs/
+site/TODOs.md
+
+**/.DS_Store
+
+/.quarto/
+**/*.quarto_ipynb
+/node_modules/

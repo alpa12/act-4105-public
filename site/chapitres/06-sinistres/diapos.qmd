@@ -49,7 +49,7 @@ Les quatre méthodes s’appliquent pour compiler les données de sinistres.
 
 ## Année de calendrier
 
-Les **sinistres payés** durant une année de calendrier considèrent tous les sinistres payés dans l’année de calendrier, sans égard à la date d’accident ou la date rapportée.
+Les **sinistres payés** durant une année de calendrier comprennent tous les sinistres payés dans l’année de calendrier, sans égard à la date d’accident ou à la date rapportée.
 
 Les **sinistres rapportés** pour l’année de calendrier sont les sinistres payés plus le changement dans les provisions par cas durant la période de 12 mois.
 
@@ -63,8 +63,8 @@ Tous les sinistres payés et le changement dans les provisions par cas durant la
 
 Même si :
 
-- Ces transactions proviennent de polices émises avant l’année de calendrier en question
-- Les transactions de sinistres proviennent de sinistres avec date d’accident ou date rapportée avant l’année de calendrier en question
+- Ces transactions proviennent de polices émises avant l’année de calendrier en question.
+- Les transactions de sinistres proviennent de sinistres avec date d’accident ou date rapportée avant l’année de calendrier en question.
 
 ## Année d’accident
 
@@ -74,7 +74,7 @@ Les **sinistres payés** par année d’accident incluent les paiements seulemen
 
 Les **sinistres rapportés** sont les sinistres payés et les provisions par cas seulement pour les sinistres qui ont eu lieu dans l’année.
 
-Au 31 décembre de l’année d’accident, les sinistres rapportés vont souvent changer lorsque des réclamations additionnelles sont rapportées, lorsque des réclamations sont payées ou lorsque les réserves changent.
+Au 31 décembre de l’année d’accident, les sinistres rapportés vont souvent changer lorsque d’autres réclamations sont rapportées, lorsque des réclamations sont payées ou lorsque les réserves changent.
 
 ---
 
@@ -84,8 +84,8 @@ Les sinistres payés et les provisions par cas des réclamations qui surviennent
 
 Même si :
 
-- Les transactions proviennent de polices émises avant l’année d’accident en question
-- Les transactions ont lieu après l’année d’accident en question
+- Les transactions proviennent de polices émises avant l’année d’accident en question.
+- Les transactions ont lieu après l’année d’accident en question.
 
 ## Année de police
 
@@ -93,7 +93,7 @@ Les **sinistres payés** pour l’année de police incluent les paiements pour l
 
 Les **sinistres rapportés** pour l’année de police consistent en les paiements faits plus les provisions par cas seulement pour les réclamations couvertes par les polices écrites durant l’année.
 
-Au 31 décembre de l’année de police, les sinistres vont souvent changer car d’autres réclamations additionnelles surviennent, des réclamations sont payées ou les réserves changent.
+Au 31 décembre de l’année de police, les sinistres vont souvent changer car d’autres réclamations surviennent, des réclamations sont payées ou les réserves changent.
 
 ---
 
@@ -101,25 +101,25 @@ Au 31 décembre de l’année de police, les sinistres vont souvent changer car 
 
 Les sinistres payés et les provisions par cas pour les polices ayant été émises dans l’année affectent les sinistres rapportés de l’année de police.
 
-Même si les transactions de sinistres ont lieu après l’année de police en question.
+Cela demeure vrai même si les transactions de sinistres ont lieu après l’année de police en question.
 
 ## Année de sinistre rapporté
 
-Similaire à l’année d’accident sauf que les sinistres sont compilés selon la **date rapportée** plutôt que la date d’accident.
+Similaire à l’année d’accident, sauf que les sinistres sont compilés selon la **date rapportée** plutôt que la date d’accident.
 
-Méthode utilisée typiquement pour les produits des lignes commerciales avec polices sur base de réclamations présentées _(ang. : claims-made policies)_.
+Méthode typiquement utilisée pour les produits des lignes commerciales avec des polices fondées sur les réclamations présentées _(ang. : claims-made policies)_.
 
 ---
 
-Sinistres **rapportées** du 1er janvier au 31 décembre.
+Sinistres **rapportés** du 1er janvier au 31 décembre.
 
 Les sinistres payés et les provisions par cas des réclamations qui sont rapportées durant la période de 12 mois affectent les sinistres rapportés de l’année de sinistre rapporté.
 
 Même si :
 
-- Ces transactions proviennent de polices émises avant l’année d’accident en question
-- Ces transactions proviennent d’accidents ayant eu lieu avant l’année de sinistre rapporté
-- Les transactions de sinistres ont lieu après l’année de sinistre rapporté en question
+- Ces transactions proviennent de polices émises avant l’année de sinistre rapporté en question.
+- Ces transactions proviennent d’accidents ayant eu lieu avant l’année de sinistre rapporté.
+- Les transactions de sinistres ont lieu après l’année de sinistre rapporté en question.
 
 :::: {.question title="Compilation des sinistres"}
 
@@ -324,7 +324,7 @@ Exemples de sinistres extraordinaires :
 ### Pertes majeures
 
 - Incendie causant une perte totale de 400 000 $
-- Poursuite d’un propriétaire de logement pour 1 M en responsabilité
+- Poursuite d’un propriétaire de logement pour 1 M$ en responsabilité
 - Vol d’un bateau d’une valeur de 75 000 $
 :::
 
@@ -362,9 +362,9 @@ Exemples de méthodes de sélection du seuil d’écrêtement :
 
 #### Étape 2 : Inclusion d’une provision pour les pertes majeures
 
-Afin de balancer l’équation fondamentale en assurance, on doit tout de même inclure une provision pour la portion des pertes majeures qui est au-dessus du seuil.
+Afin d’équilibrer l’équation fondamentale en assurance, on doit tout de même inclure une provision pour la portion des pertes majeures qui est au-dessus du seuil.
 
-On regardera donc ces sinistres sur une plus grande période. On assume que, quoique très volatile à court terme, la proportion des sinistres attribuable aux pertes majeures sera assez stable à long terme.
+On regardera donc ces sinistres sur une plus grande période. On suppose que, bien que très volatile à court terme, la proportion des sinistres attribuable aux pertes majeures sera assez stable à long terme.
 
 ```{r}
 #| label: pertes-majeures-tableau
@@ -503,7 +503,17 @@ afficher_tableau_sinistres_excedentaires(1:4)
 #| echo: false
 #| output: asis
 
-afficher_tableau_sinistres_excedentaires()
+afficher_tableau_sinistres_excedentaires(1:4)
+```
+
+## {.text-xs}
+
+```{r}
+#| label: pertes-majeures-calculs-complement
+#| echo: false
+#| output: asis
+
+afficher_tableau_sinistres_excedentaires(c(1, 5:7))
 ```
 
 ##
@@ -535,7 +545,7 @@ Au lieu d’utiliser les sinistres catastrophiques historiques tels quels, on re
 
 Événements qui surviennent plutôt régulièrement sur plusieurs années.
 
-Tel que discuté avec les sinistres individuels très élevés, on calcule le ratio des sinistres pour ces catastrophes divisés par les sinistres non catastrophiques sur une longue période.
+Comme pour les sinistres individuels très élevés, on calcule sur une longue période le ratio des sinistres attribuables à ces catastrophes par rapport aux sinistres non catastrophiques.
 
 Exemple : grêle
 
@@ -545,7 +555,7 @@ Exemple : grêle
 
 Événements qui sont extrêmement sporadiques et génèrent des réclamations de grande sévérité.
 
-Des modèles de catastrophes existent pour prédire les dommages résultants.
+Des modèles de catastrophes existent pour prédire les dommages qui en résultent.
 
 Exemples : tremblement de terre, inondation
 
@@ -708,10 +718,10 @@ afficher_assurance_invalidite <- function(calculs = FALSE) {
 ::: {.column}
 En assurance invalidité :
 
-- Le taux de compensation est 66,7 % du salaire
-- Le salaire hebdomadaire moyen est 1 000 $
-- L’indemnité minimale est 50 % du salaire hebdomadaire moyen
-- L’indemnité maximale passe de 100 % à 83,3 % du salaire hebdomadaire moyen
+- Le taux de compensation est 66,7 % du salaire.
+- Le salaire hebdomadaire moyen est 1 000 $.
+- L’indemnité minimale est 50 % du salaire hebdomadaire moyen.
+- L’indemnité maximale passe de 100 % à 83,3 % du salaire hebdomadaire moyen.
 :::
 ::: {.column}
 ```{r}
@@ -919,8 +929,8 @@ tableau_developpement <- rbind(tableau_developpement, moyenne_developpement)
 facteurs_ultimes <- c(1, cumprod(rev(facteurs_selectionnes)))
 tableau_ultimes <- data.frame(
   "Année d’accident" = triangle_sinistres[[1]],
-  "Âge (mois) au 31 Mars" = rev(ages_developpement),
-  "Sinistres rapportés au 31 Mars" = diag(sinistres_par_age[, ncol(sinistres_par_age):1]),
+  "Âge (mois) au 31 mars" = rev(ages_developpement),
+  "Sinistres rapportés au 31 mars" = diag(sinistres_par_age[, ncol(sinistres_par_age):1]),
   "Facteur ultime" = facteurs_ultimes,
   check.names = FALSE
 )
@@ -940,7 +950,7 @@ total_ultimes[[5]] <- sum(tableau_ultimes[[5]])
 tableau_ultimes <- rbind(tableau_ultimes, total_ultimes)
 ```
 
-Sinistres rapportés (en milliers de dollars), par âge (en mois) d’année d’accident, vues au {{< dynamic-date "YYYY-03-31" -1 >}}.
+Sinistres rapportés (en milliers de dollars), par âge (en mois) d’année d’accident, vus au {{< dynamic-date "YYYY-03-31" -1 >}}.
 
 ```{r}
 #| label: chain-ladder-triangle-table
@@ -1030,9 +1040,9 @@ On regarde habituellement la fréquence et la sévérité séparément pour éta
 Deux méthodes communes pour mesurer la tendance dans les données :
 
 - Régression linéaire
-  - On calcule le changement en additif d’une période à l’autre
+  - On calcule le changement additif d’une période à l’autre.
 - Régression exponentielle
-  - On calcule le changement en pourcentage d’une période à l’autre
+  - On calcule le changement en pourcentage d’une période à l’autre.
 
 :::: {.question title="Tendance dans les sinistres"}
 
@@ -1150,7 +1160,7 @@ Déterminer les dates de début et de fin de la période de projection des sinis
 
 - Année d'accident {{< dynamic-year -4 >}}, police de 1 an
 - Année d'accident {{< dynamic-year -4 >}}, police de 6 mois
-- Année de {{< dynamic-year -4 >}}, police de 1 an
+- Année de police {{< dynamic-year -4 >}}, police de 1 an
 
 Date effective du changement de taux : {{< dynamic-date "YYYY-01-01" 0 >}}.
 
@@ -1181,6 +1191,7 @@ tarifr::trend_period_diagram(
   experience_average_date = dynamic_date("YYYY-07-01", -4),
   prospective_average_date = dynamic_date("YYYY-01-01", 1),
   xlim_start = dynamic_date("YYYY-01-01", -5),
+  xlim_end = dynamic_date("YYYY-07-01", 2),
   axis_dates = seq.Date(
     dynamic_date("YYYY-01-01", -5),
     dynamic_date("YYYY-01-01", 2),
@@ -1217,6 +1228,7 @@ tarifr::trend_period_diagram(
   experience_average_date = dynamic_date("YYYY-07-01", -4),
   prospective_average_date = dynamic_date("YYYY-10-01", 0),
   xlim_start = dynamic_date("YYYY-01-01", -5),
+  xlim_end = dynamic_date("YYYY-07-01", 2),
   axis_dates = seq.Date(
     dynamic_date("YYYY-01-01", -5),
     dynamic_date("YYYY-01-01", 2),
@@ -1256,6 +1268,7 @@ tarifr::trend_period_diagram(
   experience_average_date = dynamic_date("YYYY-01-01", -3),
   prospective_average_date = dynamic_date("YYYY-12-31", 0),
   xlim_start = dynamic_date("YYYY-01-01", -5),
+  xlim_end = dynamic_date("YYYY-07-01", 2),
   axis_dates = seq.Date(
     dynamic_date("YYYY-01-01", -5),
     dynamic_date("YYYY-01-01", 2),
@@ -1278,13 +1291,28 @@ tarifr::trend_period_diagram(
 
 Pour projeter les sinistres historiques au niveau prospectif :
 
-- Les développer au niveau ultime espéré
-- Sélectionner une tendance à partir de la fréquence et de la sévérité
-- Appliquer cette tendance pendant la période de projection
+- Les développer au niveau ultime espéré.
+- Sélectionner une tendance à partir de la fréquence et de la sévérité.
+- Appliquer cette tendance pendant la période de projection.
+
+```{r}
+#| label: severite-limites-donnees
+#| echo: false
+#| include: false
+
+limite_sinistres <- 25000
+tendance_severite <- 0.10
+
+sinistres_severite <- data.frame(
+  "No. réclamation" = 1:5,
+  "Non limités" = c(10000, 15000, 24000, 30000, 50000),
+  check.names = FALSE
+)
+```
 
 ## Limites et tendance dans la sévérité
 
-Attention à l’effet des limites versus la tendance dans la sévérité.
+Attention à l’effet des limites par rapport à la tendance dans la sévérité.
 
 Il faut être capable de calculer la tendance pour chaque type de sinistre :
 
@@ -1306,6 +1334,18 @@ Calculer :
 - La tendance dans les sinistres limités à 25 000 $
 - La tendance dans les sinistres excédentaires
 
+```{r}
+#| label: severite-limites-question-table
+#| echo: false
+#| output: asis
+
+afficher_table(
+  sinistres_severite,
+  align = c("l", "r"),
+  formats = list(list(colonnes = 2, type = "montant", digits = 0))
+)
+```
+
 ::: {.solution}
 
 ## {.text-scale scale=0.58}
@@ -1315,14 +1355,6 @@ Calculer :
 #| echo: false
 #| include: false
 
-limite_sinistres <- 25000
-tendance_severite <- 0.10
-
-sinistres_severite <- data.frame(
-  "No. réclamation" = 1:5,
-  "Non limités" = c(10000, 15000, 24000, 30000, 50000),
-  check.names = FALSE
-)
 sinistres_severite[[3]] <- pmin(sinistres_severite[[2]], limite_sinistres)
 names(sinistres_severite)[3] <- "Écrêtés à 25\u00A0000\u00A0<span>&#36;</span>"
 sinistres_severite[[4]] <- sinistres_severite[[2]] - sinistres_severite[[3]]
@@ -1399,12 +1431,12 @@ afficher_table(
 - Alloués : inclus avec les montants de pertes
 - Non alloués : méthode simple d’allocation des frais de règlement de sinistres non alloués
   - Hypothèses de base :
-    - Les frais de règlement de sinistres non alloués suivent les montants de sinistres et frais de règlement de sinistres alloués de façon consistante d’une année à l’autre
-    - La tendance et le développement des frais de règlement de sinistres non alloués se font au même taux que la tendance et le développement dans les montants de sinistres et frais de règlement alloués
-  - On calcule le % frais de règlement de sinistres non alloués sur quelques années de calendrier par rapport aux montants de sinistres et frais de règlement de sinistres alloués
+    - Les frais de règlement de sinistres non alloués suivent les montants de sinistres et frais de règlement de sinistres alloués de manière constante d’une année à l’autre.
+    - La tendance et le développement des frais de règlement de sinistres non alloués se font au même taux que la tendance et le développement dans les montants de sinistres et frais de règlement alloués.
+  - On calcule le ratio des frais de règlement de sinistres non alloués sur quelques années de calendrier par rapport aux montants de sinistres et frais de règlement de sinistres alloués.
 
 
-:::: {.question title="Frais de règlement non alloués"}
+:::: {.question title="Frais de règlement de sinistres non alloués"}
 
 ```{r}
 #| label: frais-non-alloues-donnees
