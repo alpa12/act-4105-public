@@ -283,10 +283,13 @@ table_grille_entetes <- function(tableau, align, entetes_groupes, entetes_calcul
 
   if (!is.null(entetes_calculs)) {
     cellules_calculs <- vapply(seq_len(n_colonnes), function(colonne) {
+      # A leading indentation makes Pandoc parse `(1)` as a code block rather
+      # than the ordered-list syntax that smart-typst-tables rehydrates into
+      # a calculation reference. The RevealJS renderer centers this row.
       cellule_table_grille(
         echapper_entete_calcul(entetes_calculs[[colonne]]),
         largeurs[[colonne]],
-        "c"
+        "l"
       )
     }, character(1))
     lignes <- c(
