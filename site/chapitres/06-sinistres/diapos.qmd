@@ -457,7 +457,7 @@ afficher_tableau_sinistres_excedentaires(1:4)
 
 ::: {.solution}
 
-## {.text-xs}
+## {.text-xs .scrollable}
 
 ::: {.tableau-calculs-sur-une-ligne}
 
@@ -739,7 +739,7 @@ Un **effet indirect** possible de cette mesure est une moins grande fréquence d
 
 :::: {.question title="Changement de loi"}
 
-##
+## {.nostretch}
 
 Un changement de loi hausse de 5 % les sinistres sur les polices **écrites après** le {{< dynamic-date "YYYY-08-15" -1 >}}.
 
@@ -776,7 +776,7 @@ fin_troisieme_trimestre <- data.frame(
 #| fig-alt: "Sinistres répartis sur une ligne du temps avant et après un changement législatif."
 #| echo: false
 #| fig-width: 9
-#| fig-height: 3.5
+#| fig-height: 3
 
 tarifr::rate_level_diagram(
   start_date = dynamic_date("YYYY-01-01", -1),
