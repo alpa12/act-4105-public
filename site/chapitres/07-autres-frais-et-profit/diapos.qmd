@@ -35,7 +35,7 @@ Ce chapitre est adapté du chapitre 7 du texte _Basic Ratemaking_ :
 Adapté de : Werner, G. et Modlin, C. (2016), _Basic Ratemaking_, Casualty Actuarial Society.
 :::
 
-# Notation {data-progress-label="Notation" subtitle="Les composantes de la prime indiquée et leur expression par unité"}
+# Notation {data-progress-label="Notation"}
 
 ## Notation
 
@@ -116,7 +116,7 @@ $$
 
 ::::
 
-# Méthodes de projection des frais de souscription {data-progress-label="Projection des frais" subtitle="Traiter les frais fixes et variables dans le calcul du taux indiqué"}
+# Méthodes de projection des frais de souscription {data-progress-label="Projection des frais" subtitle="3 méthodes qui traitent différemment les frais fixes et variables"}
 
 ## Frais de souscription
 
@@ -138,28 +138,28 @@ Certains frais varient en proportion des primes alors que d’autres frais sont 
 
 ---
 
-**Traitement des frais variables**
-: Les trois méthodes divisent les dépenses variables par les primes.
-
-**Traitement des frais fixes**
-: Les deux premières méthodes divisent aussi les frais fixes par les primes alors que la dernière méthode divise les frais fixes par les unités, ou le nombre de polices.
-
-**Primes ou unités à utiliser dans le calcul**
-: Les frais encourus à l’émission de la police sont divisés par les primes écrites ou les unités écrites  .
-  Les frais encourus durant le terme de police sont divisés par les primes acquises ou les unités acquises.
+- Traitement des frais variables
+  - Les trois méthodes divisent les dépenses variables par les primes.
+- Traitement des frais fixes
+  - Les deux premières méthodes divisent aussi les frais fixes par les primes alors que la dernière méthode divise les frais fixes par les unités, ou le nombre de polices.
+- Primes ou unités à utiliser dans le calcul
+    - Les frais **encourus à l’émission** de la police sont divisés par les primes ou les unités **écrites**.
+      Les frais **encourus durant le terme** de police sont divisés par les primes ou les unités **acquises**.
 
 ---
 
-- Typiquement, la moyenne sur quelques années sera utilisée pour sélectionner le ratio de frais
-- Comme la tarification est une projection des coûts futurs, l’actuaire doit sélectionner un ratio de frais qui est compatible avec les frais espérés dans le futur et qui pourrait différer du ratio historique
-  - Exemple : Si la structure de commission est appelée à changer (ex : passe de 15% à 20% de la prime), l’actuaire devrait utiliser le pourcentage de commission espéré dans le futur et non le pourcentage historique
-  - Exemple : Si des coupures de postes réduisant les salaires ont eu lieu récemment, la sélection du ratio de frais devrait être basée sur les dépenses espérées et non sur les salaires historiques
+- Typiquement, la moyenne sur quelques années sera utilisée pour sélectionner le ratio de frais.
+- Comme la tarification est une projection des coûts futurs, l’actuaire doit sélectionner un ratio de frais qui est compatible avec les frais espérés dans le futur et qui pourrait différer du ratio historique.
+  - Exemple : Si la structure de commission est appelée à changer (ex : passe de 15% à 20% de la prime), l’actuaire devrait utiliser le pourcentage de commission espéré dans le futur et non le pourcentage historique.
+  - Exemple : Si des coupures de postes réduisant les salaires ont eu lieu récemment, la sélection du ratio de frais devrait être basée sur les dépenses espérées et non sur les salaires historiques.
 
 ## Méthode avec toutes dépenses variables
 
-- Aucune distinction entre les frais de souscription fixes et variables : tous sont considérés comme des frais variables en pourcentage de la prime
-- Le ratio de frais de souscription est calculé en divisant les frais historiques par les primes écrites et/ou les primes acquises de la même période historique
-- Rappel du chapitre 1 : si l’information est disponible, il est plus précis de diviser les frais généraux par les primes acquises et tous les autres frais par les primes écrites
+- **Aucune distinction** entre les frais de souscription fixes et variables : tous sont considérés comme des frais variables en pourcentage de la prime.
+- Le ratio de frais de souscription est calculé en divisant les frais historiques par les primes écrites et/ou les primes acquises de la même période historique.
+- Rappel : si l’information est disponible, il est plus précis de diviser les frais généraux par les primes acquises et tous les autres frais par les primes écrites.
+
+<!-- ICI -->
 
 ```{r}
 #| label: frais-souscription-donnees
@@ -275,15 +275,41 @@ afficher_table(
 #| label: frais-toutes-variables-solution-table
 #| output: asis
 
+tableau_solution <- tableau_ratios(ratios_tous_variables, selection_tous_variables)
+tableau_frais_et_ratios <- data.frame(
+  tableau_frais,
+  `Ratio année 1` = c(
+    tableau_solution[[2]],
+    rep(NA_real_, nrow(tableau_frais) - nrow(tableau_solution))
+  ),
+  `Ratio année 2` = c(
+    tableau_solution[[3]],
+    rep(NA_real_, nrow(tableau_frais) - nrow(tableau_solution))
+  ),
+  Sélection = c(
+    tableau_solution[[4]],
+    rep(NA_real_, nrow(tableau_frais) - nrow(tableau_solution))
+  ),
+  check.names = FALSE
+)
+names(tableau_frais_et_ratios) <- c(
+  "",
+  annees_frais,
+  annees_frais,
+  "Sélection"
+)
+
 afficher_table(
-  tableau_ratios(ratios_tous_variables, selection_tous_variables),
-  align = c("l", "r", "r", "r"),
-  formats = list(list(colonnes = 2:4, type = "pourcentage", digits = 2)),
-  entetes_groupes = list(list(
-    label = "Ratio des frais variables",
-    colonnes = 2:4
-  )),
-  entetes_calculs = c("(1)", "(2)", "(3)", "(4) = ((2) + (3)) / 2")
+  tableau_frais_et_ratios,
+  align = c("l", rep("r", 5)),
+  formats = list(
+    list(colonnes = 2:3, type = "nombre", digits = 0),
+    list(colonnes = 4:6, type = "pourcentage", digits = 2)
+  ),
+  entetes_groupes = list(
+    list(label = "Données de l’énoncé", colonnes = 2:3),
+    list(label = "Ratio des frais variables", colonnes = 4:6)
+  )
 )
 ```
 
@@ -311,13 +337,13 @@ Il n’y a aucun frais fixe dans l’équation car tous les frais de souscriptio
 
 ### Problèmes potentiels de cette méthode
 
-- Sous-estime la prime requise pour les risques avec une prime relativement petite
-- Surestime la prime requise pour les risques avec une prime relativement grande
+- Sous-estime la prime requise pour les risques avec une prime relativement petite.
+- Surestime la prime requise pour les risques avec une prime relativement grande.
 
 ## Méthode basée sur la prime
 
-- Comme la méthode précédente, elle assume que le ratio de frais de souscription pour la période projetée sera cohérent avec celui de la période historique
-- La différence avec la méthode précédente est qu’elle considère les frais fixes et les frais variables séparément et les divise par les primes écrites ou acquises
+- Comme la méthode précédente, elle assume que le ratio de frais de souscription pour la période projetée sera cohérent avec celui de la période historique.
+- La différence avec la méthode précédente est qu’elle **considère les frais fixes et les frais variables séparément** et les divise par les primes écrites ou acquises.
 
 :::: {.question title="Méthode basée sur la prime"}
 
@@ -448,18 +474,20 @@ $$
 
 ### Problèmes potentiels de cette méthode
 
-- Suppose que les ratios historiques seront les mêmes dans la période projetée
-- Le ratio pour la portion des frais fixes peut présenter des distorsions si le niveau de primes historiques et le niveau de primes projetées diffèrent significativement
+- Suppose que les ratios historiques seront les mêmes dans la période projetée.
+  - L'actuaire peut cependant faire une sélection différente.
+- Le ratio pour la portion des frais fixes peut présenter des distorsions si le niveau de primes historiques et le niveau de primes projetées diffèrent significativement.  
   Exemples et solutions :
-  - Changement de taux récents : calculer les ratios en utilisant les primes au taux courant
-  - Changement dans le niveau de prime moyenne : calculer les ratios en utilisant les primes au niveau projeté
-  - Prime inéquitable par région si le ratio est national : calculer des ratios par province ou état
+  - Changement de taux récents : calculer les ratios en utilisant les primes au taux courant.
+  - Changement dans le niveau de prime moyenne : calculer les ratios en utilisant les primes au niveau projeté.
+  - Prime inéquitable par région si le ratio est national : calculer des ratios par province ou état.
 
 
 ## Méthode basée sur les unités d’exposition/polices
 
-- Les frais variables sont traités comme pour la méthode basée sur la prime
-- Les frais fixes sont divisés par le nombre d’unités écrites ou acquises plutôt que par les primes, ou divisés par le nombre de polices si les frais fixes sont présumés constants par police
+- Les frais variables sont traités comme pour la méthode basée sur la prime.
+- **Les frais fixes sont divisés par le nombre d’unités écrites ou acquises** plutôt que par les primes.
+  - Ou divisés par le nombre de polices si les frais fixes sont présumés constants par police.
 
 :::: {.question title="Méthode basée sur les unités d’exposition"}
 
@@ -556,10 +584,10 @@ $$
 
 ### Problèmes potentiels et améliorations futures
 
-- Requiert de séparer les frais en frais fixes et variables. Cette étape est présentement faite au jugement
-- Comme elle assume que les frais fixes ne varient pas par unité (ou police), elle alloue les frais fixes à chaque province/état basé sur la proportion des unités (ou polices) dans cette province. Les frais peuvent varier par province/région (ex. : publicité)
-- Certains frais qui sont considérés fixes varient selon certaines caractéristiques (ex. : nouvelle affaire versus renouvellement)
-- Des études supplémentaires pourraient permettre de mieux considérer les économies d’échelle. En attendant, les données internes permettant d’évaluer la tendance dans les frais ainsi que le jugement de l’actuaire devrait suffire
+- Requiert de séparer les frais en frais fixes et variables. Cette étape est présentement faite au jugement.
+- Comme elle assume que les frais fixes ne varient pas par unité (ou police), elle alloue les frais fixes à chaque province/état basé sur la proportion des unités (ou polices) dans cette province. Les frais peuvent varier par province/région (ex. : publicité).
+- Certains frais qui sont considérés fixes varient selon certaines caractéristiques (ex. : nouvelle affaire versus renouvellement).
+- Des études supplémentaires pourraient permettre de mieux considérer les économies d’échelle. En attendant, les données internes permettant d’évaluer la tendance dans les frais ainsi que le jugement de l’actuaire devrait suffire.
 
 ## {.remember-slide}
 
@@ -567,19 +595,19 @@ $$
 
 # Tendances dans les frais {data-progress-label="Tendance des frais" subtitle="Projeter les frais selon leur base et le moment où ils sont encourus"}
 
-## Tendance dans les frais de souscription {.english-subtitle subtitle="Trending expenses"}
+## Tendance dans les frais de souscription
 
 ### Frais variables
 
-- Changent automatiquement lorsque la prime change
+- Changent automatiquement lorsque la prime change.
   - Il n’est donc pas nécessaire d’appliquer une tendance au ratio de frais variables
 
 ---
 
 ### Frais fixes
 
-- Méthode basée sur la prime : aucune projection nécessaire si les frais fixes moyens et la prime moyenne changent au même taux
-- Méthode basée sur les unités d’exposition/polices : aucune projection nécessaire si la base d’exposition est sensible à l’inflation
+- Méthode basée sur la prime : aucune projection nécessaire si les frais fixes moyens et la prime moyenne changent au même taux.
+- Méthode basée sur les unités d’exposition/polices : aucune projection nécessaire si la base d’exposition est sensible à l’inflation.
 
 Sinon, les frais fixes moyens risquent de changer d’une année à l’autre et une projection est alors appropriée.
 
@@ -593,7 +621,7 @@ La période de projection va de la **date moyenne où les frais sont encourus da
 
 ### Frais encourus à [l’émission]{.underline} de la police
 
-::: {.text-xs}
+::: {.text-smaller}
 
 Exemple : polices annuelles. Les taux seront en vigueur pendant un an. Les frais, soit les commissions, autres frais d’acquisition, taxes, licences et frais d’association, sont donnés pour l’année de calendrier {{< dynamic-year -3 >}}.
 
@@ -612,20 +640,20 @@ tarifr::trend_period_diagram(
   policy_term_months = 12,
   experience_average_date = dynamic_date("YYYY-07-01", -3),
   prospective_average_date = dynamic_date("YYYY-07-01", -1),
-  experience_label = paste("AC", dynamic_year(-3)),
-  prospective_label = paste(dynamic_year(-1), "-", dynamic_year(0)),
+  experience_label = "",
+  prospective_label = "",
   y_axis_label = "% du terme de police expiré"
 )
 ```
 
-- Date de début de projection : {{< dynamic-date YYYY-07-01 -3 >}}, date moyenne à laquelle les frais sont payés dans la période historique
-- Date de fin de projection :  {{< dynamic-date YYYY-07-01 -1 >}}, date moyenne de souscription dans la période où les taux seront en vigueur
+- Date de début de projection : {{< dynamic-date YYYY-07-01 -3 >}}, date moyenne à laquelle les frais sont payés dans la période historique.
+- Date de fin de projection :  {{< dynamic-date YYYY-07-01 -1 >}}, date moyenne de souscription dans la période où les taux seront en vigueur.
 :::
 ---
 
 ### Frais encourus [durant le terme]{.underline} de la police
 
-::: {.text-scale scale=0.78}
+::: {.text-smaller}
 
 Exemple : polices annuelles. Les taux seront en vigueur pendant un an. Les frais généraux sont donnés pour l’année de calendrier {{< dynamic-year -3 >}}.
 
@@ -644,23 +672,23 @@ tarifr::trend_period_diagram(
   policy_term_months = 12,
   experience_average_date = dynamic_date("YYYY-07-01", -3),
   prospective_average_date = dynamic_date("YYYY-12-31", -1),
-  experience_label = paste("AC", dynamic_year(-3)),
-  prospective_label = paste(dynamic_year(-1), "-", dynamic_year(0)),
+  experience_label = "",
+  prospective_label = "",
   y_axis_label = "% du terme de police expiré"
 )
 ```
 
-- Date de début de projection : {{< dynamic-date YYYY-07-01 -3 >}}, date moyenne à laquelle les frais sont payés dans la période historique
-- Date de fin de projection :  {{< dynamic-date YYYY-07-01 -1 >}}, date moyenne d’acquisition dans la période où les taux seront en vigueur, soit 6 mois après la date moyenne souscrite
+- Date de début de projection : {{< dynamic-date YYYY-07-01 -3 >}}, date moyenne à laquelle les frais sont payés dans la période historique.
+- Date de fin de projection :  {{< dynamic-date YYYY-12-31 -1 >}}, date moyenne d’acquisition dans la période où les taux seront en vigueur, soit 6 mois après la date moyenne souscrite.
 
 :::
 
 ## {.remember-slide}
 
 **Tendance** : Les frais variables suivent automatiquement la prime.  
-Les frais fixes nécessitent une tendance seulement si leur base ne progresse pas au même rythme, selon la date moyenne où ils sont encourus.
+Les frais fixes nécessitent un ajustement de tendance seulement si leur base ne progresse pas au même rythme, selon la date moyenne où ils sont encourus.
 
-# Provision pour profit de souscription {data-progress-label="Profit" subtitle="La marge nécessaire pour atteindre les objectifs financiers de l'assureur"}
+# Provision pour profit de souscription {data-progress-label="Profit"}
 
 ## Profit total
 
@@ -682,8 +710,8 @@ $$
 
 Le profit de souscription cible varie d’une compagnie à l’autre et d’une ligne d’affaire à l’autre.
 
-- Pour les lignes d’affaires où les sinistres prennent du temps à survenir, le revenu d’investissement peut être plus élevé et permettre un profit de souscription cible un peu plus bas
-- Une compagnie d’assurance pourrait décider de diminuer son profit de souscription cible afin d’aller chercher de la croissance à court terme et espérer faire plus de profit à plus long terme
+- Pour les lignes d’affaires où les sinistres prennent du temps à survenir (et donc pour lesquelles les primes peuvent être investies à plus long terme), le revenu d’investissement peut être plus élevé et permettre un profit de souscription cible un peu plus bas.
+- Une compagnie d’assurance pourrait décider de diminuer son profit de souscription cible afin d’aller chercher de la croissance à court terme et espérer faire plus de profit à plus long terme.
 
 # Taux de sinistre permis {data-progress-label="PLR" subtitle="La portion de la prime disponible pour les sinistres après les autres provisions"}
 

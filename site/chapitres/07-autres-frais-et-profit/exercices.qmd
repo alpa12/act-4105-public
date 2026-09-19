@@ -128,10 +128,10 @@ En assumant que les frais fixes moyens changent au même rythme que la prime moy
 ::: {.solution}
 | Type de frais | Frais variables 2014 | Frais variables 2015 | Sélection variable | Frais fixes |
 |---|---:|---:|---:|---:|
-| Frais généraux | $0.25 \times 84560 / 1291186 = 0.01637$ | $0.25 \times 108586 / 1645235 = 0.0165$ | 0.0164 | $0.0655 - 0.0164 = 0.0491$ |
-| Frais de commissions et courtage | $1 \times 232086 / 1547234 = 0.15$ | $1 \times 267540 / 1783348 = 0.15$ | 0.15 | $0.15 - 0.15 = 0$ |
-| Autres frais d'acquisition | $0.5 \times 108310 / 1547234 = 0.035$ | $0.5 \times 124839 / 1783348 = 0.035$ | 0.035 | $0.07 - 0.035 = 0.035$ |
-| Taxes, licences et frais d'association | $0.9 \times 46416 / 1547234 = 0.027$ | $0.9 \times 53769 / 1783348 = 0.027$ | 0.027 | $0.03 - 0.027 = 0.003$ |
+| Frais généraux | $\begin{aligned} \frac{0.25 \times 84560}{1291186} \\ = 0.01637 \end{aligned}$ | $\begin{aligned} \frac{0.25 \times 108586}{1645235} \\ = 0.0165 \end{aligned}$ | 0.0164 | $\begin{aligned} 0.0655 - 0.0164 \\ = 0.0491 \end{aligned}$ |
+| Frais de commissions et courtage | $\begin{aligned} \frac{1 \times 232086}{1547234} \\ = 0.15 \end{aligned}$ | $\begin{aligned} \frac{1 \times 267540}{1783348} \\ = 0.15 \end{aligned}$ | 0.15 | $\begin{aligned} 0.15 - 0.15 \\ = 0 \end{aligned}$ |
+| Autres frais d'acquisition | $\begin{aligned} \frac{0.5 \times 108310}{1547234} \\ = 0.035 \end{aligned}$ | $\begin{aligned} \frac{0.5 \times 124839}{1783348} \\ = 0.035 \end{aligned}$ | 0.035 | $\begin{aligned} 0.07 - 0.035 \\ = 0.035 \end{aligned}$ |
+| Taxes, licences et frais d'association | $\begin{aligned} \frac{0.9 \times 46416}{1547234} \\ = 0.027 \end{aligned}$ | $\begin{aligned} \frac{0.9 \times 53769}{1783348} \\ = 0.027 \end{aligned}$ | 0.027 | $\begin{aligned} 0.03 - 0.027 \\ = 0.003 \end{aligned}$ |
 | **Total** |  |  | **0.2284** | **0.0871** |
 
 Le ratio de frais variables serait 22.84 % et le ratio de frais fixes serait 8.71 %.

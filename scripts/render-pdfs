@@ -1,0 +1,179 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat <<'EOF'
+Usage: scripts/render-pdfs [options]
+
+Render chapter PDFs. By default, renders presentations and exercise documents
+for every numeric chapter except 00.
+
+Options:
+  -c, --chapter N             Render only chapter N (for example: 6 or 06)
+  -t, --type TYPE             Render only one type: diapos or exercices
+      --wait MS               Wait for RevealJS before printing (default: 15000)
+  -h, --help                  Show this help
+EOF
+}
+
+die() {
+  echo "render-pdfs: $*" >&2
+  exit 2
+}
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+SITE_DIR="$PROJECT_ROOT/site"
+CHAPTERS_DIR="$SITE_DIR/chapitres"
+DIAPOS_OUT_DIR="$SITE_DIR/pdfs/diapos"
+EXERCISES_OUT_DIR="$SITE_DIR/pdfs/exercices"
+WAIT=15000
+CHAPTER=""
+TYPE=""
+WAIT_SET=false
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -c|--chapter)
+      [[ $# -ge 2 ]] || die "--chapter requires a chapter number"
+      CHAPTER="$2"
+      shift 2
+      ;;
+    -t|--type)
+      [[ $# -ge 2 ]] || die "--type requires diapos or exercices"
+      TYPE="$2"
+      shift 2
+      ;;
+    --wait)
+      [[ $# -ge 2 ]] || die "--wait requires a number of milliseconds"
+      WAIT="$2"
+      WAIT_SET=true
+      shift 2
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    *)
+      die "unknown option: $1"
+      ;;
+  esac
+done
+
+case "$TYPE" in
+  ""|diapos|exercices) ;;
+  *) die "--type must be diapos or exercices" ;;
+esac
+
+[[ "$WAIT" =~ ^[0-9]+$ ]] || die "--wait must be a number of milliseconds"
+[[ "$TYPE" != "exercices" || "$WAIT_SET" != true ]] || \
+  die "--wait is only available when rendering diapos"
+
+if [[ -n "$CHAPTER" ]]; then
+  [[ "$CHAPTER" =~ ^[0-9]+$ ]] || die "--chapter must be a numeric chapter number"
+  CHAPTER="$(printf '%02d' "$((10#$CHAPTER))")"
+  [[ "$CHAPTER" != "00" ]] || die "chapter 00 is excluded from PDF exports"
+fi
+
+render_diapos=false
+render_exercises=false
+[[ -z "$TYPE" || "$TYPE" == "diapos" ]] && render_diapos=true
+[[ -z "$TYPE" || "$TYPE" == "exercices" ]] && render_exercises=true
+
+[[ "$render_diapos" != true ]] || mkdir -p "$DIAPOS_OUT_DIR"
+[[ "$render_exercises" != true ]] || mkdir -p "$EXERCISES_OUT_DIR"
+
+TMP_DIR=""
+cleanup() {
+  [[ -z "$TMP_DIR" ]] || rm -rf "$TMP_DIR"
+}
+trap cleanup EXIT INT TERM
+
+if [[ "$render_exercises" == true ]]; then
+  TMP_DIR="$(mktemp -d -t act4105-exercise-pdfs.XXXXXX)"
+fi
+
+chapter_dirs=()
+while IFS= read -r chapter_dir; do
+  chapter_name="$(basename "$chapter_dir")"
+  chapter_id="${chapter_name%%-*}"
+
+  [[ "$chapter_id" =~ ^[0-9]+$ ]] || continue
+  [[ "$chapter_id" == "00" ]] && continue
+  [[ -z "$CHAPTER" || "$chapter_id" == "$CHAPTER" ]] || continue
+
+  chapter_dirs+=("$chapter_dir")
+done < <(find "$CHAPTERS_DIR" -mindepth 1 -maxdepth 1 -type d -print | sort)
+
+if [[ "${#chapter_dirs[@]}" -eq 0 ]]; then
+  if [[ -n "$CHAPTER" ]]; then
+    echo "render-pdfs: chapter $CHAPTER was not found" >&2
+  else
+    echo "render-pdfs: no numbered chapter found" >&2
+  fi
+  exit 1
+fi
+
+diapos_count=0
+exercises_count=0
+sources_count=0
+failures=()
+
+for chapter_dir in "${chapter_dirs[@]}"; do
+  chapter_name="$(basename "$chapter_dir")"
+
+  if [[ "$render_diapos" == true && -f "$chapter_dir/diapos.qmd" ]]; then
+    sources_count=$((sources_count + 1))
+    output="$DIAPOS_OUT_DIR/$chapter_name.pdf"
+    echo "render-pdfs: diapos $chapter_name -> $output" >&2
+
+    if "$SCRIPT_DIR/revealjs-pdf" "$chapter_dir/diapos.qmd" \
+      --out "$output" --wait "$WAIT" --outline-h1-h2; then
+      diapos_count=$((diapos_count + 1))
+    else
+      failures+=("$chapter_name (diapos)")
+    fi
+  fi
+
+  if [[ "$render_exercises" == true && -f "$chapter_dir/exercices.qmd" ]]; then
+    sources_count=$((sources_count + 1))
+    stage_dir="$TMP_DIR/$chapter_name"
+    output="$EXERCISES_OUT_DIR/$chapter_name.pdf"
+    staged_pdf="$stage_dir/$chapter_name.pdf"
+    mkdir -p "$stage_dir"
+    echo "render-pdfs: exercices $chapter_name -> $output" >&2
+
+    if (
+      cd "$SITE_DIR"
+      "$SCRIPT_DIR/quarto" render "chapitres/$chapter_name/exercices.qmd" \
+        --profile exercices-pdf \
+        --to exam-typst \
+        --output-dir "$stage_dir" \
+        --output "$chapter_name.pdf"
+    ) && [[ -s "$staged_pdf" ]]; then
+      mv "$staged_pdf" "$output"
+      exercises_count=$((exercises_count + 1))
+    else
+      [[ -s "$staged_pdf" ]] || \
+        echo "render-pdfs: PDF not created for $chapter_name exercices" >&2
+      failures+=("$chapter_name (exercices)")
+    fi
+  fi
+done
+
+if [[ "$sources_count" -eq 0 ]]; then
+  if [[ -n "$TYPE" ]]; then
+    echo "render-pdfs: no matching $TYPE source found" >&2
+  else
+    echo "render-pdfs: no matching source found" >&2
+  fi
+  exit 1
+fi
+
+if [[ "${#failures[@]}" -gt 0 ]]; then
+  echo "render-pdfs: failed exports: ${failures[*]}" >&2
+  exit 1
+fi
+
+total_count=$((diapos_count + exercises_count))
+echo "render-pdfs: wrote $total_count PDF(s) ($diapos_count diapos, $exercises_count exercices)" >&2
