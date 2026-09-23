@@ -1111,13 +1111,7 @@ donnees_tendance_regressions <- data.frame(
 
 afficher_table(
   donnees_tendance_regressions,
-  align = c("l", "r", "r", "r"),
-  entetes_calculs = c(
-    "(1)",
-    "(2)",
-    "(3)",
-    "(4) = (2) + (3)"
-  )
+  align = c("l", "r", "r", "r")
 )
 ```
 
