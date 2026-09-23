@@ -251,10 +251,10 @@ renv::restore()
 npm ci
 ```
 
-Le projet est validé avec Quarto **1.10.17**. Le wrapper `scripts/quarto` refuse une autre version et force le Sass local de `node_modules/.bin/sass` via `QUARTO_DART_SASS`; l’utiliser pour les rendus :
+Le projet requiert Quarto **1.10.17 ou une version ultérieure**. Le wrapper `scripts/quarto` utilise la version disponible et force le Sass local de `node_modules/.bin/sass` via `QUARTO_DART_SASS`; l’utiliser pour les rendus :
 
 ```bash
-QUARTO_BIN=/chemin/vers/quarto-1.10.17 scripts/quarto render site
+QUARTO_BIN=/chemin/vers/quarto scripts/quarto render site
 ```
 
 Les modules RevealJS partagés sont dans `scripts/lib/revealjs/` : serveur statique sécurisé, client CDP, cycle de vie Chrome, navigation, parcours des états, impression et lecture PDF. `npm test` exécute leurs tests natifs `node:test`.
@@ -263,7 +263,7 @@ Les modules RevealJS partagés sont dans `scripts/lib/revealjs/` : serveur stati
 
 ```bash
 CSK_CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
-QUARTO_BIN=/chemin/vers/quarto-1.10.17 \
+QUARTO_BIN=/chemin/vers/quarto \
 scripts/audit-chapter-slides
 ```
 
@@ -279,7 +279,7 @@ Les sources (`.qmd`, Lua, CSS, includes et assets) sont les fichiers à modifier
 
 ```bash
 CSK_CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
-QUARTO_BIN=/chemin/vers/quarto-1.10.17 \
+QUARTO_BIN=/chemin/vers/quarto \
 scripts/revealjs-pdf site/chapitres/06-sinistres/diapos.qmd --out /tmp/chapitre-06.pdf
 ```
 

@@ -226,7 +226,7 @@ Deux différences majeures entre les deux approches :
 
 :::: {.question title="Provision pour profit"}
 
-## {.text-smaller}
+##
 
 Exemple adapté de la question 7 de l’examen 5, automne 2016 de la CAS.
 
@@ -258,7 +258,7 @@ Un employé d’un organisme de réglementation gouvernementale veut comparer le
 
 ::::
 
-## {.text-smaller}
+##
 
 Le ratio de frais variables est le même pour les deux compagnies.
 
