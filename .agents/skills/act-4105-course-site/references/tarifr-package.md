@@ -27,11 +27,19 @@ install_tarifr()
 
 ## Table Helpers
 
-- `afficher_table()` is the shared R renderer for course tables. It emits a native Pandoc pipe table with `knitr::kable(..., format = "pipe")`; chapters must not call `knitr::kable()` directly.
+- Audit every table in a target chapter before editing. Keep a short, one-off, non-calculated table in Markdown; use R when data, rows, or calculations recur, including across a question and solution.
+- `afficher_table()` is the shared R renderer for course tables. It emits a native Pandoc pipe table with `knitr::kable(..., format = "pipe")`; chapters must not call `knitr::kable()` directly. The sole exception is the labelled comparison chunk in the internal `00-reference-typography` deck, which intentionally tests raw Pandoc output.
 - Pass `align` explicitly. Use `formats` as a list of specifications with positional `colonnes`, `type` (`"nombre"`, `"montant"`, or `"pourcentage"`), and optional `digits` or `symbole`; use `lignes_gras = "derniere"` or row positions for totals.
 - `format_nombre()`, `format_montant()`, and `format_pourcentage()` use French decimal marks and non-breaking spaces. Use them directly only when formatting an embedded value outside a simple table cell.
 - `tarifr` does not own table widths, wrapping, alignment inference, scroll containers, CSS, or RevealJS geometry. Those are handled only by `smart-typst-tables` and shared presentation styles. Do not duplicate this behavior in chapter code.
 - Keep table calculations and selection positional (`[[2]]`, `2:4`), then assign visible names only at final preparation. Keep the hidden data/calculation chunk immediately before the first table using it, except for data genuinely shared across sections or chapters.
+- For repeated or calculated tables, derive each visible subset, factor, projection, and total from one underlying data frame. Repeat the same input table in every sub-question and bold the values used in that step. Show a total in the question when it is needed to understand or verify the calculation.
+- Reproduce source headers and visible multi-column groups through `entetes_groupes`. Use `entetes_calculs` for one free-text label per calculated column; `smart-typst-tables` supplies the resulting `labels` and `calculations` rows, so never author that structure by hand.
+- `smart-typst-tables` owns rendered table geometry: inferred types, final display alignment, natural width, header wrapping, `.smart-table` markup, scroll wrappers, and RevealJS layout. Do not duplicate it in `tarifr`, chapter CSS, or source tables. The shared grouped-header theme lives in `site/styles/diapos-clean/content.css`; a chapter may add only a pedagogical vertical divider scoped to one table class.
+- Give each table chunk a `#| label:` and `#| output: asis`. Prefer document-level `execute.echo: false` when it applies to the complete deck; otherwise use a chunk-level `#| echo: false`. Do not use `cat()` or `sep` to emit a table.
+- To keep a single calculation header on one line, wrap its emitting chunk in `.tableau-calculs-sur-une-ligne`; otherwise let the extension use its horizontal scroll container. The original request is `docs/smart-typst-tables-calculation-headers-request.md`.
+- After a table change, render its deck and inspect generated HTML for `�`, transformed `.smart-table` markup, and no `.cell-output-display` around R tables. Inspect RevealJS and PDF when a table is in columns or has long headers.
+- Chapters 4 and 5 share annual, semiannual, and premium-policy facts in `site/chapitres/donnees-exemple.R`. Build a wide calculated data frame only when several slides reuse the rows; the displayed `afficher_table()` pattern is a baseline, not a compulsory fixed shape.
 
 ```r
 afficher_table(

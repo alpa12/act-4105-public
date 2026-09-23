@@ -37,5 +37,5 @@ Use this workflow when converting legacy course-note material into `site/chapitr
 
 ## Verification
 
-- Render at least the converted presentation, for example `quarto render site/chapitres/01-introduction/diapos.qmd`.
-- When shared behavior changed, run `quarto render site` from the repository root when feasible.
+- Render at least the converted presentation, for example `scripts/quarto render site/chapitres/01-introduction/diapos.qmd`.
+- When shared behavior changed, run `scripts/quarto render site` from the repository root when feasible.

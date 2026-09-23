@@ -2,14 +2,20 @@
 
 ## Project Layout
 
-- `site/_quarto.yml` configures the Quarto website, its navbar, global filters, global CSS, and render targets.
+- `site/_quarto.yml` configures the Quarto website, its navbar, global filters, global CSS, resources, and render targets.
 - `site/cours/*.qmd` are course/session pages. They use front matter such as `week-id`, `label`, and `chapitres`; each chapter entry is a `path`/ `title` map.
 - `site/chapitres/*/_metadata.yml` provides chapter metadata. Use `label` for compact navigation/listing text, `title` for the full title, and `description` for longer summaries.
 - `site/chapitres/*/diapos.qmd` are chapter RevealJS presentations. `site/chapitres/*/exercices.qmd` are exercises.
+- `site/revisions/*/diapos.qmd` are cross-chapter RevealJS review decks. They are standalone resources: add the folder glob to `project.render` and each deck to the Révisions menu in `website.navbar`.
 - `site/filters/` contains Pandoc/Lua transforms. `site/includes/` contains late browser-side DOM adjustments for HTML shape that Quarto creates after filters.
 - `site/styles/site.css` styles the HTML website. Presentation styling lives under `site/styles/diapos*.css`.
 - `site/_extensions/` contains immutable vendor code used by the site. Never edit it locally; request required changes from the extension maintainer and integrate only the version they deliver.
 - `site/_site/` is generated output. Inspect it after render, but edit sources.
+
+## Render Targets
+
+- `project.render` intentionally excludes `chapitres/00-reference-typography/`. This versioned internal deck must never be rendered or deployed with the site. Its local Quarto project renders only itself through `scripts/quarto render site/chapitres/00-reference-typography`, writing to the ignored, non-published `_reference/chapitres/00-reference-typography/` tree.
+- Render every document through `scripts/quarto`. Quarto **1.10.17 or newer** is required; the wrapper selects the configured Quarto binary and local Sass but does not reject newer compatible versions.
 
 ## Navigation
 
@@ -33,6 +39,9 @@
 
 ## Verification
 
-- For navbar changes: render the affected page or `quarto render site`, then inspect the generated HTML navigation.
-- For shared filters/includes/styles: run `quarto render site` when feasible.
+- For a narrow change, run `scripts/quarto render PATH` and inspect matching `site/_site/` output. For navbar changes or shared filters/includes/styles, run `scripts/quarto render site` when feasible.
 - Inspect relevant files in `site/_site/` to confirm the expected markup and links were produced.
+- Run `bash scripts/audit-exercices.sh` after converting or materially reviewing exercises.
+- `scripts/audit-chapter-slides` covers chapters 01–09 only. It renders each source with `scripts/quarto render ... --no-cache`, checks source and generated HTML, then checks Chrome at `1440×900` and `1024×768`. Set `CSK_CHROME` to Chrome/Chromium; supported options are `--chapter 06`, `--skip-render`, `--browser-only`, `--report FILE`, and `--wait MS`.
+- A passing audit has no console errors, JavaScript exceptions, failed required display resources, Reveal initialization failures, invalid natural image sizes, or significant descendant overflow. External pedagogical links are allowed when they are not required display resources.
+- Run `npm test` for native RevealJS tests. Use `scripts/revealjs-pdf` for one deck and `scripts/render-pdfs` for all chapter PDFs or targeted `--chapter`/`--type` exports; inspect PDF output proportionately to the change.

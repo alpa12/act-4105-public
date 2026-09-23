@@ -1,0 +1,201 @@
+---
+title: "Référence typographique RevealJS"
+suppress-title-prefix: true
+format:
+  revealjs: default
+execute:
+  echo: false
+metadata-files:
+  - ../_diapos.yml
+  - _reference-metadata.yml
+---
+
+# Référence typographique {data-progress-label="" .unnumbered}
+
+<!--
+  Deck de vérification interne, délibérément absent de la navigation et des
+  métadonnées de chapitres. Lancer :
+  scripts/quarto render site/chapitres/00-reference-typography
+-->
+
+```{r}
+#| label: setup-tableaux-r
+#| include: false
+
+here::i_am("site/chapitres/00-reference-typography/diapos.qmd")
+source(here::here("site/_extensions/alpa12/dynamic-year/dynamic-year.R"))
+source(here::here("site/chapitres/donnees-exemple.R"))
+
+dates_expiration <- vapply(
+  as.Date(polices_annuelles$start),
+  function(date) format(seq.Date(date, by = "year", length.out = 2)[[2]] - 1, "%Y-%m-%d"),
+  character(1)
+)
+
+polices_annuelles_affichage <- data.frame(
+  "Police" = polices_annuelles$label,
+  "Date effective" = polices_annuelles$start,
+  "Date d’expiration" = dates_expiration,
+  "Unité d’exposition" = rep("1,00", nrow(polices_annuelles)),
+  check.names = FALSE
+)
+```
+
+## Échelle du texte
+
+| Classe | Facteur | Texte obtenu |
+|:--|--:|:--|
+| `.text-xs` | 0,7513 | Texte extra petit |
+| `.text-smaller` | 0,8264 | Texte plus petit |
+| `.text-small` | 0,9091 | Petit texte |
+| `.text-medium` | 1 | Texte de référence |
+| `.text-large` | 1,1 | Grand texte |
+| `.text-larger` | 1,21 | Texte plus grand |
+| `.text-xl` | 1,331 | Texte extra grand |
+
+## Titres et listes {.text-xl}
+
+### Un titre de niveau 3 suit la classe de texte
+
+- Niveau 1
+  - Niveau 2
+    - Niveau 3
+
+Les titres `h1` et `h2` restent fixes et de même taille, quelle que soit la classe de la slide.
+
+## Équations {.text-large}
+
+Une équation affichée suit exactement la classe de texte parente :
+
+$$
+\text{Prime indiquée} = \frac{\text{sinistres attendus} + \text{frais}}{1 - \text{profit cible}}
+$$
+
+## Tableau avec en-têtes de calcul
+
+Les titres forment la rangée `labels`; les numéros et les formules forment la rangée `calculations`.
+
+```{r}
+#| label: tableau-entetes-calculs-donnees
+#| include: false
+
+territoires <- 1:2
+unites <- c(294, 385)
+tableau_entetes_calculs <- data.frame(
+  Territoire = territoires,
+  Unités = unites,
+  `Unités ajustées` = territoires + unites,
+  check.names = FALSE
+)
+```
+
+::: {.tableau-calculs-sur-une-ligne}
+
+```{r}
+#| label: tableau-entetes-calculs
+#| output: asis
+
+tarifr::afficher_table(
+  tableau_entetes_calculs,
+  align = c("l", "r", "r"),
+  formats = list(list(colonnes = 2:3, type = "nombre", digits = 0)),
+  entetes_calculs = c("(1)", "(2)", "(3) = (1) + (2)")
+)
+```
+
+:::
+
+## Tableau par défaut
+
+Ce tableau est à 80 % du texte de la slide (`.text-medium` implicite).
+
+| Année | Expositions | Prime |
+|---:|---:|---:|
+| 2024 | 1 240 | 1 180 $ |
+| 2025 | 1 310 | 1 250 $ |
+
+## Tableau avec une classe locale
+
+La classe est posée sur le bloc qui enveloppe le tableau, pas sur la slide.
+
+::: {.text-large}
+| Année | Expositions | Prime |
+|---:|---:|---:|
+| 2024 | 1 240 | 1 180 $ |
+| 2025 | 1 310 | 1 250 $ |
+:::
+
+Le tableau demeure à 80 % de `.text-large`.
+
+## Même tableau en Markdown et en R {.text-large}
+
+Les deux tableaux utilisent les mêmes données et une échelle locale de 80 %.
+
+:::: {.columns}
+::: {.column width="50%"}
+### Markdown
+
+::: {.text-scale scale="0.8"}
+| Police | Date effective | Date d’expiration | Unité d’exposition |
+|:--|:--|:--|--:|
+| A | 2024-10-01 | 2025-09-30 | 1,00 |
+| B | 2025-01-01 | 2025-12-31 | 1,00 |
+| C | 2025-04-01 | 2026-03-31 | 1,00 |
+| D | 2025-07-01 | 2026-06-30 | 1,00 |
+| E | 2025-10-01 | 2026-09-30 | 1,00 |
+| F | 2026-01-01 | 2026-12-31 | 1,00 |
+:::
+:::
+
+::: {.column width="50%"}
+### R
+
+::: {.text-scale scale="0.8"}
+```{r}
+#| label: tableau-polices-annuelles-r
+#| output: asis
+
+# Exception de référence : comparer la sortie Pandoc brute d'un tableau R
+# à la même table Markdown. Les chapitres utilisent tarifr::afficher_table().
+knitr::kable(
+  polices_annuelles_affichage,
+  format = "pipe",
+  align = c("l", "l", "l", "r")
+)
+```
+:::
+:::
+::::
+
+
+## Ajustement ponctuel
+
+::: {.text-scale scale="0.8"}
+
+Ce bloc utilise `.text-scale scale="0.8"`.
+
+| Élément | Valeur |
+|:--|--:|
+| Texte | 80 % |
+| Tableau | 64 % du corps de référence |
+
+:::
+
+# Exemple {data-progress-label="Exemple"}
+
+::::  {.question title="Titre de l'exemple"}
+
+## {.text-xl}
+
+Énoncé de l'exemple
+
+---
+
+Deuxième page de l'énoncé de l'exemple
+
+::: {.solution}
+
+Solution de l'exemple
+
+:::
+::::

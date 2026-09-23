@@ -1,0 +1,8 @@
+project:
+  type: default
+  output-dir: ../../_reference/chapitres/00-reference-typography
+  render:
+    - diapos.qmd
+
+lang: fr
+base-year: 2026

@@ -26,6 +26,7 @@ Chapter `_metadata.yml` supplies listing metadata. Update it when replacing plac
 - Keep site-root paths such as `/styles/diapos.css` for shared assets in `_diapos.yml`.
 - Keep Quarto's `auto-stretch: true` as the shared default: it applies `.r-stretch` to a lone top-level image and sizes it to the remaining slide area. It overrides explicit display dimensions such as `width` or `out-width`.
 - To honor explicit dimensions for a static image, use Quarto's built-in `.nostretch` attribute, for example `![](assets/image.png){.nostretch width=92%}`. For an exceptional code-generated figure, apply `.nostretch` to the slide title when its direct image output must retain `out-width` or `out-height`, for example `## Title {.nostretch}`. Do not introduce wrapper classes solely for this opt-out.
+- `site/mathjax-config.js` is the only maintained MathJax configuration. The immutable Clean extension emits its own compatibility `mathjax-config.js` beside rendered decks; do not create or maintain chapter-local source copies. Keep `html-math-method: mathjax`, `mathjax: false`, and the local MathJax 4 bundle in shared metadata. Never use `html-math-method: plain`.
 
 ## Structure And Progress
 
@@ -34,14 +35,17 @@ Chapter `_metadata.yml` supplies listing metadata. Update it when replacing plac
 - Add `data-progress-label="Court"` to long section headings so the progress bar remains readable.
 - Use `.hide-progress-bar` only for special slides that need an uncluttered stage; the slide still counts.
 - The local `title-prefix` extension prefixes the document title with `Chapitre <order> :` and numbers top-level `#` sections. Add `{.unnumbered}` to a section title, for example `# Section {.unnumbered}`, to omit its number without advancing the section counter. The chapter number comes from document `order` metadata or sibling `_metadata.yml`.
+- A non-chapter RevealJS deck inheriting `_diapos.yml` sets `suppress-title-prefix: true` to remove the fallback `Chapitre 0 :`. The post-filter leaves canonical chapter decks unchanged.
 - The `cascade` extension repeats consecutive slide titles separated by `---`. Write a new heading when classes or attributes change, such as `.english-subtitle`, `.text-small`, or background attributes.
-- Chapter decks load the shared `site/mathjax-config.js` and the local MathJax 4 bundle from `site/assets/vendor/mathjax/`. Keep `html-math-method: mathjax` and `mathjax: false` in the shared RevealJS metadata: Pandoc emits MathJax delimiters while the manual bundle handles typesetting without the incompatible RevealMathJS v2 plugin. Never use `html-math-method: plain`, because it converts some equations to text before MathJax can process them.
+- Chapter decks load the shared `site/mathjax-config.js` and the local MathJax 4 bundle from `site/assets/vendor/mathjax/`. Pandoc emits MathJax delimiters while the manual bundle handles typesetting without the incompatible RevealMathJS v2 plugin.
 
 ## Shared Styling
 
 - `site/styles/diapos.css` is the base presentation CSS manifest and imports `site/styles/diapos/`.
 - `site/styles/diapos-clean.css` contains `clean-revealjs` overrides and imports `site/styles/diapos-clean/`; load it after the base layer and before chapter-local CSS.
 - `site/styles/diapos-clean/print.css` is imported last by `diapos-clean.css` and owns clean-theme PDF export mode. It must target only `html.reveal-print` and `html.print-pdf`, turning each printed slide into a full-page white card while hiding the external presentation chrome. `pdf-separate-fragments` may be `true` for one printed page per fragment state or `false` for the final state; print CSS must preserve fragments reveal.js marks `.visible`, `.current-fragment`, or `data-act-print-visible-fragment`.
+- `site/styles/diapos-clean/variables.css` declares the semantic palettes (pedagogical gold, example blue, solution green, recap red). `backgrounds.css` maps each slide type to its stage background and `--act-slide-accent`; `headings.css` reuses that accent for the `h2` underline. Add a type by extending those two files, never by duplicating full gradients or changing white card styles.
+- `title-pages.css` owns the screen-only Quarto cover and `print.css` mirrors it for PDF. Keep level-1 section-title slides in their standard course style.
 - `site/filters/revealjs-print-overview.lua` inserts a source-level print-only `.act-print-overview-list` into each `.progress-overview` slide before the `revealjs-progress-bar` extension runs.
 - `site/includes/revealjs-print-preflight.html` is loaded with `include-in-header` before RevealJS initializes. It refreshes the print overview list and neutralizes artificial overview fragments in print mode.
 - `docs/revealjs-pdf-export-debug-notes.md` is retained until the Chrome Print Preview workflow confirms the export fix; do not delete it without user confirmation.
@@ -63,7 +67,7 @@ Chapter `_metadata.yml` supplies listing metadata. Update it when replacing plac
 - Text-size presets live in `site/styles/diapos/text-scale.css`: `.text-xs`, `.text-smaller`, `.text-small`, `.text-medium`, `.text-large`, `.text-larger`, `.text-xl`, with `.smaller` as an alias. They use a 1.1 ratio around `.text-medium`.
 - Put text-size classes on a heading to resize slide content without changing the fixed, equal level-1 and level-2 title sizes, or on an inner fenced div to resize only that block. Lower-level headings inherit the selected text size.
 - For precise scaling, add `.text-scale scale=0.84` to a heading or block. `site/filters/revealjs-text-scale.lua` accepts non-negative decimal values and converts the attribute to a CSS variable.
-- `site/chapitres/00-reference-typography/diapos.qmd` is an unpublished visual regression deck for this scale. It is deliberately absent from the sidebar and chapter metadata; render it explicitly after shared typography changes.
+- `site/chapitres/00-reference-typography/diapos.qmd` is a versioned internal regression deck. It is excluded from normal project rendering and deployment, absent from navigation and chapter metadata, and rendered with `scripts/quarto render site/chapitres/00-reference-typography` after relevant typography or table changes. Its local project writes only to the ignored, non-published `_reference/chapitres/00-reference-typography/` tree. Its deliberate exceptions are text-scale classes and one labelled raw `knitr::kable()` comparison; ordinary chapter decks still follow the normal rules.
 
 ## Examples And Math
 
@@ -75,6 +79,11 @@ Chapter `_metadata.yml` supplies listing metadata. Update it when replacing plac
 - In RevealJS display equations, use `\textbf{...}` for bold text. Avoid `\mathbf{\text{...}}` inside `\text{...}`.
 - Write decimal points directly as `.` in equations; do not use `{.}` as a separator.
 - Long equations should be split across lines in source when practical.
+- In visible French prose and table labels, use non-breaking spaces before `:`, `;`, `?`, and `!`, between digit groups, and before units or symbols. Do not insert them in code, shortcodes, or LaTeX.
+- In visible lists, use capitalization and final punctuation when the item is a sentence or a textual label; preserve the grammar and emphasis of the pedagogical source rather than mechanically recasing fragments. Do not end items with semicolons. Replace an em dash with parentheses only where it is parenthetical prose; retain table-placeholder and mathematical em dashes.
+- For legacy conversion, use a validated preceding chapter as a visual model when it is relevant; otherwise use the shared theme and preserve visible source emphasis. Use `{.english-subtitle subtitle="..."}` for English title translations.
+- Every section title (`#`) needs `data-progress-label`; use a concise label, or `""` for a very short section when no label improves the bar.
+- Keep a short equation with its introductory sentence when legible. For long displayed expressions, use aligned rows and visible `&+`/`&-` breaks. Capitalize only prose labels or complete natural-language terms, never mathematical variables or symbolic terms. In worked calculations, show the symbolic form first, then numerical substitutions on aligned rows.
 
 ## Cards, Media, Controls, And Absolute Blocks
 
@@ -87,6 +96,7 @@ Chapter `_metadata.yml` supplies listing metadata. Update it when replacing plac
 - For future local extension controls, wrap launcher buttons in `.slide-extension-controls` or add `data-act-extension-controls`.
 - For one-off visible references, use Quarto native absolute positioning, for example `::: {.absolute bottom=20 left=0 width="100%"}`. Do not wrap `.aside` inside `.absolute`, because Quarto extracts asides from the wrapper.
 - Use RevealJS `.r-stack` only to layer media such as images or R-generated figures. Its CSS grid can cause Chrome's PDF renderer to omit nested HTML text even when a fragment is `.visible`, opaque, in bounds, and above the image. For image annotations, make the `.nostretch` image and native Quarto `.absolute.fragment` blocks direct children of the slide. Keep custom classes limited to the annotation's visual semantics; do not add a print-only wrapper or clone the fragments.
+- Use `::: {.center}` to horizontally center grouped inline media. Use Pandoc definition-list syntax (`**Terme**` followed by `: Définition`) for a definition slide; shared `definitions.css` styles it.
 
 ## Chapter-Specific Notes
 

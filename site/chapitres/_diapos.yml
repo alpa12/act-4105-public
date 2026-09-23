@@ -74,13 +74,15 @@ filters:
     at: pre-ast
   - path: ../../filters/revealjs-exemples.lua
     at: pre-ast
-  - cascade
-  - title-prefix
+  - path: ../../_extensions/mcanouil/cascade/cascade.lua
+    at: pre-ast
+  - ../../_extensions/alpa12/title-prefix/title-prefix.lua
   - ../../filters/revealjs-suppress-title-prefix.lua
   - ../../filters/revealjs-section-subtitle.lua
   - ../../filters/revealjs-english-subtitle.lua
   - ../../filters/revealjs-text-scale.lua
   - ../../filters/revealjs-print-overview.lua
-  - revealjs-progress-bar
-  - remember-slide
-  - smart-typst-tables
+  - ../../_extensions/alpa12/revealjs-progress-bar/revealjs-progress-bar.lua
+  - ../../_extensions/alpa12/remember-slide/remember-slide.lua
+  - ../../_extensions/alpa12/smart-typst-tables/smart-tables-header-roles.lua
+  - ../../_extensions/alpa12/smart-typst-tables/smart-typst-tables.lua
