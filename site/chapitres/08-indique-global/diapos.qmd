@@ -22,9 +22,9 @@ Ce chapitre est adapté du chapitre 8 du texte _Basic Ratemaking_ :
 Adapté de : Werner, G. et Modlin, C. (2016), _Basic Ratemaking_, Casualty Actuarial Society.
 :::
 
-# Indiqué de niveau de taux global {data-progress-label="Indiqué global" subtitle="Évaluer la suffisance globale des taux à partir des coûts projetés"}
+# Indiqué de niveau de taux global {data-progress-label="Indiqué global"}
 
-## Indiqué de niveau de taux global
+## Indiqué de niveau de taux global {.english-subtitle subtitle="Overall Indication"}
 
 Équation fondamentale en assurance :
 
@@ -37,7 +37,7 @@ $$
 \end{aligned}
 $$
 
-## Indiqué de niveau de taux global {.english-subtitle subtitle="Overall Indication"}
+---
 
 
 Les chapitres précédents ont fourni des techniques pour ajuster les données historiques afin d’estimer les différentes composantes de l’équation fondamentale en assurance pour la période future où les taux seront en vigueur.
@@ -55,14 +55,11 @@ Deux approches mathématiquement équivalentes pour déterminer le niveau de tau
 
 ## Méthode de la prime pure {.english-subtitle subtitle="Pure Premium Method"}
 
+- Méthode la plus simple et la plus directe.
+- Détermine une **prime moyenne indiquée**.
+- Projection des sinistres, des frais de règlement de sinistres et des frais de souscription fixes par unité pour la période où les taux seront en vigueur. Cette projection est ajustée pour les frais variables et le profit de souscription cible.
 
-Méthode la plus simple et la plus directe.
-
-Détermine une prime moyenne indiquée.
-
-Projection des sinistres et frais de règlement de sinistres par unité et des frais de souscription fixes par unité pour la période où les taux seront en vigueur. Cette projection est ajustée pour les frais variables et le profit de souscription cible.
-
-## Méthode de la prime pure
+---
 
 ::: {.text-xs}
 $$
@@ -145,10 +142,8 @@ La prime moyenne indiquée par unité est donc de **500 $**.
 
 ## Méthode du taux de sinistre {.english-subtitle subtitle="Loss Ratio Method"}
 
-
-Méthode la plus fréquemment utilisée.
-
-Compare le pourcentage de chaque dollar de prime nécessaire pour couvrir les sinistres futurs, les frais de règlement de sinistres et autres frais fixes au pourcentage de chaque dollar qui est disponible pour payer ces coûts.
+- Méthode la plus fréquemment utilisée.
+- Compare le pourcentage de chaque dollar de prime nécessaire pour couvrir les sinistres futurs, les frais de règlement de sinistres et autres frais fixes au pourcentage de chaque dollar qui est disponible pour payer ces coûts.
 
 ## Méthode du taux de sinistre {.text-smaller}
 
@@ -203,7 +198,7 @@ Le changement indiqué est donc de **10 %**.
 
 ::::
 
-# Comparaison des méthodes {data-progress-label="Comparaison" subtitle="Choisir une méthode cohérente avec les données et les frais de l'assureur"}
+# Comparaison des méthodes {data-progress-label="Comparaison"}
 
 ## Comparaison des approches
 
@@ -220,14 +215,14 @@ Deux différences majeures entre les deux approches :
     \frac{\text{sinistres ultimes projetés et frais de règlement}}{\text{unités projetées}}
     $$
 
-    - Cela signifie que la méthode du taux de sinistre requiert les primes au taux courant alors que la méthode de la prime pure n’en a pas besoin. La méthode de la prime pure a besoin quant à elle d’unités d’exposition bien définies
+    - Cela signifie que la méthode du taux de sinistre requiert les primes au taux courant alors que la méthode de la prime pure n’en a pas besoin. La méthode de la prime pure a besoin quant à elle d’unités d’exposition bien définies.
 
 ---
 
 2. Nature du résultat obtenu
-    - La méthode du taux de sinistre donne un **changement indiqué** par rapport aux taux courants
-    - La méthode de la prime pure donne un **taux indiqué**
-    - Cela signifie que la méthode de la prime pure doit être utilisée pour une nouvelle ligne d’affaires pour laquelle il n’y a pas de taux courant à ajuster
+    - La méthode du taux de sinistre donne un **changement indiqué** par rapport aux taux courants.
+    - La méthode de la prime pure donne un **taux indiqué**.
+    - Cela signifie que la méthode de la prime pure doit être utilisée pour une nouvelle ligne d’affaires pour laquelle il n’y a pas de taux courant à ajuster.
 
 :::: {.question title="Provision pour profit"}
 
@@ -296,7 +291,7 @@ Comme le ratio de frais variables est le même pour les deux compagnies ($V_A = 
 
 ##
 
-> Donner deux raisons pour lesquelles la provision pour profit peut différer entre deux compagnies avec la même expérience de sinistres, frais de règlement et dépenses.
+*Donner deux raisons pour lesquelles la provision pour profit peut différer entre deux compagnies avec la même expérience de sinistres, frais de règlement et dépenses.*
 
 Deux raisons possibles :
 
@@ -309,8 +304,22 @@ Deux raisons possibles :
 
 ## {.remember-slide}
 
-- L’indiqué global compare les primes requises aux primes au taux courant
-- La prime pure exprime les coûts par unité, le taux de sinistre les exprime en pourcentage des primes
-- Les deux méthodes doivent intégrer les sinistres, les frais et le profit projetés
+L’indiqué global compare les primes requises aux primes au taux courant. Deux méthodes :
 
-## {.remember-slides}
+- **Prime pure** : exprime les coûts par unité.
+
+$$
+\begin{aligned}
+\overline{P_I}
+&= \frac{\overline{L} + \overline{E_L} + \overline{E_F}}{1 - V - Q_T}
+\end{aligned}
+$$
+    
+- **Taux de sinistre** : exprime les coûts en pourcentage des primes.
+
+$$
+\begin{aligned}
+&\text{Changement indiqué}
+= \frac{\left[(L + E_L) / P_c\right] + F}{1 - V - Q_T} - 1
+\end{aligned}
+$$
