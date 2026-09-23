@@ -319,7 +319,7 @@ $$
 \text{Prix} = \text{Coût} + \text{Profit}
 $$
 
-En assurance:
+En assurance :
 
 $$
 \begin{aligned}

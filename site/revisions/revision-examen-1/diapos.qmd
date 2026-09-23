@@ -1,0 +1,386 @@
+---
+title: "Révision pour l’examen 1"
+suppress-title-prefix: true
+format:
+  revealjs: default
+metadata-files:
+  - ../../chapitres/_diapos.yml
+---
+
+## À propos de cette révision
+
+Ce document est un complément aux notes de cours, et non un résumé exhaustif de la matière.
+
+Adapté de [Werner, G. et Modlin, C. (2016). _Basic Ratemaking_, Casualty Actuarial Society, 5e édition.](http://www.casact.org/library/studynotes/Werner_Modlin_Ratemaking.pdf)
+
+## Contenu {.progress-overview}
+
+- La tarification prospective et l’équation fondamentale en assurance
+- Un exemple complet d’indiqué de niveau de taux global
+- Les périodes de projection des primes
+- Les périodes de projection des sinistres
+
+# Principes à retenir {data-progress-label="Principes" subtitle="Une tarification fondée sur les coûts espérés futurs"}
+
+## Équation fondamentale en assurance
+
+$$
+\text{Prix} = \textbf{Coût} + \text{Profit}
+$$
+Devient, en assurance :
+
+$$
+\begin{aligned}
+\text{Prime} ={}& \text{Sinistres} \\
+&+ \text{Frais de règlement de sinistre} \\
+&+ \text{Frais de souscription de police} \\
+&+ \text{Profit de souscription}
+\end{aligned}
+$$
+
+## Indiqué global et ajustements à l’expérience
+
+L’indiqué de niveau de taux global est aussi appelé :
+
+- Un indiqué
+- Une analyse de niveau de taux indiqué
+- Une analyse de prime indiquée
+- Un calcul de prime indiquée
+- Un calcul de changement de taux indiqué
+
+Ces termes réfèrent au processus de calcul de la prime moyenne à charger pour un portefeuille (ou une catégorie d’assurés) pour payer les sinistres espérés, les frais et conserver une part pour le profit cible.
+
+## La tarification est prospective
+
+L’expérience passée est utilisée dans l’équation fondamentale en assurance dans la mesure où elle aide à prédire les coûts espérés futurs, et non à récupérer les pertes passées.
+
+Facteurs d’influence qui nécessitent des ajustements à l’expérience passée :
+
+- Changements de taux
+- Changements opérationnels
+- Inflation
+- Changements dans la distribution du portefeuille
+- Changements légaux
+
+Si ces facteurs ne sont pas considérés, la prime pourrait ne pas suffire à atteindre le profit cible.
+
+## Primes : ajustements vers la période future
+
+Quels ajustements apporter aux primes historiques pour les projeter à la période pour laquelle on établit la prime ?
+
+- Changements de taux
+- Développement des primes
+- Tendance dans les unités d’exposition
+- Tendance dans les primes
+
+## Sinistres : ajustements vers la période future
+
+Quels ajustements apporter aux sinistres historiques pour les projeter à la période pour laquelle on établit la prime ?
+
+- Sinistres extraordinaires
+- Changements à la couverture
+- Développement des sinistres
+- Tendance dans les sinistres
+
+## Frais de règlement de sinistres
+
+Les frais de règlement de sinistres subissent les mêmes ajustements que les sinistres :
+
+- Les frais de règlement alloués sont inclus dans les montants de sinistres.
+- Les frais de règlement non alloués sont exprimés en pourcentage des sinistres et des frais de règlement alloués.
+
+## Frais de souscription
+
+L’actuaire devrait analyser les frais historiques et apporter des ajustements s’il a raison de croire que les frais futurs seront significativement différents.
+
+Un ajustement possible est la tendance dans les frais.
+
+# Indiqué global : exemple complet {data-progress-label="Indiqué" subtitle="Méthodes du taux de sinistre et de la prime pure"}
+
+## Données du portefeuille au 31 décembre 2015
+
+:::: {.columns}
+::: {.column width="38%"}
+**Historique de changement de taux**
+
+| Date effective | Changement |
+|:--|--:|
+| 1er octobre 2013 | +4,5 % |
+| 1er avril 2015 | +2,5 % |
+:::
+
+::: {.column width="62%"}
+| Année de calendrier | 2013 | 2014 | 2015 |
+|:--|--:|--:|--:|
+| Primes acquises | 1 870 000 \$ | 2 228 000 \$ | 2 404 000 \$ |
+| Unités acquises | 1 420 | 1 530 | 1 610 |
+:::
+::::
+
+## Sinistres rapportés cumulatifs par âge
+
+Incluant les frais de règlement de sinistres alloués.
+
+| Année d’accident | 12 mois | 24 mois | 36 mois |
+|:--|--:|--:|--:|
+| 2013 | 2 150 000 | 2 395 000 | 2 495 000 |
+| 2014 | 925 000 | 1 085 000 | |
+| 2015 | 1 250 000 | | |
+
+Excluant les catastrophes.
+
+| Année d’accident | 12 mois | 24 mois | 36 mois |
+|:--|--:|--:|--:|
+| 2013 | 750 000 | 895 000 | 975 000 |
+| 2014 | 825 000 | 975 000 | |
+| 2015 | 900 000 | | |
+
+## Hypothèses
+
+- Toutes les polices ont des termes de 6 mois et les unités sont écrites uniformément dans chaque année de calendrier.
+- Tendance annuelle dans la sévérité : 5 %.
+- Tendance annuelle dans la fréquence : −1 %.
+- Tendance annuelle dans la prime : 2 %.
+- Ratio de frais fixes : 5 %. Ratio de frais variables : 22 %. Provision pour profit : 6 %.
+- Provision pour frais de règlement de sinistres non alloués : 7 % des sinistres et frais de règlement alloués.
+- Marge projetée pour catastrophe, incluant les frais de règlement alloués : 14,9677096 % de la prime.
+- Aucun développement de sinistre après 36 mois. Les taux seront en effet pour un an.
+
+## Objectif
+
+Calculer le changement de taux indiqué pour les polices effectives le 1er janvier 2017, à partir des trois dernières années d’accident d’expérience :
+
+1. Avec la méthode du taux de sinistre (utiliser le total sur trois ans pour le calcul du taux de sinistre).
+1. Avec la méthode de la prime pure (utiliser le total sur trois ans pour le calcul de la prime pure).
+
+## Primes : mise au taux courant
+
+Utiliser la méthode du parallélogramme.
+
+| Année de calendrier | Niveau de taux moyen |
+|:--|--:|
+| 2013 | 1,000 |
+| 2014 | 1,045 |
+| 2015 | $1,045 \times 1,025$ |
+
+Les changements de taux sont effectifs le 1er octobre 2013 et le 1er avril 2015.
+
+## Facteurs de mise au taux courant
+
+| Année de calendrier | Facteur |
+|:--|--:|
+| 2013 | 1,068120910 |
+| 2014 | 1,027766117 |
+| 2015 | 1,012345679 |
+
+La période d’acquisition et les changements de taux déterminent la part de prime qui doit être mise au taux courant.
+
+## Primes : tendance dans les primes
+
+Utiliser la méthode de projection en une étape.
+
+| Année de calendrier | Date moyenne souscrite des polices avec primes acquises | Date moyenne souscrite des polices effectives en 2017 |
+|:--|:--|:--|
+| 2013 | 1er avril 2013 | 1er juillet 2017 |
+| 2014 | 1er avril 2014 | 1er juillet 2017 |
+| 2015 | 1er avril 2015 | 1er juillet 2017 |
+
+## Primes acquises au taux courant et projetées
+
+| Année | Primes acquises | Facteur au taux courant | Facteur de tendance | Primes projetées |
+|:--|--:|--:|--:|--:|
+| 2013 | 1 870 000 \$ | 1,068121 | 1,0878 | 2 172 765 \$ |
+| 2014 | 2 228 000 \$ | 1,027766 | 1,0665 | 2 442 081 \$ |
+| 2015 | 2 404 000 \$ | 1,012346 | 1,0456 | 2 544 566 \$ |
+| **Total** | | | | **7 159 412 \$** |
+
+## Sinistres : sinistres extraordinaires
+
+Exclure les catastrophes des données historiques servant à projeter les sinistres.
+
+Au lieu d’utiliser les sinistres catastrophiques historiques tels quels, les remplacer par un montant espéré moyen pour la portion catastrophique.
+
+Ici, la marge projetée pour catastrophe, incluant les frais de règlement alloués, est de 14,9677096 % de la prime. Cette marge ne tient pas compte des frais de règlement non alloués.
+
+## Sinistres : facteurs de développement à l’ultime
+
+Les projections à l’ultime utilisent les sinistres excluant les catastrophes.
+
+| Année d’accident | 12–24 mois | 24–36 mois | 36 mois–ultime |
+|:--|--:|--:|--:|
+| 2013 | $895\,000 / 750\,000 = 1,193333333$ | $975\,000 / 895\,000 = 1,089385475$ | |
+| 2014 | $975\,000 / 825\,000 = 1,181818182$ | | |
+| 2015 | | | |
+| **Moyenne** | **1,187575758** | **1,089385475** | **1,00** |
+
+## Sinistres : tendance dans les sinistres
+
+La tendance annuelle combinée est :
+
+$$
+(1 + 0.05)(1 - 0.01) - 1 = 3.95\%
+$$
+
+| Année d’accident | Date moyenne d’accident | Date moyenne d’accident pour les polices effectives en 2017 |
+|:--|:--|:--|
+| 2013 | 1er juillet 2013 | 1er octobre 2017 |
+| 2014 | 1er juillet 2014 | 1er octobre 2017 |
+| 2015 | 1er juillet 2015 | 1er octobre 2017 |
+
+## Sinistres ultimes projetés excluant les catastrophes
+
+| Année | Sinistres rapportés | Facteur de développement à l’ultime | Facteur de projection | Sinistres ultimes projetés |
+|:--|--:|--:|--:|--:|
+| 2013 | 975 000 \$ | 1,000000 | 1,1790 | 1 149 499 \$ |
+| 2014 | 975 000 \$ | 1,089385 | 1,1323 | 1 204 664 \$ |
+| 2015 | 900 000 \$ | 1,293728 | 1,0878 | 1 270 400 \$ |
+| **Total** | | | | **3 624 563 \$** |
+
+## Taux de sinistre ultime projeté excluant les catastrophes
+
+| Année d’accident | Primes projetées au taux courant | Sinistres ultimes projetés | Taux de sinistre ultime projeté |
+|:--|--:|--:|--:|
+| 2013 | 2 172 765 \$ | 1 149 499 \$ | 0,5290 |
+| 2014 | 2 442 081 \$ | 1 204 664 \$ | 0,4933 |
+| 2015 | 2 544 566 \$ | 1 270 400 \$ | 0,4993 |
+| **Total** | **7 159 412 \$** | **3 624 563 \$** | **0,5063** |
+
+## Changement de taux indiqué : méthode du taux de sinistre
+
+$$
+\begin{aligned}
+\text{Changement indiqué}
+&= \frac{0.5063(1 + 0.07) + 0.149677096 + 0.05}{1 - 0.22 - 0.06} - 1 \\
+&= +4.42\%.
+\end{aligned}
+$$
+
+## Méthode de la prime pure
+
+La méthode de la prime pure donne normalement une prime indiquée, et non un changement de taux indiqué.
+
+On calcule d’abord la prime indiquée, puis on la compare à la prime acquise moyenne au taux courant projetée afin d’obtenir le changement de taux indiqué.
+
+## Prime pure moyenne
+
+| Année d’accident | Sinistres ultimes projetés | Unités acquises | Prime pure |
+|:--|--:|--:|--:|
+| 2013 | 1 149 499 \$ | 1 420 | 809,51 \$ |
+| 2014 | 1 204 664 \$ | 1 530 | 787,36 \$ |
+| 2015 | 1 270 400 \$ | 1 610 | 789,07 \$ |
+| **Total** | **3 624 563 \$** | **4 560** | **794,86 \$** |
+
+## Prime acquise moyenne au taux courant projetée
+
+| Année de calendrier | Primes projetées au taux courant | Unités acquises | Prime acquise moyenne |
+|:--|--:|--:|--:|
+| 2013 | 2 172 765 \$ | 1 420 | 1 530,12 \$ |
+| 2014 | 2 442 081 \$ | 1 530 | 1 596,13 \$ |
+| 2015 | 2 544 566 \$ | 1 610 | 1 580,48 \$ |
+| **Total** | **7 159 412 \$** | **4 560** | **1 570,05 \$** |
+
+## Frais de souscription fixes
+
+Le ratio de frais fixes est de 5 %, ce qui donne des frais fixes par unité de :
+
+$$
+0.05 \times 1\,570.05\ \text{\$} = 78.50\ \text{\$}.
+$$
+
+## Prime indiquée par unité
+
+$$
+\begin{aligned}
+\overline{P_I}
+&= \frac{
+  \begin{gathered}
+  \text{Prime pure} + \text{Marge pour catastrophe} \\
+  {}+ \text{Frais de règlement non alloués} + \text{Frais fixes}
+  \end{gathered}
+}{1 - \text{Frais variables} - \text{Profit cible}} \\
+&= \frac{(794.86 + 0.149677096 \times 1\,570.05) \times 1.07 + 78.50}{1 - 0.22 - 0.06} \\
+&= 1\,639.51\ \text{\$}.
+\end{aligned}
+$$
+
+## Changement de taux indiqué : méthode de la prime pure
+
+$$
+\frac{\text{Prime indiquée}}{\text{Prime moyenne acquise au taux courant projetée}} - 1
+= \frac{1\,639.51}{1\,570.05} - 1
+= +4.42\%.
+$$
+
+# Dates de projection des primes {data-progress-label="Primes" subtitle="Méthode de projection en une étape"}
+
+## Situation
+
+Vous êtes l’actuaire responsable de la projection des primes pour une analyse d’indiqué de niveau de taux global. Vous utilisez la méthode de projection en une étape.
+
+Les nouveaux taux seront en vigueur à partir du 1er janvier 2021. Calculer les dates de début et de fin de projection pour l’année 2018.
+
+| Méthode de compilation | Durée des contrats | Taux en vigueur jusqu’au |
+|:--|:--|:--|
+| Année de calendrier | 12 mois | 31 décembre 2021 |
+| Année de calendrier | 24 mois | 31 décembre 2021 |
+| Année de calendrier | 24 mois | 31 décembre 2022 |
+| Année de police | 12 mois | 31 décembre 2021 |
+| Année de police | 24 mois | 31 décembre 2021 |
+| Année de police | 24 mois | 31 décembre 2022 |
+
+## Année de calendrier : dates de projection
+
+| Durée des contrats | Taux en vigueur jusqu’au | Début de projection | Fin de projection |
+|--:|:--|:--|:--|
+| 12 mois | 31 décembre 2021 | 1er janvier 2018 | 1er juillet 2021 |
+| 24 mois | 31 décembre 2021 | 1er juillet 2017 | 1er juillet 2021 |
+| 24 mois | 31 décembre 2022 | 1er juillet 2017 | 1er janvier 2022 |
+
+La date de début est la date moyenne souscrite des polices avec primes acquises dans l’année de calendrier 2018. La date de fin est le point milieu de la période où les nouveaux taux sont en vigueur.
+
+## Année de police : dates de projection
+
+| Durée des contrats | Taux en vigueur jusqu’au | Début de projection | Fin de projection |
+|--:|:--|:--|:--|
+| 12 mois | 31 décembre 2021 | 1er juillet 2018 | 1er juillet 2021 |
+| 24 mois | 31 décembre 2021 | 1er juillet 2018 | 1er juillet 2021 |
+| 24 mois | 31 décembre 2022 | 1er juillet 2018 | 1er janvier 2022 |
+
+La date de début est la date moyenne souscrite des polices avec primes acquises dans l’année de police 2018. La date de fin est le point milieu de la période où les nouveaux taux sont en vigueur.
+
+# Dates de projection des sinistres {data-progress-label="Sinistres" subtitle="Du milieu de la période historique au milieu des accidents futurs"}
+
+## Situation
+
+Vous êtes l’actuaire responsable de la projection des sinistres pour une analyse d’indiqué de niveau de taux global.
+
+Les nouveaux taux seront en vigueur à partir du 1er janvier 2021. Calculer les dates de début et de fin de projection pour l’année 2018.
+
+| Méthode de compilation | Durée des contrats | Taux en vigueur jusqu’au |
+|:--|:--|:--|
+| Année d’accident | 12 mois | 31 décembre 2021 |
+| Année d’accident | 24 mois | 31 décembre 2021 |
+| Année d’accident | 24 mois | 31 décembre 2022 |
+| Année de police | 12 mois | 31 décembre 2021 |
+| Année de police | 24 mois | 31 décembre 2021 |
+| Année de police | 24 mois | 31 décembre 2022 |
+
+## Année d’accident : dates de projection
+
+| Durée des contrats | Taux en vigueur jusqu’au | Début de projection | Fin de projection |
+|--:|:--|:--|:--|
+| 12 mois | 31 décembre 2021 | 1er juillet 2018 | 1er janvier 2022 |
+| 24 mois | 31 décembre 2021 | 1er juillet 2018 | 1er juillet 2022 |
+| 24 mois | 31 décembre 2022 | 1er juillet 2018 | 1er janvier 2023 |
+
+La fin de projection est la date moyenne d’accident des polices écrites dans la période future, soit six mois après la date moyenne souscrite pour des contrats de 12 mois et douze mois après celle-ci pour des contrats de 24 mois.
+
+## Année de police : dates de projection
+
+| Durée des contrats | Taux en vigueur jusqu’au | Début de projection | Fin de projection |
+|--:|:--|:--|:--|
+| 12 mois | 31 décembre 2021 | 1er janvier 2019 | 1er janvier 2022 |
+| 24 mois | 31 décembre 2021 | 1er juillet 2019 | 1er juillet 2022 |
+| 24 mois | 31 décembre 2022 | 1er juillet 2019 | 1er janvier 2023 |
+
+La date de début est la date moyenne d’accident de l’année de police 2018. Elle est de six mois après la date moyenne souscrite pour les contrats de 12 mois, et de douze mois après celle-ci pour les contrats de 24 mois.
