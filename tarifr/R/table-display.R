@@ -213,7 +213,10 @@ normaliser_entetes_calculs <- function(entetes_calculs, n_colonnes) {
 }
 
 echapper_entete_calcul <- function(texte) {
-  texte
+  # In a Pandoc grid-table cell, a leading `(1)` becomes an ordered list.
+  # Escape only that opening parenthesis so every output target receives the
+  # author-facing calculation text, including Typst when smart tables are off.
+  sub("^\\(", "\\\\(", texte)
 }
 
 table_grille_entetes <- function(tableau, align, entetes_groupes, entetes_calculs = NULL) {
@@ -283,9 +286,7 @@ table_grille_entetes <- function(tableau, align, entetes_groupes, entetes_calcul
 
   if (!is.null(entetes_calculs)) {
     cellules_calculs <- vapply(seq_len(n_colonnes), function(colonne) {
-      # A leading indentation makes Pandoc parse `(1)` as a code block rather
-      # than the ordered-list syntax that smart-typst-tables rehydrates into
-      # a calculation reference. The RevealJS renderer centers this row.
+      # Keep calculation references as literal text in every Pandoc output.
       cellule_table_grille(
         echapper_entete_calcul(entetes_calculs[[colonne]]),
         largeurs[[colonne]],
