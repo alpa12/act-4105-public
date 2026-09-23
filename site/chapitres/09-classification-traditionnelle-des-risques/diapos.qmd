@@ -23,7 +23,7 @@ Ce chapitre est adapté des références suivantes :
 
 ## Contenu du chapitre {.progress-overview}
 
-# Définitions {data-progress-label="Défs" subtitle="Variables, classes et différentiels utilisés pour segmenter les risques"}
+# Définitions {data-progress-label="Défs"}
 
 ## Système de classification des risques
 
@@ -77,7 +77,7 @@ Une classification des risques cherche à former des groupes qui sont à la fois
 :::
 ::::
 
-# Importance des taux équitables {data-progress-label="Taux équitables" subtitle="Une tarification proportionnée au risque de chaque classe"}
+# Importance des taux équitables {data-progress-label="Taux équitables" subtitle="Information collectée et anti-sélection"}
 
 ## Objectifs de la tarification
 
@@ -162,8 +162,8 @@ Trois primes proposées chez trois assureurs différents : 483 $, 647 $ et 95
 
 ## Importance de taux équitables
 
-- Une compagnie qui échoue à charger le taux propre à chaque assuré lorsque les autres compagnies le font s’expose à de l’anti-sélection
-- Une compagnie qui reflète une caractéristique de risque valide alors que les autres ne le font pas peut faire une sélection favorable des risques ou avoir un avantage compétitif
+- Une compagnie qui échoue à charger le taux propre à chaque assuré lorsque les autres compagnies le font s’expose à de l’anti-sélection.
+- Une compagnie qui reflète une caractéristique de risque valide alors que les autres ne le font pas peut faire une sélection favorable des risques ou avoir un avantage compétitif.
 
 ## Anti-sélection
 
@@ -191,8 +191,8 @@ Deux compagnies d’assurance :
 
 |  |  |
 |:--|:--|
-| ![](assets/homme-caverne.svg){width=72px fig-alt=""} | **Assureur A** : tarification très simple. Prime unique de 150 $ pour tous |
-| ![](assets/reflexion.svg){width=72px fig-alt=""} | **Assureur B** : tarification très segmentée. Prime de 200 $ pour les risques élevés et de 100 $ pour les risques faibles |
+| ![](assets/homme-caverne.svg){width=72px fig-alt=""} | **Assureur A** : Tarification simple : prime unique de 150 $ pour tous |
+| ![](assets/reflexion.svg){width=72px fig-alt=""} | **Assureur B** : Tarification segmentée : Prime de 200 $ pour les risques élevés et de 100 $ pour les risques faibles |
 
 :::
 :::
@@ -246,7 +246,7 @@ $$
 :::: {.columns .center}
 ::: {.column}
 
-![](assets/assureur-a-t1.png){width=65% fig-alt="Chez l'assureur A, trois risques faibles sont encerclés parmi les dix véhicules du portefeuille initial."}
+![](assets/assureur-a-t1-2.png){width=65% fig-alt="Chez l'assureur A, trois risques faibles sont encerclés parmi les dix véhicules du portefeuille initial."}
 
 $$
 \begin{aligned}
@@ -258,7 +258,7 @@ $$
 :::
 ::: {.column}
 
-![](assets/assureur-b-t1.png){width=65% fig-alt="Chez l'assureur B, trois risques élevés sont encerclés parmi les dix véhicules du portefeuille initial."}
+![](assets/assureur-b-t1-2.png){width=65% fig-alt="Chez l'assureur B, trois risques élevés sont encerclés parmi les dix véhicules du portefeuille initial."}
 
 $$
 \begin{aligned}
@@ -293,8 +293,8 @@ Si l’assureur A veut rencontrer son profit cible de 0 %, il devra charger 200
 
 Lorsqu’une compagnie identifie une caractéristique qui impacte le potentiel de perte et qui n’est pas utilisée par les compétiteurs, elle peut :
 
-1. Implanter la variable de tarification dans son algorithme de tarification, ce qui créera l’effet opposé à l’anti-sélection
-2. Utiliser la caractéristique dans la souscription des assurés ou dans les offensives marketing (« *skimming the cream* »)
+1. Implanter la variable de tarification dans son algorithme de tarification, ce qui créera l’effet opposé à l’anti-sélection.
+2. Utiliser la caractéristique dans la souscription des assurés ou dans les offensives marketing (« *skimming the cream* »).
 
 En attirant une clientèle plus profitable, la compagnie présentera de meilleurs résultats. Elle pourra éventuellement diminuer son niveau de taux global et ainsi gagner en compétitivité.
 
@@ -302,7 +302,9 @@ En attirant une clientèle plus profitable, la compagnie présentera de meilleur
 Un signe que la compagnie est victime d’anti-sélection est une croissance dans un segment non rentable. Pour régler le problème, il ne suffit pas d’augmenter les primes du segment visé : il faut réussir à trouver la distinction entre les risques faibles et les risques élevés.
 :::
 
-# Critères d’évaluation des variables de tarification {data-progress-label="Critères" subtitle="Des variables pertinentes, crédibles, pratiques et acceptables"}
+<!-- ICI -->
+
+# Critères d’évaluation des variables de tarification {data-progress-label="Critères" subtitle="Critères statistiques, opérationnels, sociaux et légaux"}
 
 ## Critères d’évaluation des variables de tarification
 
@@ -316,14 +318,14 @@ Plusieurs critères servent à évaluer si une variable de tarification est appr
 ## Statistique {.english-subtitle subtitle="Statistical Criteria"}
 
 **Différence statistique significative**
-: L’espérance des coûts devrait **varier parmi les différents niveaux** de la variable de tarification et la différence devrait se situer **dans un intervalle de confiance statistique**.  
-La différence entre les niveaux devrait être relativement **stable d’une année à l’autre**.
+: L’espérance des coûts devrait varier parmi les différents niveaux de la variable de tarification et la différence devrait se situer dans un intervalle de confiance statistique.  
+La différence entre les niveaux devrait être relativement stable d’une année à l’autre.
 
 **Homogénéité**
-: Les différents niveaux de la variable devraient représenter des groupes distincts de risques avec des **coûts espérés similaires**.
+: Les différents niveaux de la variable devraient représenter des groupes distincts de risques avec des coûts espérés similaires.
 
 **Crédibilité**
-: Le **nombre de risques** dans chaque groupe devrait être **suffisamment élevé** pour que l’actuaire puisse estimer les coûts de façon précise.
+: Le nombre de risques dans chaque groupe devrait être suffisamment élevé pour que l’actuaire puisse estimer les coûts de façon précise.
 
 ::: {.notes}
 Illustrer la différence statistique significative avec l’exemple des hommes et des femmes en assurance automobile.
@@ -335,16 +337,16 @@ Illustrer la différence statistique significative avec l’exemple des hommes e
 ::: {.column}
 
 **Objective**
-: Les niveaux de variable doivent présenter des **définitions objectives et non ambiguës**.
+: Les niveaux de variable doivent présenter des définitions objectives et non ambiguës.
 
 **Peu coûteuse à administrer**
-: Le **coût** d’obtenir l’information permettant de bien classifier le risque ne devrait **pas être trop élevé** versus le gain en précision de tarification.
+: Le coût d’obtenir l’information permettant de bien classifier le risque ne devrait pas être trop élevé versus le gain en précision de tarification.
 
 :::
 ::: {.column}
 
 **Vérifiable**
-: La variable ne devrait **pas être facilement manipulable** par l’assuré, l’agent ou le courtier.
+: La variable ne devrait pas être facilement manipulable par l’assuré, l’agent ou le courtier.
 
 :::
 ::::
@@ -383,7 +385,9 @@ Certaines provinces ou certains États empêchent l’utilisation de certaines v
 Par exemple, l’utilisation de la cote de crédit pour la tarification ou la souscription en assurance automobile est interdite en Ontario et à Terre-Neuve-et-Labrador.
 
 ::: {.aside}
-Sources : [Autorité ontarienne de réglementation des services financiers](https://www.fsrao.ca/fr/pour-le-secteur/assurance-automobile/cadre-de-reglementation/lignes-directrices-assurance-automobile/revue-annuelle-de-lontario-visant-les-vehicules-de-tourisme-fondee-sur-les-donnees-de-lindustrie-au-31-decembre-2023) et [Board of Commissioners of Public Utilities de Terre-Neuve-et-Labrador](https://www.pub.nf.ca/AutoInsurance/QA/AI_faq15.php)
+Sources :  
+[Autorité ontarienne de réglementation des services financiers](https://www.fsrao.ca/fr/pour-le-secteur/assurance-automobile/cadre-de-reglementation/lignes-directrices-assurance-automobile/revue-annuelle-de-lontario-visant-les-vehicules-de-tourisme-fondee-sur-les-donnees-de-lindustrie-au-31-decembre-2023) et  
+[Board of Commissioners of Public Utilities de Terre-Neuve-et-Labrador](https://www.pub.nf.ca/AutoInsurance/QA/AI_faq15.php)
 :::
 
 ## {.remember-slide}
@@ -479,6 +483,10 @@ R1_{I,i} =
 {1 - V - Q_T}\right]_B}
 $$
 
+::: {.text-small}
+Par exemple, dans l'exemple précédent, si la variable $R1$ est la région, alors $R1_{I,i}$ est le différentiel indiqué pour la région $i$ (Montréal, Beauce, Québec, ou Autre) par rapport à la classe de base « Région autre ». Le différentiel pour Montréal serait $R1_{I, Mtl} = \frac{\overline{P_{I, Mtl}}}{\overline{P_{I, Autre}}}$.
+:::
+
 ---
 
 En assumant que tous les frais de souscription sont variables ($\overline{E_F} = 0$) :
@@ -517,14 +525,16 @@ $$
 :::
 ::: {.column width="42%"}
 
-::: {.callout-warning}
-**Attention** : le numérateur et le dénominateur doivent être au niveau projeté et ultime.
+::: {.callout-warning title="Attention" .text-xs}
+Le numérateur et le dénominateur doivent être au niveau projeté et ultime.
 :::
 
 :::
 ::::
 
-Ici, $R1_{I,i}$ est le différentiel indiqué pour le niveau $i$ de la variable de tarification $R1$. Par exemple, si $i$ est le niveau « Région Montréal », alors $R1_{I,i}$ est le différentiel indiqué pour la région de Montréal.
+::: {.text-small}
+Donc, si toutes les hypothèses simplificatices sont satisfaites, le différentiel indiqué pour la région Montréal, $R1_{I, Mtl}$, est la prime pure projetée ultime pour Montréal divisée par la prime pure projetée ultime pour la région de base « Autre ».
+:::
 
 ::::: {.question title="Différentiels par territoire"}
 
@@ -709,21 +719,14 @@ afficher_table(
   align = c("l", rep("r", 4)),
   formats = list(list(colonnes = 2:5, type = "nombre", digits = 0)),
   lignes_gras = "derniere",
-  entetes_groupes = list(list(label = "Distribution des unités", colonnes = 2:4)),
-  entetes_calculs = c(
-    "(1)",
-    "(2)",
-    "(3)",
-    "(4)",
-    "(5) = (2) + (3) + (4)"
-  )
+  entetes_groupes = list(list(label = "Distribution des unités", colonnes = 2:4))
 )
 ```
 
 **Remarques**
 
-- 61 % ($179 / 294$) des unités du territoire 1 ont des montants d’assurance élevés
-- Seulement 12 % ($40 / 309$) des unités du territoire 3 ont des montants d’assurance élevés
+- 61 % ($179 / 294$) des unités du territoire 1 ont des montants d’assurance élevés.
+- Seulement 12 % ($40 / 309$) des unités du territoire 3 ont des montants d’assurance élevés.
 
 ##
 
@@ -760,7 +763,7 @@ afficher_table(
 :::
 ::::
 
-::: {.text-xs}
+::: {.text-small}
 Note : La relativité réelle n’est pas connue et c’est ce qu’on cherche à trouver. La relativité chargée est celle actuellement utilisée pour le calcul de la prime.
 :::
 
@@ -803,7 +806,7 @@ afficher_table(
 
 ::: {.solution}
 
-## {.text-smaller}
+## {.text-xs}
 
 Pour chaque territoire, la prime pure et le différentiel indiqué sont :
 
@@ -906,9 +909,9 @@ $$
 
 Où :
 
-- $R1_{C,i}$ est le différentiel courant pour le niveau $i$ de la variable $R1$
-- $P_{C,i}$ sont les primes au taux courant pour le niveau $i$ de la variable $R1$
-- $P_{C,B}$ sont les primes au taux courant pour la classe de base de la variable $R1$
+- $R1_{C,i}$ est le différentiel courant pour le niveau $i$ de la variable $R1$.
+- $P_{C,i}$ sont les primes au taux courant pour le niveau $i$ de la variable $R1$.
+- $P_{C,B}$ sont les primes au taux courant pour la classe de base de la variable $R1$.
 
 :::: {.question title="Différentiels, méthode du taux de sinistre"}
 
@@ -1046,15 +1049,11 @@ afficher_table(
 
 ::: {.solution}
 
-## {.text-xs}
+## {.text-small}
 
 Pour chaque territoire, on ajuste les unités par la relativité moyenne des autres variables :
 
 ### Étape 1 : Différentiel moyen par montant d’assurance
-$$
-\bar{R}_{\text{montant},t} =
-\frac{\sum_m X_{m,t} R_m}{\sum_m X_{m,t}}
-$$
 
 ```{r}
 #| label: chapitre9-ajustement-montant-table
@@ -1161,8 +1160,6 @@ Si on utilisait les différentiels exacts par montant d’assurance pour déterm
 
 Les trois approches ont le même objectif : obtenir un différentiel indiqué à partir d’une expérience projetée et ultime.
 
-- **Prime pure** compare directement les coûts par unité
-- **Taux de sinistre** compare les coûts aux primes au taux courant
-- **Prime pure ajustée** pondère les unités selon les autres variables de tarification
-
-## {.remember-slides}
+- **Prime pure** compare directement les coûts par unité.
+- **Taux de sinistre** compare les coûts aux primes au taux courant.
+- **Prime pure ajustée** pondère les unités selon les autres variables de tarification.
