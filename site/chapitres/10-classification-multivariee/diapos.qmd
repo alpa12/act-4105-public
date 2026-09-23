@@ -1,0 +1,547 @@
+---
+title: "Chapitre 10: Classification multivariée"
+format:
+  revealjs: default
+execute:
+  echo: false
+metadata-files:
+  - ../_diapos.yml
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+library(ggplot2)
+
+couleurs_act <- c(
+  rouge = "#C8102E",
+  bleu = "#0069AA",
+  or = "#B37A00",
+  vert = "#007C6C",
+  gris = "#5B6573"
+)
+
+theme_act <- theme_minimal(base_size = 16) +
+  theme(
+    panel.grid.minor = element_blank(),
+    plot.title = element_text(face = "bold", hjust = 0),
+    legend.position = "bottom",
+    legend.title = element_blank()
+  )
+```
+
+## Lectures recommandées
+
+Ce chapitre est adapté du chapitre 10 du texte _Basic Ratemaking_ :
+
+[Werner, G. et Modlin, C. (2016). _Basic Ratemaking_, Casualty Actuarial Society, 5e édition.](http://www.casact.org/library/studynotes/Werner_Modlin_Ratemaking.pdf)
+
+## Contenu du chapitre {.progress-overview}
+
+- Défaillances des méthodes de classification univariées
+- Bénéfices des méthodes de classification multivariées
+- Modèles linéaires généralisés
+
+# Défaillances des méthodes de classification univariées {data-progress-label="Méthodes univariées"}
+
+## Défaillances des méthodes de classification univariées
+
+Les méthodes de classification univariées (méthode de la prime pure et méthode du taux de sinistre, vues au chapitre 9) ne tiennent pas compte, ou seulement partiellement, de l’effet des autres variables de tarification.
+
+:::: {.question title="Différentiels indiqués par âge du véhicule"}
+
+##
+
+Avec les données suivantes, calculer les différentiels indiqués par âge du véhicule avec la méthode de la prime pure (classe de base : 2 ans et plus).
+
+| Âge du véhicule | Unités | Sinistres et frais de règlement |
+|:--|--:|--:|
+| 0–1 an | 55 000 | 52,5 M $ |
+| 2 ans et plus | 100 000 | 107,5 M $ |
+
+::: {.solution}
+
+##
+
+| Âge du véhicule | Unités | Sinistres et frais de règlement | Prime pure | Différentiel indiqué |
+|:--|--:|--:|--:|--:|
+| 0–1 an | 55 000 | 52,5 M $ | 955 $ | 0,888 |
+| 2 ans et plus | 100 000 | 107,5 M $ | 1 075 $ | 1,000 |
+
+On conclut que les sinistres espérés pour un véhicule récent sont inférieurs à ceux d’un véhicule plus âgé.
+
+:::
+::::
+
+## Défaillances des méthodes de classification univariées
+
+On applique la méthode de la prime pure en reprenant le contexte de l’exemple précédent, mais en poussant l’analyse un peu plus loin et en séparant l’expérience par âge du véhicule et âge de l’assuré (méthode de la prime pure bivariée).
+
+| Âge du véhicule | Âge de l’assuré | Unités | Sinistres et frais de règlement | Prime pure | Différentiel indiqué |
+|:--|:--|--:|--:|--:|--:|
+| 0–1 an | 16–25 ans | 5 000 | 7,5 M $ | 1 500 $ | 1,250 |
+| 0–1 an | 26 ans et plus | 50 000 | 45 M $ | 900 $ | 0,750 |
+| 2 ans et plus | 16–25 ans | 75 000 | 90 M $ | 1 200 $ | 1,000 |
+| 2 ans et plus | 26 ans et plus | 25 000 | 17,5 M $ | 700 $ | 0,583 |
+
+Maintenant que nous tenons compte de la corrélation entre l’âge du véhicule et l’âge de l’assuré, on obtient des différentiels indiqués logiques et cohérents avec les sinistres espérés.
+
+## Défaillances des méthodes de classification univariées
+
+La méthode de la prime pure univariée est biaisée par le fait que les véhicules âgés sont plus souvent conduits par des assurés plus jeunes, qui tendent eux-mêmes à avoir une fréquence de sinistres plus élevée.
+
+On peut pallier ce problème en utilisant la méthode de la prime pure bivariée dans ce cas-ci.
+
+En pratique, il faut d’abord avoir le réflexe de penser que les deux variables (âge du véhicule et âge de l’assuré) sont corrélées.
+
+Avec des dizaines de variables utilisées dans un algorithme de tarification, ces mêmes variables sont aussi corrélées avec bien d’autres variables de tarification (ancienneté de permis, cote de crédit, etc.). Les croisements manuels de plusieurs variables deviennent rapidement inefficaces, voire impossibles.
+
+## Défaillances des méthodes de classification univariées
+
+- La méthode de la prime pure univariée ne considère pas la corrélation entre les variables dans les unités d’exposition.
+- La méthode du taux de sinistre tient compte partiellement de la distribution du portefeuille puisque la prime varie selon les différentes variables de tarification, mais la prime chargée n’est qu’un estimé et dévie bien souvent de la vraie espérance de perte.
+- La méthode de la prime pure ajustée, elle aussi, ne tient compte que partiellement de la distribution du portefeuille en multipliant les unités d’exposition par les différentiels actuels.
+
+# Bénéfices des méthodes de classification multivariées {data-progress-label="Méthodes multivariées"}
+
+## Adoption des méthodes multivariées
+
+Plusieurs circonstances ont conduit à l’adoption des méthodes de classification multivariées :
+
+- Avancées en informatique.
+- Bases de données plus segmentées disponibles.
+- Compétition.
+
+## Bénéfices des méthodes de classification multivariées
+
+Les méthodes de classification multivariées considèrent toutes les variables simultanément et ajustent automatiquement pour la corrélation entre les variables de tarification.
+
+Le biais lié à la corrélation entre les variables est le principal défaut des méthodes d’analyses univariées.
+
+## Bénéfices des méthodes de classification multivariées
+
+Les méthodes de classification multivariées tentent d’éliminer les effets non systématiques (le bruit) et de capturer seulement les effets systématiques (le signal).
+
+Les méthodes d’analyses univariées incluent à la fois les effets non systématiques (le bruit) et les effets systématiques (le signal).
+
+## Bénéfices des méthodes de classification multivariées
+
+Les méthodes de classification multivariées produisent des diagnostics des modèles.
+
+Les diagnostics des modèles permettent d’avoir de l’information additionnelle à propos de la justesse du modèle.
+
+## Bénéfices des méthodes de classification multivariées
+
+Les méthodes de classification multivariées permettent d’inclure une considération pour les interactions ou interdépendances entre deux variables ou plus.
+
+Une interaction survient lorsque l’effet d’une variable varie selon le niveau d’une autre variable.
+
+## Bénéfices des méthodes de classification multivariées
+
+Attention ! Une interaction entre deux variables n’est pas la même chose qu’une corrélation entre deux variables.
+
+Une corrélation entre deux variables signifie que la distribution des unités d’exposition d’une variable n’est pas la même selon les différents niveaux d’une autre variable de tarification.
+
+Prenons l’exemple du montant d’assurance et du territoire en assurance habitation.
+
+| Valeur de l’habitation | Territoire 1 | Territoire 2 |
+|:--|--:|--:|
+| 0–400 000 $ | 75 % | 40 % |
+| 400 000 $ et plus | 25 % | 60 % |
+
+On dit ici que les variables « valeur de l’habitation » et « territoire » sont corrélées.
+
+## Bénéfices des méthodes de classification multivariées
+
+Attention ! Une interaction entre deux variables n’est pas la même chose qu’une corrélation entre deux variables.
+
+- Une interaction existe lorsque l’effet d’une variable varie selon le niveau d’une autre variable. Par exemple, l’effet de l’âge de l’assuré en assurance automobile peut varier selon le sexe de l’assuré.
+- L’ajout d’interactions dans un modèle de tarification est un raffinement du modèle qui peut en augmenter significativement le pouvoir prédictif.
+- Cependant, les interactions augmentent aussi la complexité d’un modèle et d’un algorithme de tarification. Il faut donc s’assurer que la valeur ajoutée en vaut l’augmentation de complexité.
+
+## Bénéfices des méthodes de classification multivariées
+
+Attention ! Une interaction entre deux variables n’est pas la même chose qu’une corrélation entre deux variables.
+
+Prenons l’exemple de l’interaction entre l’âge de l’assuré et le sexe de l’assuré en assurance automobile. Il n’y a probablement pas de corrélation entre les deux variables (la distribution hommes/femmes est autour de 50 % pour tous les groupes d’âge), mais le différentiel indiqué par âge est bien différent selon le sexe de l’assuré.
+
+---
+
+```{r}
+#| label: interaction-age-sexe
+#| fig-width: 8
+#| fig-height: 3.4
+#| fig-alt: "Différentiels indiqués selon l’âge de l’assuré pour les femmes et les hommes. Les deux profils décroissent, mais celui des hommes décroît plus fortement."
+
+interaction_age_sexe <- data.frame(
+  age = rep(c(16, 50, 100), 2),
+  differentiel = c(1.84, 1.50, 1.00, 2.60, 1.75, 0.50),
+  sexe = rep(c("Femmes", "Hommes"), each = 3)
+)
+
+ggplot(interaction_age_sexe, aes(age, differentiel, colour = sexe, shape = sexe)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 3) +
+  scale_colour_manual(values = couleurs_act[c("rouge", "bleu")]) +
+  scale_x_continuous(breaks = c(16, 50, 100)) +
+  labs(x = "Âge de l’assuré (années)", y = "Différentiel indiqué") +
+  theme_act
+```
+
+Dans ce cas-ci, il serait probablement pertinent d’ajouter l’interaction entre « âge de l’assuré » et « sexe de l’assuré » dans notre modèle.
+
+# Modèles linéaires généralisés {data-progress-label="GLM"}
+
+## Modèles linéaires {.english-subtitle subtitle="Linear Models"}
+
+La variable dépendante $Y$ (« response variable ») est exprimée comme la somme de sa moyenne ($\mu$) et un terme d’erreur ($\varepsilon$) :
+
+$$
+Y = \mu + \varepsilon
+$$
+
+Les modèles linéaires assument que $Y$ est une combinaison linéaire de variables prédictives. Par exemple :
+
+$$
+Y = \beta_0 + \beta_1 X_1 + \cdots + \beta_k X_k + \varepsilon
+$$
+
+où $\varepsilon$ suit une loi $N(0, \sigma^2)$. On veut les paramètres qui produisent les données observées avec la plus grande probabilité.
+
+## Modèles linéaires généralisés {.english-subtitle subtitle="Generalized Linear Models ou GLMs"}
+
+- Version généralisée des modèles linéaires.
+- Le GLM supprime les restrictions de loi normale et de variance constante.
+- Permet une fonction de lien (« link function ») autre qu’additive entre la variable dépendante et la combinaison linéaire des variables prédictives.
+- Le choix de différentes fonctions de lien signifie que les variables prédictives n’ont pas nécessairement à être additives comme avec les modèles linéaires.
+  - Par exemple, des GLM pour prédire les coûts des réclamations en assurance spécifient souvent une fonction de lien logarithmique (« log link function ») qui assume que les variables sont multiplicatives.
+
+## Modèles linéaires généralisés
+
+Pour résoudre un GLM, on a besoin de :
+
+- Une base de données incluant suffisamment de données et contenant l’information de la variable dépendante associée aux variables prédictives à considérer dans le modèle.
+- Sélectionner une fonction de lien pour définir le lien entre les composantes systématiques et aléatoires.
+- Sélectionner la distribution du processus aléatoire sous-jacent (par exemple : normale, Poisson, gamma, etc.).
+
+## Modèles linéaires généralisés
+
+Les analyses GLM sont faites sur les données de coûts de sinistres (_loss cost data_), ou préférablement sur la fréquence et la sévérité séparément.
+
+- Pas besoin de mettre les primes au taux courant (contrairement à la méthode du taux de sinistre).
+- Permet de valider nos intuitions de fréquence et de sévérité, donc de mieux distinguer le signal du bruit.
+- Non affectés par les changements de taux ou d’algorithme de tarification (contrairement à la méthode du taux de sinistre).
+
+## Exemple : groupe du véhicule
+
+Effet de la variable « groupe du véhicule » sur la fréquence de collision en assurance automobile.
+
+Chaque véhicule est classé dans un groupe avec d’autres véhicules qui ont des caractéristiques communes (valeur du véhicule, poids, puissance, etc.). Toutes les autres variables étant considérées, les véhicules du groupe 10 ont une fréquence environ 25 % plus élevée que celle des véhicules du groupe 4.
+
+---
+
+```{r}
+#| label: groupe-vehicule
+#| fig-width: 8
+#| fig-height: 3.4
+#| fig-alt: "Différentiels GLM croissants par groupe du véhicule; la taille des points montre que le groupe 17 a très peu d’unités d’exposition."
+
+groupe_vehicule <- data.frame(
+  groupe = 1:17,
+  differentiel = c(0.70, 0.92, 0.94, 1.00, 1.10, 1.10, 1.16, 1.19, 1.25, 1.25, 1.34, 1.34, 1.39, 1.39, 1.39, 1.43, 1.72),
+  exposition = c(1.8, 7.2, 11.0, 14.0, 12.4, 14.0, 12.8, 14.5, 10.5, 9.7, 7.8, 8.2, 7.0, 7.2, 1.8, 1.8, 0.2)
+)
+
+ggplot(groupe_vehicule, aes(groupe, differentiel, size = exposition)) +
+  geom_hline(yintercept = 1, colour = "grey75", linewidth = 0.7) +
+  geom_line(colour = couleurs_act["bleu"], linewidth = 1) +
+  geom_point(colour = couleurs_act["rouge"], alpha = 0.9) +
+  scale_size_area(max_size = 16, breaks = c(5, 10), name = "Exposition relative") +
+  scale_x_continuous(breaks = seq(1, 17, by = 2)) +
+  guides(size = guide_legend(override.aes = list(size = c(3, 6)))) +
+  labs(x = "Groupe du véhicule", y = "Différentiel GLM") +
+  theme_act +
+  theme(axis.text.x = element_text(size = 9))
+```
+
+Les différentiels indiqués dans ce graphique sont valides seulement si toutes les autres variables présentes dans le modèle sont aussi implantées.
+
+## Tests de diagnostic
+
+Calcul de l’écart-type (_standard error calculation_).
+
+---
+
+```{r}
+#| label: diagnostic-ecart-type
+#| fig-width: 8
+#| fig-height: 3.4
+#| fig-alt: "Différentiels GLM par groupe du véhicule avec intervalles d’incertitude. L’intervalle du groupe 17 est particulièrement large parce que le volume y est petit."
+
+groupe_vehicule$borne_inf <- groupe_vehicule$differentiel - c(rep(0.12, 16), 0.34)
+groupe_vehicule$borne_sup <- groupe_vehicule$differentiel + c(rep(0.13, 16), 0.42)
+
+ggplot(groupe_vehicule, aes(groupe, differentiel)) +
+  geom_hline(yintercept = 1, colour = "grey75", linewidth = 0.7) +
+  geom_ribbon(aes(ymin = borne_inf, ymax = borne_sup), fill = couleurs_act["or"], alpha = 0.25) +
+  geom_line(colour = couleurs_act["bleu"], linewidth = 1) +
+  geom_point(aes(size = exposition), colour = couleurs_act["rouge"]) +
+  scale_size_area(max_size = 12, breaks = c(5, 10), name = "Exposition relative") +
+  scale_x_continuous(breaks = seq(1, 17, by = 2)) +
+  guides(size = guide_legend(override.aes = list(size = c(3, 6)))) +
+  labs(x = "Groupe du véhicule", y = "Différentiel GLM") +
+  theme_act +
+  theme(axis.text.x = element_text(size = 9))
+```
+
+## Tests de diagnostic
+
+La courbe ascendante et l’intervalle de confiance près de la prédiction suggèrent que la variable est significative. L’intervalle de confiance plus large pour le groupe 17 est dû au petit nombre d’unités dans ce groupe. Cela n’invalide pas les résultats pour les groupes 1 à 16, où le volume est plus grand.
+
+## Tests de diagnostic
+
+Consistance des résultats d’une année à l’autre.
+
+---
+
+```{r}
+#| label: diagnostic-consistance
+#| fig-width: 8
+#| fig-height: 3.4
+#| fig-alt: "Deux séries annuelles de différentiels GLM par groupe du véhicule. Elles diffèrent légèrement, mais présentent une tendance générale croissante semblable."
+
+consistance <- rbind(
+  data.frame(groupe = 1:17, differentiel = c(0.58, 0.91, 0.91, 1.02, 1.08, 1.09, 1.12, 1.15, 1.20, 1.20, 1.31, 1.31, 1.42, 1.42, 1.42, 1.48, 1.95), annee = "2008"),
+  data.frame(groupe = 1:17, differentiel = c(0.82, 0.95, 0.95, 1.00, 1.14, 1.12, 1.18, 1.17, 1.28, 1.29, 1.39, 1.39, 1.40, 1.40, 1.40, 1.40, 1.60), annee = "2009")
+)
+
+ggplot(consistance, aes(groupe, differentiel, colour = annee, shape = annee)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 2.5) +
+  scale_colour_manual(values = couleurs_act[c("rouge", "vert")]) +
+  scale_x_continuous(breaks = seq(1, 17, by = 2)) +
+  labs(x = "Groupe du véhicule", y = "Différentiel GLM") +
+  theme_act +
+  theme(axis.text.x = element_text(size = 9))
+```
+
+## Tests de diagnostic
+
+Les deux lignes présentent des différences liées à des fluctuations aléatoires, mais la tendance générale est la même.
+
+## Tests de diagnostic
+
+Comparer le résultat espéré prédit par le modèle au résultat historique sur un échantillon de validation (c’est-à-dire non utilisé pour bâtir le modèle).
+
+---
+
+```{r}
+#| label: diagnostic-validation
+#| fig-width: 8
+#| fig-height: 3.4
+#| fig-alt: "Fréquences historiques et prédites sur un échantillon de validation. Elles suivent la diagonale; les écarts augmentent dans les classes ayant une fréquence prédite élevée."
+
+validation <- data.frame(
+  predite = seq(0.05, 0.68, length.out = 24),
+  historique = c(0.06, 0.07, 0.09, 0.12, 0.13, 0.16, 0.18, 0.22, 0.23, 0.25, 0.28, 0.31, 0.33, 0.37, 0.36, 0.43, 0.39, 0.52, 0.46, 0.61, 0.37, 0.69, 0.42, 0.00),
+  exposition = c(seq(45000, 7000, length.out = 18), 5000, 4200, 3000, 1800, 1200, 700)
+)
+
+ggplot(validation, aes(predite, historique, size = exposition)) +
+  geom_abline(slope = 1, intercept = 0, colour = couleurs_act["gris"], linetype = "dashed") +
+  geom_point(colour = couleurs_act["rouge"], alpha = 0.85) +
+  scale_size_area(max_size = 13, name = "Exposition") +
+  labs(x = "Fréquence prédite par le GLM", y = "Fréquence historique") +
+  theme_act
+```
+
+Les prédictions du GLM suivent de très près la fréquence historique. La volatilité des résultats pour les fréquences prédites très élevées est due à un petit volume de données.
+
+## Tests de diagnostic
+
+- Si des variables qui reflètent un effet non systématique (du bruit) sont retenues dans le modèle, les résultats du GLM ne seront pas prédictifs. Le modèle sera bon sur les données utilisées pour la modélisation, mais sera mauvais sur l’échantillon de validation car cet échantillon ne contient pas le même bruit (_overfitting_).
+- À l’inverse, si des variables importantes ont été oubliées dans le modèle, celui-ci va bien prédire les résultats futurs, mais ne pointera pas vers les variables qui impactent les coûts (_underfitting_). Le cas extrême serait un modèle sans aucune variable qui prédit toujours la moyenne.
+
+## Tests de diagnostic
+
+**Test statistique**
+
+- On peut aussi tester le pouvoir prédictif d’une variable en utilisant des tests statistiques comme le calcul de déviances.
+- Un exemple commun de test de déviance est le test du Chi carré.
+  - On fait un modèle avec la variable et un modèle sans la variable. On regarde l’augmentation de précision du modèle versus la complexité d’avoir un paramètre supplémentaire à estimer. L’hypothèse nulle est que les deux modèles sont égaux.
+  - Un pourcentage de Chi carré inférieur à 5 % indique normalement que l’hypothèse nulle doit être rejetée et donc qu’il faut utiliser le modèle avec un paramètre supplémentaire.
+  - Un pourcentage de Chi carré supérieur à 30 % indique normalement que l’hypothèse nulle ne doit pas être rejetée (les deux modèles sont égaux). L’actuaire devrait choisir celui qui n’inclut pas la variable additionnelle.
+  - Les pourcentages de Chi carré entre 5 % et 30 % sont normalement considérés comme non concluants (en se basant sur ce test seulement).
+
+## Exemple : historique de sinistres
+
+Analyse d’un GLM pour prédire la fréquence de dommage par l’eau en assurance habitation.
+
+On regarde l’effet de l’historique de sinistres (d’autres variables explicatives font aussi partie du modèle GLM).
+
+## Exemple : historique de sinistres
+
+Écart-type.
+
+---
+
+```{r}
+#| label: historique-ecart-type
+#| fig-width: 8
+#| fig-height: 3.4
+#| fig-alt: "Relativités indiquées pour zéro, un et deux sinistres antérieurs, avec intervalles d’incertitude et volume de polices."
+
+historique_sinistres <- data.frame(
+  sinistres = factor(c("0", "1", "2"), levels = c("0", "1", "2")),
+  relativite = c(1.00, 1.37, 1.65),
+  borne_inf = c(1.00, 1.27, 1.47),
+  borne_sup = c(1.00, 1.48, 1.85),
+  polices = c(420000, 65000, 6000)
+)
+
+ggplot(historique_sinistres, aes(sinistres, relativite)) +
+  geom_linerange(aes(ymin = borne_inf, ymax = borne_sup), colour = couleurs_act["or"], linewidth = 1.5) +
+  geom_point(aes(size = polices), colour = couleurs_act["rouge"]) +
+  geom_line(aes(group = 1), colour = couleurs_act["bleu"], linewidth = 1) +
+  scale_size_area(max_size = 18, name = "Nombre de polices") +
+  labs(x = "Nombre de sinistres antérieurs", y = "Relativité indiquée") +
+  theme_act
+```
+
+## Exemple : historique de sinistres
+
+Consistance d’une année à l’autre.
+
+---
+
+```{r}
+#| label: historique-consistance
+#| fig-width: 8
+#| fig-height: 3.4
+#| fig-alt: "Relativités de l’historique de sinistres par année. Les quatre années montrent toutes une relativité supérieure à un pour un ou deux sinistres antérieurs."
+
+historique_annee <- data.frame(
+  sinistres = rep(c(0, 1, 2), 4),
+  relativite = c(1.00, 1.31, 1.39, 1.00, 1.35, 1.91, 1.00, 1.50, 1.69, 1.00, 1.32, 1.63),
+  annee = rep(c("2011", "2012", "2013", "2014"), each = 3)
+)
+
+ggplot(historique_annee, aes(sinistres, relativite, colour = annee, shape = annee)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 3) +
+  scale_x_continuous(breaks = 0:2) +
+  labs(x = "Nombre de sinistres antérieurs", y = "Relativité indiquée") +
+  theme_act
+```
+
+## Exemple : historique de sinistres
+
+Test statistique.
+
+Chi carré : 0,02 %.
+
+Comme le Chi carré est inférieur à 5 %, l’actuaire devrait rejeter l’hypothèse nulle et sélectionner le modèle avec le plus grand nombre de paramètres (c’est-à-dire sélectionner le modèle avec l’historique de sinistres).
+
+## Exemple : historique de sinistres
+
+Jugement.
+
+Il est important pour l’actuaire d’évaluer si les résultats du modèle et des tests de diagnostic sont raisonnables en se basant sur sa connaissance de l’expérience de sinistres qui est modélisée.
+
+Dans ce cas-ci, les tests sont en ligne avec l’intuition que la fréquence de sinistre est plus élevée avec la présence d’un ou plusieurs sinistres dans le passé.
+
+## Exemple : historique de sinistres
+
+Décision finale : tous les tests suggèrent que cette variable est prédictive et devrait être utilisée dans le modèle.
+
+## Exemple : dispositifs de détection du feu
+
+Analyse d’un GLM pour prédire la fréquence de dommage par le vent en assurance habitation.
+
+On regarde l’effet de la présence de dispositifs de détection du feu (d’autres variables explicatives font aussi partie du modèle GLM).
+
+## Exemple : dispositifs de détection du feu
+
+Écart-type.
+
+---
+
+```{r}
+#| label: dispositifs-ecart-type
+#| fig-width: 8
+#| fig-height: 3.4
+#| fig-alt: "Relativités indiquées pour les dispositifs de détection du feu, avec intervalles d’incertitude et volumes. L’incertitude du système d’arrosage est très grande en raison du faible volume."
+
+dispositifs_feu <- data.frame(
+  dispositif = factor(c("Aucun", "Détecteur\nde fumée", "Alarme\nincendie", "Système\nd’arrosage"), levels = c("Aucun", "Détecteur\nde fumée", "Alarme\nincendie", "Système\nd’arrosage")),
+  relativite = c(1.00, 0.97, 0.98, 1.25),
+  borne_inf = c(1.00, 0.82, 0.81, 0.42),
+  borne_sup = c(1.00, 1.21, 1.20, 2.85),
+  polices = c(300000, 135000, 65000, 1000)
+)
+
+ggplot(dispositifs_feu, aes(dispositif, relativite)) +
+  geom_hline(yintercept = 1, colour = "grey75", linewidth = 0.7) +
+  geom_linerange(aes(ymin = borne_inf, ymax = borne_sup), colour = couleurs_act["or"], linewidth = 1.5) +
+  geom_point(aes(size = polices), colour = couleurs_act["rouge"]) +
+  geom_line(aes(group = 1), colour = couleurs_act["bleu"], linewidth = 1) +
+  scale_size_area(max_size = 18, name = "Nombre de polices") +
+  labs(x = NULL, y = "Relativité indiquée") +
+  theme_act
+```
+
+## Exemple : dispositifs de détection du feu
+
+Consistance d’une année à l’autre.
+
+---
+
+```{r}
+#| label: dispositifs-consistance
+#| fig-width: 8
+#| fig-height: 3.4
+#| fig-alt: "Relativités pour les dispositifs de détection du feu selon quatre années. Les tendances annuelles sont irrégulières et aucun effet systématique clair ne se dégage."
+
+dispositifs_annee <- data.frame(
+  dispositif = rep(c("Aucun", "Détecteur", "Alarme", "Arrosage"), 4),
+  relativite = c(1.00, 0.97, 0.97, 1.10, 1.00, 0.99, 0.98, 0.95, 1.00, 1.03, 0.96, 1.35, 1.00, 1.00, 1.00, 0.85),
+  annee = rep(c("2011", "2012", "2013", "2014"), each = 4)
+)
+
+ggplot(dispositifs_annee, aes(dispositif, relativite, colour = annee, shape = annee, group = annee)) +
+  geom_hline(yintercept = 1, colour = "grey75", linewidth = 0.7) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 3) +
+  labs(x = NULL, y = "Relativité indiquée") +
+  theme_act
+```
+
+## Exemple : dispositifs de détection du feu
+
+Test statistique.
+
+Chi carré : 74 %.
+
+Comme le Chi carré est supérieur à 30 %, l’actuaire devrait conclure que les deux modèles sont équivalents et donc choisir celui qui n’inclut pas la variable de dispositifs contre le feu.
+
+## Exemple : dispositifs de détection du feu
+
+Jugement.
+
+Dans ce cas-ci, les tests sont en ligne avec l’intuition que la fréquence de dommage par le vent n’est pas dépendante de la présence de détecteur de fumée, de système d’arrosage ou d’alarme de feu.
+
+## Exemple : dispositifs de détection du feu
+
+Décision : les tests suggèrent que la variable n’est pas prédictive et ne devrait donc pas être utilisée dans le modèle de fréquence de dommages par le vent.
+
+# Considérations pratiques {data-progress-label="Considérations"}
+
+## Considérations pratiques
+
+- Des logiciels de GLM existent et sont utilisés par les compagnies d’assurance.
+- Le rôle de l’actuaire inclut entre autres de :
+  - S’assurer que les données sont adéquates pour le niveau de détail de l’analyse de tarification (« Garbage in = Garbage out »).
+  - Identifier lorsque des résultats irréguliers nécessitent une explication supplémentaire.
+  - Revoir le modèle en ayant en tête les considérations statistiques et l’application pour la compagnie.
+  - Développer des méthodes de communication des résultats appropriées en termes d’objectifs de tarification de la compagnie (dislocation, compétitivité, etc.).
