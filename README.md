@@ -75,6 +75,16 @@ scripts/quarto render site/chapitres/00-reference-typography
 
 Sa sortie interne est limitée à `site/_reference/chapitres/00-reference-typography/`, hors de l’arborescence publiée.
 
+## Export des PDF
+
+`scripts/render-pdfs` exporte les diapositives et exercices de tous les chapitres numériques, sauf le chapitre 00, ainsi que les diapositives de toutes les révisions vers `site/pdfs/`. Pour exporter une seule révision, employer son nom de dossier :
+
+```bash
+scripts/render-pdfs --revision revision-examen-1
+```
+
+`--revision` est incompatible avec `--chapter` et ne prend en charge que les diapositives. Utiliser `--type diapos` ou `--type exercices` pour limiter le type d’export; `--chapter 06` limite l’export à un chapitre.
+
 ## Validation RevealJS
 
 Restaurer les dépendances R et Node avant un rendu complet si nécessaire :

@@ -16,6 +16,7 @@
 
 - `project.render` intentionally excludes `chapitres/00-reference-typography/`. This versioned internal deck must never be rendered or deployed with the site. Its local Quarto project renders only itself through `scripts/quarto render site/chapitres/00-reference-typography`, writing to the ignored, non-published `_reference/chapitres/00-reference-typography/` tree.
 - Render every document through `scripts/quarto`. Quarto **1.10.17 or newer** is required; the wrapper selects the configured Quarto binary and local Sass but does not reject newer compatible versions.
+- `scripts/render-pdfs` exports chapter PDFs and every `revisions/*/diapos.qmd` deck by default. A targeted review export uses `--revision <review>` and writes `site/pdfs/diapos/<review>.pdf`; it cannot be combined with `--chapter` or `--type exercices`.
 
 ## Navigation
 
@@ -44,4 +45,4 @@
 - Run `bash scripts/audit-exercices.sh` after converting or materially reviewing exercises.
 - `scripts/audit-chapter-slides` covers chapters 01–09 only. It renders each source with `scripts/quarto render ... --no-cache`, checks source and generated HTML, then checks Chrome at `1440×900` and `1024×768`. Set `CSK_CHROME` to Chrome/Chromium; supported options are `--chapter 06`, `--skip-render`, `--browser-only`, `--report FILE`, and `--wait MS`.
 - A passing audit has no console errors, JavaScript exceptions, failed required display resources, Reveal initialization failures, invalid natural image sizes, or significant descendant overflow. External pedagogical links are allowed when they are not required display resources.
-- Run `npm test` for native RevealJS tests. Use `scripts/revealjs-pdf` for one deck and `scripts/render-pdfs` for all chapter PDFs or targeted `--chapter`/`--type` exports; inspect PDF output proportionately to the change.
+- Run `npm test` for native RevealJS tests. Use `scripts/revealjs-pdf` for one deck and `scripts/render-pdfs` for all chapter and review PDFs, targeted `--chapter`, `--revision`, or `--type` exports; inspect PDF output proportionately to the change.

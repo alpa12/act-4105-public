@@ -828,7 +828,7 @@ $$
 
 $$
 \begin{aligned}
-\text{Changement de taux indiqué}
+&\text{Changement de taux indiqué} \\ \\
 &= \frac{\text{Prime indiquée}}{\text{Prime moyenne acquise au taux courant projetée}} - 1 \\
 &= \frac{1\,639.51}{1\,570.05} - 1 \\
 &= +4.42\%.
