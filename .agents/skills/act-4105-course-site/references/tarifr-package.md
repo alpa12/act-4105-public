@@ -5,6 +5,7 @@ Use `tarifr/` for reusable R helpers called by Quarto documents.
 ## Package Rules
 
 - Put reusable site-specific R code in `tarifr/R/`.
+- The deployment manifest deliberately resolves `tarifr` from `alpa12/act-4105-public`, subdirectory `tarifr`, on branch `main`, without a commit SHA. A deployment therefore follows the current branch tip; use a SHA only when reproducibility must take precedence over this update policy.
 - Export only functions needed by Quarto documents through `tarifr/NAMESPACE`.
 - Quarto documents should assume `tarifr` is installed. Do not install it or call `pkgload::load_all()` during render.
 - Load the package in a hidden chunk near the top of a document when needed:

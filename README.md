@@ -44,6 +44,8 @@ Les détails de structure, les omissions documentées et la validation des sourc
 
 Le code R partagé va dans `tarifr/R/`; exporter seulement les fonctions requises par les documents Quarto. Les documents supposent `tarifr` installé et ne doivent ni l’installer ni appeler `pkgload::load_all()` pendant un rendu.
 
+Pour les déploiements, `site/manifest.json` résout volontairement `tarifr/` depuis la branche `main` de `alpa12/act-4105-public`, sans SHA de commit. Un déploiement récupère donc la pointe courante de cette branche.
+
 Après une modification du package, depuis la racine du dépôt :
 
 ```r
