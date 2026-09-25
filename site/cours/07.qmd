@@ -5,3 +5,5 @@ label: "Examen 1"
 week-id: 7
 chapitres: []
 ---
+
+Pour se préparer à l'examen 1, consultez [le contenu de révision pour l'examen 1](../revisions/revision-examen-1/diapos.qmd).
