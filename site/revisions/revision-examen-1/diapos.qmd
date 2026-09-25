@@ -7,6 +7,80 @@ metadata-files:
   - ../../chapitres/_diapos.yml
 ---
 
+```{r}
+#| label: setup
+#| echo: false
+#| include: false
+
+library(tarifr)
+project_dir <- Sys.getenv("QUARTO_PROJECT_DIR")
+source(file.path(project_dir, "_extensions/alpa12/dynamic-year/dynamic-year.R"))
+
+date_francaise <- function(date) {
+  mois <- c(
+    "janvier", "février", "mars", "avril", "mai", "juin",
+    "juillet", "août", "septembre", "octobre", "novembre", "décembre"
+  )
+  date <- as.Date(date)
+  paste(as.integer(format(date, "%d")), mois[as.integer(format(date, "%m"))], format(date, "%Y"))
+}
+
+diagramme_projection <- function(base, type_tendance, duree_contrat, fin_taux) {
+  prefixe <- switch(base,
+    calendar = "AC",
+    accident = "AA",
+    policy = "AP"
+  )
+  date_debut <- if (type_tendance == "premium" && base == "calendar" && duree_contrat == 12) {
+    as.Date(dynamic_date("YYYY-01-01", -2))
+  } else if (type_tendance == "premium" && base == "calendar") {
+    as.Date(dynamic_date("YYYY-07-01", -3))
+  } else if (type_tendance == "premium") {
+    as.Date(dynamic_date("YYYY-07-01", -2))
+  } else if (base == "policy" && duree_contrat == 12) {
+    as.Date(dynamic_date("YYYY-01-01", -1))
+  } else if (base == "policy") {
+    as.Date(dynamic_date("YYYY-07-01", -1))
+  } else {
+    as.Date(dynamic_date("YYYY-07-01", -2))
+  }
+  date_fin <- if (type_tendance == "premium" && fin_taux == dynamic_date("YYYY-01-01", 2)) {
+    as.Date(dynamic_date("YYYY-07-01", 1))
+  } else if (type_tendance == "premium") {
+    as.Date(dynamic_date("YYYY-01-01", 2))
+  } else if (duree_contrat == 12) {
+    as.Date(dynamic_date("YYYY-01-01", 2))
+  } else if (fin_taux == dynamic_date("YYYY-01-01", 2)) {
+    as.Date(dynamic_date("YYYY-07-01", 2))
+  } else {
+    as.Date(dynamic_date("YYYY-01-01", 3))
+  }
+
+  tarifr::trend_period_diagram(
+    experience_start = dynamic_date("YYYY-01-01", -2),
+    experience_end = dynamic_date("YYYY-01-01", -1),
+    prospective_start = dynamic_date("YYYY-01-01", 1),
+    prospective_end = fin_taux,
+    experience_period_type = base,
+    trend_type = type_tendance,
+    policy_term_months = duree_contrat,
+    experience_label = paste(prefixe, dynamic_year(-2)),
+    prospective_label = "",
+    experience_average_date = date_debut,
+    prospective_average_date = date_fin,
+    experience_average_label = date_francaise(date_debut),
+    prospective_average_label = date_francaise(date_fin),
+    xlim_start = dynamic_date("YYYY-01-01", -4),
+    xlim_end = dynamic_date("YYYY-01-01", 4),
+    axis_dates = as.Date(c(
+      dynamic_date("YYYY-01-01", -3), dynamic_date("YYYY-01-01", -2),
+      dynamic_date("YYYY-01-01", -1), dynamic_date("YYYY-01-01", 1), fin_taux
+    )),
+    y_axis_label = "% du terme de police expiré"
+  )
+}
+```
+
 ## À propos de cette révision
 
 Ce document est un complément aux notes de cours, et non un résumé exhaustif de la matière.
@@ -40,7 +114,7 @@ $$
 
 ## Indiqué global et ajustements à l’expérience
 
-L’indiqué de niveau de taux global est aussi appelé :
+Au chapitre 8, on a réalisé un **indiqué de niveau de taux global**, aussi appelé :
 
 - Un indiqué
 - Une analyse de niveau de taux indiqué
@@ -48,9 +122,9 @@ L’indiqué de niveau de taux global est aussi appelé :
 - Un calcul de prime indiquée
 - Un calcul de changement de taux indiqué
 
-Ces termes réfèrent au processus de calcul de la prime moyenne à charger pour un portefeuille (ou une catégorie d’assurés) pour payer les sinistres espérés, les frais et conserver une part pour le profit cible.
+Ces termes réfèrent au processus de calcul de la prime moyenne à charger pour un portefeuille (ou une catégorie d’assurés) qui permettra à l’assureur de payer les sinistres espérées, les frais (frais de règlement de sinistres et frais de souscription) et de conserver une partie pour le profit cible.
 
-## La tarification est prospective
+## La tarification est prospective {.text-small}
 
 L’expérience passée est utilisée dans l’équation fondamentale en assurance dans la mesure où elle aide à prédire les coûts espérés futurs, et non à récupérer les pertes passées.
 
@@ -64,222 +138,670 @@ Facteurs d’influence qui nécessitent des ajustements à l’expérience pass�
 
 Si ces facteurs ne sont pas considérés, la prime pourrait ne pas suffire à atteindre le profit cible.
 
-## Primes : ajustements vers la période future
+## Ajustements vers la période future
 
-Quels ajustements apporter aux primes historiques pour les projeter à la période pour laquelle on établit la prime ?
+> Quels ajustements apporter aux primes, sinistres, frais de règlement de sinistres et frais de souscription historiques pour les projeter au niveau de la période future pour laquelle on établit la prime?
+
+---
+
+### Primes
+
+Voir le chapitre 5 :
 
 - Changements de taux
 - Développement des primes
 - Tendance dans les unités d’exposition
 - Tendance dans les primes
 
-## Sinistres : ajustements vers la période future
+---
 
-Quels ajustements apporter aux sinistres historiques pour les projeter à la période pour laquelle on établit la prime ?
+### Sinistres
+
+Voir le chapitre 6 :
 
 - Sinistres extraordinaires
 - Changements à la couverture
 - Développement des sinistres
 - Tendance dans les sinistres
 
-## Frais de règlement de sinistres
+---
+
+### Frais de règlement de sinistres
 
 Les frais de règlement de sinistres subissent les mêmes ajustements que les sinistres :
 
 - Les frais de règlement alloués sont inclus dans les montants de sinistres.
 - Les frais de règlement non alloués sont exprimés en pourcentage des sinistres et des frais de règlement alloués.
 
-## Frais de souscription
+---
+
+### Frais de souscription
 
 L’actuaire devrait analyser les frais historiques et apporter des ajustements s’il a raison de croire que les frais futurs seront significativement différents.
 
-Un ajustement possible est la tendance dans les frais.
+Un ajustement possible est la tendance dans les frais (chapitre 7).
 
-# Indiqué global : exemple complet {data-progress-label="Indiqué" subtitle="Méthodes du taux de sinistre et de la prime pure"}
+# Indiqué global : exemple complet {data-progress-label="Indiqué"}
 
-## Données du portefeuille au 31 décembre 2015
+:::: {.question title="Indiqué global : exemple complet"}
 
-:::: {.columns}
-::: {.column width="38%"}
-**Historique de changement de taux**
+## {.text-small}
+
+*Exemple adapté de la question 8 de l’examen 5, printemps 2016 de la CAS.*
+
+### Données du portefeuille au 31 décembre {{< dynamic-year -2 >}}
+
+Historique de changement de taux :
 
 | Date effective | Changement |
 |:--|--:|
-| 1er octobre 2013 | +4,5 % |
-| 1er avril 2015 | +2,5 % |
-:::
+| 1er octobre {{< dynamic-year -4 >}} | +4,5 % |
+| 1er avril {{< dynamic-year -2 >}} | +2,5 % |
 
-::: {.column width="62%"}
-| Année de calendrier | 2013 | 2014 | 2015 |
+
+| Année de calendrier | {{< dynamic-year -4 >}} | {{< dynamic-year -3 >}} | {{< dynamic-year -2 >}} |
 |:--|--:|--:|--:|
 | Primes acquises | 1 870 000 \$ | 2 228 000 \$ | 2 404 000 \$ |
 | Unités acquises | 1 420 | 1 530 | 1 610 |
-:::
-::::
 
-## Sinistres rapportés cumulatifs par âge
 
-Incluant les frais de règlement de sinistres alloués.
+## {.text-small}
 
-| Année d’accident | 12 mois | 24 mois | 36 mois |
-|:--|--:|--:|--:|
-| 2013 | 2 150 000 | 2 395 000 | 2 495 000 |
-| 2014 | 925 000 | 1 085 000 | |
-| 2015 | 1 250 000 | | |
-
-Excluant les catastrophes.
+Sinistres rapportés cumulatifs par âge d'année de sinistre, incluant les frais de règlement de sinistres alloués :
 
 | Année d’accident | 12 mois | 24 mois | 36 mois |
 |:--|--:|--:|--:|
-| 2013 | 750 000 | 895 000 | 975 000 |
-| 2014 | 825 000 | 975 000 | |
-| 2015 | 900 000 | | |
+| {{< dynamic-year -4 >}} | 2 150 000 | 2 395 000 | 2 495 000 |
+| {{< dynamic-year -3 >}} | 925 000 | 1 085 000 | |
+| {{< dynamic-year -2 >}} | 1 250 000 | | |
 
-## Hypothèses
+Sinistres rapportés cumulatifs par âge d'année de sinistre, incluant les frais de règlement de sinistres alloués, **excluant les catastrophes** :
 
-- Toutes les polices ont des termes de 6 mois et les unités sont écrites uniformément dans chaque année de calendrier.
+| Année d’accident | 12 mois | 24 mois | 36 mois |
+|:--|--:|--:|--:|
+| {{< dynamic-year -4 >}} | 750 000 | 895 000 | 975 000 |
+| {{< dynamic-year -3 >}} | 825 000 | 975 000 | |
+| {{< dynamic-year -2 >}} | 900 000 | | |
+
+## {.text-small}
+
+- Toutes les polices ont des termes de 6 mois.
+- Les unités sont écrites uniformément dans chaque année de calendrier.
 - Tendance annuelle dans la sévérité : 5 %.
 - Tendance annuelle dans la fréquence : −1 %.
 - Tendance annuelle dans la prime : 2 %.
 - Ratio de frais fixes : 5 %. Ratio de frais variables : 22 %. Provision pour profit : 6 %.
 - Provision pour frais de règlement de sinistres non alloués : 7 % des sinistres et frais de règlement alloués.
 - Marge projetée pour catastrophe, incluant les frais de règlement alloués : 14,9677096 % de la prime.
-- Aucun développement de sinistre après 36 mois. Les taux seront en effet pour un an.
+- Aucun développement de sinistre après 36 mois.
+- Les taux seront en effet pour 1 an.
 
-## Objectif
+##
 
-Calculer le changement de taux indiqué pour les polices effectives le 1er janvier 2017, à partir des trois dernières années d’accident d’expérience :
+Calculer le changement de taux indiqué pour les polices effectives le 1er janvier {{< dynamic-year 0 >}}, à partir des trois dernières années d’accident d’expérience :
 
-1. Avec la méthode du taux de sinistre (utiliser le total sur trois ans pour le calcul du taux de sinistre).
-1. Avec la méthode de la prime pure (utiliser le total sur trois ans pour le calcul de la prime pure).
+1. Avec la méthode du taux de sinistre. Utiliser le total sur trois ans pour le calcul du taux de sinistre.
+1. Avec la méthode de la prime pure. Utiliser le total sur trois ans pour le calcul de la prime pure.
 
-## Primes : mise au taux courant
+::: {.solution}
 
-Utiliser la méthode du parallélogramme.
+##
 
-| Année de calendrier | Niveau de taux moyen |
-|:--|--:|
-| 2013 | 1,000 |
-| 2014 | 1,045 |
-| 2015 | $1,045 \times 1,025$ |
+### 1. Méthode du taux de sinistre
 
-Les changements de taux sont effectifs le 1er octobre 2013 et le 1er avril 2015.
+$$
+\begin{aligned}
+&\text{Changement indiqué}
+= \frac{\left[(L + E_L) / P_c\right] + F}{1 - V - Q_T} - 1
+\end{aligned}
+$$
 
-## Facteurs de mise au taux courant
 
-| Année de calendrier | Facteur |
-|:--|--:|
-| 2013 | 1,068120910 |
-| 2014 | 1,027766117 |
-| 2015 | 1,012345679 |
+##
 
-La période d’acquisition et les changements de taux déterminent la part de prime qui doit être mise au taux courant.
+### Primes : mise au taux courant
 
-## Primes : tendance dans les primes
+On utilise la méthode du parallélogramme.
 
-Utiliser la méthode de projection en une étape.
+```{r}
+#| label: indique-mise-au-taux-courant
+#| echo: false
+#| fig-alt: "Diagramme de niveau de taux des primes acquises et de deux changements de taux."
+#| fig-height: 3.1
 
-| Année de calendrier | Date moyenne souscrite des polices avec primes acquises | Date moyenne souscrite des polices effectives en 2017 |
-|:--|:--|:--|
-| 2013 | 1er avril 2013 | 1er juillet 2017 |
-| 2014 | 1er avril 2014 | 1er juillet 2017 |
-| 2015 | 1er avril 2015 | 1er juillet 2017 |
+tarifr::rate_level_diagram(
+  start_date = dynamic_date("YYYY-01-01", -4),
+  end_date = dynamic_date("YYYY-01-01", -1),
+  experience_period = "calendar",
+  policy_term_months = 6,
+  period_months = 12,
+  changes = data.frame(
+    date = c(dynamic_date("YYYY-10-01", -4), dynamic_date("YYYY-04-01", -2)),
+    label = c("+4,5 % taux", "+2,5 % taux"),
+    type = c("diagonal", "diagonal")
+  ),
+  show_date_labels = TRUE,
+  minor_grid_months = 6
+)
+```
 
-## Primes acquises au taux courant et projetées
+## {.text-xs}
 
-| Année | Primes acquises | Facteur au taux courant | Facteur de tendance | Primes projetées |
-|:--|--:|--:|--:|--:|
-| 2013 | 1 870 000 \$ | 1,068121 | 1,0878 | 2 172 765 \$ |
-| 2014 | 2 228 000 \$ | 1,027766 | 1,0665 | 2 442 081 \$ |
-| 2015 | 2 404 000 \$ | 1,012346 | 1,0456 | 2 544 566 \$ |
-| **Total** | | | | **7 159 412 \$** |
+### Facteurs de mise au taux courant
 
-## Sinistres : sinistres extraordinaires
+**Année de calendrier {{< dynamic-year -4 >}}**
 
-Exclure les catastrophes des données historiques servant à projeter les sinistres.
+$$
+\begin{aligned}
+\text{Facteur}
+&= \frac{1.045 \times 1.025}{
+  1.045 \times \left(\frac{\frac{3}{12} \times \frac{1}{2}}{2}\right)
+  + 1 \times \left[1 - \left(\frac{\frac{3}{12} \times \frac{1}{2}}{2}\right)\right]
+} \\
+&= 1.068120910.
+\end{aligned}
+$$
 
-Au lieu d’utiliser les sinistres catastrophiques historiques tels quels, les remplacer par un montant espéré moyen pour la portion catastrophique.
+```{r}
+#| label: indique-mise-au-taux-courant-1
+#| echo: false
+#| fig-alt: "Diagramme de niveau de taux des primes acquises et de deux changements de taux."
+#| fig-height: 2.8
 
-Ici, la marge projetée pour catastrophe, incluant les frais de règlement alloués, est de 14,9677096 % de la prime. Cette marge ne tient pas compte des frais de règlement non alloués.
+tarifr::rate_level_diagram(
+  start_date = dynamic_date("YYYY-01-01", -4),
+  end_date = dynamic_date("YYYY-01-01", -1),
+  experience_period = "calendar",
+  policy_term_months = 6,
+  period_months = 12,
+  changes = data.frame(
+    date = c(dynamic_date("YYYY-10-01", -4), dynamic_date("YYYY-04-01", -2)),
+    label = c("+4,5 % taux", "+2,5 % taux"),
+    type = c("diagonal", "diagonal")
+  ),
+  analyzed_start = dynamic_date("YYYY-01-01", -4),
+  analyzed_end = dynamic_date("YYYY-01-01", -3),
+  show_date_labels = TRUE,
+  minor_grid_months = 6
+)
+```
 
-## Sinistres : facteurs de développement à l’ultime
+## {.text-xs}
+
+### Facteurs de mise au taux courant
+
+**Année de calendrier {{< dynamic-year -3 >}}**
+
+$$
+\begin{aligned}
+\text{Facteur}
+&= \frac{1.045 \times 1.025}{
+  1.000 \times \left(\frac{\frac{3}{12} \times \frac{1}{2}}{2}\right)
+  + 1.045 \times \left[1 - \left(\frac{\frac{3}{12} \times \frac{1}{2}}{2}\right)\right]
+} \\
+&= 1.027766117.
+\end{aligned}
+$$
+
+```{r}
+#| label: indique-mise-au-taux-courant-2
+#| echo: false
+#| fig-alt: "Diagramme de niveau de taux des primes acquises et de deux changements de taux."
+#| fig-height: 2.8
+
+tarifr::rate_level_diagram(
+  start_date = dynamic_date("YYYY-01-01", -4),
+  end_date = dynamic_date("YYYY-01-01", -1),
+  experience_period = "calendar",
+  policy_term_months = 6,
+  period_months = 12,
+  changes = data.frame(
+    date = c(dynamic_date("YYYY-10-01", -4), dynamic_date("YYYY-04-01", -2)),
+    label = c("+4,5 % taux", "+2,5 % taux"),
+    type = c("diagonal", "diagonal")
+  ),
+  analyzed_start = dynamic_date("YYYY-01-01", -3),
+  analyzed_end = dynamic_date("YYYY-01-01", -2),
+  show_date_labels = TRUE,
+  minor_grid_months = 6
+)
+```
+
+## {.text-xs}
+
+### Facteurs de mise au taux courant
+
+**Année de calendrier {{< dynamic-year -2 >}}**
+
+$$
+\begin{aligned}
+\text{Facteur}
+&= \frac{1.045 \times 1.025}{
+  1.025 \times 1.045 \times \left(\frac{\frac{6}{12} \times 1}{2} + \frac{3}{12} \times 1\right)
+  + 1.045 \times \left[1 - \left(\frac{\frac{6}{12} \times 1}{2} + \frac{3}{12} \times 1\right)\right]
+} \\
+&= 1.012345679.
+\end{aligned}
+$$
+
+```{r}
+#| label: indique-mise-au-taux-courant-3
+#| echo: false
+#| fig-alt: "Diagramme de niveau de taux des primes acquises et de deux changements de taux."
+#| fig-height: 2.8
+
+tarifr::rate_level_diagram(
+  start_date = dynamic_date("YYYY-01-01", -4),
+  end_date = dynamic_date("YYYY-01-01", -1),
+  experience_period = "calendar",
+  policy_term_months = 6,
+  period_months = 12,
+  changes = data.frame(
+    date = c(dynamic_date("YYYY-10-01", -4), dynamic_date("YYYY-04-01", -2)),
+    label = c("+4,5 % taux", "+2,5 % taux"),
+    type = c("diagonal", "diagonal")
+  ),
+  analyzed_start = dynamic_date("YYYY-01-01", -2),
+  analyzed_end = dynamic_date("YYYY-01-01", -1),
+  show_date_labels = TRUE,
+  minor_grid_months = 6
+)
+```
+
+## {.text-xs}
+
+### Primes : tendance dans les primes
+
+Utiliser la méthode de projection en une étape. Illustration pour AC {{< dynamic-year -4 >}} :
+
+```{r}
+#| label: indique-tendance-primes
+#| echo: false
+#| fig-alt: "Période de projection des primes entre une année de calendrier historique et les polices effectives durant l'année de base."
+#| fig-height: 2.2
+
+tarifr::trend_period_diagram(
+  experience_start = dynamic_date("YYYY-01-01", -4),
+  experience_end = dynamic_date("YYYY-01-01", -3),
+  prospective_start = dynamic_date("YYYY-01-01", 0),
+  prospective_end = dynamic_date("YYYY-01-01", 1),
+  experience_period_type = "calendar",
+  trend_type = "premium",
+  policy_term_months = 6,
+  experience_label = paste("AC", dynamic_year(-4)),
+  prospective_label = paste("AP", dynamic_year(0)),
+  experience_average_date = dynamic_date("YYYY-04-01", -4),
+  prospective_average_date = dynamic_date("YYYY-07-01", 0),
+  experience_average_label = paste("1er avril", dynamic_year(-4)),
+  prospective_average_label = paste("1er juillet", dynamic_year(0)),
+  xlim_start = dynamic_date("YYYY-01-01", -5),
+  xlim_end = dynamic_date("YYYY-01-01", 2),
+  axis_dates = as.Date(c(dynamic_date("YYYY-01-01", -4), dynamic_date("YYYY-01-01", -3), dynamic_date("YYYY-01-01", 0), dynamic_date("YYYY-01-01", 1))),
+  y_axis_label = "% du terme de police expiré"
+)
+```
+
+| Année de calendrier | Date moyenne souscrite des polices avec primes acquises | Date moyenne souscrite des polices effectives en {{< dynamic-year 0 >}} | Facteur de projection |
+|:--|:--|:--|:--|
+| {{< dynamic-year -4 >}} | 1er avril {{< dynamic-year -4 >}} | 1er juillet {{< dynamic-year 0 >}} | 1.02<sup>4.25</sup> |
+| {{< dynamic-year -3 >}} | 1er avril {{< dynamic-year -3 >}} | 1er juillet {{< dynamic-year 0 >}} | 1.02<sup>3.25</sup> |
+| {{< dynamic-year -2 >}} | 1er avril {{< dynamic-year -2 >}} | 1er juillet {{< dynamic-year 0 >}} | 1.02<sup>2.25</sup> |
+
+##
+
+### Primes acquises au taux courant et projetées
+
+```{r}
+#| label: primes-acquises-projetees-donnees
+#| echo: false
+#| include: false
+
+primes_acquises <- c(1870000, 2228000, 2404000)
+facteurs_taux_courant <- c(1.06812091, 1.027766117, 1.012345679)
+exposants_tendance <- c(4.25, 3.25, 2.25)
+facteurs_tendance <- 1.02 ^ exposants_tendance
+primes_projetees <- round(
+  primes_acquises * facteurs_taux_courant * facteurs_tendance
+)
+
+tableau_primes_acquises_projetees <- data.frame(
+  Année = c(
+    vapply(c(-4, -3, -2), dynamic_year, integer(1)),
+    "Total"
+  ),
+  `Primes acquises` = c(primes_acquises, NA_real_),
+  `Facteur au taux courant` = c(facteurs_taux_courant, NA_real_),
+  `Facteur de tendance` = c(
+    paste0("1.02<sup>", exposants_tendance, "</sup>"),
+    NA_character_
+  ),
+  `Primes projetées` = c(primes_projetees, sum(primes_projetees)),
+  check.names = FALSE
+)
+```
+
+```{r}
+#| label: primes-acquises-projetees-table
+#| echo: false
+#| output: asis
+
+afficher_table(
+  tableau_primes_acquises_projetees,
+  align = c("l", "r", "r", "r", "r"),
+  formats = list(
+    list(colonnes = 2, type = "montant", digits = 0, symbole = TRUE),
+    list(colonnes = 3, type = "nombre", digits = 6),
+    list(colonnes = 5, type = "montant", digits = 0, symbole = TRUE)
+  ),
+  lignes_gras = "derniere",
+  entetes_calculs = c(
+    "",
+    "(1)",
+    "(2)",
+    "(3)",
+    "(4) = (1) * (2) * (3)"
+  )
+)
+```
+
+##
+
+### Sinistres : sinistres extraordinaires
+
+On exclut les catastrophes des données historiques utilisées pour projeter les sinistres.
+
+Au lieu d’utiliser les sinistres catastrophiques historiques tels quels, on remplace par un montant de sinistre espéré moyen pour la portion catastrophique.
+
+Dans ce cas-ci, la marge projetée pour catastrophe incluant les frais de règlement de sinistres alloués : 14.9677096% de la prime.
+
+**Cette marge ne tient pas compte des frais de règlement de sinistres non alloués.**
+
+##
+
+### Sinistres : facteurs de développement à l’ultime
 
 Les projections à l’ultime utilisent les sinistres excluant les catastrophes.
 
 | Année d’accident | 12–24 mois | 24–36 mois | 36 mois–ultime |
 |:--|--:|--:|--:|
-| 2013 | $895\,000 / 750\,000 = 1,193333333$ | $975\,000 / 895\,000 = 1,089385475$ | |
-| 2014 | $975\,000 / 825\,000 = 1,181818182$ | | |
-| 2015 | | | |
+| {{< dynamic-year -4 >}} | $895\,000 / 750\,000 = 1,193333333$ | $975\,000 / 895\,000 = 1,089385475$ | |
+| {{< dynamic-year -3 >}} | $975\,000 / 825\,000 = 1,181818182$ | | |
+| {{< dynamic-year -2 >}} | | | |
 | **Moyenne** | **1,187575758** | **1,089385475** | **1,00** |
 
-## Sinistres : tendance dans les sinistres
+## {.text-xs}
 
-La tendance annuelle combinée est :
+### Sinistres : tendance dans les sinistres
 
-$$
-(1 + 0.05)(1 - 0.01) - 1 = 3.95\%
-$$
+```{r}
+#| label: indique-tendance-sinistres
+#| echo: false
+#| fig-alt: "Période de projection des sinistres entre une année d'accident historique et les polices semi-annuelles effectives durant l'année de base."
+#| fig-height: 2.2
 
-| Année d’accident | Date moyenne d’accident | Date moyenne d’accident pour les polices effectives en 2017 |
-|:--|:--|:--|
-| 2013 | 1er juillet 2013 | 1er octobre 2017 |
-| 2014 | 1er juillet 2014 | 1er octobre 2017 |
-| 2015 | 1er juillet 2015 | 1er octobre 2017 |
+tarifr::trend_period_diagram(
+  experience_start = dynamic_date("YYYY-01-01", -4),
+  experience_end = dynamic_date("YYYY-01-01", -3),
+  prospective_start = dynamic_date("YYYY-01-01", 0),
+  prospective_end = dynamic_date("YYYY-01-01", 1),
+  experience_period_type = "accident",
+  trend_type = "loss",
+  policy_term_months = 6,
+  experience_label = paste("AA", dynamic_year(-4)),
+  prospective_label = paste("AP", dynamic_year(0)),
+  experience_average_date = dynamic_date("YYYY-07-01", -4),
+  prospective_average_date = dynamic_date("YYYY-10-01", 0),
+  experience_average_label = paste("1er juillet", dynamic_year(-4)),
+  prospective_average_label = paste("1er octobre", dynamic_year(0)),
+  xlim_start = dynamic_date("YYYY-01-01", -5),
+  xlim_end = dynamic_date("YYYY-01-01", 2),
+  axis_dates = as.Date(c(dynamic_date("YYYY-01-01", -4), dynamic_date("YYYY-01-01", -3), dynamic_date("YYYY-01-01", 0), dynamic_date("YYYY-01-01", 1))),
+  y_axis_label = "% du terme de police expiré"
+)
+```
 
-## Sinistres ultimes projetés excluant les catastrophes
+| Année d’accident | Date moyenne d’accident | Date moyenne d’accident pour les polices effectives en {{< dynamic-year 0 >}} | Facteur de projection |
+|:--|:--|:--|:--|
+| {{< dynamic-year -4 >}} | 1er juillet {{< dynamic-year -4 >}} | 1er octobre {{< dynamic-year 0 >}} | (1.05 * 0.99)<sup>4.25</sup> |
+| {{< dynamic-year -3 >}} | 1er juillet {{< dynamic-year -3 >}} | 1er octobre {{< dynamic-year 0 >}} | (1.05 * 0.99)<sup>3.25</sup> |
+| {{< dynamic-year -2 >}} | 1er juillet {{< dynamic-year -2 >}} | 1er octobre {{< dynamic-year 0 >}} | (1.05 * 0.99)<sup>2.25</sup> |
 
-| Année | Sinistres rapportés | Facteur de développement à l’ultime | Facteur de projection | Sinistres ultimes projetés |
-|:--|--:|--:|--:|--:|
-| 2013 | 975 000 \$ | 1,000000 | 1,1790 | 1 149 499 \$ |
-| 2014 | 975 000 \$ | 1,089385 | 1,1323 | 1 204 664 \$ |
-| 2015 | 900 000 \$ | 1,293728 | 1,0878 | 1 270 400 \$ |
-| **Total** | | | | **3 624 563 \$** |
+##
 
-## Taux de sinistre ultime projeté excluant les catastrophes
+### Sinistres ultimes projetés excluant les catastrophes
 
-| Année d’accident | Primes projetées au taux courant | Sinistres ultimes projetés | Taux de sinistre ultime projeté |
-|:--|--:|--:|--:|
-| 2013 | 2 172 765 \$ | 1 149 499 \$ | 0,5290 |
-| 2014 | 2 442 081 \$ | 1 204 664 \$ | 0,4933 |
-| 2015 | 2 544 566 \$ | 1 270 400 \$ | 0,4993 |
-| **Total** | **7 159 412 \$** | **3 624 563 \$** | **0,5063** |
+```{r}
+#| label: sinistres-ultimes-projetes-donnees
+#| echo: false
+#| include: false
 
-## Changement de taux indiqué : méthode du taux de sinistre
+annees_sinistres <- vapply(c(-4, -3, -2), dynamic_year, integer(1))
+sinistres_rapportes <- c(975000, 975000, 900000)
+exposants_tendance_sinistres <- c(4.25, 3.25, 2.25)
+facteurs_developpement <- c(
+  1,
+  1.089385475,
+  1.187575758 * 1.089385475
+)
+facteurs_projection_sinistres <-
+  (1.05 * 0.99) ^ exposants_tendance_sinistres
+sinistres_ultimes <- round(
+  sinistres_rapportes * facteurs_developpement * facteurs_projection_sinistres
+)
+
+donnees_sinistres <- data.frame(
+  Année = annees_sinistres,
+  `Sinistres rapportés` = sinistres_rapportes,
+  `Facteur de développement à l’ultime` = facteurs_developpement,
+  `Facteur de projection` = facteurs_projection_sinistres,
+  `Sinistres ultimes projetés` = sinistres_ultimes,
+  `Primes projetées au taux courant` = primes_projetees,
+  `Taux de sinistre ultime projeté` = sinistres_ultimes / primes_projetees,
+  check.names = FALSE
+)
+
+tableau_sinistres_ultimes <- rbind(
+  donnees_sinistres[, 1:5],
+  data.frame(
+    Année = "Total",
+    `Sinistres rapportés` = NA_real_,
+    `Facteur de développement à l’ultime` = NA_real_,
+    `Facteur de projection` = NA_real_,
+    `Sinistres ultimes projetés` = sum(sinistres_ultimes),
+    check.names = FALSE
+  )
+)
+
+tableau_taux_sinistres <- rbind(
+  donnees_sinistres[, c(1, 6, 5, 7)],
+  data.frame(
+    Année = "Total",
+    `Primes projetées au taux courant` = sum(primes_projetees),
+    `Sinistres ultimes projetés` = sum(sinistres_ultimes),
+    `Taux de sinistre ultime projeté` = sum(sinistres_ultimes) / sum(primes_projetees),
+    check.names = FALSE
+  )
+)
+```
+
+```{r}
+#| label: sinistres-ultimes-projetes-table
+#| echo: false
+#| output: asis
+
+afficher_table(
+  tableau_sinistres_ultimes,
+  align = c("l", "r", "r", "r", "r"),
+  formats = list(
+    list(colonnes = 2, type = "montant", digits = 0, symbole = TRUE),
+    list(colonnes = 3, type = "nombre", digits = 6),
+    list(colonnes = 4, type = "nombre", digits = 4),
+    list(colonnes = 5, type = "montant", digits = 0, symbole = TRUE)
+  ),
+  lignes_gras = "derniere",
+  entetes_calculs = c(
+    "",
+    "(1)",
+    "(2)",
+    "(3)",
+    "(4) = (1) * (2) * (3)"
+  )
+)
+```
+
+##
+
+### Taux de sinistre ultime projeté excluant les catastrophes
+
+```{r}
+#| label: taux-sinistre-ultime-projete-table
+#| echo: false
+#| output: asis
+
+afficher_table(
+  tableau_taux_sinistres,
+  align = c("l", "r", "r", "r"),
+  formats = list(
+    list(colonnes = 2:3, type = "montant", digits = 0, symbole = TRUE),
+    list(colonnes = 4, type = "nombre", digits = 4)
+  ),
+  lignes_gras = "derniere",
+  entetes_calculs = c(
+    "",
+    "(1)",
+    "(2)",
+    "(3) = (2) / (1)"
+  )
+)
+```
+
+##
+
+### Changement de taux indiqué : méthode du taux de sinistre
 
 $$
 \begin{aligned}
 \text{Changement indiqué}
-&= \frac{0.5063(1 + 0.07) + 0.149677096 + 0.05}{1 - 0.22 - 0.06} - 1 \\
-&= +4.42\%.
+&= \frac{\left[(L + E_L) / P_c\right] + F}{1 - V - Q_T} - 1 \\
+&= \frac{(0.5063 + 0.149677096) \times 1.07 + 0.05}{1 - 0.22 - 0.06} - 1 \\
+&= +4.43\%.
 \end{aligned}
 $$
 
-## Méthode de la prime pure
+##
+
+### Méthode de la prime pure
 
 La méthode de la prime pure donne normalement une prime indiquée, et non un changement de taux indiqué.
 
 On calcule d’abord la prime indiquée, puis on la compare à la prime acquise moyenne au taux courant projetée afin d’obtenir le changement de taux indiqué.
 
-## Prime pure moyenne
+$$
+\begin{aligned}
+\overline{P_I}
+&= \frac{\overline{L} + \overline{E_L} + \overline{E_F}}{1 - V - Q_T}
+\end{aligned}
+$$
 
-| Année d’accident | Sinistres ultimes projetés | Unités acquises | Prime pure |
-|:--|--:|--:|--:|
-| 2013 | 1 149 499 \$ | 1 420 | 809,51 \$ |
-| 2014 | 1 204 664 \$ | 1 530 | 787,36 \$ |
-| 2015 | 1 270 400 \$ | 1 610 | 789,07 \$ |
-| **Total** | **3 624 563 \$** | **4 560** | **794,86 \$** |
+##
 
-## Prime acquise moyenne au taux courant projetée
+### Prime pure moyenne
 
-| Année de calendrier | Primes projetées au taux courant | Unités acquises | Prime acquise moyenne |
-|:--|--:|--:|--:|
-| 2013 | 2 172 765 \$ | 1 420 | 1 530,12 \$ |
-| 2014 | 2 442 081 \$ | 1 530 | 1 596,13 \$ |
-| 2015 | 2 544 566 \$ | 1 610 | 1 580,48 \$ |
-| **Total** | **7 159 412 \$** | **4 560** | **1 570,05 \$** |
+```{r}
+#| label: primes-pures-donnees
+#| echo: false
+#| include: false
 
-## Frais de souscription fixes
+unites_acquises <- c(1420, 1530, 1610)
+donnees_primes_pures <- data.frame(
+  `Année d’accident` = annees_sinistres,
+  `Sinistres ultimes projetés` = donnees_sinistres$`Sinistres ultimes projetés`,
+  `Unités acquises` = unites_acquises,
+  `Prime pure` = donnees_sinistres$`Sinistres ultimes projetés` / unites_acquises,
+  `Primes projetées au taux courant` = donnees_sinistres$`Primes projetées au taux courant`,
+  `Prime acquise moyenne` = donnees_sinistres$`Primes projetées au taux courant` / unites_acquises,
+  check.names = FALSE
+)
+
+tableau_prime_pure <- rbind(
+  donnees_primes_pures[, 1:4],
+  data.frame(
+    `Année d’accident` = "Total",
+    `Sinistres ultimes projetés` = sum(donnees_primes_pures$`Sinistres ultimes projetés`),
+    `Unités acquises` = sum(donnees_primes_pures$`Unités acquises`),
+    `Prime pure` = sum(donnees_primes_pures$`Sinistres ultimes projetés`) /
+      sum(donnees_primes_pures$`Unités acquises`),
+    check.names = FALSE
+  )
+)
+
+tableau_prime_acquise_moyenne <- rbind(
+  donnees_primes_pures[, c(1, 5, 3, 6)],
+  data.frame(
+    `Année d’accident` = "Total",
+    `Primes projetées au taux courant` = sum(donnees_primes_pures$`Primes projetées au taux courant`),
+    `Unités acquises` = sum(donnees_primes_pures$`Unités acquises`),
+    `Prime acquise moyenne` = sum(donnees_primes_pures$`Primes projetées au taux courant`) /
+      sum(donnees_primes_pures$`Unités acquises`),
+    check.names = FALSE
+  )
+)
+names(tableau_prime_acquise_moyenne)[1] <- "Année de calendrier"
+```
+
+```{r}
+#| label: prime-pure-moyenne-table
+#| echo: false
+#| output: asis
+
+afficher_table(
+  tableau_prime_pure,
+  align = c("l", "r", "r", "r"),
+  formats = list(
+    list(colonnes = 2, type = "montant", digits = 0, symbole = TRUE),
+    list(colonnes = 3, type = "nombre", digits = 0),
+    list(colonnes = 4, type = "montant", digits = 2, symbole = TRUE)
+  ),
+  lignes_gras = "derniere",
+  entetes_calculs = c(
+    "",
+    "(1)",
+    "(2)",
+    "(3) = (1) / (2)"
+  )
+)
+```
+
+##
+
+### Prime acquise moyenne au taux courant projetée
+
+```{r}
+#| label: prime-acquise-moyenne-table
+#| echo: false
+#| output: asis
+
+afficher_table(
+  tableau_prime_acquise_moyenne,
+  align = c("l", "r", "r", "r"),
+  formats = list(
+    list(colonnes = 2, type = "montant", digits = 0, symbole = TRUE),
+    list(colonnes = 3, type = "nombre", digits = 0),
+    list(colonnes = 4, type = "montant", digits = 2, symbole = TRUE)
+  ),
+  lignes_gras = "derniere",
+  entetes_calculs = c(
+    "",
+    "(1)",
+    "(2)",
+    "(3) = (1) / (2)"
+  )
+)
+```
+
+##
+
+### Frais de souscription fixes
 
 Le ratio de frais fixes est de 5 %, ce qui donne des frais fixes par unité de :
 
@@ -287,100 +809,272 @@ $$
 0.05 \times 1\,570.05\ \text{\$} = 78.50\ \text{\$}.
 $$
 
-## Prime indiquée par unité
+##
+
+### Prime indiquée par unité
 
 $$
 \begin{aligned}
 \overline{P_I}
-&= \frac{
-  \begin{gathered}
-  \text{Prime pure} + \text{Marge pour catastrophe} \\
-  {}+ \text{Frais de règlement non alloués} + \text{Frais fixes}
-  \end{gathered}
-}{1 - \text{Frais variables} - \text{Profit cible}} \\
+&= \frac{\overline{L} + \overline{E_L} + \overline{E_F}}{1 - V - Q_T} \\
 &= \frac{(794.86 + 0.149677096 \times 1\,570.05) \times 1.07 + 78.50}{1 - 0.22 - 0.06} \\
 &= 1\,639.51\ \text{\$}.
 \end{aligned}
 $$
 
-## Changement de taux indiqué : méthode de la prime pure
+##
+
+### Changement de taux indiqué : méthode de la prime pure
 
 $$
-\frac{\text{Prime indiquée}}{\text{Prime moyenne acquise au taux courant projetée}} - 1
-= \frac{1\,639.51}{1\,570.05} - 1
-= +4.42\%.
+\begin{aligned}
+\text{Changement de taux indiqué}
+&= \frac{\text{Prime indiquée}}{\text{Prime moyenne acquise au taux courant projetée}} - 1 \\
+&= \frac{1\,639.51}{1\,570.05} - 1 \\
+&= +4.42\%.
+\end{aligned}
 $$
 
-# Dates de projection des primes {data-progress-label="Primes" subtitle="Méthode de projection en une étape"}
+:::
 
-## Situation
+::::
+
+# Projection {data-progress-label="Projection" subtitle="Trouver les dates de projection pour les primes et les sinistres"}
+
+:::: {.question title="Dates de projection des primes"}
+
+## {.text-smaller}
 
 Vous êtes l’actuaire responsable de la projection des primes pour une analyse d’indiqué de niveau de taux global. Vous utilisez la méthode de projection en une étape.
 
-Les nouveaux taux seront en vigueur à partir du 1er janvier 2021. Calculer les dates de début et de fin de projection pour l’année 2018.
+Les nouveaux taux seront en vigueur à partir du 1er janvier {{< dynamic-year 1 >}}. Calculer les dates de début et de fin de projection pour l’année {{< dynamic-year -2 >}}.
 
 | Méthode de compilation | Durée des contrats | Taux en vigueur jusqu’au |
 |:--|:--|:--|
-| Année de calendrier | 12 mois | 31 décembre 2021 |
-| Année de calendrier | 24 mois | 31 décembre 2021 |
-| Année de calendrier | 24 mois | 31 décembre 2022 |
-| Année de police | 12 mois | 31 décembre 2021 |
-| Année de police | 24 mois | 31 décembre 2021 |
-| Année de police | 24 mois | 31 décembre 2022 |
+| Année de calendrier | 12 mois | 31 décembre {{< dynamic-year 1 >}} |
+| Année de calendrier | 24 mois | 31 décembre {{< dynamic-year 1 >}} |
+| Année de calendrier | 24 mois | 31 décembre {{< dynamic-year 2 >}} |
+| Année de police | 12 mois | 31 décembre {{< dynamic-year 1 >}} |
+| Année de police | 24 mois | 31 décembre {{< dynamic-year 1 >}} |
+| Année de police | 24 mois | 31 décembre {{< dynamic-year 2 >}} |
 
-## Année de calendrier : dates de projection
+::: {.solution}
 
-| Durée des contrats | Taux en vigueur jusqu’au | Début de projection | Fin de projection |
-|--:|:--|:--|:--|
-| 12 mois | 31 décembre 2021 | 1er janvier 2018 | 1er juillet 2021 |
-| 24 mois | 31 décembre 2021 | 1er juillet 2017 | 1er juillet 2021 |
-| 24 mois | 31 décembre 2022 | 1er juillet 2017 | 1er janvier 2022 |
+##
 
-La date de début est la date moyenne souscrite des polices avec primes acquises dans l’année de calendrier 2018. La date de fin est le point milieu de la période où les nouveaux taux sont en vigueur.
+### Année de calendrier, contrats de 12 mois, taux jusqu’au 31 décembre {{< dynamic-year 1 >}}
 
-## Année de police : dates de projection
+```{r}
+#| label: projection-primes-calendrier-12
+#| echo: false
+#| fig-alt: "Période de projection des primes pour une année de calendrier et des contrats de douze mois."
+#| fig-height: 2.7
 
-| Durée des contrats | Taux en vigueur jusqu’au | Début de projection | Fin de projection |
-|--:|:--|:--|:--|
-| 12 mois | 31 décembre 2021 | 1er juillet 2018 | 1er juillet 2021 |
-| 24 mois | 31 décembre 2021 | 1er juillet 2018 | 1er juillet 2021 |
-| 24 mois | 31 décembre 2022 | 1er juillet 2018 | 1er janvier 2022 |
+diagramme_projection("calendar", "premium", 12, dynamic_date("YYYY-01-01", 2))
+```
 
-La date de début est la date moyenne souscrite des polices avec primes acquises dans l’année de police 2018. La date de fin est le point milieu de la période où les nouveaux taux sont en vigueur.
+- Début : **1er janvier {{< dynamic-year -2 >}}**, la date moyenne souscrite des polices avec primes acquises dans AC {{< dynamic-year -2 >}}.
+- Fin : **1er juillet {{< dynamic-year 1 >}}**, le point milieu de la période où les nouveaux taux sont en vigueur.
 
-# Dates de projection des sinistres {data-progress-label="Sinistres" subtitle="Du milieu de la période historique au milieu des accidents futurs"}
+##
 
-## Situation
+### Année de calendrier, contrats de 24 mois, taux jusqu’au 31 décembre {{< dynamic-year 1 >}}
+
+```{r}
+#| label: projection-primes-calendrier-24-2021
+#| echo: false
+#| fig-alt: "Période de projection des primes pour une année de calendrier et des contrats de vingt-quatre mois."
+#| fig-height: 2.7
+
+diagramme_projection("calendar", "premium", 24, dynamic_date("YYYY-01-01", 2))
+```
+
+- Début : **1er juillet {{< dynamic-year -3 >}}**.
+- Fin : **1er juillet {{< dynamic-year 1 >}}**.
+
+##
+
+### Année de calendrier, contrats de 24 mois, taux jusqu’au 31 décembre {{< dynamic-year 2 >}}
+
+```{r}
+#| label: projection-primes-calendrier-24-2022
+#| echo: false
+#| fig-alt: "Période de projection des primes pour une année de calendrier et des contrats de vingt-quatre mois pendant une période de taux de deux ans."
+#| fig-height: 2.7
+
+diagramme_projection("calendar", "premium", 24, dynamic_date("YYYY-01-01", 3))
+```
+
+- Début : **1er juillet {{< dynamic-year -3 >}}**.
+- Fin : **1er janvier {{< dynamic-year 2 >}}**.
+
+##
+
+### Année de police, contrats de 12 mois, taux jusqu’au 31 décembre {{< dynamic-year 1 >}}
+
+```{r}
+#| label: projection-primes-police-12
+#| echo: false
+#| fig-alt: "Période de projection des primes pour une année de police et des contrats de douze mois."
+#| fig-height: 2.7
+
+diagramme_projection("policy", "premium", 12, dynamic_date("YYYY-01-01", 2))
+```
+
+- Début : **1er juillet {{< dynamic-year -2 >}}**, la date moyenne souscrite des polices avec primes acquises dans AP {{< dynamic-year -2 >}}.
+- Fin : **1er juillet {{< dynamic-year 1 >}}**.
+
+##
+
+### Année de police, contrats de 24 mois, taux jusqu’au 31 décembre {{< dynamic-year 1 >}}
+
+```{r}
+#| label: projection-primes-police-24-2021
+#| echo: false
+#| fig-alt: "Période de projection des primes pour une année de police et des contrats de vingt-quatre mois."
+#| fig-height: 2.7
+
+diagramme_projection("policy", "premium", 24, dynamic_date("YYYY-01-01", 2))
+```
+
+- Début : **1er juillet {{< dynamic-year -2 >}}**.
+- Fin : **1er juillet {{< dynamic-year 1 >}}**.
+
+##
+
+### Année de police, contrats de 24 mois, taux jusqu’au 31 décembre {{< dynamic-year 2 >}}
+
+```{r}
+#| label: projection-primes-police-24-2022
+#| echo: false
+#| fig-alt: "Période de projection des primes pour une année de police et des contrats de vingt-quatre mois pendant une période de taux de deux ans."
+#| fig-height: 2.7
+
+diagramme_projection("policy", "premium", 24, dynamic_date("YYYY-01-01", 3))
+```
+
+- Début : **1er juillet {{< dynamic-year -2 >}}**.
+- Fin : **1er janvier {{< dynamic-year 2 >}}**.
+
+:::
+
+::::
+
+:::: {.question title="Dates de projection des sinistres"}
+
+## {.text-xs}
 
 Vous êtes l’actuaire responsable de la projection des sinistres pour une analyse d’indiqué de niveau de taux global.
 
-Les nouveaux taux seront en vigueur à partir du 1er janvier 2021. Calculer les dates de début et de fin de projection pour l’année 2018.
+Les nouveaux taux seront en vigueur à partir du 1er janvier {{< dynamic-year 1 >}}. Calculer les dates de début et de fin de projection pour l’année {{< dynamic-year -2 >}}.
 
 | Méthode de compilation | Durée des contrats | Taux en vigueur jusqu’au |
 |:--|:--|:--|
-| Année d’accident | 12 mois | 31 décembre 2021 |
-| Année d’accident | 24 mois | 31 décembre 2021 |
-| Année d’accident | 24 mois | 31 décembre 2022 |
-| Année de police | 12 mois | 31 décembre 2021 |
-| Année de police | 24 mois | 31 décembre 2021 |
-| Année de police | 24 mois | 31 décembre 2022 |
+| Année d’accident | 12 mois | 31 décembre {{< dynamic-year 1 >}} |
+| Année d’accident | 24 mois | 31 décembre {{< dynamic-year 1 >}} |
+| Année d’accident | 24 mois | 31 décembre {{< dynamic-year 2 >}} |
+| Année de police | 12 mois | 31 décembre {{< dynamic-year 1 >}} |
+| Année de police | 24 mois | 31 décembre {{< dynamic-year 1 >}} |
+| Année de police | 24 mois | 31 décembre {{< dynamic-year 2 >}} |
 
-## Année d’accident : dates de projection
+::: {.solution}
 
-| Durée des contrats | Taux en vigueur jusqu’au | Début de projection | Fin de projection |
-|--:|:--|:--|:--|
-| 12 mois | 31 décembre 2021 | 1er juillet 2018 | 1er janvier 2022 |
-| 24 mois | 31 décembre 2021 | 1er juillet 2018 | 1er juillet 2022 |
-| 24 mois | 31 décembre 2022 | 1er juillet 2018 | 1er janvier 2023 |
+##
 
-La fin de projection est la date moyenne d’accident des polices écrites dans la période future, soit six mois après la date moyenne souscrite pour des contrats de 12 mois et douze mois après celle-ci pour des contrats de 24 mois.
+### Année d’accident, contrats de 12 mois, taux jusqu’au 31 décembre {{< dynamic-year 1 >}}
 
-## Année de police : dates de projection
+```{r}
+#| label: projection-sinistres-accident-12
+#| echo: false
+#| fig-alt: "Période de projection des sinistres pour une année d'accident et des contrats de douze mois."
+#| fig-height: 2.7
 
-| Durée des contrats | Taux en vigueur jusqu’au | Début de projection | Fin de projection |
-|--:|:--|:--|:--|
-| 12 mois | 31 décembre 2021 | 1er janvier 2019 | 1er janvier 2022 |
-| 24 mois | 31 décembre 2021 | 1er juillet 2019 | 1er juillet 2022 |
-| 24 mois | 31 décembre 2022 | 1er juillet 2019 | 1er janvier 2023 |
+diagramme_projection("accident", "loss", 12, dynamic_date("YYYY-01-01", 2))
+```
 
-La date de début est la date moyenne d’accident de l’année de police 2018. Elle est de six mois après la date moyenne souscrite pour les contrats de 12 mois, et de douze mois après celle-ci pour les contrats de 24 mois.
+- Début : **1er juillet {{< dynamic-year -2 >}}**, la date moyenne d’accident de AA {{< dynamic-year -2 >}}.
+- Fin : **1er janvier {{< dynamic-year 2 >}}**, la date moyenne d’accident des polices écrites dans la période future.
+
+##
+
+### Année d’accident, contrats de 24 mois, taux jusqu’au 31 décembre {{< dynamic-year 1 >}}
+
+```{r}
+#| label: projection-sinistres-accident-24-2021
+#| echo: false
+#| fig-alt: "Période de projection des sinistres pour une année d'accident et des contrats de vingt-quatre mois."
+#| fig-height: 2.7
+
+diagramme_projection("accident", "loss", 24, dynamic_date("YYYY-01-01", 2))
+```
+
+- Début : **1er juillet {{< dynamic-year -2 >}}**.
+- Fin : **1er juillet {{< dynamic-year 2 >}}**.
+
+##
+
+### Année d’accident, contrats de 24 mois, taux jusqu’au 31 décembre {{< dynamic-year 2 >}}
+
+```{r}
+#| label: projection-sinistres-accident-24-2022
+#| echo: false
+#| fig-alt: "Période de projection des sinistres pour une année d'accident et des contrats de vingt-quatre mois pendant une période de taux de deux ans."
+#| fig-height: 2.7
+
+diagramme_projection("accident", "loss", 24, dynamic_date("YYYY-01-01", 3))
+```
+
+- Début : **1er juillet {{< dynamic-year -2 >}}**.
+- Fin : **1er janvier {{< dynamic-year 3 >}}**.
+
+##
+
+### Année de police, contrats de 12 mois, taux jusqu’au 31 décembre {{< dynamic-year 1 >}}
+
+```{r}
+#| label: projection-sinistres-police-12
+#| echo: false
+#| fig-alt: "Période de projection des sinistres pour une année de police et des contrats de douze mois."
+#| fig-height: 2.7
+
+diagramme_projection("policy", "loss", 12, dynamic_date("YYYY-01-01", 2))
+```
+
+- Début : **1er janvier {{< dynamic-year -1 >}}**, soit six mois après la date moyenne souscrite de AP {{< dynamic-year -2 >}}.
+- Fin : **1er janvier {{< dynamic-year 2 >}}**.
+
+##
+
+### Année de police, contrats de 24 mois, taux jusqu’au 31 décembre {{< dynamic-year 1 >}}
+
+```{r}
+#| label: projection-sinistres-police-24-2021
+#| echo: false
+#| fig-alt: "Période de projection des sinistres pour une année de police et des contrats de vingt-quatre mois."
+#| fig-height: 2.7
+
+diagramme_projection("policy", "loss", 24, dynamic_date("YYYY-01-01", 2))
+```
+
+- Début : **1er juillet {{< dynamic-year -1 >}}**, soit douze mois après la date moyenne souscrite de AP {{< dynamic-year -2 >}}.
+- Fin : **1er juillet {{< dynamic-year 2 >}}**.
+
+##
+
+### Année de police, contrats de 24 mois, taux jusqu’au 31 décembre {{< dynamic-year 2 >}}
+
+```{r}
+#| label: projection-sinistres-police-24-2022
+#| echo: false
+#| fig-alt: "Période de projection des sinistres pour une année de police et des contrats de vingt-quatre mois pendant une période de taux de deux ans."
+#| fig-height: 2.7
+
+diagramme_projection("policy", "loss", 24, dynamic_date("YYYY-01-01", 3))
+```
+
+- Début : **1er juillet {{< dynamic-year -1 >}}**.
+- Fin : **1er janvier {{< dynamic-year 3 >}}**.
+
+:::
+
+::::

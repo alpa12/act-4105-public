@@ -79,7 +79,6 @@ local function resolve_chapter_order(meta)
     or meta_string(meta["chapter-order"])
     or read_order_from_quarto_metadata()
     or read_order_from_chapter_metadata()
-    or "0"
 end
 
 local function next_example_number()
@@ -87,7 +86,11 @@ local function next_example_number()
   chapter_order = chapter_order
     or read_order_from_quarto_metadata()
     or read_order_from_chapter_metadata()
-    or "0"
+
+  if chapter_order == nil or chapter_order == "" then
+    return tostring(example_index)
+  end
+
   return chapter_order .. "." .. tostring(example_index)
 end
 
