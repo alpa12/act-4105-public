@@ -14,11 +14,13 @@ Use this workflow when converting legacy course-note material into `site/chapitr
 
 - Reproduce the source slide order and core pedagogical content faithfully.
 - Keep definitions, formulas, examples, terminology, ratios, tables, and meaningful emphasis.
+- Preserve meaningful bold text and other pedagogical emphasis from the previous year's notes or legacy material when transcribing it into Quarto; do not flatten or remove emphasis merely to normalize formatting.
 - Do not invent or paraphrase new visible slide text. Copy or faithfully transcribe visible content from source slides.
 - Convert visible PowerPoint slides by default. Do not include hidden slides or slides marked `NE PAS IMPRIMER` unless explicitly asked.
 - Put substantive speaker-note content in `::: {.notes}`. Omit repeated footers and non-pedagogical notes.
 - Preserve French accents and correct obvious transcription, spelling, terminology, and notation errors.
 - Prefer editable native Quarto content: Markdown, LaTeX, tables, columns, callouts, Mermaid, and simple semantic classes.
+- Use native Quarto callouts for important elements carried over from the historical material, choosing the semantic type (`warning`, `tip`, `note`, `important`, or `caution`) that matches the purpose of the content.
 - Extract meaningful PPTX images into chapter-local assets such as `site/chapitres/01-introduction/assets/` and reference them with paths relative to `diapos.qmd`.
 - For complex grouped PowerPoint shapes, first try transparent image/vector extraction. Avoid opaque white slide screenshots unless they are acceptable for the visual. Flag any important visual that needs manual validation.
 

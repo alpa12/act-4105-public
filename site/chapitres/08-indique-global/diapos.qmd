@@ -163,7 +163,7 @@ $$
 \end{aligned}
 $$
 
-Où $P_c$ est la prime au taux courant et $F$ est le ratio de frais fixes.
+Où $P_c$ est la prime au taux courant.
 
 :::: {.question title="Changement indiqué"}
 

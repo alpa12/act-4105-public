@@ -74,8 +74,8 @@ website:
             text: "Chapitre 8 : Indiqué global"
           - href: chapitres/09-classification-traditionnelle-des-risques/diapos.qmd
             text: "Chapitre 9 : Classification traditionnelle des risques"
-          - href: chapitres/10-classification-multivariee/diapos.qmd
-            text: "Chapitre 10 : Classification multivariée"
+          # - href: chapitres/10-classification-multivariee/diapos.qmd
+          #   text: "Chapitre 10 : Classification multivariée"
       - text: Exercices
         menu:
           - href: chapitres/index.qmd

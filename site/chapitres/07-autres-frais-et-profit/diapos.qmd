@@ -144,7 +144,7 @@ Certains frais varient en proportion des primes alors que d’autres frais sont 
   - Les deux premières méthodes divisent aussi les frais fixes par les primes alors que la dernière méthode divise les frais fixes par les unités, ou le nombre de polices.
 - Primes ou unités à utiliser dans le calcul
     - Les frais **encourus à l’émission** de la police sont divisés par les primes ou les unités **écrites**.
-      Les frais **encourus durant le terme** de police sont divisés par les primes ou les unités **acquises**.
+    - Les frais **encourus durant le terme** de police sont divisés par les primes ou les unités **acquises**.
 
 ---
 
