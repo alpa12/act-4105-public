@@ -330,6 +330,10 @@
         "Archs": "fs.so.dSYM"
       }
     },
+    "ggplot2": {
+      "Source": "CRAN",
+      "Repository": "https://cloud.r-project.org"
+    },
     "highr": {
       "Source": "CRAN",
       "Repository": "https://cloud.r-project.org",
@@ -725,6 +729,10 @@
         "RemotePkgPlatform": "x86_64-apple-darwin20",
         "RemoteSha": "0.4.10"
       }
+    },
+    "scales": {
+      "Source": "CRAN",
+      "Repository": "https://cloud.r-project.org"
     },
     "tarifr": {
       "Source": "github",
