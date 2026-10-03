@@ -44,7 +44,7 @@ Les détails de structure, les omissions documentées et la validation des sourc
 
 Le code R partagé va dans `tarifr/R/`; exporter seulement les fonctions requises par les documents Quarto. Les documents supposent `tarifr` installé et ne doivent ni l’installer ni appeler `pkgload::load_all()` pendant un rendu.
 
-Pour les déploiements, `site/manifest.json` résout volontairement `tarifr/` depuis la branche `main` de `alpa12/act-4105-public`, sans SHA de commit. Un déploiement récupère donc la pointe courante de cette branche. À chaque changement de version dans `tarifr/DESCRIPTION`, mettre aussi à jour la version `tarifr` déclarée dans ce manifeste afin que Connect Cloud puisse résoudre le package.
+Pour les déploiements, `site/manifest.json` résout `tarifr/` depuis le sous-répertoire `tarifr` de `alpa12/act-4105-public`. La déclaration conserve la branche `main` et épingle le SHA du commit qui contient la version du package, afin que Connect Cloud récupère exactement cette source. À chaque changement de version dans `tarifr/DESCRIPTION`, mettre aussi à jour la version, `RemoteSha` et `GithubSHA1` déclarés dans ce manifeste.
 
 Après une modification du package, depuis la racine du dépôt :
 
