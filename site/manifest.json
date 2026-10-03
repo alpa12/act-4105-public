@@ -4,13 +4,13 @@
   "platform": "4.6.0",
   "metadata": {
     "appmode": "quarto-static",
-    "primary_rmd": "index.qmd",
+    "primary_rmd": "_quarto.yml",
     "primary_html": null,
     "content_category": "site",
     "has_parameters": false
   },
   "quarto": {
-    "version": "1.10.17",
+    "version": "1.10.18",
     "engines": ["markdown", "knitr"]
   },
   "packages": {
@@ -39,6 +39,72 @@
         "Repository": "CRAN",
         "Date/Publication": "2025-02-15 00:50:02 UTC",
         "Built": "R 4.6.0; ; 2026-04-26 08:42:02 UTC; unix"
+      }
+    },
+    "RColorBrewer": {
+      "Source": "CRAN",
+      "Repository": "https://cloud.r-project.org",
+      "description": {
+        "Package": "RColorBrewer",
+        "Version": "1.1-3",
+        "Date": "2022-04-03",
+        "Title": "ColorBrewer Palettes",
+        "Authors@R": "c(person(given = \"Erich\", family = \"Neuwirth\", role = c(\"aut\",\n        \"cre\"), email = \"erich.neuwirth@univie.ac.at\"))",
+        "Author": "Erich Neuwirth [aut, cre]",
+        "Maintainer": "Erich Neuwirth <erich.neuwirth@univie.ac.at>",
+        "Depends": "R (>= 2.0.0)",
+        "Description": "Provides color schemes for maps (and other graphics)\n        designed by Cynthia Brewer as described at http://colorbrewer2.org.",
+        "License": "Apache License 2.0",
+        "Packaged": "2022-04-03 10:26:20 UTC; neuwirth",
+        "NeedsCompilation": "no",
+        "Repository": "CRAN",
+        "Date/Publication": "2022-04-03 19:20:13 UTC",
+        "Built": "R 4.6.0; ; 2026-04-26 08:44:33 UTC; unix",
+        "RemoteType": "standard",
+        "RemotePkgRef": "RColorBrewer",
+        "RemoteRef": "RColorBrewer",
+        "RemoteRepos": "https://cloud.r-project.org",
+        "RemotePkgPlatform": "x86_64-apple-darwin20",
+        "RemoteSha": "1.1-3"
+      }
+    },
+    "S7": {
+      "Source": "CRAN",
+      "Repository": "https://cloud.r-project.org",
+      "description": {
+        "Package": "S7",
+        "Title": "An Object Oriented System Meant to Become a Successor to S3 and\nS4",
+        "Version": "0.2.2",
+        "Authors@R": "c(\n    person(\"Object-Oriented Programming Working Group\", role = \"cph\"),\n    person(\"Davis\", \"Vaughan\", role = \"aut\"),\n    person(\"Jim\", \"Hester\", role = \"aut\",\n           comment = c(ORCID = \"0000-0002-2739-7082\")),\n    person(\"Tomasz\", \"Kalinowski\", role = \"aut\"),\n    person(\"Will\", \"Landau\", role = \"aut\"),\n    person(\"Michael\", \"Lawrence\", role = \"aut\"),\n    person(\"Martin\", \"Maechler\", role = \"aut\",\n           comment = c(ORCID = \"0000-0002-8685-9910\")),\n    person(\"Luke\", \"Tierney\", role = \"aut\"),\n    person(\"Hadley\", \"Wickham\", , \"hadley@posit.co\", role = c(\"aut\", \"cre\"),\n           comment = c(ORCID = \"0000-0003-4757-117X\"))\n  )",
+        "Description": "A new object oriented programming system designed to be a\n    successor to S3 and S4. It includes formal class, generic, and method\n    specification, and a limited form of multiple dispatch. It has been\n    designed and implemented collaboratively by the R Consortium\n    Object-Oriented Programming Working Group, which includes\n    representatives from R-Core, 'Bioconductor', 'Posit'/'tidyverse', and\n    the wider R community.",
+        "License": "MIT + file LICENSE",
+        "URL": "https://rconsortium.github.io/S7/,\nhttps://github.com/RConsortium/S7",
+        "BugReports": "https://github.com/RConsortium/S7/issues",
+        "Depends": "R (>= 3.5.0)",
+        "Imports": "utils",
+        "Suggests": "bench, callr, covr, knitr, methods, rmarkdown, testthat (>=\n3.2.0), tibble",
+        "VignetteBuilder": "knitr",
+        "Config/build/compilation-database": "true",
+        "Config/Needs/website": "sloop",
+        "Config/testthat/edition": "3",
+        "Config/testthat/parallel": "TRUE",
+        "Config/testthat/start-first": "external-generic",
+        "Encoding": "UTF-8",
+        "RoxygenNote": "7.3.3",
+        "NeedsCompilation": "yes",
+        "Packaged": "2026-04-20 21:37:20 UTC; hadleywickham",
+        "Author": "Object-Oriented Programming Working Group [cph],\n  Davis Vaughan [aut],\n  Jim Hester [aut] (ORCID: <https://orcid.org/0000-0002-2739-7082>),\n  Tomasz Kalinowski [aut],\n  Will Landau [aut],\n  Michael Lawrence [aut],\n  Martin Maechler [aut] (ORCID: <https://orcid.org/0000-0002-8685-9910>),\n  Luke Tierney [aut],\n  Hadley Wickham [aut, cre] (ORCID:\n    <https://orcid.org/0000-0003-4757-117X>)",
+        "Maintainer": "Hadley Wickham <hadley@posit.co>",
+        "Repository": "CRAN",
+        "Date/Publication": "2026-04-22 11:00:10 UTC",
+        "Built": "R 4.6.0; x86_64-apple-darwin20; 2026-04-26 08:45:01 UTC; unix",
+        "Archs": "S7.so.dSYM",
+        "RemoteType": "standard",
+        "RemotePkgRef": "S7",
+        "RemoteRef": "S7",
+        "RemoteRepos": "https://cloud.r-project.org",
+        "RemotePkgPlatform": "x86_64-apple-darwin20",
+        "RemoteSha": "0.2.2"
       }
     },
     "base64enc": {
@@ -77,7 +143,7 @@
       "description": {
         "Package": "bslib",
         "Title": "Custom 'Bootstrap' 'Sass' Themes for 'shiny' and 'rmarkdown'",
-        "Version": "0.11.0",
+        "Version": "0.12.0",
         "Authors@R": "c(\n    person(\"Carson\", \"Sievert\", , \"carson@posit.co\", role = c(\"aut\", \"cre\"),\n           comment = c(ORCID = \"0000-0002-4958-2844\")),\n    person(\"Joe\", \"Cheng\", , \"joe@posit.co\", role = \"aut\"),\n    person(\"Garrick\", \"Aden-Buie\", , \"garrick@posit.co\", role = \"aut\",\n           comment = c(ORCID = \"0000-0002-7111-0077\")),\n    person(\"Posit Software, PBC\", role = c(\"cph\", \"fnd\")),\n    person(, \"Bootstrap contributors\", role = \"ctb\",\n           comment = \"Bootstrap library\"),\n    person(, \"Twitter, Inc\", role = \"cph\",\n           comment = \"Bootstrap library\"),\n    person(\"Javi\", \"Aguilar\", role = c(\"ctb\", \"cph\"),\n           comment = \"Bootstrap colorpicker library\"),\n    person(\"Thomas\", \"Park\", role = c(\"ctb\", \"cph\"),\n           comment = \"Bootswatch library\"),\n    person(, \"PayPal\", role = c(\"ctb\", \"cph\"),\n           comment = \"Bootstrap accessibility plugin\")\n  )",
         "Description": "Simplifies custom 'CSS' styling of both 'shiny' and\n    'rmarkdown' via 'Bootstrap' 'Sass'. Supports 'Bootstrap' 3, 4 and 5 as\n    well as their various 'Bootswatch' themes. An interactive widget is\n    also provided for previewing themes in real time.",
         "License": "MIT + file LICENSE",
@@ -94,20 +160,20 @@
         "Config/testthat/parallel": "true",
         "Config/testthat/start-first": "zzzz-bs-sass, fonts, zzz-precompile,\ntheme-*, rmd-*",
         "Encoding": "UTF-8",
-        "Collate": "'accordion.R' 'breakpoints.R' 'bs-current-theme.R'\n'bs-dependencies.R' 'bs-global.R' 'bs-remove.R'\n'bs-theme-layers.R' 'bs-theme-preset-bootswatch.R'\n'bs-theme-preset-brand.R' 'bs-theme-preset-builtin.R'\n'bs-theme-preset.R' 'utils.R' 'bs-theme-preview.R'\n'bs-theme-update.R' 'bs-theme.R' 'bslib-package.R' 'buttons.R'\n'card.R' 'deprecated.R' 'files.R' 'fill.R' 'imports.R'\n'input-code-editor.R' 'input-dark-mode.R' 'input-submit.R'\n'input-switch.R' 'layout.R' 'nav-items.R' 'nav-update.R'\n'navbar_options.R' 'navs-legacy.R' 'navs.R' 'onLoad.R' 'page.R'\n'popover.R' 'precompiled.R' 'print.R' 'shiny-devmode.R'\n'sidebar.R' 'staticimports.R' 'toast.R' 'toolbar.R' 'tooltip.R'\n'utils-deps.R' 'utils-shiny.R' 'utils-tags.R' 'value-box.R'\n'version-default.R' 'versions.R'",
+        "Collate": "'accordion.R' 'breakpoints.R' 'bs-current-theme.R'\n'bs-dependencies.R' 'bs-global.R' 'bs-remove.R'\n'bs-theme-layers.R' 'bs-theme-preset-bootswatch.R'\n'bs-theme-preset-brand.R' 'bs-theme-preset-builtin.R'\n'bs-theme-preset.R' 'utils.R' 'bs-theme-preview.R'\n'bs-theme-update.R' 'bs-theme.R' 'bslib-package.R' 'buttons.R'\n'card.R' 'deprecated.R' 'files.R' 'fill.R' 'imports.R'\n'input-code-editor.R' 'input-dark-mode.R' 'input-submit.R'\n'input-switch.R' 'layout.R' 'nav-items.R' 'nav-update.R'\n'navbar_options.R' 'navs-legacy.R' 'navs.R' 'offcanvas.R'\n'onLoad.R' 'page.R' 'popover.R' 'precompiled.R' 'print.R'\n'shiny-devmode.R' 'sidebar.R' 'staticimports.R' 'toast.R'\n'toolbar.R' 'tooltip.R' 'utils-deps.R' 'utils-shiny.R'\n'utils-tags.R' 'value-box.R' 'version-default.R' 'versions.R'",
         "NeedsCompilation": "no",
-        "Packaged": "2026-05-15 15:16:19 UTC; cpsievert",
+        "Packaged": "2026-08-03 22:55:38 UTC; cpsievert",
         "Author": "Carson Sievert [aut, cre] (ORCID:\n    <https://orcid.org/0000-0002-4958-2844>),\n  Joe Cheng [aut],\n  Garrick Aden-Buie [aut] (ORCID:\n    <https://orcid.org/0000-0002-7111-0077>),\n  Posit Software, PBC [cph, fnd],\n  Bootstrap contributors [ctb] (Bootstrap library),\n  Twitter, Inc [cph] (Bootstrap library),\n  Javi Aguilar [ctb, cph] (Bootstrap colorpicker library),\n  Thomas Park [ctb, cph] (Bootswatch library),\n  PayPal [ctb, cph] (Bootstrap accessibility plugin)",
         "Maintainer": "Carson Sievert <carson@posit.co>",
         "Repository": "CRAN",
-        "Date/Publication": "2026-05-16 08:10:07 UTC",
-        "Built": "R 4.6.0; ; 2026-05-16 09:15:48 UTC; unix",
+        "Date/Publication": "2026-08-04 00:40:02 UTC",
+        "Built": "R 4.6.0; ; 2026-08-04 03:25:20 UTC; unix",
         "RemoteType": "standard",
         "RemotePkgRef": "bslib",
         "RemoteRef": "bslib",
-        "RemoteRepos": "https://cloud.r-project.org",
+        "RemoteRepos": "https://cran.rstudio.com",
         "RemotePkgPlatform": "x86_64-apple-darwin20",
-        "RemoteSha": "0.11.0"
+        "RemoteSha": "0.12.0"
       }
     },
     "cachem": {
@@ -174,6 +240,41 @@
         "Archs": "cli.so.dSYM"
       }
     },
+    "cpp11": {
+      "Source": "CRAN",
+      "Repository": "https://cloud.r-project.org",
+      "description": {
+        "Package": "cpp11",
+        "Title": "A C++11 Interface for R's C Interface",
+        "Version": "0.5.5",
+        "Authors@R": "\n    c(\n      person(\"Davis\", \"Vaughan\", email = \"davis@posit.co\", role = c(\"aut\", \"cre\"), comment = c(ORCID = \"0000-0003-4777-038X\")),\n      person(\"Jim\",\"Hester\", role = \"aut\", comment = c(ORCID = \"0000-0002-2739-7082\")),\n      person(\"Romain\", \"François\", role = \"aut\", comment = c(ORCID = \"0000-0002-2444-4226\")),\n      person(\"Benjamin\", \"Kietzman\", role = \"ctb\"),\n      person(\"Posit Software, PBC\", role = c(\"cph\", \"fnd\"))\n    )",
+        "Description": "Provides a header only, C++11 interface to R's C\n    interface.  Compared to other approaches 'cpp11' strives to be safe\n    against long jumps from the C API as well as C++ exceptions, conform\n    to normal R function semantics and supports interaction with 'ALTREP'\n    vectors.",
+        "License": "MIT + file LICENSE",
+        "URL": "https://cpp11.r-lib.org, https://github.com/r-lib/cpp11",
+        "BugReports": "https://github.com/r-lib/cpp11/issues",
+        "Depends": "R (>= 4.0.0)",
+        "Suggests": "bench, brio, callr, cli, covr, decor, desc, ggplot2, glue,\nknitr, lobstr, mockery, progress, rmarkdown, scales, Rcpp,\ntestthat (>= 3.2.0), tibble, utils, vctrs, withr",
+        "VignetteBuilder": "knitr",
+        "Config/Needs/website": "tidyverse/tidytemplate",
+        "Config/testthat/edition": "3",
+        "Config/Needs/cpp11/cpp_register": "brio, cli, decor, desc, glue, tibble,\nvctrs",
+        "Encoding": "UTF-8",
+        "RoxygenNote": "7.3.3",
+        "NeedsCompilation": "no",
+        "Packaged": "2026-05-06 12:49:17 UTC; davis",
+        "Author": "Davis Vaughan [aut, cre] (ORCID:\n    <https://orcid.org/0000-0003-4777-038X>),\n  Jim Hester [aut] (ORCID: <https://orcid.org/0000-0002-2739-7082>),\n  Romain François [aut] (ORCID: <https://orcid.org/0000-0002-2444-4226>),\n  Benjamin Kietzman [ctb],\n  Posit Software, PBC [cph, fnd]",
+        "Maintainer": "Davis Vaughan <davis@posit.co>",
+        "Repository": "CRAN",
+        "Date/Publication": "2026-05-06 14:40:12 UTC",
+        "Built": "R 4.6.0; ; 2026-05-06 15:35:53 UTC; unix",
+        "RemoteType": "standard",
+        "RemotePkgRef": "cpp11",
+        "RemoteRef": "cpp11",
+        "RemoteRepos": "https://cran.rstudio.com",
+        "RemotePkgPlatform": "x86_64-apple-darwin20",
+        "RemoteSha": "0.5.5"
+      }
+    },
     "digest": {
       "Source": "CRAN",
       "Repository": "https://cloud.r-project.org",
@@ -228,6 +329,39 @@
         "Repository": "CRAN",
         "Date/Publication": "2025-08-27 16:40:02 UTC",
         "Built": "R 4.6.0; ; 2026-04-26 08:43:43 UTC; unix"
+      }
+    },
+    "farver": {
+      "Source": "CRAN",
+      "Repository": "https://cloud.r-project.org",
+      "description": {
+        "Type": "Package",
+        "Package": "farver",
+        "Title": "High Performance Colour Space Manipulation",
+        "Version": "2.1.2",
+        "Authors@R": "c(\n    person(\"Thomas Lin\", \"Pedersen\", , \"thomas.pedersen@posit.co\", role = c(\"cre\", \"aut\"),\n           comment = c(ORCID = \"0000-0002-5147-4711\")),\n    person(\"Berendea\", \"Nicolae\", role = \"aut\",\n           comment = \"Author of the ColorSpace C++ library\"),\n    person(\"Romain\", \"François\", , \"romain@purrple.cat\", role = \"aut\",\n           comment = c(ORCID = \"0000-0002-2444-4226\")),\n    person(\"Posit, PBC\", role = c(\"cph\", \"fnd\"))\n  )",
+        "Description": "The encoding of colour can be handled in many different ways,\n    using different colour spaces. As different colour spaces have\n    different uses, efficient conversion between these representations are\n    important. The 'farver' package provides a set of functions that gives\n    access to very fast colour space conversion and comparisons\n    implemented in C++, and offers speed improvements over the\n    'convertColor' function in the 'grDevices' package.",
+        "License": "MIT + file LICENSE",
+        "URL": "https://farver.data-imaginist.com,\nhttps://github.com/thomasp85/farver",
+        "BugReports": "https://github.com/thomasp85/farver/issues",
+        "Suggests": "covr, testthat (>= 3.0.0)",
+        "Config/testthat/edition": "3",
+        "Encoding": "UTF-8",
+        "RoxygenNote": "7.3.1",
+        "NeedsCompilation": "yes",
+        "Packaged": "2024-05-13 08:31:27 UTC; thomas",
+        "Author": "Thomas Lin Pedersen [cre, aut]\n    (<https://orcid.org/0000-0002-5147-4711>),\n  Berendea Nicolae [aut] (Author of the ColorSpace C++ library),\n  Romain François [aut] (<https://orcid.org/0000-0002-2444-4226>),\n  Posit, PBC [cph, fnd]",
+        "Maintainer": "Thomas Lin Pedersen <thomas.pedersen@posit.co>",
+        "Repository": "CRAN",
+        "Date/Publication": "2024-05-13 09:33:09 UTC",
+        "Built": "R 4.6.0; x86_64-apple-darwin20; 2026-04-26 08:44:47 UTC; unix",
+        "Archs": "farver.so.dSYM",
+        "RemoteType": "standard",
+        "RemotePkgRef": "farver",
+        "RemoteRef": "farver",
+        "RemoteRepos": "https://cloud.r-project.org",
+        "RemotePkgPlatform": "x86_64-apple-darwin20",
+        "RemoteSha": "2.1.2"
       }
     },
     "fastmap": {
@@ -335,7 +469,143 @@
       "Repository": "https://cloud.r-project.org",
       "description": {
         "Package": "ggplot2",
-        "Version": "4.0.3"
+        "Title": "Create Elegant Data Visualisations Using the Grammar of Graphics",
+        "Version": "4.0.3",
+        "Authors@R": "c(\n    person(\"Hadley\", \"Wickham\", , \"hadley@posit.co\", role = \"aut\",\n           comment = c(ORCID = \"0000-0003-4757-117X\")),\n    person(\"Winston\", \"Chang\", role = \"aut\",\n           comment = c(ORCID = \"0000-0002-1576-2126\")),\n    person(\"Lionel\", \"Henry\", role = \"aut\"),\n    person(\"Thomas Lin\", \"Pedersen\", , \"thomas.pedersen@posit.co\", role = c(\"aut\", \"cre\"),\n           comment = c(ORCID = \"0000-0002-5147-4711\")),\n    person(\"Kohske\", \"Takahashi\", role = \"aut\"),\n    person(\"Claus\", \"Wilke\", role = \"aut\",\n           comment = c(ORCID = \"0000-0002-7470-9261\")),\n    person(\"Kara\", \"Woo\", role = \"aut\",\n           comment = c(ORCID = \"0000-0002-5125-4188\")),\n    person(\"Hiroaki\", \"Yutani\", role = \"aut\",\n           comment = c(ORCID = \"0000-0002-3385-7233\")),\n    person(\"Dewey\", \"Dunnington\", role = \"aut\",\n           comment = c(ORCID = \"0000-0002-9415-4582\")),\n    person(\"Teun\", \"van den Brand\", role = \"aut\",\n           comment = c(ORCID = \"0000-0002-9335-7468\")),\n    person(\"Posit, PBC\", role = c(\"cph\", \"fnd\"),\n           comment = c(ROR = \"03wc8by49\"))\n  )",
+        "Description": "A system for 'declaratively' creating graphics, based on \"The\n    Grammar of Graphics\". You provide the data, tell 'ggplot2' how to map\n    variables to aesthetics, what graphical primitives to use, and it\n    takes care of the details.",
+        "License": "MIT + file LICENSE",
+        "URL": "https://ggplot2.tidyverse.org,\nhttps://github.com/tidyverse/ggplot2",
+        "BugReports": "https://github.com/tidyverse/ggplot2/issues",
+        "Depends": "R (>= 4.1)",
+        "Imports": "cli, grDevices, grid, gtable (>= 0.3.6), isoband, lifecycle (>\n1.0.1), rlang (>= 1.1.0), S7, scales (>= 1.4.0), stats, vctrs\n(>= 0.6.0), withr (>= 2.5.0)",
+        "Suggests": "broom, covr, dplyr, ggplot2movies, hexbin, Hmisc, hms, knitr,\nmapproj, maps, MASS, mgcv, multcomp, munsell, nlme, profvis,\nquantreg, quarto, ragg (>= 1.2.6), RColorBrewer, roxygen2,\nrpart, sf (>= 0.7-3), svglite (>= 2.1.2), testthat (>= 3.1.5),\ntibble, vdiffr (>= 1.0.6), xml2",
+        "Enhances": "sp",
+        "VignetteBuilder": "quarto",
+        "Config/Needs/website": "ggtext, tidyr, forcats, tidyverse/tidytemplate",
+        "Config/testthat/edition": "3",
+        "Config/usethis/last-upkeep": "2025-04-23",
+        "Encoding": "UTF-8",
+        "LazyData": "true",
+        "RoxygenNote": "7.3.3",
+        "Collate": "'ggproto.R' 'ggplot-global.R' 'aaa-.R'\n'aes-colour-fill-alpha.R' 'aes-evaluation.R'\n'aes-group-order.R' 'aes-linetype-size-shape.R'\n'aes-position.R' 'all-classes.R' 'compat-plyr.R' 'utilities.R'\n'aes.R' 'annotation-borders.R' 'utilities-checks.R'\n'legend-draw.R' 'geom-.R' 'annotation-custom.R'\n'annotation-logticks.R' 'scale-type.R' 'layer.R'\n'make-constructor.R' 'geom-polygon.R' 'geom-map.R'\n'annotation-map.R' 'geom-raster.R' 'annotation-raster.R'\n'annotation.R' 'autolayer.R' 'autoplot.R' 'axis-secondary.R'\n'backports.R' 'bench.R' 'bin.R' 'coord-.R' 'coord-cartesian-.R'\n'coord-fixed.R' 'coord-flip.R' 'coord-map.R' 'coord-munch.R'\n'coord-polar.R' 'coord-quickmap.R' 'coord-radial.R'\n'coord-sf.R' 'coord-transform.R' 'data.R' 'docs_layer.R'\n'facet-.R' 'facet-grid-.R' 'facet-null.R' 'facet-wrap.R'\n'fortify-map.R' 'fortify-models.R' 'fortify-spatial.R'\n'fortify.R' 'stat-.R' 'geom-abline.R' 'geom-rect.R'\n'geom-bar.R' 'geom-tile.R' 'geom-bin2d.R' 'geom-blank.R'\n'geom-boxplot.R' 'geom-col.R' 'geom-path.R' 'geom-contour.R'\n'geom-point.R' 'geom-count.R' 'geom-crossbar.R'\n'geom-segment.R' 'geom-curve.R' 'geom-defaults.R'\n'geom-ribbon.R' 'geom-density.R' 'geom-density2d.R'\n'geom-dotplot.R' 'geom-errorbar.R' 'geom-freqpoly.R'\n'geom-function.R' 'geom-hex.R' 'geom-histogram.R'\n'geom-hline.R' 'geom-jitter.R' 'geom-label.R'\n'geom-linerange.R' 'geom-pointrange.R' 'geom-quantile.R'\n'geom-rug.R' 'geom-sf.R' 'geom-smooth.R' 'geom-spoke.R'\n'geom-text.R' 'geom-violin.R' 'geom-vline.R'\n'ggplot2-package.R' 'grob-absolute.R' 'grob-dotstack.R'\n'grob-null.R' 'grouping.R' 'properties.R' 'margins.R'\n'theme-elements.R' 'guide-.R' 'guide-axis.R'\n'guide-axis-logticks.R' 'guide-axis-stack.R'\n'guide-axis-theta.R' 'guide-legend.R' 'guide-bins.R'\n'guide-colorbar.R' 'guide-colorsteps.R' 'guide-custom.R'\n'guide-none.R' 'guide-old.R' 'guides-.R' 'guides-grid.R'\n'hexbin.R' 'import-standalone-obj-type.R'\n'import-standalone-types-check.R' 'labeller.R' 'labels.R'\n'layer-sf.R' 'layout.R' 'limits.R' 'performance.R'\n'plot-build.R' 'plot-construction.R' 'plot-last.R' 'plot.R'\n'position-.R' 'position-collide.R' 'position-dodge.R'\n'position-dodge2.R' 'position-identity.R' 'position-jitter.R'\n'position-jitterdodge.R' 'position-nudge.R' 'position-stack.R'\n'quick-plot.R' 'reshape-add-margins.R' 'save.R' 'scale-.R'\n'scale-alpha.R' 'scale-binned.R' 'scale-brewer.R'\n'scale-colour.R' 'scale-continuous.R' 'scale-date.R'\n'scale-discrete-.R' 'scale-expansion.R' 'scale-gradient.R'\n'scale-grey.R' 'scale-hue.R' 'scale-identity.R'\n'scale-linetype.R' 'scale-linewidth.R' 'scale-manual.R'\n'scale-shape.R' 'scale-size.R' 'scale-steps.R' 'scale-view.R'\n'scale-viridis.R' 'scales-.R' 'stat-align.R' 'stat-bin.R'\n'stat-summary-2d.R' 'stat-bin2d.R' 'stat-bindot.R'\n'stat-binhex.R' 'stat-boxplot.R' 'stat-connect.R'\n'stat-contour.R' 'stat-count.R' 'stat-density-2d.R'\n'stat-density.R' 'stat-ecdf.R' 'stat-ellipse.R'\n'stat-function.R' 'stat-identity.R' 'stat-manual.R'\n'stat-qq-line.R' 'stat-qq.R' 'stat-quantilemethods.R'\n'stat-sf-coordinates.R' 'stat-sf.R' 'stat-smooth-methods.R'\n'stat-smooth.R' 'stat-sum.R' 'stat-summary-bin.R'\n'stat-summary-hex.R' 'stat-summary.R' 'stat-unique.R'\n'stat-ydensity.R' 'summarise-plot.R' 'summary.R' 'theme.R'\n'theme-defaults.R' 'theme-current.R' 'theme-sub.R'\n'utilities-break.R' 'utilities-grid.R' 'utilities-help.R'\n'utilities-patterns.R' 'utilities-resolution.R'\n'utilities-tidy-eval.R' 'zxx.R' 'zzz.R'",
+        "NeedsCompilation": "no",
+        "Packaged": "2026-04-21 12:47:29 UTC; thomas",
+        "Author": "Hadley Wickham [aut] (ORCID: <https://orcid.org/0000-0003-4757-117X>),\n  Winston Chang [aut] (ORCID: <https://orcid.org/0000-0002-1576-2126>),\n  Lionel Henry [aut],\n  Thomas Lin Pedersen [aut, cre] (ORCID:\n    <https://orcid.org/0000-0002-5147-4711>),\n  Kohske Takahashi [aut],\n  Claus Wilke [aut] (ORCID: <https://orcid.org/0000-0002-7470-9261>),\n  Kara Woo [aut] (ORCID: <https://orcid.org/0000-0002-5125-4188>),\n  Hiroaki Yutani [aut] (ORCID: <https://orcid.org/0000-0002-3385-7233>),\n  Dewey Dunnington [aut] (ORCID: <https://orcid.org/0000-0002-9415-4582>),\n  Teun van den Brand [aut] (ORCID:\n    <https://orcid.org/0000-0002-9335-7468>),\n  Posit, PBC [cph, fnd] (ROR: <https://ror.org/03wc8by49>)",
+        "Maintainer": "Thomas Lin Pedersen <thomas.pedersen@posit.co>",
+        "Repository": "CRAN",
+        "Date/Publication": "2026-04-22 09:10:03 UTC",
+        "Built": "R 4.6.0; ; 2026-04-27 21:20:35 UTC; unix",
+        "RemoteType": "standard",
+        "RemoteRef": "ggplot2",
+        "RemotePkgRef": "ggplot2",
+        "RemoteRepos": "https://cloud.r-project.org",
+        "RemoteReposName": "CRAN",
+        "RemotePkgPlatform": "x86_64-apple-darwin20",
+        "RemoteSha": "4.0.3"
+      }
+    },
+    "glue": {
+      "Source": "CRAN",
+      "Repository": "https://cloud.r-project.org",
+      "description": {
+        "Package": "glue",
+        "Title": "Interpreted String Literals",
+        "Version": "1.8.1",
+        "Authors@R": "c(\n    person(\"Jim\", \"Hester\", role = \"aut\",\n           comment = c(ORCID = \"0000-0002-2739-7082\")),\n    person(\"Jennifer\", \"Bryan\", , \"jenny@posit.co\", role = c(\"aut\", \"cre\"),\n           comment = c(ORCID = \"0000-0002-6983-2759\")),\n    person(\"Posit Software, PBC\", role = c(\"cph\", \"fnd\"),\n           comment = c(ROR = \"03wc8by49\"))\n  )",
+        "Description": "An implementation of interpreted string literals, inspired by\n    Python's Literal String Interpolation\n    <https://www.python.org/dev/peps/pep-0498/> and Docstrings\n    <https://www.python.org/dev/peps/pep-0257/> and Julia's Triple-Quoted\n    String Literals\n    <https://docs.julialang.org/en/v1.3/manual/strings/#Triple-Quoted-String-Literals-1>.",
+        "License": "MIT + file LICENSE",
+        "URL": "https://glue.tidyverse.org/, https://github.com/tidyverse/glue",
+        "BugReports": "https://github.com/tidyverse/glue/issues",
+        "Depends": "R (>= 4.1)",
+        "Imports": "methods",
+        "Suggests": "crayon, DBI (>= 1.2.0), dplyr, knitr, rlang, rmarkdown,\nRSQLite, testthat (>= 3.2.0), vctrs (>= 0.3.0), waldo (>=\n0.5.3), withr",
+        "VignetteBuilder": "knitr",
+        "ByteCompile": "true",
+        "Config/Needs/website": "bench, forcats, ggbeeswarm, ggplot2, R.utils,\nrprintf, tidyr, tidyverse/tidytemplate",
+        "Config/testthat/edition": "3",
+        "Config/usethis/last-upkeep": "2026-04-16",
+        "Encoding": "UTF-8",
+        "RoxygenNote": "7.3.3",
+        "NeedsCompilation": "yes",
+        "Packaged": "2026-04-16 22:53:02 UTC; jenny",
+        "Author": "Jim Hester [aut] (ORCID: <https://orcid.org/0000-0002-2739-7082>),\n  Jennifer Bryan [aut, cre] (ORCID:\n    <https://orcid.org/0000-0002-6983-2759>),\n  Posit Software, PBC [cph, fnd] (ROR: <https://ror.org/03wc8by49>)",
+        "Maintainer": "Jennifer Bryan <jenny@posit.co>",
+        "Repository": "CRAN",
+        "Date/Publication": "2026-04-17 05:11:01 UTC",
+        "Built": "R 4.6.0; x86_64-apple-darwin20; 2026-04-26 08:43:06 UTC; unix",
+        "Archs": "glue.so.dSYM"
+      }
+    },
+    "gtable": {
+      "Source": "CRAN",
+      "Repository": "https://cloud.r-project.org",
+      "description": {
+        "Package": "gtable",
+        "Title": "Arrange 'Grobs' in Tables",
+        "Version": "0.3.6",
+        "Authors@R": "c(\n    person(\"Hadley\", \"Wickham\", , \"hadley@posit.co\", role = \"aut\"),\n    person(\"Thomas Lin\", \"Pedersen\", , \"thomas.pedersen@posit.co\", role = c(\"aut\", \"cre\")),\n    person(\"Posit Software, PBC\", role = c(\"cph\", \"fnd\"))\n  )",
+        "Description": "Tools to make it easier to work with \"tables\" of 'grobs'. The\n    'gtable' package defines a 'gtable' grob class that specifies a grid\n    along with a list of grobs and their placement in the grid. Further\n    the package makes it easy to manipulate and combine 'gtable' objects\n    so that complex compositions can be built up sequentially.",
+        "License": "MIT + file LICENSE",
+        "URL": "https://gtable.r-lib.org, https://github.com/r-lib/gtable",
+        "BugReports": "https://github.com/r-lib/gtable/issues",
+        "Depends": "R (>= 4.0)",
+        "Imports": "cli, glue, grid, lifecycle, rlang (>= 1.1.0), stats",
+        "Suggests": "covr, ggplot2, knitr, profvis, rmarkdown, testthat (>= 3.0.0)",
+        "VignetteBuilder": "knitr",
+        "Config/Needs/website": "tidyverse/tidytemplate",
+        "Config/testthat/edition": "3",
+        "Config/usethis/last-upkeep": "2024-10-25",
+        "Encoding": "UTF-8",
+        "RoxygenNote": "7.3.2",
+        "NeedsCompilation": "no",
+        "Packaged": "2024-10-25 12:42:05 UTC; thomas",
+        "Author": "Hadley Wickham [aut],\n  Thomas Lin Pedersen [aut, cre],\n  Posit Software, PBC [cph, fnd]",
+        "Maintainer": "Thomas Lin Pedersen <thomas.pedersen@posit.co>",
+        "Repository": "CRAN",
+        "Date/Publication": "2024-10-25 13:20:02 UTC",
+        "Built": "R 4.6.0; ; 2026-04-27 13:33:16 UTC; unix",
+        "RemoteType": "standard",
+        "RemotePkgRef": "gtable",
+        "RemoteRef": "gtable",
+        "RemoteRepos": "https://cloud.r-project.org",
+        "RemotePkgPlatform": "x86_64-apple-darwin20",
+        "RemoteSha": "0.3.6"
+      }
+    },
+    "here": {
+      "Source": "CRAN",
+      "Repository": "https://cloud.r-project.org",
+      "description": {
+        "Package": "here",
+        "Title": "A Simpler Way to Find Your Files",
+        "Version": "1.0.2",
+        "Date": "2025-09-06",
+        "Authors@R": "\n    c(person(given = \"Kirill\",\n             family = \"M\\u00fcller\",\n             role = c(\"aut\", \"cre\"),\n             email = \"kirill@cynkra.com\",\n             comment = c(ORCID = \"0000-0002-1416-3412\")),\n      person(given = \"Jennifer\",\n             family = \"Bryan\",\n             role = \"ctb\",\n             email = \"jenny@rstudio.com\",\n             comment = c(ORCID = \"0000-0002-6983-2759\")))",
+        "Description": "Constructs paths to your project's files.\n    Declare the relative path of a file within your project with 'i_am()'.\n    Use the 'here()' function as a drop-in replacement for 'file.path()',\n    it will always locate the files relative to your project root.",
+        "License": "MIT + file LICENSE",
+        "URL": "https://here.r-lib.org/, https://github.com/r-lib/here",
+        "BugReports": "https://github.com/r-lib/here/issues",
+        "Imports": "rprojroot (>= 2.1.0)",
+        "Suggests": "conflicted, covr, fs, knitr, palmerpenguins, plyr, readr,\nrlang, rmarkdown, testthat, uuid, withr",
+        "VignetteBuilder": "knitr",
+        "Encoding": "UTF-8",
+        "RoxygenNote": "7.3.3.9000",
+        "Config/testthat/edition": "3",
+        "Config/Needs/website": "tidyverse/tidytemplate",
+        "NeedsCompilation": "no",
+        "Packaged": "2025-09-14 18:48:53 UTC; kirill",
+        "Author": "Kirill Müller [aut, cre] (ORCID:\n    <https://orcid.org/0000-0002-1416-3412>),\n  Jennifer Bryan [ctb] (ORCID: <https://orcid.org/0000-0002-6983-2759>)",
+        "Maintainer": "Kirill Müller <kirill@cynkra.com>",
+        "Repository": "CRAN",
+        "Date/Publication": "2025-09-15 05:10:09 UTC",
+        "Built": "R 4.6.0; ; 2026-04-26 09:10:27 UTC; unix",
+        "RemoteType": "standard",
+        "RemoteRef": "here",
+        "RemotePkgRef": "here",
+        "RemoteRepos": "https://cloud.r-project.org",
+        "RemoteReposName": "CRAN",
+        "RemotePkgPlatform": "x86_64-apple-darwin20",
+        "RemoteSha": "1.0.2"
       }
     },
     "highr": {
@@ -408,6 +678,44 @@
         "RemoteRepos": "https://cloud.r-project.org",
         "RemotePkgPlatform": "x86_64-apple-darwin20",
         "RemoteSha": "0.5.9"
+      }
+    },
+    "isoband": {
+      "Source": "CRAN",
+      "Repository": "https://cloud.r-project.org",
+      "description": {
+        "Package": "isoband",
+        "Title": "Generate Isolines and Isobands from Regularly Spaced Elevation\nGrids",
+        "Version": "0.3.0",
+        "Authors@R": "c(\n    person(\"Hadley\", \"Wickham\", , \"hadley@posit.co\", role = \"aut\",\n           comment = c(ORCID = \"0000-0003-4757-117X\")),\n    person(\"Claus O.\", \"Wilke\", , \"wilke@austin.utexas.edu\", role = \"aut\",\n           comment = c(\"Original author\", ORCID = \"0000-0002-7470-9261\")),\n    person(\"Thomas Lin\", \"Pedersen\", , \"thomas.pedersen@posit.co\", role = c(\"aut\", \"cre\"),\n           comment = c(ORCID = \"0000-0002-5147-4711\")),\n    person(\"Posit, PBC\", role = c(\"cph\", \"fnd\"),\n           comment = c(ROR = \"03wc8by49\"))\n  )",
+        "Description": "A fast C++ implementation to generate contour lines\n    (isolines) and contour polygons (isobands) from regularly spaced grids\n    containing elevation data.",
+        "License": "MIT + file LICENSE",
+        "URL": "https://isoband.r-lib.org, https://github.com/r-lib/isoband",
+        "BugReports": "https://github.com/r-lib/isoband/issues",
+        "Imports": "cli, grid, rlang, utils",
+        "Suggests": "covr, ggplot2, knitr, magick, bench, rmarkdown, sf, testthat\n(>= 3.0.0), xml2",
+        "VignetteBuilder": "knitr",
+        "Config/Needs/website": "tidyverse/tidytemplate",
+        "Config/testthat/edition": "3",
+        "Config/usethis/last-upkeep": "2025-12-05",
+        "Encoding": "UTF-8",
+        "RoxygenNote": "7.3.3",
+        "Config/build/compilation-database": "true",
+        "LinkingTo": "cpp11",
+        "NeedsCompilation": "yes",
+        "Packaged": "2025-12-05 12:52:07 UTC; thomas",
+        "Author": "Hadley Wickham [aut] (ORCID: <https://orcid.org/0000-0003-4757-117X>),\n  Claus O. Wilke [aut] (Original author, ORCID:\n    <https://orcid.org/0000-0002-7470-9261>),\n  Thomas Lin Pedersen [aut, cre] (ORCID:\n    <https://orcid.org/0000-0002-5147-4711>),\n  Posit, PBC [cph, fnd] (ROR: <https://ror.org/03wc8by49>)",
+        "Maintainer": "Thomas Lin Pedersen <thomas.pedersen@posit.co>",
+        "Repository": "CRAN",
+        "Date/Publication": "2025-12-07 06:10:07 UTC",
+        "Built": "R 4.6.0; x86_64-apple-darwin20; 2026-04-27 05:37:32 UTC; unix",
+        "Archs": "isoband.so.dSYM",
+        "RemoteType": "standard",
+        "RemotePkgRef": "isoband",
+        "RemoteRef": "isoband",
+        "RemoteRepos": "https://cloud.r-project.org",
+        "RemotePkgPlatform": "x86_64-apple-darwin20",
+        "RemoteSha": "0.3.0"
       }
     },
     "jquerylib": {
@@ -502,6 +810,34 @@
         "RemoteReposName": "CRAN",
         "RemotePkgPlatform": "x86_64-apple-darwin20",
         "RemoteSha": "1.51"
+      }
+    },
+    "labeling": {
+      "Source": "CRAN",
+      "Repository": "https://cloud.r-project.org",
+      "description": {
+        "Package": "labeling",
+        "Type": "Package",
+        "Title": "Axis Labeling",
+        "Version": "0.4.3",
+        "Date": "2023-08-29",
+        "Author": "Justin Talbot,",
+        "Maintainer": "Nuno Sempere <nuno.semperelh@gmail.com>",
+        "Description": "Functions which provide a range of axis labeling algorithms. ",
+        "License": "MIT + file LICENSE | Unlimited",
+        "Collate": "'labeling.R'",
+        "NeedsCompilation": "no",
+        "Imports": "stats, graphics",
+        "Packaged": "2023-08-29 21:01:57 UTC; loki",
+        "Repository": "CRAN",
+        "Date/Publication": "2023-08-29 22:20:02 UTC",
+        "Built": "R 4.6.0; ; 2026-04-26 08:44:36 UTC; unix",
+        "RemoteType": "standard",
+        "RemotePkgRef": "labeling",
+        "RemoteRef": "labeling",
+        "RemoteRepos": "https://cloud.r-project.org",
+        "RemotePkgPlatform": "x86_64-apple-darwin20",
+        "RemoteSha": "0.4.3"
       }
     },
     "lifecycle": {
@@ -632,32 +968,39 @@
       "Repository": "https://cloud.r-project.org",
       "description": {
         "Package": "rlang",
-        "Version": "1.2.0",
+        "Version": "1.3.0",
         "Title": "Functions for Base Types and Core R and 'Tidyverse' Features",
-        "Description": "A toolbox for working with base types, core R features\n  like the condition system, and core 'Tidyverse' features like tidy\n  evaluation.",
-        "Authors@R": "c(\n    person(\"Lionel\", \"Henry\", ,\"lionel@posit.co\", c(\"aut\", \"cre\")),\n    person(\"Hadley\", \"Wickham\", ,\"hadley@posit.co\", \"aut\"),\n    person(given = \"mikefc\",\n           email = \"mikefc@coolbutuseless.com\",\n           role = \"cph\",\n           comment = \"Hash implementation based on Mike's xxhashlite\"),\n    person(given = \"Yann\",\n           family = \"Collet\",\n           role = \"cph\",\n           comment = \"Author of the embedded xxHash library\"),\n    person(given = \"Posit, PBC\", role = c(\"cph\", \"fnd\"))\n    )",
+        "Authors@R": "c(\n    person(\"Lionel\", \"Henry\", , \"lionel@posit.co\", role = c(\"aut\", \"cre\")),\n    person(\"Hadley\", \"Wickham\", , \"hadley@posit.co\", role = \"aut\"),\n    person(\"mikefc\", , , \"mikefc@coolbutuseless.com\", role = \"cph\",\n           comment = \"Hash implementation based on Mike's xxhashlite\"),\n    person(\"Yann\", \"Collet\", role = \"cph\",\n           comment = \"Author of the embedded xxHash library\"),\n    person(\"Posit, PBC\", role = c(\"cph\", \"fnd\"))\n  )",
+        "Description": "A toolbox for working with base types, core R features like\n    the condition system, and core 'Tidyverse' features like tidy\n    evaluation.",
         "License": "MIT + file LICENSE",
-        "ByteCompile": "true",
-        "Biarch": "true",
+        "URL": "https://rlang.r-lib.org, https://github.com/r-lib/rlang",
+        "BugReports": "https://github.com/r-lib/rlang/issues",
         "Depends": "R (>= 4.0.0)",
         "Imports": "utils",
         "Suggests": "cli (>= 3.1.0), covr, crayon, desc, fs, glue, knitr,\nmagrittr, methods, pillar, pkgload, rmarkdown, stats, testthat\n(>= 3.3.2), tibble, usethis, vctrs (>= 0.2.3), withr",
         "Enhances": "winch",
-        "Encoding": "UTF-8",
-        "RoxygenNote": "7.3.3",
-        "URL": "https://rlang.r-lib.org, https://github.com/r-lib/rlang",
-        "BugReports": "https://github.com/r-lib/rlang/issues",
+        "Biarch": "true",
+        "ByteCompile": "true",
         "Config/build/compilation-database": "true",
-        "Config/testthat/edition": "3",
         "Config/Needs/website": "dplyr, tidyverse/tidytemplate",
+        "Config/roxygen2/version": "8.0.0",
+        "Config/testthat/edition": "3",
+        "Config/testthat/parallel": "true",
+        "Encoding": "UTF-8",
         "NeedsCompilation": "yes",
-        "Packaged": "2026-04-02 12:23:10 UTC; lionel",
+        "Packaged": "2026-07-01 15:54:09 UTC; lionel",
         "Author": "Lionel Henry [aut, cre],\n  Hadley Wickham [aut],\n  mikefc [cph] (Hash implementation based on Mike's xxhashlite),\n  Yann Collet [cph] (Author of the embedded xxHash library),\n  Posit, PBC [cph, fnd]",
         "Maintainer": "Lionel Henry <lionel@posit.co>",
         "Repository": "CRAN",
-        "Date/Publication": "2026-04-06 10:40:02 UTC",
-        "Built": "R 4.6.0; x86_64-apple-darwin20; 2026-04-26 08:45:06 UTC; unix",
-        "Archs": "rlang.so.dSYM"
+        "Date/Publication": "2026-07-05 08:40:02 UTC",
+        "Built": "R 4.6.0; x86_64-apple-darwin20; 2026-07-05 11:29:54 UTC; unix",
+        "Archs": "rlang.so.dSYM",
+        "RemoteType": "standard",
+        "RemotePkgRef": "rlang",
+        "RemoteRef": "rlang",
+        "RemoteRepos": "https://cran.rstudio.com",
+        "RemotePkgPlatform": "x86_64-apple-darwin20",
+        "RemoteSha": "1.3.0"
       }
     },
     "rmarkdown": {
@@ -696,6 +1039,36 @@
         "RemoteReposName": "CRAN",
         "RemotePkgPlatform": "x86_64-apple-darwin20",
         "RemoteSha": "2.31"
+      }
+    },
+    "rprojroot": {
+      "Source": "CRAN",
+      "Repository": "https://cloud.r-project.org",
+      "description": {
+        "Package": "rprojroot",
+        "Title": "Finding Files in Project Subdirectories",
+        "Version": "2.1.1",
+        "Authors@R": "\n    person(given = \"Kirill\",\n           family = \"M\\u00fcller\",\n           role = c(\"aut\", \"cre\"),\n           email = \"kirill@cynkra.com\",\n           comment = c(ORCID = \"0000-0002-1416-3412\"))",
+        "Description": "Robust, reliable and flexible paths to files below\n    a project root. The 'root' of a project is defined as a directory that\n    matches a certain criterion, e.g., it contains a certain regular file.",
+        "License": "MIT + file LICENSE",
+        "URL": "https://rprojroot.r-lib.org/, https://github.com/r-lib/rprojroot",
+        "BugReports": "https://github.com/r-lib/rprojroot/issues",
+        "Depends": "R (>= 3.0.0)",
+        "Suggests": "covr, knitr, lifecycle, rlang, rmarkdown, testthat (>=\n3.2.0), withr",
+        "VignetteBuilder": "knitr",
+        "Config/testthat/edition": "3",
+        "Encoding": "UTF-8",
+        "RoxygenNote": "7.3.2.9000",
+        "Config/autostyle/scope": "line_breaks",
+        "Config/autostyle/strict": "true",
+        "Config/Needs/website": "tidyverse/tidytemplate",
+        "NeedsCompilation": "no",
+        "Packaged": "2025-08-26 15:22:42 UTC; kirill",
+        "Author": "Kirill Müller [aut, cre] (ORCID:\n    <https://orcid.org/0000-0002-1416-3412>)",
+        "Maintainer": "Kirill Müller <kirill@cynkra.com>",
+        "Repository": "CRAN",
+        "Date/Publication": "2025-08-26 16:20:02 UTC",
+        "Built": "R 4.6.0; ; 2026-04-26 09:05:43 UTC; unix"
       }
     },
     "sass": {
@@ -739,7 +1112,36 @@
       "Repository": "https://cloud.r-project.org",
       "description": {
         "Package": "scales",
-        "Version": "1.4.0"
+        "Title": "Scale Functions for Visualization",
+        "Version": "1.4.0",
+        "Authors@R": "c(\n    person(\"Hadley\", \"Wickham\", , \"hadley@posit.co\", role = \"aut\"),\n    person(\"Thomas Lin\", \"Pedersen\", , \"thomas.pedersen@posit.co\", role = c(\"cre\", \"aut\"),\n           comment = c(ORCID = \"0000-0002-5147-4711\")),\n    person(\"Dana\", \"Seidel\", role = \"aut\"),\n    person(\"Posit Software, PBC\", role = c(\"cph\", \"fnd\"),\n           comment = c(ROR = \"03wc8by49\"))\n  )",
+        "Description": "Graphical scales map data to aesthetics, and provide methods\n    for automatically determining breaks and labels for axes and legends.",
+        "License": "MIT + file LICENSE",
+        "URL": "https://scales.r-lib.org, https://github.com/r-lib/scales",
+        "BugReports": "https://github.com/r-lib/scales/issues",
+        "Depends": "R (>= 4.1)",
+        "Imports": "cli, farver (>= 2.0.3), glue, labeling, lifecycle, R6,\nRColorBrewer, rlang (>= 1.1.0), viridisLite",
+        "Suggests": "bit64, covr, dichromat, ggplot2, hms (>= 0.5.0), stringi,\ntestthat (>= 3.0.0)",
+        "Config/Needs/website": "tidyverse/tidytemplate",
+        "Config/testthat/edition": "3",
+        "Config/usethis/last-upkeep": "2025-04-23",
+        "Encoding": "UTF-8",
+        "LazyLoad": "yes",
+        "RoxygenNote": "7.3.2",
+        "NeedsCompilation": "no",
+        "Packaged": "2025-04-23 18:27:04 UTC; thomas",
+        "Author": "Hadley Wickham [aut],\n  Thomas Lin Pedersen [cre, aut]\n    (<https://orcid.org/0000-0002-5147-4711>),\n  Dana Seidel [aut],\n  Posit Software, PBC [cph, fnd] (03wc8by49)",
+        "Maintainer": "Thomas Lin Pedersen <thomas.pedersen@posit.co>",
+        "Repository": "CRAN",
+        "Date/Publication": "2025-04-24 11:00:02 UTC",
+        "Built": "R 4.6.0; ; 2026-04-27 13:34:12 UTC; unix",
+        "RemoteType": "standard",
+        "RemoteRef": "scales",
+        "RemotePkgRef": "scales",
+        "RemoteRepos": "https://cloud.r-project.org",
+        "RemoteReposName": "CRAN",
+        "RemotePkgPlatform": "x86_64-apple-darwin20",
+        "RemoteSha": "1.4.0"
       }
     },
     "tarifr": {
@@ -758,23 +1160,21 @@
         "Config/testthat/edition": "3",
         "Roxygen": "list(markdown = TRUE)",
         "RoxygenNote": "7.3.2",
+        "Author": "Alexandre Parent [aut, cre]",
+        "Maintainer": "Alexandre Parent <alexandre.parent.12@ulaval.ca>",
+        "Built": "R 4.6.0; ; 2026-10-03 17:35:38 UTC; unix",
         "RemoteType": "github",
         "RemoteHost": "api.github.com",
-        "RemoteRepo": "act-4105-public",
         "RemoteUsername": "alpa12",
-        "RemoteRef": "main",
-        "RemoteSha": "f4afb8a758b6c45eae86ab9581adeaa3b37d989f",
+        "RemoteRepo": "act-4105-public",
         "RemoteSubdir": "tarifr",
+        "RemoteRef": "main",
+        "RemoteSha": "739111d27c4dc566d31ec7c4bfa205dcd685577b",
+        "GithubHost": "api.github.com",
         "GithubRepo": "act-4105-public",
         "GithubUsername": "alpa12",
         "GithubRef": "main",
-        "GithubSHA1": "f4afb8a758b6c45eae86ab9581adeaa3b37d989f",
-        "GithubSubdir": "tarifr",
-        "NeedsCompilation": "no",
-        "Packaged": "2026-09-01 16:14:46 UTC; alexandreparent",
-        "Author": "Alexandre Parent [aut, cre]",
-        "Maintainer": "Alexandre Parent <alexandre.parent.12@ulaval.ca>",
-        "Built": "R 4.6.0; ; 2026-09-01 16:14:47 UTC; unix"
+        "GithubSHA1": "739111d27c4dc566d31ec7c4bfa205dcd685577b"
       }
     },
     "tinytex": {
@@ -784,7 +1184,7 @@
         "Package": "tinytex",
         "Type": "Package",
         "Title": "Helper Functions to Install and Maintain TeX Live, and Compile\nLaTeX Documents",
-        "Version": "0.59",
+        "Version": "0.60",
         "Authors@R": "c(\n  person(\"Yihui\", \"Xie\", role = c(\"aut\", \"cre\", \"cph\"), email = \"xie@yihui.name\", comment = c(ORCID = \"0000-0003-0645-5666\")),\n  person(given = \"Posit Software, PBC\", role = c(\"cph\", \"fnd\")),\n  person(\"Christophe\", \"Dervieux\", role = \"ctb\", comment = c(ORCID = \"0000-0003-4474-2498\")),\n  person(\"Devon\", \"Ryan\", role = \"ctb\", email = \"dpryan79@gmail.com\", comment = c(ORCID = \"0000-0002-8549-0971\")),\n  person(\"Ethan\", \"Heinzen\", role = \"ctb\"),\n  person(\"Fernando\", \"Cagua\", role = \"ctb\"),\n  person()\n  )",
         "Description": "Helper functions to install and maintain the 'LaTeX' distribution\n  named 'TinyTeX' (<https://yihui.org/tinytex/>), a lightweight, cross-platform,\n  portable, and easy-to-maintain version of 'TeX Live'. This package also\n  contains helper functions to compile 'LaTeX' documents, and install missing\n  'LaTeX' packages automatically.",
         "Imports": "xfun (>= 0.48)",
@@ -795,18 +1195,128 @@
         "Encoding": "UTF-8",
         "RoxygenNote": "7.3.3",
         "NeedsCompilation": "no",
-        "Packaged": "2026-03-27 22:21:20 UTC; yihui",
+        "Packaged": "2026-06-15 22:44:20 UTC; yihui",
         "Author": "Yihui Xie [aut, cre, cph] (ORCID:\n    <https://orcid.org/0000-0003-0645-5666>),\n  Posit Software, PBC [cph, fnd],\n  Christophe Dervieux [ctb] (ORCID:\n    <https://orcid.org/0000-0003-4474-2498>),\n  Devon Ryan [ctb] (ORCID: <https://orcid.org/0000-0002-8549-0971>),\n  Ethan Heinzen [ctb],\n  Fernando Cagua [ctb]",
         "Maintainer": "Yihui Xie <xie@yihui.name>",
         "Repository": "CRAN",
-        "Date/Publication": "2026-03-28 06:10:10 UTC",
-        "Built": "R 4.6.0; ; 2026-04-27 05:35:58 UTC; unix",
+        "Date/Publication": "2026-06-16 05:10:02 UTC",
+        "Built": "R 4.6.0; ; 2026-06-16 08:50:36 UTC; unix",
         "RemoteType": "standard",
-        "RemotePkgRef": "tinytex",
         "RemoteRef": "tinytex",
+        "RemotePkgRef": "tinytex",
+        "RemoteRepos": "https://cloud.r-project.org",
+        "RemoteReposName": "CRAN",
+        "RemotePkgPlatform": "x86_64-apple-darwin20",
+        "RemoteSha": "0.60"
+      }
+    },
+    "vctrs": {
+      "Source": "CRAN",
+      "Repository": "https://cloud.r-project.org",
+      "description": {
+        "Package": "vctrs",
+        "Title": "Vector Helpers",
+        "Version": "0.7.3",
+        "Authors@R": "c(\n    person(\"Hadley\", \"Wickham\", , \"hadley@posit.co\", role = \"aut\"),\n    person(\"Lionel\", \"Henry\", , \"lionel@posit.co\", role = \"aut\"),\n    person(\"Davis\", \"Vaughan\", , \"davis@posit.co\", role = c(\"aut\", \"cre\")),\n    person(\"data.table team\", role = \"cph\",\n           comment = \"Radix sort based on data.table's forder() and their contribution to R's order()\"),\n    person(\"Posit Software, PBC\", role = c(\"cph\", \"fnd\"))\n  )",
+        "Description": "Defines new notions of prototype and size that are used to\n    provide tools for consistent and well-founded type-coercion and\n    size-recycling, and are in turn connected to ideas of type- and\n    size-stability useful for analysing function interfaces.",
+        "License": "MIT + file LICENSE",
+        "URL": "https://vctrs.r-lib.org/, https://github.com/r-lib/vctrs",
+        "BugReports": "https://github.com/r-lib/vctrs/issues",
+        "Depends": "R (>= 4.0.0)",
+        "Imports": "cli (>= 3.4.0), glue, lifecycle (>= 1.0.3), rlang (>= 1.1.7)",
+        "Suggests": "bit64, covr, crayon, dplyr (>= 0.8.5), generics, knitr,\npillar (>= 1.4.4), pkgdown (>= 2.0.1), rmarkdown, testthat (>=\n3.0.0), tibble (>= 3.1.3), waldo (>= 0.2.0), withr, xml2,\nzeallot",
+        "VignetteBuilder": "knitr",
+        "Config/build/compilation-database": "true",
+        "Config/Needs/website": "tidyverse/tidytemplate",
+        "Config/testthat/edition": "3",
+        "Config/testthat/parallel": "true",
+        "Encoding": "UTF-8",
+        "KeepSource": "true",
+        "Language": "en-GB",
+        "RoxygenNote": "7.3.3",
+        "NeedsCompilation": "yes",
+        "Packaged": "2026-04-10 14:27:17 UTC; davis",
+        "Author": "Hadley Wickham [aut],\n  Lionel Henry [aut],\n  Davis Vaughan [aut, cre],\n  data.table team [cph] (Radix sort based on data.table's forder() and\n    their contribution to R's order()),\n  Posit Software, PBC [cph, fnd]",
+        "Maintainer": "Davis Vaughan <davis@posit.co>",
+        "Repository": "CRAN",
+        "Date/Publication": "2026-04-11 06:20:03 UTC",
+        "Built": "R 4.6.0; x86_64-apple-darwin20; 2026-04-25 14:44:35 UTC; unix",
+        "Archs": "vctrs.so.dSYM",
+        "RemoteType": "standard",
+        "RemotePkgRef": "vctrs",
+        "RemoteRef": "vctrs",
         "RemoteRepos": "https://cloud.r-project.org",
         "RemotePkgPlatform": "x86_64-apple-darwin20",
-        "RemoteSha": "0.59"
+        "RemoteSha": "0.7.3"
+      }
+    },
+    "viridisLite": {
+      "Source": "CRAN",
+      "Repository": "https://cloud.r-project.org",
+      "description": {
+        "Package": "viridisLite",
+        "Type": "Package",
+        "Title": "Colorblind-Friendly Color Maps (Lite Version)",
+        "Version": "0.4.3",
+        "Date": "2026-02-03",
+        "Authors@R": "c(\n      person(\"Simon\", \"Garnier\", email = \"garnier@njit.edu\", role = c(\"aut\", \"cre\")),\n      person(\"Noam\", \"Ross\", email = \"noam.ross@gmail.com\", role = c(\"ctb\", \"cph\")),\n      person(\"Bob\", \"Rudis\", email = \"bob@rud.is\", role = c(\"ctb\", \"cph\")),\n      person(\"Marco\", \"Sciaini\", email = \"sciaini.marco@gmail.com\", role = c(\"ctb\", \"cph\")),\n      person(\"Antônio Pedro\", \"Camargo\", role = c(\"ctb\", \"cph\")),\n      person(\"Cédric\", \"Scherer\", email = \"scherer@izw-berlin.de\", role = c(\"ctb\", \"cph\"))\n  )",
+        "Maintainer": "Simon Garnier <garnier@njit.edu>",
+        "Description": "Color maps designed to improve graph readability for readers with \n    common forms of color blindness and/or color vision deficiency. The color \n    maps are also perceptually-uniform, both in regular form and also when \n    converted to black-and-white for printing. This is the 'lite' version of the \n    'viridis' package that also contains 'ggplot2' bindings for discrete and \n    continuous color and fill scales and can be found at \n    <https://cran.r-project.org/package=viridis>.",
+        "License": "MIT + file LICENSE",
+        "Encoding": "UTF-8",
+        "Depends": "R (>= 2.10)",
+        "Suggests": "hexbin (>= 1.27.0), ggplot2 (>= 1.0.1), testthat, covr",
+        "URL": "https://sjmgarnier.github.io/viridisLite/,\nhttps://github.com/sjmgarnier/viridisLite/",
+        "BugReports": "https://github.com/sjmgarnier/viridisLite/issues/",
+        "RoxygenNote": "7.3.3",
+        "NeedsCompilation": "no",
+        "Packaged": "2026-02-03 20:55:07 UTC; simon",
+        "Author": "Simon Garnier [aut, cre],\n  Noam Ross [ctb, cph],\n  Bob Rudis [ctb, cph],\n  Marco Sciaini [ctb, cph],\n  Antônio Pedro Camargo [ctb, cph],\n  Cédric Scherer [ctb, cph]",
+        "Repository": "CRAN",
+        "Date/Publication": "2026-02-04 06:40:10 UTC",
+        "Built": "R 4.6.0; ; 2026-04-26 08:44:55 UTC; unix",
+        "RemoteType": "standard",
+        "RemotePkgRef": "viridisLite",
+        "RemoteRef": "viridisLite",
+        "RemoteRepos": "https://cloud.r-project.org",
+        "RemotePkgPlatform": "x86_64-apple-darwin20",
+        "RemoteSha": "0.4.3"
+      }
+    },
+    "withr": {
+      "Source": "CRAN",
+      "Repository": "https://cloud.r-project.org",
+      "description": {
+        "Package": "withr",
+        "Title": "Run Code 'With' Temporarily Modified Global State",
+        "Version": "3.0.3",
+        "Authors@R": "c(\n    person(\"Jim\", \"Hester\", role = \"aut\"),\n    person(\"Lionel\", \"Henry\", , \"lionel@posit.co\", role = c(\"aut\", \"cre\")),\n    person(\"Kirill\", \"Müller\", , \"krlmlr+r@mailbox.org\", role = \"aut\"),\n    person(\"Kevin\", \"Ushey\", , \"kevinushey@gmail.com\", role = \"aut\"),\n    person(\"Hadley\", \"Wickham\", , \"hadley@posit.co\", role = \"aut\"),\n    person(\"Winston\", \"Chang\", role = \"aut\"),\n    person(\"Jennifer\", \"Bryan\", role = \"ctb\"),\n    person(\"Richard\", \"Cotton\", role = \"ctb\"),\n    person(\"Posit Software, PBC\", role = c(\"cph\", \"fnd\"))\n  )",
+        "Description": "A set of functions to run code 'with' safely and temporarily\n    modified global state. Many of these functions were originally a part\n    of the 'devtools' package, this provides a simple package with limited\n    dependencies to provide access to these functions.",
+        "License": "MIT + file LICENSE",
+        "URL": "https://withr.r-lib.org, https://github.com/r-lib/withr#readme",
+        "BugReports": "https://github.com/r-lib/withr/issues",
+        "Depends": "R (>= 3.6.0)",
+        "Imports": "graphics, grDevices",
+        "Suggests": "callr, DBI, knitr, methods, rlang, rmarkdown (>= 2.12),\nRSQLite, testthat (>= 3.0.0)",
+        "VignetteBuilder": "knitr",
+        "Config/Needs/website": "tidyverse/tidytemplate",
+        "Config/testthat/edition": "3",
+        "Encoding": "UTF-8",
+        "RoxygenNote": "7.3.2",
+        "Collate": "'aaa.R' 'collate.R' 'connection.R' 'db.R' 'defer-exit.R'\n'standalone-defer.R' 'defer.R' 'devices.R' 'local_.R' 'with_.R'\n'dir.R' 'env.R' 'file.R' 'language.R' 'libpaths.R' 'locale.R'\n'makevars.R' 'namespace.R' 'options.R' 'par.R' 'path.R' 'rng.R'\n'seed.R' 'wrap.R' 'sink.R' 'tempfile.R' 'timezone.R'\n'torture.R' 'utils.R' 'with.R'",
+        "NeedsCompilation": "no",
+        "Packaged": "2026-06-17 11:51:00 UTC; lionel",
+        "Author": "Jim Hester [aut],\n  Lionel Henry [aut, cre],\n  Kirill Müller [aut],\n  Kevin Ushey [aut],\n  Hadley Wickham [aut],\n  Winston Chang [aut],\n  Jennifer Bryan [ctb],\n  Richard Cotton [ctb],\n  Posit Software, PBC [cph, fnd]",
+        "Maintainer": "Lionel Henry <lionel@posit.co>",
+        "Repository": "CRAN",
+        "Date/Publication": "2026-06-19 05:30:02 UTC",
+        "Built": "R 4.6.0; ; 2026-06-19 08:00:12 UTC; unix",
+        "RemoteType": "standard",
+        "RemotePkgRef": "withr",
+        "RemoteRef": "withr",
+        "RemoteRepos": "https://cran.rstudio.com",
+        "RemotePkgPlatform": "x86_64-apple-darwin20",
+        "RemoteSha": "3.0.3"
       }
     },
     "xfun": {
@@ -816,7 +1326,7 @@
         "Package": "xfun",
         "Type": "Package",
         "Title": "Supporting Functions for Packages Maintained by 'Yihui Xie'",
-        "Version": "0.57",
+        "Version": "0.60",
         "Authors@R": "c(\n  person(\"Yihui\", \"Xie\", role = c(\"aut\", \"cre\", \"cph\"), email = \"xie@yihui.name\", comment = c(ORCID = \"0000-0003-0645-5666\", URL = \"https://yihui.org\")),\n  person(\"Wush\", \"Wu\", role = \"ctb\"),\n  person(\"Daijiang\", \"Li\", role = \"ctb\"),\n  person(\"Xianying\", \"Tan\", role = \"ctb\"),\n  person(\"Salim\", \"Brüggemann\", role = \"ctb\", email = \"salim-b@pm.me\", comment = c(ORCID = \"0000-0002-5329-5987\")),\n  person(\"Christophe\", \"Dervieux\", role = \"ctb\"),\n  person()\n  )",
         "Description": "Miscellaneous functions commonly used in other packages maintained by 'Yihui Xie'.",
         "Depends": "R (>= 3.2.0)",
@@ -826,22 +1336,23 @@
         "URL": "https://github.com/yihui/xfun",
         "BugReports": "https://github.com/yihui/xfun/issues",
         "Encoding": "UTF-8",
-        "RoxygenNote": "7.3.3",
         "VignetteBuilder": "litedown",
+        "Config/roxygen2/version": "8.0.0",
         "NeedsCompilation": "yes",
-        "Packaged": "2026-03-19 17:27:02 UTC; yihui",
+        "Packaged": "2026-07-09 05:04:56 UTC; yihui",
         "Author": "Yihui Xie [aut, cre, cph] (ORCID:\n    <https://orcid.org/0000-0003-0645-5666>, URL: https://yihui.org),\n  Wush Wu [ctb],\n  Daijiang Li [ctb],\n  Xianying Tan [ctb],\n  Salim Brüggemann [ctb] (ORCID: <https://orcid.org/0000-0002-5329-5987>),\n  Christophe Dervieux [ctb]",
         "Maintainer": "Yihui Xie <xie@yihui.name>",
         "Repository": "CRAN",
-        "Date/Publication": "2026-03-20 16:50:02 UTC",
-        "Built": "R 4.6.0; x86_64-apple-darwin20; 2026-04-26 08:44:39 UTC; unix",
+        "Date/Publication": "2026-07-09 10:50:02 UTC",
+        "Built": "R 4.6.0; x86_64-apple-darwin20; 2026-07-09 13:25:38 UTC; unix",
         "Archs": "xfun.so.dSYM",
         "RemoteType": "standard",
-        "RemotePkgRef": "xfun",
         "RemoteRef": "xfun",
+        "RemotePkgRef": "xfun",
         "RemoteRepos": "https://cloud.r-project.org",
+        "RemoteReposName": "CRAN",
         "RemotePkgPlatform": "x86_64-apple-darwin20",
-        "RemoteSha": "0.57"
+        "RemoteSha": "0.60"
       }
     },
     "yaml": {
@@ -879,61 +1390,6 @@
         "RemotePkgPlatform": "x86_64-apple-darwin20",
         "RemoteSha": "2.3.12"
       }
-    },
-    "cpp11": {
-      "Source": "CRAN",
-      "Repository": "https://cloud.r-project.org",
-      "description": { "Package": "cpp11", "Version": "0.5.5" }
-    },
-    "farver": {
-      "Source": "CRAN",
-      "Repository": "https://cloud.r-project.org",
-      "description": { "Package": "farver", "Version": "2.1.2" }
-    },
-    "glue": {
-      "Source": "CRAN",
-      "Repository": "https://cloud.r-project.org",
-      "description": { "Package": "glue", "Version": "1.8.1" }
-    },
-    "gtable": {
-      "Source": "CRAN",
-      "Repository": "https://cloud.r-project.org",
-      "description": { "Package": "gtable", "Version": "0.3.6" }
-    },
-    "isoband": {
-      "Source": "CRAN",
-      "Repository": "https://cloud.r-project.org",
-      "description": { "Package": "isoband", "Version": "0.3.0" }
-    },
-    "labeling": {
-      "Source": "CRAN",
-      "Repository": "https://cloud.r-project.org",
-      "description": { "Package": "labeling", "Version": "0.4.3" }
-    },
-    "RColorBrewer": {
-      "Source": "CRAN",
-      "Repository": "https://cloud.r-project.org",
-      "description": { "Package": "RColorBrewer", "Version": "1.1.3" }
-    },
-    "S7": {
-      "Source": "CRAN",
-      "Repository": "https://cloud.r-project.org",
-      "description": { "Package": "S7", "Version": "0.2.2" }
-    },
-    "vctrs": {
-      "Source": "CRAN",
-      "Repository": "https://cloud.r-project.org",
-      "description": { "Package": "vctrs", "Version": "0.7.3" }
-    },
-    "viridisLite": {
-      "Source": "CRAN",
-      "Repository": "https://cloud.r-project.org",
-      "description": { "Package": "viridisLite", "Version": "0.4.3" }
-    },
-    "withr": {
-      "Source": "CRAN",
-      "Repository": "https://cloud.r-project.org",
-      "description": { "Package": "withr", "Version": "3.0.3" }
     }
   },
   "files": {
@@ -1085,7 +1541,355 @@
       "checksum": "ea74e01bef3c3591b1959f28ec6e6cce"
     },
     "_quarto.yml": {
-      "checksum": "e21c23fcca59bca7e5c48cda6d73af5a"
+      "checksum": "ae02e1250adcff619e24ec0e66be617e"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/clipboard/clipboard.min.js": {
+      "checksum": "15f52a1ee547f2bdd46e56747332ca2d"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/quarto-html/light-border.css": {
+      "checksum": "0b646459f2ef479b718a65b2157c44e4"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/quarto-html/popper.min.js": {
+      "checksum": "3a4a291ccf3f1ea0f82b641542fd3827"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css": {
+      "checksum": "64a204ab8560d761af7679ceaba22944"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/quarto-html/tabby.min.js": {
+      "checksum": "c4219bb6375131a945d7e4bfc49c5f35"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/quarto-html/tippy.css": {
+      "checksum": "ebd6f8ce46a677e1a4f5f8a8317109a9"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/quarto-html/tippy.umd.min.js": {
+      "checksum": "d828775275749701b48bd9d958814111"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/dist/reset.css": {
+      "checksum": "4042c1a43777d540673cabc97cec67b2"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/dist/reveal.css": {
+      "checksum": "63603931663126b2803c8d50c5ec50a5"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/dist/reveal.esm.js": {
+      "checksum": "5d1b951e8804804eea44b7a50cf46be6"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/dist/reveal.esm.js.map": {
+      "checksum": "9d584b1cffa4cd297219f11a3b41baa4"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/dist/reveal.js": {
+      "checksum": "eca5d46a877fcf34cdad307d63755cc2"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/dist/reveal.js.map": {
+      "checksum": "dfd3ae7706b60dd68619d7415c5bb47c"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/dist/theme/fonts/league-gothic/league-gothic.css": {
+      "checksum": "488966d15e97f072801d7e348f4b5141"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/dist/theme/fonts/league-gothic/league-gothic.eot": {
+      "checksum": "9900a4643cc63c5d8f969d2196f72572"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/dist/theme/fonts/league-gothic/league-gothic.ttf": {
+      "checksum": "91295fa87df918411b49b7531da5d558"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/dist/theme/fonts/league-gothic/league-gothic.woff": {
+      "checksum": "cd382dc8a9d6317864b5810a320effc5"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/dist/theme/fonts/league-gothic/LICENSE": {
+      "checksum": "8fac5842e2f5a2e6bc067f5beb5035c9"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/dist/theme/fonts/source-sans-pro/LICENSE": {
+      "checksum": "8ea3e41b02e9f465515dad7c89459c5b"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/dist/theme/fonts/source-sans-pro/source-sans-pro-italic.eot": {
+      "checksum": "72217712eb8d28872e7069322f3fda23"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/dist/theme/fonts/source-sans-pro/source-sans-pro-italic.ttf": {
+      "checksum": "8256cfd7e4017a7690814879409212cd"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/dist/theme/fonts/source-sans-pro/source-sans-pro-italic.woff": {
+      "checksum": "e74f0128884561828ce8c9cf5c284ab8"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/dist/theme/fonts/source-sans-pro/source-sans-pro-regular.eot": {
+      "checksum": "1d71438462d532b62b05cdd7e6d7197d"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/dist/theme/fonts/source-sans-pro/source-sans-pro-regular.ttf": {
+      "checksum": "2da39ecf9246383937da11b44b7bd9b4"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/dist/theme/fonts/source-sans-pro/source-sans-pro-regular.woff": {
+      "checksum": "e7acc589bb558fe58936a853f570193c"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/dist/theme/fonts/source-sans-pro/source-sans-pro-semibold.eot": {
+      "checksum": "0f3da1edf1b5c6a94a6ad948a7664451"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/dist/theme/fonts/source-sans-pro/source-sans-pro-semibold.ttf": {
+      "checksum": "f3565095e6c9158140444970f5a2c5ed"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/dist/theme/fonts/source-sans-pro/source-sans-pro-semibold.woff": {
+      "checksum": "1cb8e94f1185f1131a0c895165998f2b"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/dist/theme/fonts/source-sans-pro/source-sans-pro-semibolditalic.eot": {
+      "checksum": "58153ac7194e141d1e73ea88c6b63861"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/dist/theme/fonts/source-sans-pro/source-sans-pro-semibolditalic.ttf": {
+      "checksum": "c7e698a4d0956f4a939f42a05685bbf5"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/dist/theme/fonts/source-sans-pro/source-sans-pro-semibolditalic.woff": {
+      "checksum": "6b058fc2634b01d837c3432316c3141f"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/dist/theme/fonts/source-sans-pro/source-sans-pro.css": {
+      "checksum": "b4b58710f05264a4011912211d0a9eed"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/dist/theme/quarto-7ae2bb792937eec422cd5b94b743747d.css": {
+      "checksum": "7ae2bb792937eec422cd5b94b743747d"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/highlight/highlight.esm.js": {
+      "checksum": "19a0f6f1a902d2ef9aaefa1e046b3b2e"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/highlight/highlight.js": {
+      "checksum": "bebce5c694268a3f8dff84a58b270ba3"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/highlight/monokai.css": {
+      "checksum": "8c43a819e1268fc57605f500adff816b"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/highlight/plugin.js": {
+      "checksum": "df2b6cec81d1c3d9730ef2b9421f62a1"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/highlight/zenburn.css": {
+      "checksum": "28d5b9497037a12cb5a15644fea2f1c3"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/markdown/markdown.esm.js": {
+      "checksum": "51cf543919182a054e69a3d632356296"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/markdown/markdown.js": {
+      "checksum": "e19760d2cc93d38d5df00081a1893828"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/markdown/plugin.js": {
+      "checksum": "a1da0411f474b5bc82d1cc79faf4d0c1"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/math/katex.js": {
+      "checksum": "2a22abd1eb5a1c923f2d41178427715a"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/math/math.esm.js": {
+      "checksum": "51b0b5e4a4dd80029ab90fb9ded6b67c"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/math/math.js": {
+      "checksum": "744ade9a5dacddb69f35ee96cfd6f74a"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/math/mathjax2.js": {
+      "checksum": "c1ea64afa05c3677d2c404755193b2be"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/math/mathjax3.js": {
+      "checksum": "57d54e9c4fb748505b3709484593834a"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/math/plugin.js": {
+      "checksum": "ec9cb99b85a8026d24b26526f6effe0d"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/notes/notes.esm.js": {
+      "checksum": "e1d960e6895a06986c9509c30ba784b2"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/notes/notes.js": {
+      "checksum": "db8fab48fe15b175ca69e99f8af2fdfc"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/notes/plugin.js": {
+      "checksum": "9e52c9625a2f659373cc6e4c5ccf5b80"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/notes/speaker-view.html": {
+      "checksum": "3e84d135161198849174057abe95b91c"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/pdf-export/pdfexport.js": {
+      "checksum": "d851935da36e7b598d2d57764599f88b"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/pdf-export/plugin.yml": {
+      "checksum": "76add7202812cd14a48ca57b96777de4"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css": {
+      "checksum": "4ba6b644b711bc2fc89389d78209da6d"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js": {
+      "checksum": "51cc37b684f5af8171d58269f6c18f07"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/quarto-line-highlight/plugin.yml": {
+      "checksum": "4af9468c1cc516c6b54c12e686ba708f"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/quarto-support/footer.css": {
+      "checksum": "b756f7eedcfd9b82421dd144f0ef7578"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/quarto-support/plugin.yml": {
+      "checksum": "4f79b4a104bed30cd5b7b49d598bed88"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/quarto-support/support.js": {
+      "checksum": "4403872730e278a9f00b5d3022de4369"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css": {
+      "checksum": "826c57385f3d35cfed5478ba7b1f5c03"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/brands.css": {
+      "checksum": "a3ceb4f1b808969cd8f1bb0aac1510c2"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/fontawesome.css": {
+      "checksum": "dbcb133434de9fcab3b59ade7ec21498"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/regular.css": {
+      "checksum": "fee1728359ce4620fd348a3e54507aa2"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/solid.css": {
+      "checksum": "29836be7445cd9786959237ea8e13405"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/svg-with-js.css": {
+      "checksum": "bd066123cdf3337103b21713df9bfd01"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/v4-shims.css": {
+      "checksum": "6dd334cc89ff203f10b026482960997d"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/v4-shims.min.css": {
+      "checksum": "7254c92168d4717ed7b36234b2bba3b8"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/LICENSE.txt": {
+      "checksum": "626db860f543d02f2f8d8599aac4fbc0"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/webfonts/fa-brands-400.eot": {
+      "checksum": "e2a76403183eff8967cf6318c6e51509"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/webfonts/fa-brands-400.svg": {
+      "checksum": "a999c7b8823b901248833dc7fe07a52f"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/webfonts/fa-brands-400.ttf": {
+      "checksum": "e0fc4e5c719b4dc10c97fc111d7374e1"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/webfonts/fa-brands-400.woff": {
+      "checksum": "d034c1b2ee84dd981ef2e637754a0b4f"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/webfonts/fa-brands-400.woff2": {
+      "checksum": "f319eac1c755f9929fd856720ce1695e"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/webfonts/fa-regular-400.eot": {
+      "checksum": "5a4618f029618cc2795c05fe53d57028"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/webfonts/fa-regular-400.svg": {
+      "checksum": "e9d8dbb0c3e9b97ffc59c50ff5d01422"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/webfonts/fa-regular-400.ttf": {
+      "checksum": "6534c603e0892488132ad57248ec69e2"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/webfonts/fa-regular-400.woff": {
+      "checksum": "e99569d3d10c94c60d9a68523c1c0e71"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/webfonts/fa-regular-400.woff2": {
+      "checksum": "a3715c6fe264a51f1d9260b447ff46bc"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/webfonts/fa-solid-900.eot": {
+      "checksum": "d9824d00712532d7697df68df16ae0d3"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/webfonts/fa-solid-900.svg": {
+      "checksum": "666a82cb3e9f8591bef4049aea26c4c6"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/webfonts/fa-solid-900.ttf": {
+      "checksum": "00ddaede094b83270cadbfc1a907e8ca"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/webfonts/fa-solid-900.woff": {
+      "checksum": "128d2b0be23925e5cf36717ddc6f093b"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/webfonts/fa-solid-900.woff2": {
+      "checksum": "18d2347ab2a9f40ca2247cdb03303d84"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/img/blackboard.png": {
+      "checksum": "6fb19d93b5ab5f0b7aca4b1e130b8e36"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/img/boardmarker-black.png": {
+      "checksum": "ffdd43056d3b6aeb79b5ab2c9fdffbb5"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/img/boardmarker-blue.png": {
+      "checksum": "9c51726f1aba58b3ea58c7e6f3a1eb69"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/img/boardmarker-green.png": {
+      "checksum": "b2174dfab385d64b82d472fe6bf8732c"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/img/boardmarker-orange.png": {
+      "checksum": "5bd94666605a7c19b66e821dcfcd6e81"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/img/boardmarker-purple.png": {
+      "checksum": "d82f80fb45a6c2796fed58d794b1dbcc"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/img/boardmarker-red.png": {
+      "checksum": "4e003969a8898bda1034fdc83c6775a8"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/img/boardmarker-yellow.png": {
+      "checksum": "c51cd745582a05d5a4a274396f9e1f64"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/img/chalk-blue.png": {
+      "checksum": "20fcdd8b7a051b6d2bcbe5223ca8f93a"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/img/chalk-green.png": {
+      "checksum": "6a99931b528659ae783fdba973ebee2d"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/img/chalk-orange.png": {
+      "checksum": "1e673a9b3ba41c3817a7791537e687cb"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/img/chalk-purple.png": {
+      "checksum": "b3a6bbfd32d883879f6f52348c71d997"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/img/chalk-red.png": {
+      "checksum": "5be9fc1fca1db55857f70f1bdb92477a"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/img/chalk-white.png": {
+      "checksum": "e6911337608cb3b270cf2faba186dfca"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/img/chalk-yellow.png": {
+      "checksum": "d5ce34338bd385c8baa40920eab65e18"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/img/sponge.png": {
+      "checksum": "6877bfebc4e000eb7f429ca7cca24969"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/img/whiteboard.png": {
+      "checksum": "f92eafcef815acaed323435b65469684"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js": {
+      "checksum": "947d4fcb8d26f369ad871dbc874b7134"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/plugin.yml": {
+      "checksum": "a42805b0271e44d994c2c7a1dbb33646"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/README.md": {
+      "checksum": "35fc2d092010c761b3721ec0c529f3e0"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-chalkboard/style.css": {
+      "checksum": "04c281085318370b2ec60cbe6a75f70c"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-menu/menu.css": {
+      "checksum": "1b9988f08dfe354c44e134304b3df8af"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-menu/menu.js": {
+      "checksum": "8db4f7eb4ad5670e6be4bdf83c389ca2"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-menu/plugin.yml": {
+      "checksum": "b949d3d3d5bdf5b5f508e6bfb328798e"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css": {
+      "checksum": "c8715037656f6595dbc3d9145fc7d8ac"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js": {
+      "checksum": "d7e0fadc3011a74b823d1bb5006ffa9b"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/search/plugin.js": {
+      "checksum": "e39d5a868aff604a4bec144ae7a43c5b"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/search/search.esm.js": {
+      "checksum": "1ff0e5fd23d9e0790498078f4acd37e8"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/search/search.js": {
+      "checksum": "e265925ae6ee6ec778ed10ecba3c3da0"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/zoom/plugin.js": {
+      "checksum": "75d50a8cac0d19f0824a1c5876d36673"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/zoom/zoom.esm.js": {
+      "checksum": "c0a980f05da4f0bdd2ef6c8227fce9d3"
+    },
+    "_reference/chapitres/00-reference-typography/diapos_files/libs/revealjs/plugin/zoom/zoom.js": {
+      "checksum": "9c28a4d1f1502771665328f6abb091c0"
+    },
+    "_reference/chapitres/00-reference-typography/diapos.html": {
+      "checksum": "ea9f7b251fb9e2e25896650d690aa581"
     },
     "assets/ul-fsg-actuariat-logo.png": {
       "checksum": "b6a51705a502c1ba41dc18902b7be40b"
@@ -1577,10 +2381,19 @@
       "checksum": "dd44e0fc642bcee526f88d872435dcbb"
     },
     "chapitres/_diapos.yml": {
-      "checksum": "23dc078048e1896e37fdd4266e2acbe5"
+      "checksum": "f6f74f39c82d82d812237c4e01755aa2"
     },
     "chapitres/_exercices.yml": {
       "checksum": "97dbc679167a5c1e0b21392cb93b7e4f"
+    },
+    "chapitres/00-reference-typography/_quarto.yml": {
+      "checksum": "42543ae23e672970087144986e358b0e"
+    },
+    "chapitres/00-reference-typography/_reference-metadata.yml": {
+      "checksum": "aa70d1fd348303f3528c0cb5a5e06089"
+    },
+    "chapitres/00-reference-typography/diapos.qmd": {
+      "checksum": "daedb41935d1a533a5aad7df7576b48d"
     },
     "chapitres/01-introduction/_metadata.yml": {
       "checksum": "49820d102e020339d30180a39099cf8d"
@@ -1616,13 +2429,10 @@
       "checksum": "1f2e0374a17ea0011c68e07d1062eee8"
     },
     "chapitres/01-introduction/diapos.qmd": {
-      "checksum": "dcac8930f985aa6e8fe9acfbf9871e1e"
+      "checksum": "0f2ca4ebef2448607b3e94bdba00686e"
     },
     "chapitres/01-introduction/exercices.qmd": {
       "checksum": "2529075b32624b2875b182b2397bc567"
-    },
-    "chapitres/01-introduction/mathjax-config.js": {
-      "checksum": "131ef10e4890389b71f6d2f718b83b24"
     },
     "chapitres/02-principes-tarif-cas/_metadata.yml": {
       "checksum": "4f820f7b95a1fec6eef115335fa50653"
@@ -1636,9 +2446,6 @@
     "chapitres/02-principes-tarif-cas/exercices.qmd": {
       "checksum": "7d24af22c861536e86781034399df051"
     },
-    "chapitres/02-principes-tarif-cas/mathjax-config.js": {
-      "checksum": "131ef10e4890389b71f6d2f718b83b24"
-    },
     "chapitres/03-donnees/_metadata.yml": {
       "checksum": "2fb3878b75f8bbb3a79b0551e02c09b6"
     },
@@ -1647,9 +2454,6 @@
     },
     "chapitres/03-donnees/exercices.qmd": {
       "checksum": "229aaa11beb99497b8b027b7a897741d"
-    },
-    "chapitres/03-donnees/mathjax-config.js": {
-      "checksum": "131ef10e4890389b71f6d2f718b83b24"
     },
     "chapitres/04-base-exposition/_metadata.yml": {
       "checksum": "897a11ac9784d0aa1ea59b8c7ff160d1"
@@ -1660,20 +2464,35 @@
     "chapitres/04-base-exposition/exercices.qmd": {
       "checksum": "561942246bf5c7fd3ba77bb2f0df4ae8"
     },
-    "chapitres/04-base-exposition/mathjax-config.js": {
-      "checksum": "131ef10e4890389b71f6d2f718b83b24"
-    },
     "chapitres/05-primes/_metadata.yml": {
       "checksum": "b931a87b1df6821ddb693dc7b67431ce"
     },
     "chapitres/05-primes/diapos.qmd": {
-      "checksum": "3e8406f98236783549fdfa5b77f6034a"
+      "checksum": "d97559107c160003f8e040187a17bcbb"
+    },
+    "chapitres/05-primes/exercices_files/figure-typst/unnamed-chunk-2-1.svg": {
+      "checksum": "3173e6ed7598989284b92958f9c2645a"
+    },
+    "chapitres/05-primes/exercices_files/figure-typst/unnamed-chunk-3-1.svg": {
+      "checksum": "6c33353c5cfd7e248450f87d5a6a12db"
+    },
+    "chapitres/05-primes/exercices_files/figure-typst/unnamed-chunk-4-1.svg": {
+      "checksum": "c2a3c72516ce5e13918a7bf7c18ef75e"
+    },
+    "chapitres/05-primes/exercices_files/figure-typst/unnamed-chunk-5-1.svg": {
+      "checksum": "203d1ed6986e2694b11a438685409fd7"
+    },
+    "chapitres/05-primes/exercices_files/figure-typst/unnamed-chunk-6-1.svg": {
+      "checksum": "06c0627721c715daf7ce3602da90ccce"
+    },
+    "chapitres/05-primes/exercices_files/figure-typst/unnamed-chunk-7-1.svg": {
+      "checksum": "ed6bf1aeb1555516aab684cfc86e8510"
+    },
+    "chapitres/05-primes/exercices_files/figure-typst/unnamed-chunk-8-1.svg": {
+      "checksum": "718c3cecbe8aaa82028817c18aaefbaf"
     },
     "chapitres/05-primes/exercices.qmd": {
-      "checksum": "73d6f1888c15d594a8553fafcc1c71a6"
-    },
-    "chapitres/05-primes/mathjax-config.js": {
-      "checksum": "131ef10e4890389b71f6d2f718b83b24"
+      "checksum": "b78e413b6c74c2c39b012c129aad3c8f"
     },
     "chapitres/05-primes/test.qmd": {
       "checksum": "54657b4ea8d627e157a4cee2b29cb904"
@@ -1688,43 +2507,43 @@
       "checksum": "147e0648677b7ece36eed6cffc98853d"
     },
     "chapitres/06-sinistres/diapos.qmd": {
-      "checksum": "0b54137936c0dac72ad20ee4d03e1870"
+      "checksum": "ceb7d60e3af54c3df9115726b1274103"
+    },
+    "chapitres/06-sinistres/exercices_files/figure-typst/unnamed-chunk-2-1.svg": {
+      "checksum": "d3da70ad100e9581a9ed115137ddd0ea"
+    },
+    "chapitres/06-sinistres/exercices_files/figure-typst/unnamed-chunk-3-1.svg": {
+      "checksum": "6eef35026a4f84f04fc54c840727e4bd"
     },
     "chapitres/06-sinistres/exercices.qmd": {
-      "checksum": "6f57de81598959e143c66f6670ae3a77"
-    },
-    "chapitres/06-sinistres/mathjax-config.js": {
-      "checksum": "131ef10e4890389b71f6d2f718b83b24"
+      "checksum": "bb6632396d412821327f7f23bb52b00e"
     },
     "chapitres/07-autres-frais-et-profit/_metadata.yml": {
       "checksum": "89cbbc057af09e0ab737fc624167705e"
     },
     "chapitres/07-autres-frais-et-profit/diapos.qmd": {
-      "checksum": "92a4b0385686f66bdace39d5ff8491b9"
+      "checksum": "8842273180691f1187aed0beaca5cbdb"
     },
     "chapitres/07-autres-frais-et-profit/exercices.qmd": {
-      "checksum": "d53dc5650a5ada20ead4184920af90b8"
-    },
-    "chapitres/07-autres-frais-et-profit/mathjax-config.js": {
-      "checksum": "131ef10e4890389b71f6d2f718b83b24"
+      "checksum": "042565caa1611a89ec655fe4dda2dba3"
     },
     "chapitres/08-indique-global/_metadata.yml": {
       "checksum": "ccc8789f68bb1dd50146ea90d52b8052"
     },
     "chapitres/08-indique-global/diapos.qmd": {
-      "checksum": "0a5a57926cbcd97ee916fbc5f9ff624e"
+      "checksum": "7af8f5a48fee1ee195dd697ceb617ce2"
     },
     "chapitres/08-indique-global/exercices.qmd": {
       "checksum": "41ddd44ff71ffcbebfdd0a87bf53a6d3"
-    },
-    "chapitres/08-indique-global/mathjax-config.js": {
-      "checksum": "131ef10e4890389b71f6d2f718b83b24"
     },
     "chapitres/09-classification-traditionnelle-des-risques/_metadata.yml": {
       "checksum": "7dec6e2941d694d8a7cf94a16f0e002a"
     },
     "chapitres/09-classification-traditionnelle-des-risques/assets/assureur-a-t0.png": {
       "checksum": "a92aa9993d700d3618becceba9e2c45c"
+    },
+    "chapitres/09-classification-traditionnelle-des-risques/assets/assureur-a-t1-2.png": {
+      "checksum": "78c6edbdf78c50647410fcddc400f132"
     },
     "chapitres/09-classification-traditionnelle-des-risques/assets/assureur-a-t1.png": {
       "checksum": "17657103de795ece6a01921f531bd678"
@@ -1734,6 +2553,9 @@
     },
     "chapitres/09-classification-traditionnelle-des-risques/assets/assureur-b-t0.png": {
       "checksum": "fd7b179552b342882aeef33178758ae7"
+    },
+    "chapitres/09-classification-traditionnelle-des-risques/assets/assureur-b-t1-2.png": {
+      "checksum": "8cc9f8bc4749aa908f4646ce120f86f3"
     },
     "chapitres/09-classification-traditionnelle-des-risques/assets/assureur-b-t1.png": {
       "checksum": "88ab694429e75c6f05d69c044d2c771c"
@@ -1796,13 +2618,43 @@
       "checksum": "1454681c896b63f7512bb5cb834bee99"
     },
     "chapitres/09-classification-traditionnelle-des-risques/diapos.qmd": {
-      "checksum": "4a75d1dcb4dfdc2c55e7e905509f188a"
+      "checksum": "3483fd3af44b5f817e95cd004e3a6aac"
     },
     "chapitres/09-classification-traditionnelle-des-risques/exercices.qmd": {
       "checksum": "4521eff2e6e0b0bffe8b1ebd66775915"
     },
-    "chapitres/09-classification-traditionnelle-des-risques/mathjax-config.js": {
-      "checksum": "131ef10e4890389b71f6d2f718b83b24"
+    "chapitres/10-classification-multivariee/_metadata.yml": {
+      "checksum": "cf88ad0924c2fbd0a145f13834304a5c"
+    },
+    "chapitres/10-classification-multivariee/diapos_files/figure-revealjs/diagnostic-consistance-1.png": {
+      "checksum": "7cc67c919a918b09bf52f47e89be8c61"
+    },
+    "chapitres/10-classification-multivariee/diapos_files/figure-revealjs/diagnostic-ecart-type-1.png": {
+      "checksum": "b9f1680e71161d7c1d4de5e1822b4923"
+    },
+    "chapitres/10-classification-multivariee/diapos_files/figure-revealjs/diagnostic-validation-1.png": {
+      "checksum": "5cc5f05929dba99e944e75ee26813041"
+    },
+    "chapitres/10-classification-multivariee/diapos_files/figure-revealjs/dispositifs-consistance-1.png": {
+      "checksum": "123926ba6249cc3dc005f7f719c44ece"
+    },
+    "chapitres/10-classification-multivariee/diapos_files/figure-revealjs/dispositifs-ecart-type-1.png": {
+      "checksum": "a7ebc4567631ac7d85d22e7036394e6d"
+    },
+    "chapitres/10-classification-multivariee/diapos_files/figure-revealjs/groupe-vehicule-1.png": {
+      "checksum": "21b40c9c5f91ef8efc70079e02810f8c"
+    },
+    "chapitres/10-classification-multivariee/diapos_files/figure-revealjs/historique-consistance-1.png": {
+      "checksum": "a6a185272fa55845efab39b50c5bf9a9"
+    },
+    "chapitres/10-classification-multivariee/diapos_files/figure-revealjs/historique-ecart-type-1.png": {
+      "checksum": "898f414f678b1ae61305f5c8b8ad5ba8"
+    },
+    "chapitres/10-classification-multivariee/diapos_files/figure-revealjs/interaction-age-sexe-1.png": {
+      "checksum": "4051b8be9f04f30ad2fa6a00a0a2bf31"
+    },
+    "chapitres/10-classification-multivariee/diapos.qmd": {
+      "checksum": "b8a952945cffdcb845662f57f15049c5"
     },
     "chapitres/donnees-exemple.R": {
       "checksum": "b4705219d9333bb7e3e8934a34917f6a"
@@ -1835,7 +2687,7 @@
       "checksum": "b8909116db85947c7c48449410631b04"
     },
     "cours/07.qmd": {
-      "checksum": "fb4a6867861a5b5986b11aacf9374300"
+      "checksum": "9b698344dbbe7849510eb42d91ae5786"
     },
     "cours/index.qmd": {
       "checksum": "bea411a416485391ccf3c1756654df02"
@@ -1868,7 +2720,7 @@
       "checksum": "3690ab64633c52bcec844b43919b452b"
     },
     "filters/revealjs-exemples.lua": {
-      "checksum": "3c8474f7c4ba1414c4fbca1bf6c5585e"
+      "checksum": "fa8b3ef0d8c2e3b6de7d29fe162cedf1"
     },
     "filters/revealjs-print-overview.lua": {
       "checksum": "3bafad35c7c0bb7224e499880948b637"
@@ -1908,6 +2760,66 @@
     },
     "mathjax-config.js": {
       "checksum": "516be7f9042b1deb999368e5d1391d9b"
+    },
+    "pdfs/diapos/01-introduction.pdf": {
+      "checksum": "3659b0596e6ecf9a720357bdafbe997b"
+    },
+    "pdfs/diapos/02-principes-tarif-cas.pdf": {
+      "checksum": "74eb311ae3c2311194a67cdb2c4f4e33"
+    },
+    "pdfs/diapos/03-donnees.pdf": {
+      "checksum": "be79f9c300caf57b2837b58b14b3b04a"
+    },
+    "pdfs/diapos/04-base-exposition.pdf": {
+      "checksum": "216a96ba4a1ea5bfcde3aedb9975c553"
+    },
+    "pdfs/diapos/05-primes.pdf": {
+      "checksum": "a3e2cf2b11380c5e6aa39082cb419c34"
+    },
+    "pdfs/diapos/06-sinistres.pdf": {
+      "checksum": "9d9867d2ed5e1ea6d0131c1d9f8d07de"
+    },
+    "pdfs/diapos/07-autres-frais-et-profit.pdf": {
+      "checksum": "ac109caa4047f5de0038aaaa00ee6f50"
+    },
+    "pdfs/diapos/08-indique-global.pdf": {
+      "checksum": "455d1e0eebc8a474e0820610115ffa4e"
+    },
+    "pdfs/diapos/09-classification-traditionnelle-des-risques.pdf": {
+      "checksum": "27006942d20aabbc0f4b10f8d9fd3f8d"
+    },
+    "pdfs/diapos/revision-examen-1.pdf": {
+      "checksum": "0ebe0ca11e92b2bf0547ee96ce213c50"
+    },
+    "pdfs/exercices/01-introduction.pdf": {
+      "checksum": "29bf63a2a83fec4f2b2e2ca7c2adfcac"
+    },
+    "pdfs/exercices/02-principes-tarif-cas.pdf": {
+      "checksum": "d0a56cc8b3e977c7032967c619d81094"
+    },
+    "pdfs/exercices/03-donnees.pdf": {
+      "checksum": "b9c7da4a4f3780916e90c5c06efc87ca"
+    },
+    "pdfs/exercices/04-base-exposition.pdf": {
+      "checksum": "e767538b83f410ef6e14112a55eb247e"
+    },
+    "pdfs/exercices/05-primes.pdf": {
+      "checksum": "010258c9b4c27e514abc3eed7df4fc87"
+    },
+    "pdfs/exercices/06-sinistres.pdf": {
+      "checksum": "6f3514b6c211ec0bf85931cb3e6622c5"
+    },
+    "pdfs/exercices/07-autres-frais-et-profit.pdf": {
+      "checksum": "79b1e74a9e8fef5b48d99d85d5d0a172"
+    },
+    "pdfs/exercices/08-indique-global.pdf": {
+      "checksum": "d15dbbdc173d955fc95c309d7b3ad7a7"
+    },
+    "pdfs/exercices/09-classification-traditionnelle-des-risques.pdf": {
+      "checksum": "6b91e48e05f7cbd7b62e8bf6b141df6b"
+    },
+    "revisions/revision-examen-1/diapos.qmd": {
+      "checksum": "550873149b47476b8a0e4688f9d4dbb2"
     },
     "styles/diapos-clean.css": {
       "checksum": "34a735dc2bbd60f592eeff061ee76412"
@@ -1982,7 +2894,172 @@
       "checksum": "cddb593a8ef6f97aa49c782941a1a450"
     },
     "TODOs.md": {
-      "checksum": "0c3e960b311df76f2d877a3eb9affcdb"
+      "checksum": "8c596118a2cdf0c6b2614fc654335369"
+    },
+    "vieux-materiel/diapos/pdf/chap1-introduction.pdf": {
+      "checksum": "096b40353c6e5d6c65fd40f260c6372d"
+    },
+    "vieux-materiel/diapos/pdf/chap10-classification-multivariee.pdf": {
+      "checksum": "834e73f051589ca322ab96a6891e7bb4"
+    },
+    "vieux-materiel/diapos/pdf/chap11-classification-speciale.pdf": {
+      "checksum": "271125abf44752b159c107d087629aa5"
+    },
+    "vieux-materiel/diapos/pdf/chap12-credibilite.pdf": {
+      "checksum": "7ba81f3bae06194f0bc5012853ea5ecf"
+    },
+    "vieux-materiel/diapos/pdf/chap13-autres-considerations.pdf": {
+      "checksum": "5209aaac868092dc94009eae1299996d"
+    },
+    "vieux-materiel/diapos/pdf/chap14-implantation.pdf": {
+      "checksum": "bc7abce3367a46b86df774f347a57a29"
+    },
+    "vieux-materiel/diapos/pdf/chap15-methodes-de-tarification-en-lignes-commerciales.pdf": {
+      "checksum": "3cd57af7e78435463de201703b6e67e1"
+    },
+    "vieux-materiel/diapos/pdf/chap16-tarification-sur-base-de-reclamations-presentees.pdf": {
+      "checksum": "05af459d0421e7ec5960c1e0a3f77040"
+    },
+    "vieux-materiel/diapos/pdf/chap2-principes-tarification-cas.pdf": {
+      "checksum": "c7ac30b7c39832df5ecb72adb1b236d1"
+    },
+    "vieux-materiel/diapos/pdf/chap3-donnees.pdf": {
+      "checksum": "17ad55d3037456c3f995b29f0cea996a"
+    },
+    "vieux-materiel/diapos/pdf/chap4-base-exposition.pdf": {
+      "checksum": "3854ed1aff925e958cb8f39bf51803fc"
+    },
+    "vieux-materiel/diapos/pdf/chap5-primes.pdf": {
+      "checksum": "6078359f6c546c4a0a3cfba1cf1ec52d"
+    },
+    "vieux-materiel/diapos/pdf/chap6-sinistres-et-frais-de-reglement-de-sinistres.pdf": {
+      "checksum": "3c2606641a073ae134ad51b4f8cc6e37"
+    },
+    "vieux-materiel/diapos/pdf/chap7-autres-frais-et-profit.pdf": {
+      "checksum": "8908a8493f670dc2b5ece2431e9c5f54"
+    },
+    "vieux-materiel/diapos/pdf/chap8-indique-global.pdf": {
+      "checksum": "37236b91351e6c120f3ca0652f7701bc"
+    },
+    "vieux-materiel/diapos/pdf/chap9-classification-traditionnelle-des-risques.pdf": {
+      "checksum": "3f68b43d14b18349b4d1b3f4fceef01d"
+    },
+    "vieux-materiel/diapos/pdf/revision-exam1.pdf": {
+      "checksum": "5f11215751b603dac5cb4edab06ad965"
+    },
+    "vieux-materiel/diapos/pdf/revision-exam2.pdf": {
+      "checksum": "7ef36349745fa6ec674d2109f1480e6c"
+    },
+    "vieux-materiel/diapos/pptx/chap1-introduction.pptx": {
+      "checksum": "687971b346dde34cb20c235aa22e2ca2"
+    },
+    "vieux-materiel/diapos/pptx/chap10-classification-multivariee.pptx": {
+      "checksum": "8a80af3052d1f38982a46bf06c72ed63"
+    },
+    "vieux-materiel/diapos/pptx/chap11-classification-speciale.pptx": {
+      "checksum": "d9a15f5cd420950284b136380bc2cc99"
+    },
+    "vieux-materiel/diapos/pptx/chap12-credibilite.pptx": {
+      "checksum": "0c12215df98cb34f1a5c41db75c2c669"
+    },
+    "vieux-materiel/diapos/pptx/chap13-autres-considerations.pptx": {
+      "checksum": "05093f5059aaf353c3d73cb144725f32"
+    },
+    "vieux-materiel/diapos/pptx/chap14-implantation.pptx": {
+      "checksum": "76a2bc2c9a0ccaa7cd7f25b6c7818cf9"
+    },
+    "vieux-materiel/diapos/pptx/chap15-methodes-de-tarification-en-lignes-commerciales.pptx": {
+      "checksum": "50d2831d738cbfa4873f862f1d572ed9"
+    },
+    "vieux-materiel/diapos/pptx/chap16-tarification-sur-base-de-reclamations-presentees.pptx": {
+      "checksum": "6ce7d807bbc3ed30069d6efac9a8178d"
+    },
+    "vieux-materiel/diapos/pptx/chap2-principes-tarification-cas.pptx": {
+      "checksum": "3441c518f23916a5d64e93548f557131"
+    },
+    "vieux-materiel/diapos/pptx/chap3-donnees.pptx": {
+      "checksum": "46498480cf3f8e315a14c295d347bfdc"
+    },
+    "vieux-materiel/diapos/pptx/chap4-base-exposition.pptx": {
+      "checksum": "d56de7575e0ebe95b09a63708f4a8f78"
+    },
+    "vieux-materiel/diapos/pptx/chap5-primes.pptx": {
+      "checksum": "2e688f3af4e5c8a2320a5a6a6328a2c7"
+    },
+    "vieux-materiel/diapos/pptx/chap6-sinistres-et-frais-de-reglement-de-sinistres.pptx": {
+      "checksum": "402f593512a9e741be43297da88015f5"
+    },
+    "vieux-materiel/diapos/pptx/chap7-autres-frais-et-profit.pptx": {
+      "checksum": "839d3bcedf7dc25ddb950159dbc9ba12"
+    },
+    "vieux-materiel/diapos/pptx/chap8-indique-global.pptx": {
+      "checksum": "7aaeedfd02d3dd2b45c56c17e170b52f"
+    },
+    "vieux-materiel/diapos/pptx/chap9-classification-traditionnelle-des-risques.pptx": {
+      "checksum": "4464b71142d52c58139f19c503f797c8"
+    },
+    "vieux-materiel/exercices/chap1-exercices.pdf": {
+      "checksum": "7060b00881bc6f591fa2eb9c03b9f44f"
+    },
+    "vieux-materiel/exercices/chap10-exercices.pdf": {
+      "checksum": "cf63757326f9fa0c2fa9132f32c3e44f"
+    },
+    "vieux-materiel/exercices/chap11-exercices.pdf": {
+      "checksum": "fe9464552c970b88607821dbffa6e61a"
+    },
+    "vieux-materiel/exercices/chap12-exercices.pdf": {
+      "checksum": "52613a924cf8197ab9b8e3bb2c0add99"
+    },
+    "vieux-materiel/exercices/chap13-exercices.pdf": {
+      "checksum": "fca0f322a634fcef395ddbafcf03d6c8"
+    },
+    "vieux-materiel/exercices/chap14-exercices.pdf": {
+      "checksum": "d624d0df4b990f008845976bc54bada3"
+    },
+    "vieux-materiel/exercices/chap15-exercices.pdf": {
+      "checksum": "d666fd8d3f534ea90d09b782fb637205"
+    },
+    "vieux-materiel/exercices/chap16-exercices.pdf": {
+      "checksum": "bbc54244d94137f0f26ba9ef13bb9dfd"
+    },
+    "vieux-materiel/exercices/chap2-exercices.pdf": {
+      "checksum": "61420ada71329455379a39c9ef8413df"
+    },
+    "vieux-materiel/exercices/chap3-exercices.pdf": {
+      "checksum": "8f288aaed87733a2915b53db9f9b8a5d"
+    },
+    "vieux-materiel/exercices/chap4-exercices.pdf": {
+      "checksum": "ff77d928728b7631a0e40bf79db75c1d"
+    },
+    "vieux-materiel/exercices/chap5-exercices.pdf": {
+      "checksum": "246690a6caadedc9169fb087fc84ddf4"
+    },
+    "vieux-materiel/exercices/chap6-exercices.pdf": {
+      "checksum": "675b3300732be4e8ebcfdeadaaae1980"
+    },
+    "vieux-materiel/exercices/chap7-exercices.pdf": {
+      "checksum": "1e27bf2d49e0a9cf1eee9afdcb9f598a"
+    },
+    "vieux-materiel/exercices/chap8-exercices.pdf": {
+      "checksum": "9e066b0636678fe7106da29e9db00faa"
+    },
+    "vieux-materiel/exercices/chap9-exercices.pdf": {
+      "checksum": "4d6f30aefa9617cb4d91cc3460564b52"
+    },
+    "vieux-materiel/exercices/solution-14.1-a.xlsx": {
+      "checksum": "4063289ec3c84f7001869c06a7ae409f"
+    },
+    "vieux-materiel/intro-cours/presentation-cours.pdf": {
+      "checksum": "435956f09699275b8e55d304a3d9e173"
+    },
+    "vieux-materiel/intro-cours/presentation-cours.pptx": {
+      "checksum": "0c80cdf8083536a5ca60062f5ccc970e"
+    },
+    "vieux-materiel/revisions/revision-exam1.pdf": {
+      "checksum": "5f11215751b603dac5cb4edab06ad965"
+    },
+    "vieux-materiel/revisions/revision-exam2.pdf": {
+      "checksum": "7ef36349745fa6ec674d2109f1480e6c"
     }
   },
   "users": null
