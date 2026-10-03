@@ -732,7 +732,7 @@
       "description": {
         "Package": "tarifr",
         "Title": "Helpers for Property and Casualty Ratemaking Course Materials",
-        "Version": "0.0.0.9000",
+        "Version": "0.0.0.9001",
         "Authors@R": "\n    person(\n      given = \"Alexandre\",\n      family = \"Parent\",\n      role = c(\"aut\", \"cre\"),\n      email = \"alexandre.parent.12@ulaval.ca\"\n    )",
         "Description": "Minimal internal package for reusable R helpers used by the\n    ACT-4105 / ACT-6006 Quarto course site.",
         "License": "MIT + file LICENSE",

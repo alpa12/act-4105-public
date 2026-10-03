@@ -1403,7 +1403,7 @@
     },
     "tarifr": {
       "Package": "tarifr",
-      "Version": "0.0.0.9000",
+      "Version": "0.0.0.9001",
       "Source": "Local",
       "Title": "Helpers for Property and Casualty Ratemaking Course Materials",
       "Authors@R": "person( given = \"ACT-4105\", family = \"Course Team\", role = c(\"aut\", \"cre\"), email = \"noreply@example.org\" )",
