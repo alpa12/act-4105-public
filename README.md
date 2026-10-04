@@ -44,7 +44,21 @@ Les détails de structure, les omissions documentées et la validation des sourc
 
 Le code R partagé va dans `tarifr/R/`; exporter seulement les fonctions requises par les documents Quarto. Les documents supposent `tarifr` installé et ne doivent ni l’installer ni appeler `pkgload::load_all()` pendant un rendu.
 
-Pour les déploiements, `site/manifest.json` résout `tarifr/` depuis le sous-répertoire `tarifr` de `alpa12/act-4105-public`. La déclaration conserve la branche `main` et épingle le SHA du commit qui contient la version du package, afin que Connect Cloud récupère exactement cette source. À chaque changement de version dans `tarifr/DESCRIPTION`, mettre aussi à jour la version, `RemoteSha` et `GithubSHA1` déclarés dans ce manifeste.
+Pour les déploiements, `tarifr/` provient du sous-répertoire `tarifr` de `alpa12/act-4105-public`, à la branche `main`, avec le SHA correspondant. Ne jamais modifier à la main `renv.lock` ni `site/manifest.json`. Après un changement de dépendance — et après une modification de `tarifr` — régénérer les deux fichiers depuis la racine :
+
+```r
+renv::install("github::alpa12/act-4105-public/tarifr@main")
+renv::snapshot(prompt = FALSE)
+rsconnect::writeManifest(
+  appDir = "site",
+  appPrimaryDoc = "_quarto.yml",
+  appMode = "quarto-static",
+  contentCategory = "site",
+  dependencyResolution = "strict"
+)
+```
+
+Cette procédure enregistre `tarifr` comme seule dépendance GitHub et les autres dépendances dans CRAN.
 
 Après une modification du package, depuis la racine du dépôt :
 

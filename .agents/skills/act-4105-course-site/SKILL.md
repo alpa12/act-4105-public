@@ -14,7 +14,8 @@ Use this skill as the project entry point. Keep it to shared invariants and load
 - For converting legacy PowerPoint/PDF course notes to `site/chapitres/*/diapos.qmd`, read `references/legacy-diapos-conversion.md` plus `references/revealjs-presentations.md`.
 - For converting or auditing exercise PDFs in `site/chapitres/*/exercices.qmd`, read `references/exercises-conversion.md`.
 - For dynamic course years or dates, read `references/dynamic-dates.md`; if shortcode or R-helper syntax is needed, also read `site/_extensions/alpa12/dynamic-year/.agents/skills/dynamic-year-user/SKILL.md`.
-- For R-generated tables, reusable R helpers, plots, or package maintenance, read `references/tarifr-package.md`.
+- For creating or revising R/`ggplot2` graphics, read `references/graphiques.md`.
+- For R-generated tables, reusable R helpers, or package maintenance, read `references/tarifr-package.md`.
 
 ## Core Rules
 

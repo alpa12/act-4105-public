@@ -4,6 +4,7 @@ format:
   revealjs: default
 execute:
   echo: false
+  cache: true
 metadata-files:
   - ../_diapos.yml
 ---
@@ -14,6 +15,9 @@ metadata-files:
 
 library(ggplot2)
 
+project_dir <- Sys.getenv("QUARTO_PROJECT_DIR")
+source(file.path(project_dir, "_extensions/alpa12/dynamic-year/dynamic-year.R"))
+
 couleurs_act <- c(
   rouge = "#e30513",
   bleu = "#009cde",
@@ -21,6 +25,9 @@ couleurs_act <- c(
   vert = "#3d8b5f",
   gris = "#626974"
 )
+
+couleurs_annees <- c("#D55E00", "#009E73", "#0072B2", "#CC79A7")
+formes_annees <- c(16, 17, 15, 18)
 
 theme_act <- theme_minimal(base_size = 14) +
   theme(
@@ -35,7 +42,7 @@ theme_act <- theme_minimal(base_size = 14) +
     legend.title = element_blank()
   )
 
-geom_exposition <- function(data, x, exposition, facteur, width = 0.8) {
+geom_exposition <- function(data, x, exposition, facteur, width = 0.8, alpha = 0.22) {
   geom_col(
     data = data,
     mapping = aes(
@@ -43,7 +50,7 @@ geom_exposition <- function(data, x, exposition, facteur, width = 0.8) {
       y = .data[[exposition]] * facteur
     ),
     fill = unname(couleurs_act["or"]),
-    alpha = 0.22,
+    alpha = alpha,
     width = width,
     inherit.aes = FALSE
   )
@@ -56,6 +63,11 @@ axe_exposition <- function(facteur, nom) {
     labels = scales::label_number(big.mark = " ", decimal.mark = ",")
   )
 }
+
+theme_exemple_glm <- theme(
+  text = element_text(size = 12),
+  legend.position = "right"
+)
 ```
 
 ## Lectures recommandées
@@ -163,7 +175,7 @@ Les diagnostics des modèles permettent d’avoir de l’information additionnel
 
 Une interaction survient lorsque l’effet d’une variable varie selon le niveau d’une autre variable.
 
-## Interaction vs corrélation {.text-small}
+## Interaction vs corrélation {.text-smaller}
 
 ::: {.callout-warning title="Attention"}
 Une **interaction** entre deux variables n’est pas la même chose qu’une **corrélation** entre deux variables.
@@ -173,12 +185,22 @@ Une **corrélation** entre deux variables signifie que la distribution des unit�
 
 Prenons l’exemple du montant d’assurance et du territoire en assurance habitation.
 
+:::: {.columns}
+::: {.column}
 | Valeur de l’habitation | Territoire 1 | Territoire 2 |
 |:-----------------------|-------------:|-------------:|
 | 0–400 000 \$           |         75 % |         40 % |
 | 400 000 \$ et plus     |         25 % |         60 % |
 
+:::
+::: {.column}
 On dit ici que les variables « valeur de l’habitation » et « territoire » sont corrélées.
+:::
+::::
+
+
+
+
 
 ---
 
@@ -186,7 +208,8 @@ On dit ici que les variables « valeur de l’habitation » et « territoire�
 Une **interaction** entre deux variables n’est pas la même chose qu’une **corrélation** entre deux variables.
 :::
 
-- Une **interaction** existe lorsque l’effet d’une variable varie selon le niveau d’une autre variable. Par exemple, l’effet de l’âge de l’assuré en assurance automobile peut varier selon le sexe de l’assuré.
+Une **interaction** existe lorsque l’effet d’une variable varie selon le niveau d’une autre variable. Par exemple, l’effet de l’âge de l’assuré en assurance automobile peut varier selon le sexe de l’assuré.
+
 - L’ajout d’interactions dans un modèle de tarification est un raffinement du modèle qui peut en augmenter significativement le pouvoir prédictif.
 - Cependant, les interactions augmentent aussi la complexité d’un modèle et d’un algorithme de tarification. Il faut donc s’assurer que la valeur ajoutée en vaut l’augmentation de complexité.
 
@@ -274,33 +297,33 @@ Les analyses GLM sont faites sur les données de coûts de sinistres (*loss cost
 - Permet de valider nos intuitions de fréquence et de sévérité, donc de mieux distinguer le signal du bruit
 - Non affectés par les changements de taux ou d’algorithme de tarification (contrairement à la méthode du taux de sinistre)
 
-## Exemple : groupe du véhicule
+## Exemple : Groupe de véhicule
 
-Effet de la variable « groupe du véhicule » sur la fréquence de collision en assurance automobile.
-
-Chaque véhicule est classé dans un groupe avec d’autres véhicules qui ont des caractéristiques communes (valeur du véhicule, poids, puissance, etc.). Toutes les autres variables étant considérées, les véhicules du groupe 10 ont une fréquence environ 25 % plus élevée que celle des véhicules du groupe 4.
-
----
+::: {.text-smaller}
+Effet de la variable « groupe de véhicule » sur la fréquence de collision en assurance automobile.
+:::
 
 ```{r}
 #| label: groupe-vehicule
 #| fig-width: 8
 #| fig-height: 3.4
-#| fig-alt: "Différentiels univariés et GLM selon le groupe du véhicule, avec l’exposition représentée par des barres en arrière-plan. Les deux profils sont généralement croissants."
+#| fig-alt: "Différentiels univariés et GLM selon le groupe de véhicule, avec l’exposition représentée par des barres en arrière-plan. Les deux profils sont généralement croissants."
 
 groupe_vehicule <- data.frame(
   groupe = 1:17,
   differentiel = c(0.70, 0.92, 0.94, 1.00, 1.10, 1.10, 1.16, 1.19, 1.25, 1.25, 1.34, 1.34, 1.39, 1.39, 1.39, 1.43, 1.72),
   # Série univariée reconstruite à partir de la figure du PDF historique.
   univarie = c(0.65, 0.90, 0.95, 1.02, 1.10, 1.09, 1.12, 1.10, 1.15, 1.10, 1.19, 1.15, 1.20, 1.18, 1.10, 1.21, 1.43),
-  exposition = c(1.8, 7.2, 11.0, 14.0, 12.4, 14.0, 12.8, 14.5, 10.5, 9.7, 7.8, 8.2, 7.0, 7.2, 1.8, 1.8, 0.2)
+  exposition = c(18000, 72000, 110000, 140000, 124000, 140000, 128000, 145000, 105000, 97000, 78000, 82000, 70000, 72000, 18000, 18000, 2000)
 )
 
 ggplot(groupe_vehicule, aes(groupe)) +
-  geom_exposition(groupe_vehicule, "groupe", "exposition", facteur = 0.1) +
+  geom_exposition(groupe_vehicule, "groupe", "exposition", facteur = 0.00001, alpha = 0.6) +
   geom_hline(yintercept = 1, colour = couleurs_act["gris"], linewidth = 0.6) +
-  geom_line(aes(y = univarie, colour = "Méthode univariée", linetype = "Méthode univariée"), linewidth = 0.95) +
-  geom_line(aes(y = differentiel, colour = "GLM", linetype = "GLM"), linewidth = 0.95) +
+  geom_line(aes(y = univarie, colour = "Méthode univariée", linetype = "Méthode univariée"), linewidth = 0.65) +
+  geom_point(aes(y = univarie, colour = "Méthode univariée", linetype = "Méthode univariée"), size = 1.6) +
+  geom_line(aes(y = differentiel, colour = "GLM", linetype = "GLM"), linewidth = 0.65) +
+  geom_point(aes(y = differentiel, colour = "GLM", linetype = "GLM"), size = 1.6) +
   scale_colour_manual(name = "Série", values = c(
     `Méthode univariée` = unname(couleurs_act["rouge"]),
     GLM = unname(couleurs_act["bleu"])
@@ -310,43 +333,50 @@ ggplot(groupe_vehicule, aes(groupe)) +
     GLM = "solid"
   )) +
   scale_y_continuous(
-    breaks = seq(0, 1.8, by = 0.2),
-    limits = c(0, 1.85),
-    sec.axis = axe_exposition(0.1, "Exposition relative")
+    breaks = seq(0, 1.75, by = 0.25),
+    sec.axis = axe_exposition(0.00001, "Exposition")
   ) +
-  scale_x_continuous(breaks = seq(1, 17, by = 2)) +
+  scale_x_continuous(breaks = 1:17) +
   labs(
-    title = "Effet du groupe du véhicule",
-    x = "Groupe du véhicule",
+    title = "Effet du groupe de véhicule",
+    x = "Groupe de véhicule",
     y = "Différentiel indiqué"
   ) +
-  theme_act
+  theme_act +
+  theme(
+    text = element_text(size = 12),
+    legend.position = "right"
+  )
 ```
 
-Les différentiels indiqués dans ce graphique sont valides seulement si toutes les autres variables présentes dans le modèle sont aussi implantées.
+---
+
+- Chaque véhicule est classé dans un groupe avec d’autres véhicules qui ont des caractéristiques communes (valeur du véhicule, poids, puissance, etc.). Toutes les autres variables étant considérées, les véhicules du groupe 10 ont une fréquence environ 25 % plus élevée que celle des véhicules du groupe 4 (la classe de base).
+
+- Les différentiels indiqués dans ce graphique sont valides seulement si toutes les autres variables présentes dans le modèle sont aussi implantées.
+
 
 ## Tests de diagnostic
 
-Calcul de l’écart-type (*standard error calculation*).
-
----
+### Calcul de l’écart-type (*standard error calculation*)
 
 ```{r}
 #| label: diagnostic-ecart-type
 #| fig-width: 8
 #| fig-height: 3.4
-#| fig-alt: "Différentiels GLM par groupe du véhicule avec exposition en arrière-plan et intervalle d’incertitude. L’intervalle du groupe 17 est particulièrement large parce que le volume y est petit."
+#| fig-alt: "Différentiels GLM par groupe de véhicule avec exposition en arrière-plan et intervalle d’incertitude. L’intervalle du groupe 17 est particulièrement large parce que le volume y est petit."
 
 groupe_vehicule$borne_inf <- groupe_vehicule$differentiel - c(rep(0.12, 16), 0.34)
 groupe_vehicule$borne_sup <- groupe_vehicule$differentiel + c(rep(0.13, 16), 0.42)
 
 ggplot(groupe_vehicule, aes(groupe, differentiel)) +
-  geom_exposition(groupe_vehicule, "groupe", "exposition", facteur = 0.1) +
-  geom_hline(yintercept = 1, colour = couleurs_act["gris"], linewidth = 0.6) +
-  geom_ribbon(aes(ymin = borne_inf, ymax = borne_sup), fill = couleurs_act["or"], alpha = 0.18) +
-  geom_line(aes(colour = "Prédiction GLM", linetype = "Prédiction GLM"), linewidth = 0.95) +
-  geom_line(aes(y = borne_inf, colour = "Bornes à ±2 écarts-types", linetype = "Bornes à ±2 écarts-types"), linewidth = 0.75) +
-  geom_line(aes(y = borne_sup, colour = "Bornes à ±2 écarts-types", linetype = "Bornes à ±2 écarts-types"), linewidth = 0.75) +
+  geom_exposition(groupe_vehicule, "groupe", "exposition", facteur = 0.00001, alpha = 0.6) +
+  geom_hline(yintercept = 1, colour = couleurs_act["gris"], linewidth = 0.4) +
+  geom_ribbon(aes(ymin = borne_inf, ymax = borne_sup, group = 1), fill = couleurs_act["rouge"], alpha = 0.08) +
+  geom_line(aes(colour = "Prédiction GLM", linetype = "Prédiction GLM"), linewidth = 0.65) +
+  geom_point(aes(colour = "Prédiction GLM", linetype = "Prédiction GLM"), size = 1.6) +
+  geom_line(aes(y = borne_inf, colour = "Bornes à ±2 écarts-types", linetype = "Bornes à ±2 écarts-types"), linewidth = 0.5) +
+  geom_line(aes(y = borne_sup, colour = "Bornes à ±2 écarts-types", linetype = "Bornes à ±2 écarts-types"), linewidth = 0.5) +
   scale_colour_manual(name = "Série", values = c(
     `Prédiction GLM` = unname(couleurs_act["bleu"]),
     `Bornes à ±2 écarts-types` = unname(couleurs_act["rouge"])
@@ -356,66 +386,93 @@ ggplot(groupe_vehicule, aes(groupe, differentiel)) +
     `Bornes à ±2 écarts-types` = "dashed"
   )) +
   scale_y_continuous(
-    breaks = seq(0, 2.0, by = 0.5),
-    limits = c(0, 2.2),
-    sec.axis = axe_exposition(0.1, "Exposition relative")
+    breaks = scales::breaks_width(0.25),
+    sec.axis = axe_exposition(0.00001, "Exposition")
   ) +
-  scale_x_continuous(breaks = seq(1, 17, by = 2)) +
+  scale_x_continuous(breaks = 1:17) +
   labs(
     title = "Incertitude des différentiels selon le groupe",
-    x = "Groupe du véhicule",
+    x = "Groupe de véhicule",
     y = "Différentiel indiqué"
   ) +
-  theme_act
+  theme_act +
+  theme(
+    text = element_text(size = 12),
+    legend.position = "right"
+  )
 ```
 
-La courbe ascendante et l’intervalle de confiance près de la prédiction suggèrent que la variable est significative. L’intervalle de confiance plus large pour le groupe 17 est dû au petit nombre d’unités dans ce groupe. Cela n’invalide pas les résultats pour les groupes 1 à 16, où le volume est plus grand.
+---
+
+- La courbe ascendante et l’intervalle de confiance près de la prédiction suggèrent que la variable est significative.
+- L’intervalle de confiance plus large pour le groupe 17 est dû au petit nombre d’unités dans ce groupe. Cela n’invalide pas les résultats pour les groupes 1 à 16, où le volume est plus grand.
 
 ---
 
-Consistance des résultats d’une année à l’autre.
-
----
+### Stabilité des résultats d’une année à l’autre
 
 ```{r}
-#| label: diagnostic-consistance
+#| label: diagnostic-stabilite
 #| fig-width: 8
 #| fig-height: 3.4
-#| fig-alt: "Deux séries annuelles de différentiels GLM par groupe du véhicule. Elles diffèrent légèrement, mais présentent une tendance générale croissante semblable."
+#| fig-alt: "Trois séries annuelles de différentiels GLM par groupe de véhicule. Elles diffèrent légèrement, mais présentent une tendance générale croissante très similaire."
 
-consistance <- rbind(
-  data.frame(groupe = 1:17, differentiel = c(0.58, 0.91, 0.91, 1.02, 1.08, 1.09, 1.12, 1.15, 1.20, 1.20, 1.31, 1.31, 1.42, 1.42, 1.42, 1.48, 1.95), annee = "2008"),
-  data.frame(groupe = 1:17, differentiel = c(0.82, 0.95, 0.95, 1.00, 1.14, 1.12, 1.18, 1.17, 1.28, 1.29, 1.39, 1.39, 1.40, 1.40, 1.40, 1.40, 1.60), annee = "2009")
+annees_stabilite <- vapply(-3:-1, dynamic_year, integer(1))
+stabilite <- rbind(
+  data.frame(groupe = 1:17, differentiel = c(0.58, 0.91, 0.91, 1.02, 1.08, 1.09, 1.12, 1.15, 1.20, 1.20, 1.31, 1.31, 1.42, 1.42, 1.42, 1.48, 1.50), annee = as.character(annees_stabilite[1])),
+  data.frame(groupe = 1:17, differentiel = c(0.82, 0.95, 0.95, 1.00, 1.14, 1.12, 1.18, 1.17, 1.28, 1.29, 1.39, 1.39, 1.40, 1.40, 1.40, 1.40, 1.60), annee = as.character(annees_stabilite[2])),
+  data.frame(groupe = 1:17, differentiel = c(0.69, 0.88, 0.93, 1.01, 1.11, 1.10, 1.15, 1.16, 1.24, 1.23, 1.35, 1.34, 1.41, 1.43, 1.44, 1.46, 1.78), annee = as.character(annees_stabilite[3]))
 )
 
-ggplot(consistance, aes(groupe, differentiel, colour = annee, linetype = annee)) +
-  geom_exposition(groupe_vehicule, "groupe", "exposition", facteur = 0.1) +
-  geom_hline(yintercept = 1, colour = couleurs_act["gris"], linewidth = 0.6) +
-  geom_line(linewidth = 0.95) +
-  scale_colour_manual(name = "Année", values = c(
-    `2008` = unname(couleurs_act["rouge"]),
-    `2009` = unname(couleurs_act["vert"])
+ggplot(stabilite, aes(groupe, differentiel, colour = annee, linetype = annee, shape = annee)) +
+  geom_exposition(groupe_vehicule, "groupe", "exposition", facteur = 0.00001, alpha = 0.6) +
+  geom_hline(yintercept = 1, colour = couleurs_act["gris"], linewidth = 0.4) +
+  geom_line(linewidth = 0.5) +
+  geom_point(size = 1.35) +
+  scale_colour_manual(name = "Année", values = setNames(
+    couleurs_annees[seq_along(annees_stabilite)],
+    as.character(annees_stabilite)
   )) +
-  scale_linetype_manual(name = "Année", values = c(`2008` = "solid", `2009` = "dashed")) +
+  scale_linetype_manual(name = "Année", values = setNames(
+    c("solid", "dashed", "longdash"),
+    as.character(annees_stabilite)
+  )) +
+  scale_shape_manual(name = "Année", values = setNames(
+    formes_annees[seq_along(annees_stabilite)],
+    as.character(annees_stabilite)
+  )) +
   scale_y_continuous(
-    breaks = seq(0, 2.0, by = 0.5),
-    limits = c(0, 2.05),
-    sec.axis = axe_exposition(0.1, "Exposition relative")
+    breaks = scales::breaks_width(0.25),
+    sec.axis = axe_exposition(0.00001, "Exposition")
   ) +
-  scale_x_continuous(breaks = seq(1, 17, by = 2)) +
+  scale_x_continuous(breaks = 1:17) +
   labs(
-    title = "Consistance des résultats selon l’année",
-    x = "Groupe du véhicule",
+    title = "Stabilité des résultats selon l’année",
+    x = "Groupe de véhicule",
     y = "Différentiel GLM"
   ) +
-  theme_act
+  theme_act +
+  theme(
+    text = element_text(size = 12),
+    legend.position = "right"
+  )
 ```
-
-Les deux lignes présentent des différences liées à des fluctuations aléatoires, mais la tendance générale est la même.
 
 ---
 
-Comparer le résultat espéré prédit par le modèle au résultat historique sur un échantillon de validation (c’est-à-dire non utilisé pour bâtir le modèle).
+- Les trois lignes présentent des différences liées à des fluctuations aléatoires, mais la tendance générale est très similaire.
+
+---
+
+### Comparaison avec données de validation
+
+Comparer le résultat espéré prédit par le modèle au résultat historique sur des **données de validation** (échantillon de données non utilisées pour la modélisation, mais pour lesquelles on connait le résultat historique).
+
+1. Calculer la prédiction du glm sur les données de validation
+1. Trier ces données par ordre croissant de la prédiction
+1. Construire des groupes (*buckets*) de largeur égale et calculer la fréquence historique pour chaque groupe
+1. Afficher sur un graphique la fréquence historique, la fréquence attendue par le GLM et l'exposition pour chaque groupe
+1. Plus les courbes sont proches, plus les prédictions sont fiables
 
 ---
 
@@ -423,31 +480,84 @@ Comparer le résultat espéré prédit par le modèle au résultat historique su
 #| label: diagnostic-validation
 #| fig-width: 8
 #| fig-height: 3.4
-#| fig-alt: "Fréquences historiques comparées aux fréquences prédites par le GLM. Les observations sont représentées par des points, la diagonale indique une prédiction parfaite et l’exposition apparaît en arrière-plan."
+#| fig-alt: "Fréquences historiques comparées aux fréquences attendues par le GLM. La série attendue suit une tendance presque diagonale et les observations historiques sont reliées par une ligne. L’exposition est représentée par des barres en arrière-plan."
 
-validation <- data.frame(
-  predite = seq(0.05, 0.68, length.out = 24),
-  historique = c(0.06, 0.07, 0.09, 0.12, 0.13, 0.16, 0.18, 0.22, 0.23, 0.25, 0.28, 0.31, 0.33, 0.37, 0.36, 0.43, 0.39, 0.52, 0.46, 0.61, 0.37, 0.69, 0.42, 0.00),
-  exposition = c(seq(45000, 7000, length.out = 18), 5000, 4200, 3000, 1800, 1200, 700)
+set.seed(4105)
+nombre_observations <- 80000
+predites_individuelles <- 0.04 + 0.66 * rbeta(
+  nombre_observations,
+  shape1 = 2.5,
+  shape2 = 8
+)
+historiques_individuels <- rbinom(
+  nombre_observations,
+  size = 1,
+  prob = predites_individuelles
 )
 
-ggplot(validation, aes(predite, historique)) +
-  geom_exposition(validation, "predite", "exposition", facteur = 0.000015, width = 0.018) +
-  geom_abline(slope = 1, intercept = 0, colour = couleurs_act["bleu"], linewidth = 0.9) +
-  geom_point(colour = couleurs_act["rouge"], alpha = 0.8, size = 2.2) +
-  scale_x_continuous(breaks = seq(0.1, 0.7, by = 0.1), limits = c(0.04, 0.7)) +
+bornes_buckets <- seq(0.04, 0.71, by = 0.01)
+milieux_buckets <- head(bornes_buckets, -1) + 0.005
+buckets <- cut(
+  predites_individuelles,
+  breaks = bornes_buckets,
+  include.lowest = TRUE,
+  right = FALSE
+)
+
+predite_par_bucket <- tapply(predites_individuelles, buckets, mean)
+historique_par_bucket <- tapply(historiques_individuels, buckets, mean)
+exposition_par_bucket <- tabulate(
+  as.integer(buckets),
+  nbins = length(milieux_buckets)
+)
+
+validation <- data.frame(
+  predite = ifelse(
+    is.na(predite_par_bucket),
+    milieux_buckets,
+    as.numeric(predite_par_bucket)
+  ),
+  historique = ifelse(
+    exposition_par_bucket > 0,
+    as.numeric(historique_par_bucket),
+    NA_real_
+  ),
+  exposition = exposition_par_bucket
+)
+facteur_exposition_validation <- 0.35 / max(validation$exposition)
+
+ggplot(validation, aes(predite)) +
+  geom_exposition(validation, "predite", "exposition", facteur = facteur_exposition_validation, width = 0.0075, alpha = 0.6) +
+  geom_line(aes(y = historique, colour = "Fréquence historique"), linewidth = 0.45) +
+  geom_point(aes(y = historique, colour = "Fréquence historique", shape = "Fréquence historique"), size = 1.4) +
+  geom_line(aes(y = predite, colour = "Fréquence prédite"), linewidth = 0.5) +
+  geom_point(aes(y = predite, colour = "Fréquence prédite", shape = "Fréquence prédite"), size = 1.25) +
+  scale_colour_manual(name = "Série", values = c(
+    `Fréquence historique` = "#D55E00",
+    `Fréquence prédite` = "#0072B2"
+  )) +
+  scale_shape_manual(name = "Série", values = c(
+    `Fréquence historique` = 15,
+    `Fréquence prédite` = 17
+  )) +
+  scale_x_continuous(breaks = scales::breaks_width(0.1)) +
   scale_y_continuous(
-    breaks = seq(0, 0.7, by = 0.1),
-    limits = c(0, 0.75),
-    sec.axis = axe_exposition(0.000015, "Exposition")
+    breaks = scales::breaks_width(0.1),
+    sec.axis = axe_exposition(facteur_exposition_validation, "Exposition")
   ) +
   labs(
     title = "Validation des fréquences prédites",
     x = "Fréquence prédite par le GLM",
     y = "Fréquence historique"
   ) +
-  theme_act
+  theme_act +
+  theme(
+    text = element_text(size = 12),
+    legend.position = "right"
+  )
 ```
+
+---
 
 Les prédictions du GLM suivent de très près la fréquence historique. La volatilité des résultats pour les fréquences prédites très élevées est due à un petit volume de données.
 
@@ -458,26 +568,24 @@ Les prédictions du GLM suivent de très près la fréquence historique. La vola
 
 ---
 
-**Test statistique**
+### Test statistique du Chi carré
 
 - On peut aussi tester le pouvoir prédictif d’une variable en utilisant des tests statistiques comme le calcul de déviances.
 - Un exemple commun de test de déviance est le test du Chi carré.
   - On fait un modèle avec la variable et un modèle sans la variable. On regarde l’augmentation de précision du modèle versus la complexité d’avoir un paramètre supplémentaire à estimer. L’hypothèse nulle est que les deux modèles sont égaux.
-  - Un pourcentage de Chi carré inférieur à 5 % indique normalement que l’hypothèse nulle doit être rejetée et donc qu’il faut utiliser le modèle avec un paramètre supplémentaire.
-  - Un pourcentage de Chi carré supérieur à 30 % indique normalement que l’hypothèse nulle ne doit pas être rejetée (les deux modèles sont égaux). L’actuaire devrait choisir celui qui n’inclut pas la variable additionnelle.
-  - Les pourcentages de Chi carré entre 5 % et 30 % sont normalement considérés comme non concluants (en se basant sur ce test seulement).
+  - Un pourcentage de Chi carré **inférieur à 5 %** indique normalement que l’hypothèse nulle doit être rejetée et donc qu’il faut utiliser le modèle avec un paramètre supplémentaire.
+  - Un pourcentage de Chi carré **supérieur à 30 %** indique normalement que l’hypothèse nulle ne doit pas être rejetée (les deux modèles sont égaux). L’actuaire devrait choisir celui qui n’inclut pas la variable additionnelle.
+  - Les pourcentages de Chi carré **entre 5 % et 30 %** sont normalement considérés comme non concluants (en se basant sur ce test seulement).
 
-## Exemple : historique de sinistres
+:::: {.question title="Historique des sinistres"}
 
 Analyse d’un GLM pour prédire la fréquence de dommage par l’eau en assurance habitation.
 
 On regarde l’effet de l’historique de sinistres (d’autres variables explicatives font aussi partie du modèle GLM).
 
----
+##
 
-Écart-type.
-
----
+### Écart-type
 
 ```{r}
 #| label: historique-ecart-type
@@ -492,33 +600,47 @@ historique_sinistres <- data.frame(
   borne_sup = c(1.00, 1.48, 1.85),
   polices = c(420000, 65000, 6000)
 )
+historique_sinistres$position <- seq_len(nrow(historique_sinistres))
 
-ggplot(historique_sinistres, aes(sinistres, relativite)) +
-  geom_exposition(historique_sinistres, "sinistres", "polices", facteur = 0.000004) +
-  geom_hline(yintercept = 1, colour = couleurs_act["gris"], linewidth = 0.6) +
-  geom_linerange(aes(ymin = borne_inf, ymax = borne_sup), colour = couleurs_act["or"], linewidth = 1.2) +
-  geom_line(aes(group = 1), colour = couleurs_act["bleu"], linewidth = 0.95) +
+ggplot(historique_sinistres, aes(position, relativite)) +
+  geom_exposition(historique_sinistres, "position", "polices", facteur = 0.000004, alpha = 0.6) +
+  geom_hline(yintercept = 1, colour = couleurs_act["gris"], linewidth = 0.4) +
+  geom_ribbon(aes(ymin = borne_inf, ymax = borne_sup, group = 1), fill = couleurs_act["rouge"], alpha = 0.08) +
+  geom_line(aes(y = borne_inf, group = 1, colour = "Bornes à ±2 écarts-types", linetype = "Bornes à ±2 écarts-types"), linewidth = 0.5) +
+  geom_line(aes(y = borne_sup, group = 1, colour = "Bornes à ±2 écarts-types", linetype = "Bornes à ±2 écarts-types"), linewidth = 0.5) +
+  geom_line(aes(group = 1, colour = "Prédiction GLM", linetype = "Prédiction GLM"), linewidth = 0.5) +
+  geom_point(aes(colour = "Prédiction GLM", linetype = "Prédiction GLM"), size = 1.35) +
+  scale_colour_manual(name = "Série", values = c(
+    `Prédiction GLM` = unname(couleurs_act["bleu"]),
+    `Bornes à ±2 écarts-types` = unname(couleurs_act["rouge"])
+  )) +
+  scale_linetype_manual(name = "Série", values = c(
+    `Prédiction GLM` = "solid",
+    `Bornes à ±2 écarts-types` = "dashed"
+  )) +
   scale_y_continuous(
-    breaks = seq(0, 2.0, by = 0.2),
-    limits = c(0, 1.95),
+    breaks = scales::breaks_width(0.25),
     sec.axis = axe_exposition(0.000004, "Nombre de polices")
+  ) +
+  scale_x_continuous(
+    breaks = historique_sinistres$position,
+    labels = as.character(historique_sinistres$sinistres)
   ) +
   labs(
     title = "Incertitude selon l’historique de sinistres",
     x = "Nombre de sinistres antérieurs",
     y = "Relativité indiquée"
   ) +
-  theme_act
+  theme_act +
+  theme_exemple_glm
 ```
 
----
+##
 
-Consistance d’une année à l’autre.
-
----
+### Stabilité des résultats d’une année à l’autre
 
 ```{r}
-#| label: historique-consistance
+#| label: historique-stabilite
 #| fig-width: 8
 #| fig-height: 3.4
 #| fig-alt: "Relativités de l’historique de sinistres par année. Les quatre années montrent toutes une relativité supérieure à un pour un ou deux sinistres antérieurs."
@@ -534,67 +656,70 @@ exposition_historique <- data.frame(
   polices = historique_sinistres$polices
 )
 
-ggplot(historique_annee, aes(sinistres, relativite, colour = annee, linetype = annee)) +
-  geom_exposition(exposition_historique, "sinistres", "polices", facteur = 0.000004) +
-  geom_hline(yintercept = 1, colour = couleurs_act["gris"], linewidth = 0.6) +
-  geom_line(linewidth = 0.9) +
+ggplot(historique_annee, aes(sinistres, relativite, colour = annee, shape = annee, group = annee)) +
+  geom_exposition(exposition_historique, "sinistres", "polices", facteur = 0.000004, alpha = 0.6) +
+  geom_hline(yintercept = 1, colour = couleurs_act["gris"], linewidth = 0.4) +
+  geom_line(linewidth = 0.5) +
+  geom_point(size = 1.35) +
   scale_colour_manual(name = "Année", values = c(
-    `2011` = unname(couleurs_act["rouge"]),
-    `2012` = unname(couleurs_act["vert"]),
-    `2013` = unname(couleurs_act["bleu"]),
-    `2014` = unname(couleurs_act["or"])
+    `2011` = couleurs_annees[1],
+    `2012` = couleurs_annees[2],
+    `2013` = couleurs_annees[3],
+    `2014` = couleurs_annees[4]
   )) +
-  scale_linetype_manual(name = "Année", values = c(
-    `2011` = "solid",
-    `2012` = "dashed",
-    `2013` = "dotdash",
-    `2014` = "dotted"
+  scale_shape_manual(name = "Année", values = c(
+    `2011` = formes_annees[1],
+    `2012` = formes_annees[2],
+    `2013` = formes_annees[3],
+    `2014` = formes_annees[4]
   )) +
   scale_y_continuous(
-    breaks = seq(0, 2.0, by = 0.2),
-    limits = c(0, 2.0),
+    breaks = scales::breaks_width(0.25),
     sec.axis = axe_exposition(0.000004, "Nombre de polices")
   ) +
   scale_x_continuous(breaks = 0:2) +
   labs(
-    title = "Consistance des relativités selon l’année",
+    title = "Stabilité des relativités selon l’année",
     x = "Nombre de sinistres antérieurs",
     y = "Relativité indiquée"
   ) +
-  theme_act
+  theme_act +
+  theme_exemple_glm
 ```
 
----
+##
 
-Test statistique.
+### Test statistique
 
 Chi carré : 0,02 %.
 
 Comme le Chi carré est inférieur à 5 %, l’actuaire devrait rejeter l’hypothèse nulle et sélectionner le modèle avec le plus grand nombre de paramètres (c’est-à-dire sélectionner le modèle avec l’historique de sinistres).
 
----
+##
 
-Jugement.
+### Jugement
 
 Il est important pour l’actuaire d’évaluer si les résultats du modèle et des tests de diagnostic sont raisonnables en se basant sur sa connaissance de l’expérience de sinistres qui est modélisée.
 
 Dans ce cas-ci, les tests sont en ligne avec l’intuition que la fréquence de sinistre est plus élevée avec la présence d’un ou plusieurs sinistres dans le passé.
 
----
+##
 
-Décision finale : tous les tests suggèrent que cette variable est prédictive et devrait être utilisée dans le modèle.
+### Décision finale
 
-## Exemple : dispositifs de détection du feu
+Tous les tests suggèrent que cette variable est prédictive et devrait être utilisée dans le modèle.
+
+::::
+
+:::: {.question title="Dispositifs de détection du feu"}
 
 Analyse d’un GLM pour prédire la fréquence de dommage par le vent en assurance habitation.
 
 On regarde l’effet de la présence de dispositifs de détection du feu (d’autres variables explicatives font aussi partie du modèle GLM).
 
----
+##
 
-Écart-type.
-
----
+### Écart-type
 
 ```{r}
 #| label: dispositifs-ecart-type
@@ -609,33 +734,47 @@ dispositifs_feu <- data.frame(
   borne_sup = c(1.00, 1.21, 1.20, 2.85),
   polices = c(300000, 135000, 65000, 1000)
 )
+dispositifs_feu$position <- seq_len(nrow(dispositifs_feu))
 
-ggplot(dispositifs_feu, aes(dispositif, relativite)) +
-  geom_exposition(dispositifs_feu, "dispositif", "polices", facteur = 0.000007) +
-  geom_hline(yintercept = 1, colour = couleurs_act["gris"], linewidth = 0.6) +
-  geom_linerange(aes(ymin = borne_inf, ymax = borne_sup), colour = couleurs_act["or"], linewidth = 1.2) +
-  geom_line(aes(group = 1), colour = couleurs_act["bleu"], linewidth = 0.95) +
+ggplot(dispositifs_feu, aes(position, relativite)) +
+  geom_exposition(dispositifs_feu, "position", "polices", facteur = 0.000007, alpha = 0.6) +
+  geom_hline(yintercept = 1, colour = couleurs_act["gris"], linewidth = 0.4) +
+  geom_ribbon(aes(ymin = borne_inf, ymax = borne_sup, group = 1), fill = couleurs_act["rouge"], alpha = 0.08) +
+  geom_line(aes(y = borne_inf, group = 1, colour = "Bornes à ±2 écarts-types", linetype = "Bornes à ±2 écarts-types"), linewidth = 0.5) +
+  geom_line(aes(y = borne_sup, group = 1, colour = "Bornes à ±2 écarts-types", linetype = "Bornes à ±2 écarts-types"), linewidth = 0.5) +
+  geom_line(aes(group = 1, colour = "Prédiction GLM", linetype = "Prédiction GLM"), linewidth = 0.5) +
+  geom_point(aes(colour = "Prédiction GLM", linetype = "Prédiction GLM"), size = 1.35) +
+  scale_colour_manual(name = "Série", values = c(
+    `Prédiction GLM` = unname(couleurs_act["bleu"]),
+    `Bornes à ±2 écarts-types` = unname(couleurs_act["rouge"])
+  )) +
+  scale_linetype_manual(name = "Série", values = c(
+    `Prédiction GLM` = "solid",
+    `Bornes à ±2 écarts-types` = "dashed"
+  )) +
   scale_y_continuous(
-    breaks = seq(0, 3.5, by = 0.5),
-    limits = c(0, 3.5),
+    breaks = scales::breaks_width(0.25),
     sec.axis = axe_exposition(0.000007, "Nombre de polices")
+  ) +
+  scale_x_continuous(
+    breaks = dispositifs_feu$position,
+    labels = as.character(dispositifs_feu$dispositif)
   ) +
   labs(
     title = "Incertitude selon les dispositifs de détection",
     x = NULL,
     y = "Relativité indiquée"
   ) +
-  theme_act
+  theme_act +
+  theme_exemple_glm
 ```
 
----
+##
 
-Consistance d’une année à l’autre.
-
----
+### Stabilité des résultats d’une année à l’autre
 
 ```{r}
-#| label: dispositifs-consistance
+#| label: dispositifs-stabilite
 #| fig-width: 8
 #| fig-height: 3.4
 #| fig-alt: "Relativités pour les dispositifs de détection du feu selon quatre années, avec l’exposition en arrière-plan. Les tendances annuelles sont irrégulières et aucun effet systématique clair ne se dégage."
@@ -652,52 +791,57 @@ dispositifs_annee$dispositif <- factor(
   labels = levels(dispositifs_feu$dispositif)
 )
 
-ggplot(dispositifs_annee, aes(dispositif, relativite, colour = annee, linetype = annee, group = annee)) +
-  geom_exposition(dispositifs_feu, "dispositif", "polices", facteur = 0.0000028) +
-  geom_hline(yintercept = 1, colour = couleurs_act["gris"], linewidth = 0.6) +
-  geom_line(linewidth = 0.85) +
+ggplot(dispositifs_annee, aes(dispositif, relativite, colour = annee, shape = annee, group = annee)) +
+  geom_exposition(dispositifs_feu, "dispositif", "polices", facteur = 0.0000028, alpha = 0.6) +
+  geom_hline(yintercept = 1, colour = couleurs_act["gris"], linewidth = 0.4) +
+  geom_line(linewidth = 0.5) +
+  geom_point(size = 1.35) +
   scale_colour_manual(name = "Année", values = c(
-    `2011` = unname(couleurs_act["rouge"]),
-    `2012` = unname(couleurs_act["vert"]),
-    `2013` = unname(couleurs_act["bleu"]),
-    `2014` = unname(couleurs_act["or"])
+    `2011` = couleurs_annees[1],
+    `2012` = couleurs_annees[2],
+    `2013` = couleurs_annees[3],
+    `2014` = couleurs_annees[4]
   )) +
-  scale_linetype_manual(name = "Année", values = c(
-    `2011` = "solid",
-    `2012` = "dashed",
-    `2013` = "dotdash",
-    `2014` = "dotted"
+  scale_shape_manual(name = "Année", values = c(
+    `2011` = formes_annees[1],
+    `2012` = formes_annees[2],
+    `2013` = formes_annees[3],
+    `2014` = formes_annees[4]
   )) +
   scale_y_continuous(
-    breaks = seq(0, 1.4, by = 0.1),
-    limits = c(0, 1.4),
+    breaks = scales::breaks_width(0.25),
     sec.axis = axe_exposition(0.0000028, "Nombre de polices")
   ) +
   labs(
-    title = "Consistance des relativités selon l’année",
+    title = "Stabilité des relativités selon l’année",
     x = NULL,
     y = "Relativité indiquée"
   ) +
-  theme_act
+  theme_act +
+  theme_exemple_glm
 ```
 
----
+##
 
-Test statistique.
+### Test statistique
 
 Chi carré : 74 %.
 
 Comme le Chi carré est supérieur à 30 %, l’actuaire devrait conclure que les deux modèles sont équivalents et donc choisir celui qui n’inclut pas la variable de dispositifs contre le feu.
 
----
+##
 
-Jugement.
+### Jugement
 
 Dans ce cas-ci, les tests sont en ligne avec l’intuition que la fréquence de dommage par le vent n’est pas dépendante de la présence de détecteur de fumée, de système d’arrosage ou d’alarme de feu.
 
----
+##
 
-Décision : les tests suggèrent que la variable n’est pas prédictive et ne devrait donc pas être utilisée dans le modèle de fréquence de dommages par le vent.
+### Décision
+
+Les tests suggèrent que la variable n’est pas prédictive et ne devrait donc pas être utilisée dans le modèle de fréquence de dommages par le vent.
+
+::::
 
 # Considérations pratiques {data-progress-label=""}
 
@@ -705,7 +849,7 @@ Décision : les tests suggèrent que la variable n’est pas prédictive et ne 
 
 - Des logiciels de GLM existent et sont utilisés par les compagnies d’assurance.
 - Le rôle de l’actuaire inclut entre autres de :
-  - S’assurer que les données sont adéquates pour le niveau de détail de l’analyse de tarification (« Garbage in = Garbage out »)
+  - S’assurer que les données sont adéquates pour le niveau de détail de l’analyse de tarification (*« Garbage in = Garbage out »*)
   - Identifier lorsque des résultats irréguliers nécessitent une explication supplémentaire
   - Revoir le modèle en ayant en tête les considérations statistiques et l’application pour la compagnie
   - Développer des méthodes de communication des résultats appropriées en termes d’objectifs de tarification de la compagnie (dislocation, compétitivité, etc.)
