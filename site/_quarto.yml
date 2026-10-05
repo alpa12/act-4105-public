@@ -52,6 +52,8 @@ website:
             text: "Cours 6 : Classification traditionnelle des risques"
           - href: cours/07.qmd
             text: "Cours 7 : Examen 1"
+          - href: cours/08.qmd
+            text: "Cours 8 : Classification multivariée"
       - text: Notes
         menu:
           - href: chapitres/index.qmd
@@ -74,8 +76,8 @@ website:
             text: "Chapitre 8 : Indiqué global"
           - href: chapitres/09-classification-traditionnelle-des-risques/diapos.qmd
             text: "Chapitre 9 : Classification traditionnelle des risques"
-          # - href: chapitres/10-classification-multivariee/diapos.qmd
-          #   text: "Chapitre 10 : Classification multivariée"
+          - href: chapitres/10-classification-multivariee/diapos.qmd
+            text: "Chapitre 10 : Classification multivariée"
       - text: Exercices
         menu:
           - href: chapitres/index.qmd
@@ -98,6 +100,8 @@ website:
             text: "Chapitre 8 : Indiqué global"
           - href: chapitres/09-classification-traditionnelle-des-risques/exercices.qmd
             text: "Chapitre 9 : Classification traditionnelle des risques"
+          - href: chapitres/10-classification-multivariee/exercices.qmd
+            text: "Chapitre 10 : Classification multivariée"
       - text: Révisions
         menu:
           - href: revisions/revision-examen-1/diapos.qmd

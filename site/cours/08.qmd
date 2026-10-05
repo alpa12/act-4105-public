@@ -1,0 +1,9 @@
+---
+title: "Classification multivariée"
+description: "Présente les limites des méthodes de classification univariées, les bénéfices des analyses multivariées et les modèles linéaires généralisés pour la tarification."
+label: "Classification multivariée"
+week-id: 10
+chapitres:
+  - path: /chapitres/10-classification-multivariee
+    title: "Classification multivariée"
+---
