@@ -1,0 +1,640 @@
+---
+title: "Chapitre 12: Crédibilité"
+format:
+  revealjs: default
+metadata-files:
+  - ../_diapos.yml
+---
+
+## Lectures recommandées
+
+Ce chapitre est adapté du chapitre 12 du texte *Basic Ratemaking* :
+
+[Werner, G. et Modlin, C. (2016). *Basic Ratemaking*, Casualty Actuarial Society, 5e édition.](http://www.casact.org/library/studynotes/Werner_Modlin_Ratemaking.pdf)
+
+## Contenu du chapitre {.progress-overview}
+
+# Mesurer la crédibilité d’un estimé actuariel {data-progress-label="Mesurer"}
+
+## Introduction
+
+Dans les chapitres précédents, on a appliqué des techniques de tarification qui utilisaient les données historiques pour développer des estimés actuariels de l’expérience de sinistre future.
+
+**Loi des grands nombres**
+
+Lorsque le volume d’unités similaires et indépendantes augmente, l’expérience observée approche la « vraie » expérience.
+
+L’expérience d’un assuré peut varier significativement d’une année à l’autre. En assurant un grand nombre de risques indépendants, l’expérience du groupe entier devient plus stable et peut être prédite de façon plus précise.
+
+## Crédibilité
+
+::: {.center}
+Mesure de la valeur prédictive que l’actuaire accorde à ses données.
+:::
+
+---
+
+$Z$ est la quantité de crédibilité accordée à l’expérience observée.
+
+En assumant des risques homogènes, la quantité de crédibilité accordée à l’expérience observée doit respecter les critères de base suivants :
+
+1. $0 \leq Z \leq 1$.
+2. $Z$ augmente lorsque le nombre de risques dans l’analyse augmente, toutes autres choses étant égales par ailleurs.
+3. Lorsque le nombre de risques augmente, toutes autres choses étant égales par ailleurs, $Z$ devrait augmenter à un taux non croissant.
+
+## Approche classique de crédibilité {.english-subtitle subtitle="Classical Credibility Approach"}
+
+$$
+\text{Estimé} = Z \times \text{Expérience observée}
++ (1 - Z) \times \text{Expérience reliée}
+$$
+
+$Y$ : nombre total de réclamations  
+$S$ : montant total de sinistres
+
+On détermine $\operatorname{E}(Y)$ requis pour que l’expérience observée soit pleinement crédible ($Z = 1$).
+
+---
+
+L’expérience observée est considérée pleinement crédible lorsque la probabilité $p$ est élevée dans l’équation suivante :
+
+$$
+\Pr\left(left|Y - \operatorname{E}(Y)\right|
+\leq k\operatorname{E}(Y)\right) \geq p
+$$
+
+Selon le théorème central limite :
+
+$$
+\frac{Y - \operatorname{E}(Y)}{\sqrt{\operatorname{Var}(Y)}}
+\sim N(0, 1)
+$$
+
+---
+
+L’expression peut être transformée de la façon suivante :
+
+$$
+\Pr\left(
+-\frac{k\operatorname{E}(Y)}{\sqrt{\operatorname{Var}(Y)}}
+\leq
+\frac{Y - \operatorname{E}(Y)}{\sqrt{\operatorname{Var}(Y)}}
+\leq
+\frac{k\operatorname{E}(Y)}{\sqrt{\operatorname{Var}(Y)}}
+\right) \geq p
+$$
+
+Comme la loi normale est symétrique autour de sa moyenne :
+
+$$
+\frac{k\operatorname{E}(Y)}{\sqrt{\operatorname{Var}(Y)}}
+\geq z_{(p+1)/2}
+$$
+
+où $z_{(p+1)/2}$ est la valeur d’une table de loi $N(0, 1)$ telle que $\Pr\left(N(0,1) \leq z_{(p+1)/2}\right) = (p+1)/2$.
+
+---
+
+**Hypothèses sur l’expérience observée :**
+
+- Les unités d’exposition sont homogènes (elles ont le même nombre de réclamations espérées).
+- $Y \sim \operatorname{Poisson}$, donc $\operatorname{E}(Y) = \operatorname{Var}(Y)$.
+- La sévérité est constante : $S / Y = a$, donc $S = aY$.
+
+---
+
+Avec ces hypothèses, on obtient :
+
+$$
+k\sqrt{\operatorname{E}(Y)} \geq z_{(p+1)/2}
+$$
+
+et ainsi le nombre de réclamations requis pour une crédibilité complète est :
+
+$$
+\operatorname{E}(Y) \geq \left(\frac{z_{(p+1)/2}}{k}\right)^2
+$$
+
+---
+
+Par exemple, si on souhaite avoir une probabilité de 90 % ($p = 0.90$) que l’expérience soit à plus ou moins 5 % de sa valeur espérée ($k = 0.05$) :
+
+$$
+\operatorname{E}(Y) \geq \left(\frac{1.645}{0.05}\right)^2 = 1\,082
+$$
+
+Le nombre de réclamations requis pour que l’expérience soit pleinement crédible est de 1 082.
+
+::: {.notes}
+L’approche classique est simple, très répandue et bien acceptée, malgré ses hypothèses simplificatrices.
+:::
+
+---
+
+Dans le cas où le nombre de réclamations dans l’expérience est inférieur à celui requis pour la pleine crédibilité, la règle de la racine carrée est appliquée :
+
+$$
+Z = \min\left(\sqrt{\frac{Y}{\operatorname{E}(Y)_{\text{pleine crédibilité}}}}, 1\right)
+$$
+
+Par exemple, avec 100 réclamations dans l’expérience :
+
+$$
+Z = \sqrt{\frac{100}{1\,082}} = 0.30
+$$
+
+---
+
+En pratique, on peut vouloir exprimer le standard pour une crédibilité complète selon les unités acquises plutôt que selon le nombre de réclamations.
+
+| $k$ | $p$ | $z_{(p+1)/2}$ | Réclamations pour crédibilité complète | Fréquence | Unités acquises pour crédibilité complète |
+|---:|---:|---:|---:|---:|---:|
+| 5 % | 90 % | 1.645 | 1 082 | 5.0 % | 21 640 |
+| 10 % | 90 % | 1.645 | 271 | 5.0 % | 5 420 |
+| 5 % | 95 % | 1.960 | 1 537 | 5.0 % | 30 740 |
+| 10 % | 95 % | 1.960 | 384 | 5.0 % | 7 680 |
+
+:::: {.question title="Estimé crédibilisé de la prime pure"}
+
+Calculer l’estimé crédibilisé de la prime pure avec les données suivantes :
+
+- Le standard pour crédibilité complète exige que la valeur observée soit à l’intérieur de plus ou moins 5 % de sa moyenne dans 90 % des cas.
+- Les unités sont homogènes, $Y \sim \operatorname{Poisson}$ et il n’y a aucune variation dans la sévérité.
+- La prime pure observée est de 200 $.
+- La prime pure de l’expérience reliée est de 300 $.
+
+a. La prime pure observée est basée sur 100 réclamations.  
+b. La prime pure observée est basée sur 1 500 réclamations.
+
+::: {.solution}
+
+##
+
+Pour 100 réclamations :
+
+$$
+Z = \min\left(\sqrt{\frac{100}{1\,082}}, 1\right) = 0.30
+$$
+
+$$
+\text{Prime pure crédibilisée}
+= 0.30 \times 200 + (1 - 0.30) \times 300
+= 270
+$$
+
+##
+
+Pour 1 500 réclamations :
+
+$$
+Z = \min\left(\sqrt{\frac{1\,500}{1\,082}}, 1\right) = 1
+$$
+
+$$
+\text{Prime pure crédibilisée}
+= 1 \times 200 + (1 - 1) \times 300
+= 200
+$$
+
+:::
+::::
+
+# Qualités désirables d’un complément de crédibilité {data-progress-label="Qualités"}
+
+## Qualités désirables d’un complément de crédibilité
+
+$$
+\text{Estimé} = Z \times \text{Expérience observée}
++ (1 - Z) \times \text{Expérience reliée}
+$$
+
+L’expérience observée constitue la **base statistique**; l’expérience reliée constitue le **complément de crédibilité**.
+
+---
+
+Un complément de crédibilité devrait être :
+
+1. **Précis** : la variance de l’erreur autour des sinistres futurs espérés estimés doit être la plus petite possible.
+2. **Non biaisé** : il ne devrait pas être systématiquement plus haut ou plus bas que l’expérience observée.
+3. **Statistiquement indépendant de la base statistique** : autrement, les erreurs sont composées.
+4. **Disponible** : autrement, le complément n’est pas pratique.
+5. **Facile à calculer**.
+6. En **relation logique** avec la base statistique.
+
+::: {.callout-warning}
+**Non biaisé** et **précis** sont deux concepts différents.
+:::
+
+# Complément pour une couverture au premier dollar {data-progress-label="Premier dollar"}
+
+## Tarification d’une couverture au premier dollar {.english-subtitle subtitle="First Dollar Ratemaking"}
+
+Les produits d’assurance au premier dollar couvrent les réclamations à partir du premier dollar de perte, ou après une franchise peu élevée, jusqu’à une certaine limite.
+
+Exemples :
+
+- Couverture bâtiment en assurance habitation avec une limite de 500 000 $ et une franchise de 500 $.
+- Couverture responsabilité civile en assurance habitation avec une limite de 2 M $.
+
+---
+
+Six méthodes peuvent déterminer un complément de crédibilité pour une couverture au premier dollar :
+
+1. Prime pure d’un grand groupe qui inclut le groupe tarifé.
+2. Prime pure d’un grand groupe relié.
+3. Changement de taux d’un grand groupe appliqué aux taux présents.
+4. Méthode d’Harwayne.
+5. Taux présents projetés.
+6. Taux des compétiteurs.
+
+## Prime pure d’un grand groupe qui inclut le groupe tarifé {.english-subtitle subtitle="Loss Costs of a Larger Group that Include the Group being Rated"}
+
+Exemples :
+
+- Un assureur canadien peut utiliser l’expérience de tout le Canada comme complément à l’expérience du Québec analysée.
+- Un assureur en responsabilité professionnelle peut utiliser l’expérience des omnipraticiens comme complément à celle des pédiatres.
+- Un assureur automobile peut utiliser l’expérience des 16 à 19 ans comme complément à celle des 16 ans.
+- Un assureur peut utiliser les données d’une période plus longue comme complément à l’expérience observée d’une période courte.
+
+---
+
+Nous cherchons un complément de crédibilité pour la prime pure 2019 du groupe A, classe 1.
+
+| Groupe | Classe | Unités 2019 | Prime pure 2019 | Unités 2017–2019 | Prime pure 2017–2019 |
+|:---|:---|---:|---:|---:|---:|
+| A | 1 | 100 | 50 $ | 250 | 64 $ |
+| A | 2 | 300 | 67 $ | 850 | 65 $ |
+| A | 3 | 400 | 48 $ | 1 100 | 50 $ |
+| A | 1, 2, 3 | 800 | 55 $ | 2 200 | 57 $ |
+| B | 1, 2 et 3 | 800 | 48 $ | 1 700 | 32 $ |
+| C | 1, 2 et 3 | 600 | 72 $ | 2 800 | 86 $ |
+| D | 1, 2 et 3 | 1 000 | 94 $ | 5 600 | 87 $ |
+| **Total** | **Total** | **4 000** | **74 $** | **12 300** | **74 $** |
+
+---
+
+Une option est d’utiliser la prime pure 2017 à 2019 de 64 $.
+
+- Le complément n’est pas indépendant (plus du tiers des unités y contribue).
+- Il peut être biaisé si la prime pure a changé durant les années visées.
+
+---
+
+Une autre option est la prime pure totale de 74 $.
+
+- Elle est plus indépendante (100 unités sur 4 000).
+- Elle est moins volatile : les primes pures sur un an et trois ans sont égales.
+- Un biais peut être présent : 50 $ est inférieur à 74 $ et 64 $ est inférieur à 74 $.
+
+---
+
+Une autre option est la prime pure annuelle du groupe A, soit 55 $.
+
+- Elle est précise : la prime pure annuelle de 55 $ est similaire à celle sur trois ans, de 57 $.
+- Elle est possiblement non biaisée, car elle est près de la prime pure annuelle du groupe A, classe 1, de 50 $.
+
+::: {.notes}
+Cette dernière option serait probablement la meilleure parmi les options présentées.
+:::
+
+---
+
+Évaluation du complément :
+
+- Sa variance est plus basse que celle du groupe tarifé, car le grand groupe contient plus de données.
+- Il est probablement biaisé, ce qui explique pourquoi le groupe tarifé avait été séparé du grand groupe.
+- Il n’est pas indépendant si le groupe tarifé est prédominant dans le grand groupe; on peut exclure le groupe tarifé du complément.
+- La prime pure du grand groupe est souvent disponible et facile à calculer.
+- Si tous les risques du grand groupe ont quelque chose en commun, le complément possède une connexion logique avec le groupe tarifé.
+
+## Prime pure d’un grand groupe relié {.english-subtitle subtitle="Loss Costs of a Larger Related Group"}
+
+La prime pure d’un grand groupe séparé, mais similaire, est utilisée comme complément.
+
+Exemple : en assurance habitation pour les condos, l’expérience de la couverture « contenu » des propriétaires occupants peut servir de complément de crédibilité pour le contenu des condos.
+
+Évaluation du complément :
+
+- Généralement biaisé; l’idéal est de l’ajuster pour réduire le biais, ce qui peut être difficile à expliquer.
+- Indépendant.
+- Les données sont normalement disponibles et les calculs devraient être les mêmes que ceux du groupe tarifé.
+- Sa relation logique est forte lorsque les groupes sont étroitement liés.
+
+## Changement de taux d’un grand groupe appliqué aux taux présents {.english-subtitle subtitle="Rate Change from the Larger Group Applied to Present Rates"}
+
+Au lieu d’utiliser la prime pure d’un groupe relié, on utilise le changement de taux indiqué d’un grand groupe et on l’applique à la prime pure du groupe tarifé :
+
+$$
+C = \text{Prime pure actuelle du groupe tarifé}
+\times
+\frac{\text{Prime pure indiquée d’un grand groupe}}
+     {\text{Prime pure actuelle d’un grand groupe}}
+$$
+
+Ce complément est non biaisé. Si les changements de taux sont relativement petits, il est précis à long terme. Son indépendance dépend de la grosseur du groupe tarifé relativement au grand groupe; les données sont disponibles et les calculs simples.
+
+---
+
+**Exemple**
+
+- Prime pure actuelle du groupe tarifé : 200 $.
+- Prime pure indiquée du grand groupe : 330 $.
+- Prime pure actuelle du grand groupe : 300 $.
+
+$$
+C = 200 \times \frac{330}{300} = 220
+$$
+
+## Méthode d’Harwayne
+
+La méthode est utilisée lorsque l’expérience du groupe tarifé et l’expérience reliée ont des distributions significativement différentes.
+
+Par exemple, le groupe tarifé peut être dans une province alors que le complément considère d’autres provinces, qui ont des niveaux de coûts différents à cause de différences légales, de densité de population, etc.
+
+---
+
+Calculer un complément de crédibilité pour la classe 1 du Québec selon la méthode d’Harwayne.
+
+| Province | Classe | Unités acquises | Sinistres | Prime pure |
+|:---|:---|---:|---:|---:|
+| Québec | 1 | 100 | 250 $ | 2.50 $ |
+|  | 2 | 125 | 500 $ | 4.00 $ |
+|  | Sous-total | 225 | 750 $ | 3.33 $ |
+| Ontario | 1 | 190 | 600 $ | 3.16 $ |
+|  | 2 | 325 | 1 500 $ | 4.62 $ |
+|  | Sous-total | 515 | 2 100 $ | 4.08 $ |
+| Nouveau-Brunswick | 1 | 180 | 500 $ | 2.78 $ |
+|  | 2 | 450 | 1 800 $ | 4.00 $ |
+|  | Sous-total | 630 | 2 300 $ | 3.65 $ |
+| **Total** | **1** | **470** | **1 350 $** | **2.87 $** |
+|  | **2** | **900** | **3 800 $** | **4.22 $** |
+|  | **Total** | **1 370** | **5 150 $** | **3.76 $** |
+
+---
+
+**Étape 1 : Calculer la prime pure moyenne du Québec.**
+
+$$
+\overline{L}_Q = \frac{100 \times 2.50 + 125 \times 4.00}{100 + 125} = 3.33
+$$
+
+---
+
+**Étape 2 : Calculer les primes pures de l’Ontario et du Nouveau-Brunswick avec la distribution du Québec.**
+
+$$
+\widehat{L}_O = \frac{100 \times 3.16 + 125 \times 4.62}{100 + 125} = 3.97
+$$
+
+$$
+\widehat{L}_N = \frac{100 \times 2.78 + 125 \times 4.00}{100 + 125} = 3.46
+$$
+
+---
+
+**Étape 3 : Calculer les facteurs d’ajustement pour les différences entre les provinces.**
+
+$$
+F_O = \frac{\overline{L}_Q}{\widehat{L}_O} = \frac{3.33}{3.97} = 0.84
+\qquad
+F_N = \frac{\overline{L}_Q}{\widehat{L}_N} = \frac{3.33}{3.46} = 0.96
+$$
+
+---
+
+**Étape 4 : Calculer les primes pures ajustées de la classe 1.**
+
+$$
+\widehat{L}_{1,O} = 3.16 \times 0.84 = 2.65
+\qquad
+\widehat{L}_{1,N} = 2.78 \times 0.96 = 2.67
+$$
+
+---
+
+**Étape 5 : Pondérer les primes pures ajustées par les unités acquises.**
+
+$$
+C = \frac{2.65 \times 190 + 2.67 \times 180}{190 + 180} = 2.66
+$$
+
+---
+
+Évaluation du complément :
+
+- Non biaisé, puisqu’il s’ajuste aux différences de distribution.
+- Assez précis lorsqu’il y a suffisamment de données nationales pour minimiser la variance.
+- Indépendant, car il considère les données de différentes provinces.
+- Les données sont généralement disponibles, mais les calculs peuvent être compliqués et longs.
+- Sa relation logique avec le groupe tarifé peut être difficile à expliquer, car les calculs sont complexes.
+
+## Taux présents projetés {.english-subtitle subtitle="Trended Present Rates"}
+
+Si aucun grand groupe n’est disponible, l’actuaire peut utiliser les taux courants comme meilleur estimé du taux indiqué.
+
+Deux ajustements sont nécessaires :
+
+- Ajuster aux taux précédemment indiqués plutôt qu’aux taux implantés.
+- Projeter les taux courants pour l’inflation, les changements de distribution, etc., de la date prévue d’implantation originale à la date prévue des nouveaux taux.
+
+::: {.callout-warning}
+La date de début est la date **prévue** d’implantation, et non sa date réelle, car c’était la date assumée dans l’analyse précédente.
+:::
+
+---
+
+Pour un taux indiqué :
+
+$$
+C = \text{Taux actuel}
+\times \text{Facteur de tendance dans les sinistres}
+\times
+\frac{1 + \text{changement de taux indiqué dans la dernière analyse}}
+     {1 + \text{changement de taux implanté dans la dernière analyse}}
+$$
+
+---
+
+Pour un facteur de changement de taux indiqué :
+
+$$
+C =
+\frac{\text{Facteur de tendance dans les sinistres}}
+     {\text{Facteur de tendance dans les primes}}
+\times
+\frac{1 + \text{changement de taux indiqué dans la dernière analyse}}
+     {1 + \text{changement de taux implanté dans la dernière analyse}}
+$$
+
+:::: {.question title="Complément selon les taux présents projetés"}
+
+- Taux actuel moyen : 200 $.
+- Tendance annuelle dans les sinistres sélectionnée : 5 %.
+- Changement de taux indiqué lors de la dernière analyse : +10 %; date prévue d’implantation : 1er janvier 2011.
+- Changement de taux implanté lors de la dernière analyse : +6 %; date réelle d’implantation : 1er février 2011.
+- Date proposée pour l’implantation des nouveaux taux : 1er janvier 2013.
+
+Quel est le complément de crédibilité pour le taux indiqué ?
+
+::: {.solution}
+
+Les sinistres sont projetés de la date d’implantation prévue lors de la dernière analyse, le 1er janvier 2011, à la date prévue pour le prochain changement de taux, le 1er janvier 2013 : soit deux ans.
+
+$$
+C = 200 \times 1.05^2 \times \frac{1 + 0.10}{1 + 0.06} = 229
+$$
+
+:::
+::::
+
+## Taux présents projetés {.english-subtitle subtitle="Trended Present Rates"}
+
+Évaluation du complément :
+
+- Sa précision dépend beaucoup de la variance des primes pures historiques; il est surtout utilisé pour des indiqués ayant un grand volume de données.
+- Il est non biaisé si les primes pures projetées sont non biaisées.
+- Il peut être indépendant ou non, selon le chevauchement entre l’expérience historique du groupe tarifé et celle du complément.
+- Les données sont disponibles, les calculs faciles et l’approche est facile à expliquer.
+
+## Taux des compétiteurs
+
+Cette méthode est utile pour les nouvelles ou petites compagnies qui ont peu de données. Lorsque les compétiteurs ont un grand nombre d’unités d’exposition, on suppose que leurs statistiques sont plus fiables.
+
+Évaluation du complément :
+
+- Il peut être imprécis, car les taux des compétiteurs reposent aussi sur le marketing, le jugement et d’autres considérations.
+- Il peut être biaisé, car les pratiques de souscription ou de règlement des sinistres peuvent différer.
+- Il est indépendant.
+- Les calculs sont simples, mais les données peuvent être difficiles à obtenir.
+- Malgré les différences entre compétiteurs, les taux ont une certaine logique et sont généralement acceptés par les régulateurs.
+
+# Complément pour une couverture excédentaire {data-progress-label="Excédentaire"}
+
+## Tarification d’une couverture excédentaire {.english-subtitle subtitle="Excess Ratemaking"}
+
+Les produits d’assurance excédentaires couvrent les réclamations au-dessus d’un certain montant et jusqu’à concurrence d’une certaine limite.
+
+Exemple : couverture de responsabilité d’un entrepreneur pour la tranche de 500 000 $ à 5 M $.
+
+---
+
+Trois méthodes peuvent déterminer un complément de crédibilité pour une couverture excédentaire :
+
+1. Facteurs de limites augmentées (*increased limits factors*, ILF).
+2. Facteurs de limites réduites (*lower limits analysis*).
+3. Courbes théoriques.
+
+Le complément est souvent plus important que l’expérience du groupe tarifé, car le volume de données est souvent faible et les données sont généralement volatiles.
+
+## Facteurs de limites augmentées {.english-subtitle subtitle="Increased Limits Factors (ILFs)"}
+
+Les facteurs de limites augmentées ajustent les sinistres écrêtés à un montant $A$ pour produire un estimé des sinistres dans une tranche spécifiée, soit de $A$ à $A + L$.
+
+$L_A$ représente les sinistres écrêtés à $A$.  
+$ILF_A$ est le facteur de limite augmentée à $A$.  
+$ILF_{A+L}$ est le facteur de limite augmentée à $A + L$.
+
+:::: {.question title="Facteurs de limites augmentées"}
+
+| Limite de responsabilité | Facteur de limite augmentée |
+|---:|---:|
+| 100 000 $ | 1.00 |
+| 250 000 $ | 1.75 |
+| 500 000 $ | 2.50 |
+| 750 000 $ | 3.00 |
+| 1 000 000 $ | 3.40 |
+
+Calculer le complément de crédibilité pour les sinistres dans la tranche 500 K–750 K, sachant que les sinistres écrêtés à 500 K sont de 2 M $.
+
+::: {.solution}
+
+$$
+C = L_A \times \frac{ILF_{A+L} - ILF_A}{ILF_A}
+$$
+
+$$
+C = 2\,000\,000 \times \frac{3.00 - 2.50}{2.50} = 400\,000
+$$
+
+:::
+::::
+
+## Facteurs de limites augmentées {.english-subtitle subtitle="Increased Limits Factors (ILFs)"}
+
+Évaluation du complément :
+
+- Il est biaisé si l’expérience analysée a une distribution des sinistres différente de celle utilisée pour calculer les ILF, même s’il s’agit souvent du meilleur estimé disponible.
+- Son erreur est liée à une erreur de paramètres et elle est donc indépendante de l’erreur de la base statistique.
+- La procédure requiert des ILF, de préférence d’industrie, et des sinistres non écrêtés à une limite inférieure à $A$.
+- Elle peut être controversée, car l’estimé est davantage lié aux données sous la tranche, de 0 à $A$, qu’aux données dans la tranche $A$ à $A + L$.
+
+## Facteurs de limites réduites {.english-subtitle subtitle="Lower Limits Analysis"}
+
+Si les sinistres sont trop épars pour être fiables, l’actuaire peut utiliser les sinistres limités à une limite inférieure $d$, où $d < A$.
+
+$L_d$ représente les sinistres écrêtés à $d$.  
+$ILF_d$ est le facteur de limite augmentée à $d$.
+
+:::: {.question title="Facteurs de limites réduites"}
+
+| Limite de responsabilité | Facteur de limite augmentée |
+|---:|---:|
+| 100 000 $ | 1.00 |
+| 250 000 $ | 1.75 |
+| 500 000 $ | 2.50 |
+| 750 000 $ | 3.00 |
+| 1 000 000 $ | 3.40 |
+
+Calculer le complément de crédibilité pour la tranche 500 K–750 K, sachant que les sinistres écrêtés à 250 K sont de 1.5 M $.
+
+::: {.solution}
+
+$$
+C = L_d \times \frac{ILF_{A+L} - ILF_A}{ILF_d}
+$$
+
+$$
+C = 1\,500\,000 \times \frac{3.00 - 2.50}{1.75} = 428\,571
+$$
+
+:::
+::::
+
+## Facteurs de limites réduites {.english-subtitle subtitle="Lower Limits Analysis"}
+
+Évaluation du complément :
+
+- Il est difficile de déterminer si cette méthode est plus précise que la méthode des facteurs de limites augmentées. Elle peut être plus biaisée, car les différences dans les distributions de sinistres sont accentuées, mais elle peut être plus stable.
+- Son erreur est généralement indépendante de celle de la base statistique.
+- Les données sont généralement disponibles, du moins pour les sinistres écrêtés à la limite de base.
+- Les calculs ne sont pas plus difficiles qu’avec la première méthode.
+- Elle est critiquée parce que l’estimé repose davantage sur les données aux limites inférieures que sur les données de la tranche tarifée.
+
+## Courbes théoriques
+
+Pour une couverture de la tranche $A$ à $A + L$ :
+
+$$
+\%\ \text{des sinistres dans la tranche } [A, A+L]
+= \frac{\operatorname{E}[\min(X, A+L)] - \operatorname{E}[\min(X, A)]}
+       {\operatorname{E}[X]}
+$$
+
+Ce pourcentage peut ensuite être appliqué aux sinistres totaux afin de déterminer les sinistres espérés dans la tranche.
+
+---
+
+Évaluation du complément :
+
+- Il est moins biaisé et plus stable que les autres méthodes lorsque la courbe théorique reproduit bien la forme générale des données réelles; il est plus précis lorsqu’il y a peu de réclamations dans les tranches supérieures.
+- Son erreur est moins indépendante que celles des deux autres méthodes, puisque la sélection de la courbe dépend des données sous-jacentes.
+- Les calculs sont plus compliqués, moins faciles à communiquer et les données ne sont pas nécessairement disponibles.
+- Il est logiquement lié aux sinistres de la tranche.
+
+# Crédibilité et modélisation statistique {data-progress-label="Modélisation"}
+
+## Crédibilité lors de l’utilisation de méthodes de modélisation statistiques
+
+Typiquement, les résultats d’une analyse de classification multivariée ne sont pas crédibilisés avec les estimés actuariels traditionnels, c’est-à-dire les estimés univariés.
+
+Lors d’une analyse GLM, l’actuaire considère les tests de diagnostic, présentés au chapitre 10, pour déterminer le modèle final et les différentiels sélectionnés.
