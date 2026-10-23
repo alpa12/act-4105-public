@@ -1,0 +1,533 @@
+---
+metadata-files:
+  - ../_exercices.yml
+---
+
+<!-- Les formules rasterisées du PDF historique sont transcrites en LaTeX éditable. -->
+
+:::: {.question}
+Avec les données suivantes :
+
+- Vous établissez le standard pour crédibilité complète de façon à ce que la valeur observée soit à l’intérieur de plus ou moins 10 % de sa moyenne dans 95 % des cas.
+- La règle de la racine carrée est utilisée pour accorder de la crédibilité partielle.
+- Les unités dans votre portefeuille sont homogènes. La fréquence suit une loi de Poisson et la sévérité des réclamations est constante.
+- La prime pure est de 500 $ pour le Québec et elle est calculée sur 150 réclamations.
+- Vous décidez d’utiliser la prime pure de la province de l’Ontario (1 000 $) comme complément de crédibilité.
+- Quelques données pour une loi $N(0,1)$ :
+
+| $x$ | 1.28 | 1.645 | 1.96 | 2.33 |
+|---:|---:|---:|---:|---:|
+| $\Pr(N(0,1) \leq x)$ | 0.90 | 0.95 | 0.975 | 0.99 |
+
+::: {.question}
+Déterminer le nombre de réclamations nécessaires pour que l’expérience soit pleinement crédible.
+
+::: {.solution}
+
+On a $k = 10\ \%$ et $p = 0.95$.
+
+$$
+\operatorname{E}(Y)
+= \left(\frac{z_{(p+1)/2}}{k}\right)^2
+= \left(\frac{1.96}{0.10}\right)^2
+= 384
+$$
+
+:::
+:::
+
+::: {.question}
+Quelle est la crédibilité accordée à l’expérience du Québec si elle contient 150 réclamations ?
+
+::: {.solution}
+
+$$
+Z = \sqrt{\frac{150}{384}} = 0.625
+$$
+
+:::
+:::
+
+::: {.question}
+Quelle est la prime pure crédibilisée du Québec ?
+
+::: {.solution}
+
+$$
+\text{Prime pure crédibilisée}
+= 0.625 \times 500 + (1 - 0.625) \times 1\,000
+= 688
+$$
+
+:::
+:::
+
+::: {.question}
+Donner une critique possible de l’utilisation de la prime pure de l’Ontario comme complément de crédibilité pour la prime pure du Québec.
+
+::: {.solution}
+
+Le principal inconvénient de la méthode de la prime pure d’un grand groupe relié est que ce complément est souvent biaisé. Il y a souvent des écarts de couverture, de coût des matériaux ou de coût de la main-d’œuvre entre les différentes provinces.
+
+:::
+:::
+::::
+
+:::: {.question}
+(CAS Examen 5, Printemps 2014 – Q5b)
+
+L’actuaire en chef se questionne à propos de la crédibilité des données de la compagnie dans un État et aimerait commencer à se crédibiliser avec les sinistres nationaux de la compagnie. Évaluer cette approche en considérant deux qualités désirables d’un complément de crédibilité.
+
+::: {.solution}
+
+- Utiliser un grand groupe qui inclut le groupe tarifé est logique tant que les données de l’État ne représentent pas une grande portion des sinistres du grand groupe (indépendance).
+- Les données sont généralement disponibles et le complément est facile à calculer.
+
+:::
+::::
+
+:::: {.question}
+(CAS Examen 5, 2009 – Q32)
+
+Avec l’information suivante :
+
+- Prime pure actuelle pour l’État X : 1 600 $.
+- Prime pure actuelle nationale : 1 800 $.
+- Prime pure nationale indiquée : 1 710 $.
+- Sinistres et frais de règlement de sinistres de l’État X : 1 000 000 $.
+- Unités d’exposition de l’État X : 1 000.
+- Frais fixes de l’État X : 200 000 $.
+- Frais variables : 25 %.
+- Profit et contingences : 5 %.
+- Le standard pour crédibilité complète est de 16 000 unités.
+- De la crédibilité partielle est assignée en utilisant la règle de la racine carrée.
+- Le complément de crédibilité est déterminé en utilisant la méthode « changement de taux d’un grand groupe appliqué aux taux présents ».
+
+Calculer le taux indiqué crédibilisé pour l’État X.
+
+::: {.solution}
+
+Étant donné que les sinistres et les unités sont fournis, nous utilisons la méthode de la prime pure pour calculer le taux indiqué.
+
+La prime moyenne indiquée par unité est :
+
+$$
+\text{Taux indiqué}
+= \frac{\text{Prime pure (incluant les frais de règlement de sinistres)}
+  + \text{Frais de souscription fixes par unité}}
+ {1 - \%\ \text{frais variables} - \%\ \text{profit de souscription cible}}
+$$
+
+Puisque nous désirons obtenir un taux indiqué crédibilisé, nous utilisons la prime pure crédibilisée dans cette équation.
+
+La question ne le précise pas, mais nous supposons que les sinistres et frais de règlement sont développés à l’ultime et projetés à la période future, puisque nous calculons un taux indiqué.
+
+$$
+\text{Prime pure de l’État X} = \frac{1\,000\,000}{1\,000} = 1\,000
+$$
+
+Le standard pour crédibilité complète est exprimé selon les unités. L’expérience de l’État X comprend seulement 1 000 unités :
+
+$$
+Z = \sqrt{\frac{1\,000}{16\,000}} = 0.25
+$$
+
+Le complément est :
+
+$$
+\begin{aligned}
+C
+&= \text{Prime pure actuelle du groupe tarifé}
+\times \frac{\text{Prime pure indiquée d’un grand groupe}}
+             {\text{Prime pure actuelle d’un grand groupe}} \\
+&= 1\,600 \times \frac{1\,710}{1\,800} = 1\,520
+\end{aligned}
+$$
+
+La prime pure crédibilisée est :
+
+$$
+0.25 \times 1\,000 + 0.75 \times 1\,520 = 1\,390
+$$
+
+Les frais fixes par unité sont de $200\,000 / 1\,000 = 200$. Le taux indiqué crédibilisé est donc :
+
+$$
+\frac{1\,390 + 200}{1 - 0.25 - 0.05} = 2\,271.43
+$$
+
+:::
+::::
+
+:::: {.question}
+(CAS Examen 5, 2008 – Q22)
+
+On vous donne l’information suivante :
+
+- Taux moyen actuel : 200 $.
+- Tendance annuelle dans les sinistres : 10 %.
+- Le dernier changement demandé aux autorités était de 20 %.
+- Un changement de taux de 15 % avait été approuvé.
+- La date d’implantation demandée était le 2006/01/01.
+- La date d’implantation réelle a été le 2006/06/01.
+- La date d’implantation proposée pour le prochain changement est le 2008/01/01.
+
+::: {.question}
+Calculer le complément de crédibilité en utilisant la méthode des taux présents projetés.
+
+::: {.solution}
+
+Comme nous cherchons un taux indiqué :
+
+$$
+C = \text{Taux actuel}
+\times \text{Facteur de tendance dans les sinistres}
+\times \frac{1 + \text{changement de taux indiqué dans la dernière analyse}}
+             {1 + \text{changement de taux implanté dans la dernière analyse}}
+$$
+
+Pour calculer le facteur de tendance dans les sinistres, la période de projection va de la date d’implantation prévue lors du dernier changement de taux, le 2006/01/01, à la date d’implantation prévue du prochain changement, le 2008/01/01. La période de projection est donc de deux ans.
+
+$$
+C = 200 \times 1.10^2 \times \frac{1.20}{1.15} = 252.52
+$$
+
+:::
+:::
+
+::: {.question}
+Identifier un avantage et un désavantage d’utiliser la méthode des taux présents projetés pour déterminer un complément de crédibilité.
+
+::: {.solution}
+
+**Avantages :**
+
+- La méthode est non biaisée, car les taux présents sont non biaisés (ce sont les taux du portefeuille actuel).
+- Les données sont habituellement facilement disponibles; les calculs sont relativement simples, faciles à expliquer et à justifier.
+
+**Désavantage :** comme elle se base sur les taux actuels, elle peut manquer de précision si ces taux ont été calculés avec des primes pures volatiles.
+
+:::
+:::
+::::
+
+:::: {.question}
+(CAS Examen 5, 2007 – Q32)
+
+En utilisant les données suivantes, calculer le complément de crédibilité pour la prime pure de la classe 1 dans l’État A en utilisant la méthode d’Harwayne. Montrer tous vos calculs.
+
+| État | Classe | Unités | Sinistres |
+|:---|---:|---:|---:|
+| A | 1 | 130 | 180 |
+| A | 2 | 160 | 450 |
+| B | 1 | 150 | 330 |
+| B | 2 | 200 | 600 |
+| C | 1 | 130 | 180 |
+| C | 2 | 180 | 500 |
+| D | 1 | 140 | 320 |
+| D | 2 | 250 | 500 |
+
+::: {.solution}
+
+Les primes pures par État et classe sont :
+
+| État | Classe | Prime pure |
+|:---|---:|---:|
+| A | 1 | $180 / 130 = 1.3846$ |
+| A | 2 | 2.8125 |
+| B | 1 | 2.2000 |
+| B | 2 | 3.0000 |
+| C | 1 | 1.3846 |
+| C | 2 | 2.7778 |
+| D | 1 | 2.2857 |
+| D | 2 | 2.0000 |
+
+On calcule les primes pures pour chaque État avec la distribution des unités de l’État A :
+
+$$
+\begin{aligned}
+\overline{L}_A &= \frac{130 \times 1.3846 + 160 \times 2.8125}{130 + 160} = 2.1724 \\
+\widehat{L}_B &= \frac{130 \times 2.2000 + 160 \times 3.0000}{130 + 160} = 2.6414 \\
+\widehat{L}_C &= \frac{130 \times 1.3846 + 160 \times 2.7778}{130 + 160} = 2.1533 \\
+\widehat{L}_D &= \frac{130 \times 2.2857 + 160 \times 2.0000}{130 + 160} = 2.1281
+\end{aligned}
+$$
+
+Les facteurs d’ajustement sont :
+
+$$
+F_B = \frac{2.1724}{2.6414},
+\qquad
+F_C = \frac{2.1724}{2.1533},
+\qquad
+F_D = \frac{2.1724}{2.1281}
+$$
+
+On ajuste les primes pures de la classe 1 de chaque État $i$ avec le ratio $\overline{L}_A / \widehat{L}_i$ :
+
+$$
+\begin{aligned}
+\widehat{L}_{1,B} &= 2.2000 \times \frac{2.1724}{2.6414} = 1.8119 \\
+\widehat{L}_{1,C} &= 1.3846 \times \frac{2.1724}{2.1533} = 1.3969 \\
+\widehat{L}_{1,D} &= 2.2857 \times \frac{2.1724}{2.1281} = 2.3333
+\end{aligned}
+$$
+
+Le complément est pondéré par les unités de chaque État :
+
+$$
+C = \frac{150 \times 1.8119 + 130 \times 1.3969 + 140 \times 2.3333}{150 + 130 + 140} = 1.8572
+$$
+
+:::
+::::
+
+:::: {.question}
+(CAS Examen 5, 2006 – Q35 modifiée)
+
+Vous faites une révision de taux pour la responsabilité civile générale commerciale et vous avez l’information suivante :
+
+|  | 2002 | 2003 | 2004 |
+|:---|---:|---:|---:|
+| Taux de sinistre ultime projeté | 45 % | 65 % | 52 % |
+| Poids accordé à l’année | 20 % | 30 % | 50 % |
+| Nombre de réclamations rapportées | 1 945 | 2 370 | 2 260 |
+
+| Frais de souscription et profit | Pourcentage |
+|:---|---:|
+| Commissions et autres frais d’acquisition | 25 % |
+| Taxes, licences et frais d’association | 3 % |
+| Frais généraux | 14 % |
+| Profit cible | 5 % |
+
+| Résumé de la dernière analyse | Valeur |
+|:---|:---|
+| Date d’implantation prévue lors de la dernière analyse de changement de taux | 2005/06/01 |
+| Date d’effet du dernier changement de taux | 2006/09/01 |
+| Indiqué lors de la dernière analyse | 8 % |
+| Dernier changement de taux implanté | 3 % |
+
+- La tendance annuelle dans la fréquence est de 2 %.
+- La tendance annuelle dans la sévérité est de 4 %.
+- La tendance annuelle dans les primes est de 3 %.
+- Le nombre de réclamations requises pour accorder une crédibilité complète est de 10 000. La règle de la racine carrée est utilisée pour la crédibilité partielle.
+- Tous les frais sont variables.
+
+::: {.question}
+Calculer le changement de taux indiqué avant de considérer la crédibilité.
+
+::: {.solution}
+
+Le changement indiqué est :
+
+$$
+\frac{\frac{L + E_L}{P_C} + F}{1 - V - Q_T} - 1
+$$
+
+Le taux de sinistre ultime projeté est déjà donné pour chaque année. Le taux de sinistre total sur les trois années est :
+
+| Année | Taux de sinistre ultime projeté | Poids |
+|---:|---:|---:|
+| 2002 | 0.45 | 0.2 |
+| 2003 | 0.65 | 0.3 |
+| 2004 | 0.52 | 0.5 |
+| **Total** | **$0.45 \times 0.2 + 0.65 \times 0.3 + 0.52 \times 0.5 = 0.545$** | **–** |
+
+En assumant que tous les frais sont variables :
+
+$$
+\frac{0.545 + 0}{1 - 0.25 - 0.03 - 0.14 - 0.05} - 1 = 0.028301887
+$$
+
+En assumant que l’expérience est pleinement crédible, le changement indiqué est donc de +2.83 %.
+
+:::
+:::
+
+::: {.question}
+Calculer le complément de crédibilité en utilisant l’approche des taux présents projetés.
+
+::: {.solution}
+
+Le complément pour le facteur de changement de taux indiqué selon la méthode des taux présents projetés est :
+
+$$
+C =
+\frac{\text{Facteur de tendance dans les sinistres}}
+     {\text{Facteur de tendance dans les primes}}
+\times
+\frac{1 + \text{changement de taux indiqué dans la dernière analyse}}
+     {1 + \text{changement de taux implanté dans la dernière analyse}}
+$$
+
+La période de projection va de la date d’implantation prévue des taux courants, le 2005/06/01, à la date d’implantation prévue des nouveaux taux, le 2006/09/01 : elle est de 1.25 année.
+
+$$
+C = \frac{(1.02 \times 1.04)^{1.25}}{1.03^{1.25}}
+\times \frac{1.08}{1.03}
+= 1.087882245
+$$
+
+Le complément de crédibilité pour le changement de taux indiqué est donc de $1.087882245 - 1 = +8.7882245\ \%$.
+
+:::
+:::
+
+::: {.question}
+Calculer le changement de taux indiqué crédibilisé.
+
+::: {.solution}
+
+$$
+Z = \sqrt{\frac{1\,945 + 2\,370 + 2\,260}{10\,000}} = 0.810863737
+$$
+
+L’estimé crédibilisé du changement de taux indiqué est :
+
+$$
+(0.810863737 \times 0.028301887)
++ ((1 - 0.810863737) \times 0.087882245)
+= 0.0396
+$$
+
+:::
+:::
+::::
+
+:::: {.question}
+(CAS Examen 5, 2005 – Q18)
+
+En utilisant les données suivantes, calculer le complément de crédibilité pour la classe 3 basé sur le changement de taux d’un grand groupe appliqué aux taux présents.
+
+| Classe | Unités | Sinistres ultimes projetés | Prime pure actuelle |
+|---:|---:|---:|---:|
+| 1 | 200 | 100 000 $ | 550.00 $ |
+| 2 | 300 | 135 000 $ | 500.00 $ |
+| 3 | 500 | 215 000 $ | 455.00 $ |
+| **Total** | **1 000** | **450 000 $** | **487.50 $** |
+
+::: {.solution}
+
+Le complément de crédibilité est :
+
+$$
+\begin{aligned}
+C
+&= \text{Prime pure actuelle du groupe tarifé}
+\times \frac{\text{Prime pure indiquée d’un grand groupe}}
+             {\text{Prime pure actuelle d’un grand groupe}} \\
+&= 455 \times \frac{450\,000 / 1\,000}{487.50} = 420
+\end{aligned}
+$$
+
+:::
+::::
+
+:::: {.question}
+(CAS Examen 5, 2005 – Q44 modifiée)
+
+Utiliser l’information suivante pour déterminer le changement de taux indiqué. Montrer tous vos calculs.
+
+| Année de police | Primes acquises au taux courant projetées | Sinistres ultimes projetés, incluant les frais de règlement de sinistres | Nombre de réclamations | Poids accordé à l’année |
+|---:|---:|---:|---:|---:|
+| 2001 | 123 000 $ | 98 000 $ | 338 | 0.2 |
+| 2002 | 157 000 $ | 143 000 $ | 507 | 0.3 |
+| 2003 | 218 000 $ | 137 000 $ | 480 | 0.5 |
+
+- Standard de crédibilité : 3 000 réclamations. La règle de la racine carrée est utilisée pour la crédibilité partielle.
+- Complément de crédibilité pour le taux de sinistre : 0.68.
+- Tous les frais sont variables et représentent 28.5 % de la prime.
+- Le profit cible est de 5 %.
+
+::: {.solution}
+
+Nous utilisons la méthode du taux de sinistre, puisque les sinistres et les primes au taux courant sont disponibles.
+
+| Année de police | Primes acquises au taux courant projetées | Sinistres ultimes projetés | Taux de sinistre ultime projeté |
+|---:|---:|---:|---:|
+| 2001 | 123 K | 98 K | $98 / 123 = 0.7967$ |
+| 2002 | 157 K | 143 K | $143 / 157 = 0.9108$ |
+| 2003 | 218 K | 137 K | $137 / 218 = 0.6284$ |
+| **Total** | **498 K** | **378 K** | **$0.7967 \times 0.2 + 0.9108 \times 0.3 + 0.6284 \times 0.5 = 0.7468$** |
+
+$$
+Z = \sqrt{\frac{338 + 507 + 480}{3\,000}} = 0.6646
+$$
+
+Le taux de sinistre crédibilisé est :
+
+$$
+0.6646 \times 0.7468 + (1 - 0.6646) \times 0.68 = 0.7244
+$$
+
+Le changement de taux indiqué crédibilisé est :
+
+$$
+\frac{0.7244 + 0}{1 - 0.285 - 0.05} - 1 = 0.0893
+$$
+
+:::
+::::
+
+:::: {.question}
+(CAS Examen 5, Printemps 2014 – Q7 modifiée)
+
+Avec l’information suivante :
+
+| Limite d’assurance | Facteur de limite augmentée (ILF) |
+|---:|---:|
+| 100 000 $ | 1.00 |
+| 250 000 $ | 2.00 |
+| 500 000 $ | 2.75 |
+| 750 000 $ | 3.25 |
+| 1 000 000 $ | 3.50 |
+| Total | – |
+
+::: {.question}
+Sachant que les sinistres écrêtés à 250 000 $ sont de 1 500 000 $, calculer un complément de crédibilité pour les sinistres dans la tranche entre 500 000 $ et 750 000 $.
+
+::: {.solution}
+
+$$
+C = 1.5\,\text{M} \times \frac{3.25 - 2.75}{2.00} = 375\,\text{K}
+$$
+
+:::
+:::
+
+::: {.question}
+Donner deux critiques d’utiliser l’approche de la sous-question précédente.
+
+::: {.solution}
+
+- L’approche peut être biaisée si l’expérience analysée a une distribution de sinistres différente de celle utilisée pour calculer les facteurs de limite augmentée.
+- Elle peut être controversée, car le complément est davantage lié aux données sous la tranche (de 0 à $A$ ou de 0 à $d$) qu’aux données dans la tranche $A$ à $A + L$.
+
+:::
+:::
+::::
+
+:::: {.question}
+(CAS Examen 5, Printemps 2014 – Q7 modifiée)
+
+Avec l’information suivante :
+
+| Limite d’assurance | Facteur de limite augmentée (ILF) |
+|---:|---:|
+| 100 000 $ | 1.00 |
+| 250 000 $ | 2.00 |
+| 500 000 $ | 2.75 |
+| 750 000 $ | 3.25 |
+| 1 000 000 $ | 3.50 |
+| Total | – |
+
+Sachant que les sinistres écrêtés à 100 000 $ sont de 1 200 000 $, calculer un complément de crédibilité pour les sinistres dans la tranche entre 500 000 $ et 750 000 $.
+
+::: {.solution}
+
+$$
+C = 1.2\,\text{M} \times \frac{3.25 - 2.75}{1.00} = 600\,\text{K}
+$$
+
+:::
+::::
