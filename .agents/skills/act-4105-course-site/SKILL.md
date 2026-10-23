@@ -44,6 +44,7 @@ Use this skill as the project entry point. Keep it to shared invariants and load
 - Cross-chapter review decks live in `site/revisions/<review>/diapos.qmd`; include `revisions/**/*.qmd` in `project.render` and add each deck to the Révisions navbar menu in `site/_quarto.yml`.
 - `scripts/render-pdfs` exports every review deck with the default batch to `site/pdfs/diapos/<review>.pdf`; use `--revision <review>` for one deck. This selector is incompatible with `--chapter` and supports only diapos.
 - Shared transforms and browser behavior: `site/filters/` and `site/includes/`; shared styles: `site/styles/`.
+- Vendor RevealJS extensions live under `site/_extensions/`; activate a presentation-wide extension in both shared formats in `site/chapitres/_diapos.yml`. The vendorized `EmilHvitfeldt/rows` extension provides `.rows` / `.row` layout containers to all chapter and review decks.
 - Local reusable R package: `tarifr/`.
 
 ## Verification

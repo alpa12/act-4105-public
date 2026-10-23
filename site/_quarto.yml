@@ -78,6 +78,8 @@ website:
             text: "Chapitre 9 : Classification traditionnelle des risques"
           - href: chapitres/10-classification-multivariee/diapos.qmd
             text: "Chapitre 10 : Classification multivariée"
+          - href: chapitres/11-classification-speciale/diapos.qmd
+            text: "Chapitre 11 : Classification spéciale"
       - text: Exercices
         menu:
           - href: chapitres/index.qmd

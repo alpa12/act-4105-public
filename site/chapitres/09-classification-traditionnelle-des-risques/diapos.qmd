@@ -1001,8 +1001,8 @@ Comme on utilise la prime au dénominateur dans l’approche du taux de sinistre
 
 Ajustement à l’approche de la prime pure dans le but de limiter l’impact des biais dans la distribution :
 
-- On ajuste les unités par le différentiel moyen pour toutes les autres variables
-- On calcule ensuite la prime pure avec les unités d’exposition ajustées plutôt qu’avec les unités réelles
+- On ajuste les unités par le différentiel moyen pour toutes les autres variables.
+- On calcule ensuite la prime pure avec les unités d’exposition ajustées plutôt qu’avec les unités réelles.
 
 :::: {.question title="Différentiels, méthode de la prime pure ajustée"}
 

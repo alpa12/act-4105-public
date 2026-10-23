@@ -17,7 +17,7 @@ Les licences ne s’étendent pas automatiquement au matériel tiers, adapté ou
 - `site/` est le projet Quarto; `site/_quarto.yml` en porte la configuration globale.
 - `site/cours/` contient les pages de séance et `site/chapitres/` les notes (`diapos.qmd`) et exercices (`exercices.qmd`).
 - `site/vieux-materiel/` conserve les PDF, PPTX et autres sources historiques.
-- `site/filters/`, `site/includes/` et `site/styles/` portent les comportements et styles partagés; `site/_extensions/` est du code vendorisé immuable.
+- `site/filters/`, `site/includes/` et `site/styles/` portent les comportements et styles partagés; `site/_extensions/` est du code vendorisé immuable. L’extension vendorisée `EmilHvitfeldt/rows` y est activée par `site/chapitres/_diapos.yml` pour tous les decks RevealJS.
 - `tarifr/` est le package R local des aides réutilisables.
 - `site/_site/` et les PDF de sortie sont générés : modifier les sources, jamais ces sorties.
 

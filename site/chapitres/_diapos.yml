@@ -11,6 +11,8 @@ smart-tables:
 format:
   revealjs:
     center: false
+    revealjs-plugins:
+      - EmilHvitfeldt/rows
     mathjax: false
     theme:
       - default
@@ -43,6 +45,8 @@ format:
       title: "À retenir"
   clean-revealjs:
     center: false
+    revealjs-plugins:
+      - EmilHvitfeldt/rows
     include-before-body:
       - text: |
           <script src="/mathjax-config.js"></script>

@@ -1,0 +1,11 @@
+title: Rows
+author: Emil Hvitfeldt
+version: 1.0.0
+quarto-required: ">=1.2.0"
+contributes:
+  revealjs-plugins:
+    - name: RevealRows
+      script:
+        - rows.js
+      stylesheet:
+        - rows.css
