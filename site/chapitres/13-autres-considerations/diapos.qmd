@@ -1,0 +1,721 @@
+---
+title: "Chapitre 13: Autres considérations"
+format:
+  revealjs: default
+execute:
+  echo: false
+  cache: true
+metadata-files:
+  - ../_diapos.yml
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+library(ggplot2)
+
+couleurs_act <- c(
+  rouge = "#e30513",
+  bleu = "#009cde",
+  or = "#ffc103",
+  vert = "#3d8b5f",
+  gris = "#626974"
+)
+
+theme_act <- theme_minimal(base_size = 14) +
+  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_blank(),
+    plot.title = element_text(face = "bold", hjust = 0.5, margin = margin(b = 8)),
+    legend.position = "right",
+    legend.title = element_blank()
+  )
+```
+
+## Lectures recommandées
+
+Ce chapitre est adapté du chapitre 13 du texte *Basic Ratemaking* :
+
+[Werner, G. et Modlin, C. (2016). *Basic Ratemaking*, Casualty Actuarial Society, 5e édition.](http://www.casact.org/library/studynotes/Werner_Modlin_Ratemaking.pdf)
+
+## Contenu du chapitre {.progress-overview}
+
+- Contraintes réglementaires
+- Contraintes opérationnelles
+- Considérations de marché
+
+# Contraintes réglementaires {data-progress-label="Réglementation"}
+
+## Contraintes réglementaires
+
+- L’industrie de l’assurance est très réglementée; l’encadrement varie notamment selon la province.
+- Les exigences varient aussi selon la ligne d’affaires :
+  - L’assurance automobile en lignes personnelles est réglementée parce qu’elle est obligatoire.
+  - L’indemnisation des accidents du travail est obligatoire pour plusieurs employeurs aux États-Unis.
+  - Certaines assurances commerciales font l’objet de moins de surveillance, par exemple l’assurance responsabilité des administrateurs et dirigeants (*D&O*).
+
+---
+
+Les règles nécessitent souvent le dépôt d’un manuel de tarification.
+
+Au Canada :
+
+- Les taux sont réglementés par les provinces.
+- Certaines provinces exigent l’approbation préalable des taux, par exemple l’Ontario.
+- D’autres fonctionnent davantage selon la libre concurrence, par exemple l’assurance habitation au Québec.
+- Certaines protections sont gouvernementales, par exemple les blessures corporelles couvertes par la SAAQ au Québec.
+
+## Exemples de contraintes réglementaires aux États-Unis
+
+- **Limitation du changement de taux** :
+  - au niveau global;
+  - au niveau individuel ou d’un groupe d’individus.
+
+  Exemple : une hausse globale moyenne supérieure à 25 %, ou touchant un nombre important de consommateurs avec une hausse supérieure à 30 %, peut être interdite.
+
+- **Interdiction de certaines caractéristiques** même lorsqu’elles sont statistiquement prédictives du risque.
+
+  Exemple : l’utilisation de la cote de crédit pour la tarification et la souscription en lignes personnelles est interdite dans certains États ou provinces.
+
+- **Techniques de tarification prescrites**.
+
+  Exemple : l’État de Washington exige un GLM pour établir les relativités associées à la cote de crédit en assurance automobile en lignes personnelles.
+
+## Divergence de points de vue entre l’actuaire et le régulateur
+
+L’actuaire et le régulateur peuvent ne pas s’entendre sur certaines hypothèses :
+
+- le choix de la méthode de calcul de la tendance des sinistres;
+- la sélection du facteur de projection des sinistres.
+
+La négociation avec le régulateur peut entraîner des coûts, par exemple un délai dans l’implantation des nouveaux taux ou le recours à des employés spécialisés pour défendre le point de vue de la compagnie.
+
+# Contraintes opérationnelles {data-progress-label="Opérations"}
+
+## Contraintes opérationnelles
+
+Elles peuvent rendre difficile ou indésirable l’implantation du taux indiqué d’un point de vue actuariel.
+
+- Limitations de système
+- Contraintes de ressources
+
+---
+
+### Limitations de système et ressources
+
+Pour que les primes des soumissions soient générées automatiquement lorsque l’information du client est collectée, les algorithmes de tarification, les taux et les différentiels doivent être programmés.
+
+- Les taux de base et les différentiels sont souvent relativement faciles à changer.
+- Modifier la structure de l’algorithme de tarification peut toutefois nécessiter des changements importants et coûteux.
+
+---
+
+La complexité du changement dépend principalement de deux facteurs :
+
+- L’ampleur du changement : nombre de variables de tarification, nombre de niveaux de chaque variable et mode d’application dans l’algorithme.
+- Le nombre de systèmes à modifier : soumissions, réclamations, administration, etc.
+
+Exemples :
+
+- des données non entrées dans le système de tarification, ou qui ne sont pas obligatoires;
+- de nouvelles techniques de construction, comme la résistance au vent, qui nécessitent des employés très spécialisés.
+
+## Analyse coût/bénéfice
+
+Une contrainte de système peut empêcher l’implantation d’une nouvelle variable de tarification.
+
+- **Coût** : coût tangible associé aux modifications du système.
+- **Bénéfice** : profit incrémental généré par des taux plus précis et, possiblement, par l’attraction de clients mieux tarifés.
+
+::: {.callout-note title="Distribution du portefeuille"}
+Le calcul du profit incrémental devrait considérer tout changement dans la distribution du portefeuille qui résulte du changement proposé.
+:::
+
+:::: {.question title="Rentabilité d’une nouvelle caractéristique de risque"}
+
+##
+
+Une analyse de tarification a identifié qu’une caractéristique de risque explique une différence de 10 % de sinistres et frais entre les classes A et B.
+
+- Les deux classes paient actuellement un taux de 1 050 \$ (profit moyen de 5,2 %).
+- L’actuaire propose un taux de 950 \$ pour la classe A et de 1 055 \$ pour la classe B.
+- Le coût d’implantation est de 150 000 \$.
+
+| Classe | Nombre d’unités | Sinistres et frais ultimes projetés |
+|:-------|----------------:|------------------------------------:|
+| A      |          50 000 |                                45 M \$ |
+| B      |       1 000 000 |                             1 000 M \$ |
+
+Déterminer s’il est rentable d’implanter la caractéristique :
+
+a. sans changement dans la distribution du portefeuille;
+b. avec une hausse de 25 % des unités de la classe A et aucune variation pour la classe B.
+
+::: {.solution}
+
+##
+
+### a. Profit actuel
+
+| Classe | Unités | Sinistres et frais | Par unité | Prime par unité | Profit | Profit / prime |
+|:-------|-------:|-------------------:|----------:|----------------:|-------:|---------------:|
+| A | 50 000 | 45 000 000 \$ | 900 \$ | 1 050 \$ | 7 500 000 \$ | 14,3 % |
+| B | 1 000 000 | 1 000 000 000 \$ | 1 000 \$ | 1 050 \$ | 50 000 000 \$ | 4,8 % |
+| **Total** | **1 050 000** | **1 045 000 000 \$** | **995 \$** | **1 050 \$** | **57 500 000 \$** | **5,2 %** |
+
+Le profit total actuel est de **57 500 000 \$**, soit 5,2 % de la prime, mais il varie fortement selon la classe.
+
+---
+
+### a. Profit avec les taux proposés
+
+| Classe | Unités | Sinistres et frais | Par unité | Prime par unité | Profit | Profit / prime |
+|:-------|-------:|-------------------:|----------:|----------------:|-------:|---------------:|
+| A | 50 000 | 45 000 000 \$ | 900 \$ | 950 \$ | 2 500 000 \$ | 5,2 % |
+| B | 1 000 000 | 1 000 000 000 \$ | 1 000 \$ | 1 055 \$ | 55 000 000 \$ | 5,2 % |
+| **Total** | **1 050 000** | **1 045 000 000 \$** | **995 \$** | **1 050 \$** | **57 500 000 \$** | **5,2 %** |
+
+Le profit total demeure 57 500 000 \$.
+
+::: {.callout-important title="Conclusion"}
+Le profit additionnel est de $57,5\ \text{M}\ \$ - 57,5\ \text{M}\ \$ = 0\ \$$. Le changement n’est pas rentable avec cette hypothèse.
+:::
+
+---
+
+### b. Profit actuel
+
+Avec les taux actuellement en vigueur, les mêmes calculs donnent un profit total de **57 500 000 \$**.
+
+---
+
+### b. Profit avec les taux proposés et le changement de distribution
+
+| Classe | Unités | Sinistres et frais | Par unité | Prime par unité | Profit | Profit / prime |
+|:-------|-------:|-------------------:|----------:|----------------:|-------:|---------------:|
+| A | 62 500 | 56 250 000 \$ | 900 \$ | 950 \$ | 3 125 000 \$ | 5,3 % |
+| B | 1 000 000 | 1 000 000 000 \$ | 1 000 \$ | 1 055 \$ | 55 000 000 \$ | 5,2 % |
+| **Total** | **1 062 500** | **1 056 250 000 \$** | **995 \$** | **1 050 \$** | **58 125 000 \$** | **5,2 %** |
+
+::: {.callout-important title="Conclusion"}
+Le profit additionnel est de $58,125\ \text{M}\ \$ - 57,5\ \text{M}\ \$ = 625\,000\ \$$. Comme il est supérieur au coût d’implantation de 150 000 $, le changement est rentable avec cette hypothèse.
+:::
+
+:::
+::::
+
+# Considérations de marché {data-progress-label="Marché"}
+
+## Considérations de marché
+
+La compagnie doit considérer la prime à laquelle elle peut couvrir ses coûts et atteindre son profit de souscription cible.
+
+Elle doit aussi considérer sa capacité à vendre le produit.
+
+::: {.notes}
+Illustrer la réaction d’un client à une prime qu’il juge trop élevée.
+:::
+
+## Profit en fonction du prix
+
+En supposant que le nombre de polices est fixe, le profit augmente avec le prix.
+
+```{r}
+#| label: profit-prix-volume-fixe
+#| fig-width: 8
+#| fig-height: 4
+#| fig-alt: "Profit qui augmente linéairement avec le prix lorsque le nombre de polices demeure fixe."
+
+prix <- seq(700, 1300, by = 25)
+profit_fixe <- (prix - 700) * 1000
+
+ggplot(data.frame(prix, profit_fixe), aes(prix, profit_fixe)) +
+  geom_line(colour = couleurs_act["rouge"], linewidth = 0.65) +
+  geom_point(colour = couleurs_act["rouge"], size = 1.5) +
+  labs(x = "Prix", y = "Profit") +
+  theme_act
+```
+
+## Volume en fonction du prix
+
+Cependant, une hausse du prix a un impact sur la demande.
+
+```{r}
+#| label: volume-prix
+#| fig-width: 8
+#| fig-height: 4
+#| fig-alt: "Volume de polices qui diminue progressivement lorsque le prix augmente."
+
+volume <- pmax(0, 14000 - 0.018 * (prix - 500)^2)
+
+ggplot(data.frame(prix, volume), aes(prix, volume)) +
+  geom_line(colour = "#D55E00", linewidth = 0.65) +
+  geom_point(colour = "#D55E00", size = 1.5) +
+  labs(x = "Prix", y = "Volume") +
+  theme_act
+```
+
+## Profit espéré
+
+Le profit espéré dépend à la fois du prix et de la demande.
+
+```{r}
+#| label: profit-espere
+#| fig-width: 8
+#| fig-height: 4
+#| fig-alt: "Prix, volume et profit espéré selon le prix. Le volume décroît, le profit à volume fixe croît, et le profit espéré atteint un sommet à un prix intermédiaire."
+
+profit_espere <- (prix - 700) * volume
+donnees_prix <- rbind(
+  data.frame(prix, serie = "Profit à volume fixe", value = profit_fixe / max(profit_fixe)),
+  data.frame(prix, serie = "Volume", value = volume / max(volume)),
+  data.frame(prix, serie = "Profit espéré", value = profit_espere / max(profit_espere))
+)
+
+ggplot(donnees_prix, aes(prix, value, colour = serie)) +
+  geom_line(linewidth = 0.65) +
+  geom_point(size = 1.35) +
+  scale_colour_manual(values = c(
+    `Profit à volume fixe` = couleurs_act["rouge"],
+    Volume = "#D55E00",
+    `Profit espéré` = couleurs_act["bleu"]
+  )) +
+  labs(x = "Prix", y = "Niveau relatif") +
+  theme_act
+```
+
+## Considérations de marché
+
+Les techniques des chapitres précédents fixent les taux sans considérer si le produit d’assurance sera acheté par le client : elles établissent le coût du produit.
+
+Avant de finaliser un changement de taux et de sélectionner la prime chargée, l’actuaire devrait considérer à la fois la prime indiquée, basée sur le coût du produit, et les considérations de marché.
+
+---
+
+### Soumissions et nouvelles affaires
+
+Clients potentiels qui ne sont présentement pas assurés ou qui sont assurés chez un compétiteur.
+
+### Renouvellements
+
+Clients existants ayant déjà le produit d’assurance analysé.
+
+::: {.callout-note title="Deux analyses distinctes"}
+Les soumissions et les renouvellements sont souvent analysés séparément, car le comportement d’achat et le profit espéré peuvent être très différents.
+:::
+
+## Facteurs qui influencent l’achat ou le renouvellement
+
+- **Prix des compétiteurs** : si un compétiteur offre le même produit au même prix, l’assuré peut être tenté de l’acheter.
+- **Coût du produit** : si la prime est faible par rapport au revenu disponible, l’assuré est moins porté à magasiner.
+- **Changement de taux** : au renouvellement, une hausse importante encourage l’assuré à magasiner davantage.
+- **Caractéristiques de l’assuré** : par exemple, les jeunes et les personnes âgées peuvent réagir différemment.
+- **Satisfaction et loyauté** : une mauvaise expérience de réclamation ou de service à la clientèle peut influencer la décision.
+
+::: {.notes}
+Utiliser l’exemple d’un client qui compare des forfaits de télécommunications, comme Vidéotron et Bell.
+:::
+
+## Techniques traditionnelles {.english-subtitle subtitle="Traditional Market Analysis"}
+
+On peut incorporer les considérations de marché au jugement de tarification par :
+
+- une comparaison de compétitivité;
+- les taux de transformation, de rétention et la croissance;
+- une analyse de distribution;
+- une analyse de dislocation.
+
+## Comparaison de compétitivité {.english-subtitle subtitle="Competitive Comparison"}
+
+Comparer la prime de la compagnie à celle des compétiteurs, notamment à partir des manuels de taux déposés auprès des autorités, des courtiers, des clients assurés ailleurs ou des soumissions sur le Web.
+
+Deux niveaux de comparaison :
+
+1. tous les risques combinés, en moyenne;
+2. des risques ou groupes de risques précis, par exemple les véhicules récents.
+
+::: {.notes}
+Utiliser l’exemple d’un client qui compare des forfaits de télécommunications, comme Vidéotron et Bell.
+:::
+
+---
+
+Différentes façons de déterminer la compétitivité :
+
+$$
+\text{Compétitivité en \%}
+= \frac{\text{Prime du compétiteur}}{\text{Prime de la compagnie}} - 1
+$$
+
+On peut aussi inverser le ratio.
+
+- **Compétitivité en dollars** : prime du compétiteur moins prime de la compagnie.
+- **Pourcentage moins cher** : proportion des risques pour lesquels la prime est inférieure à celle du compétiteur.
+- **Rang** : rang de la prime de la compagnie parmi les compétiteurs, où le moins cher est au rang 1.
+
+---
+
+```{r}
+#| label: competitivite-distribution
+#| fig-width: 8
+#| fig-height: 4
+#| fig-alt: "Nombre de polices par intervalle de compétitivité. La distribution est concentrée autour d’une prime comparable à celle du compétiteur."
+
+competitivite <- data.frame(
+  ecart = factor(
+    c("−50 %", "−40 %", "−30 %", "−20 %", "−10 %", "0 %", "10 %", "20 %", "30 %", "40 %", "50 %"),
+    levels = c("−50 %", "−40 %", "−30 %", "−20 %", "−10 %", "0 %", "10 %", "20 %", "30 %", "40 %", "50 %")
+  ),
+  polices = c(500, 1000, 1400, 1500, 1200, 950, 650, 430, 300, 220, 150)
+)
+
+ggplot(competitivite, aes(ecart, polices)) +
+  geom_col(fill = couleurs_act["or"], colour = couleurs_act["gris"], width = 0.78) +
+  labs(x = "Prime du compétiteur / prime de la compagnie − 1", y = "Nombre de polices") +
+  theme_act +
+  theme(axis.text.x = element_text(angle = 35, hjust = 1))
+```
+
+---
+
+```{r}
+#| label: competitivite-relativites
+#| fig-width: 8
+#| fig-height: 4
+#| fig-alt: "Relativités de deux compagnies et nombre de véhicules selon l’âge du conducteur. Les profils diffèrent surtout aux très jeunes et aux très vieux âges."
+
+# Valeurs reconstruites à partir de la courbe historique; elles servent à illustrer
+# l’écart entre deux algorithmes plutôt qu’à représenter des données observées.
+age <- 16:75
+comparaison_age <- data.frame(
+  age,
+  `Compagnie A` = 0.85 + 2.0 * exp(-(age - 16) / 5) + 0.30 * pmax(age - 65, 0) / 10,
+  `Compagnie B` = 0.82 + 1.25 * exp(-(age - 16) / 6) + 0.48 * pmax(age - 65, 0) / 10,
+  vehicules = round(14000 * dnorm(age, mean = 38, sd = 13)),
+  check.names = FALSE
+)
+comparaison_longue <- rbind(
+  data.frame(age = comparaison_age$age, compagnie = "Compagnie A", relativite = comparaison_age$`Compagnie A`),
+  data.frame(age = comparaison_age$age, compagnie = "Compagnie B", relativite = comparaison_age$`Compagnie B`)
+)
+
+ggplot() +
+  geom_col(
+    data = comparaison_age,
+    aes(age, vehicules / 12000),
+    fill = couleurs_act["or"], alpha = 0.55, width = 0.8
+  ) +
+  geom_line(
+    data = comparaison_longue,
+    aes(age, relativite, colour = compagnie),
+    linewidth = 0.65
+  ) +
+  scale_colour_manual(values = c(`Compagnie A` = couleurs_act["rouge"], `Compagnie B` = couleurs_act["bleu"])) +
+  labs(x = "Âge du conducteur", y = "Relativité") +
+  theme_act
+```
+
+---
+
+```{r}
+#| label: competitivite-prime-moyenne
+#| fig-width: 8
+#| fig-height: 4
+#| fig-alt: "Primes moyennes de deux compagnies et nombre de véhicules selon l’âge du conducteur. La comparaison de prime moyenne est préférable lorsque les algorithmes utilisent des variables corrélées avec l’âge."
+
+comparaison_primes <- data.frame(
+  age,
+  `Compagnie A` = 725 * comparaison_age$`Compagnie A`,
+  `Compagnie B` = 675 * comparaison_age$`Compagnie B`,
+  vehicules = comparaison_age$vehicules,
+  check.names = FALSE
+)
+primes_longues <- rbind(
+  data.frame(age = comparaison_primes$age, compagnie = "Compagnie A", prime = comparaison_primes$`Compagnie A`),
+  data.frame(age = comparaison_primes$age, compagnie = "Compagnie B", prime = comparaison_primes$`Compagnie B`)
+)
+
+ggplot() +
+  geom_col(
+    data = comparaison_primes,
+    aes(age, vehicules / 10),
+    fill = couleurs_act["or"], alpha = 0.55, width = 0.8
+  ) +
+  geom_line(data = primes_longues, aes(age, prime, colour = compagnie), linewidth = 0.65) +
+  scale_colour_manual(values = c(`Compagnie A` = couleurs_act["rouge"], `Compagnie B` = couleurs_act["bleu"])) +
+  labs(x = "Âge du conducteur", y = "Prime moyenne") +
+  theme_act
+```
+
+::: {.notes}
+En moyenne, le compétiteur est environ 7 % moins cher. L’écart entre les profils suggère que les algorithmes diffèrent; dans ce contexte, la prime moyenne est plus informative que les relativités seules.
+:::
+
+## Taux de transformation, de rétention et croissance {.english-subtitle subtitle="Conversion, Retention and Growth"}
+
+### Taux de transformation
+
+$$
+\text{Taux de transformation}
+= \frac{\text{Nombre de soumissions acceptées}}{\text{Nombre de soumissions}}
+$$
+
+---
+
+```{r}
+#| label: taux-transformation
+#| fig-width: 8
+#| fig-height: 4
+#| fig-alt: "Taux de transformation mensuel et nombre de soumissions. Une baisse de taux implantée en juillet est suivie d’une hausse du taux de transformation."
+
+mois <- factor(month.name[1:8], levels = month.name[1:8], labels = c("Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août"))
+transformation <- data.frame(
+  mois,
+  taux = c(0.243, 0.250, 0.257, 0.252, 0.258, 0.259, 0.263, 0.272),
+  soumissions = c(23500, 24100, 24500, 24300, 24900, 25300, 25900, 26700)
+)
+
+ggplot(transformation, aes(mois)) +
+  geom_col(aes(y = soumissions / 100000), fill = couleurs_act["or"], alpha = 0.6) +
+  geom_line(aes(y = taux, group = 1, colour = "Taux de transformation"), linewidth = 0.65) +
+  geom_point(aes(y = taux, colour = "Taux de transformation"), size = 1.5) +
+  scale_y_continuous(
+    name = "Taux de transformation",
+    labels = scales::label_percent(accuracy = 1),
+    sec.axis = sec_axis(~ . * 100000, name = "Nombre de soumissions", labels = scales::label_number(big.mark = " "))
+  ) +
+  scale_colour_manual(values = c(`Taux de transformation` = couleurs_act["rouge"])) +
+  theme_act
+```
+
+::: {.notes}
+La baisse de taux est implantée en juillet. Discuter également de la saisonnalité avant d’attribuer tout changement à la baisse de taux.
+:::
+
+---
+
+### Taux de rétention
+
+$$
+\text{Taux de rétention}
+= \frac{\text{Nombre de polices renouvelées}}{\text{Nombre potentiel de polices renouvelées}}
+$$
+
+---
+
+```{r}
+#| label: taux-retention
+#| fig-width: 8
+#| fig-height: 4
+#| fig-alt: "Taux de rétention mensuel et nombre de renouvellements potentiels. Le taux augmente après la baisse de taux de juillet."
+
+retention <- data.frame(
+  mois,
+  taux = c(0.810, 0.812, 0.810, 0.810, 0.812, 0.811, 0.813, 0.817),
+  renouvellements = c(29700, 29300, 29600, 29800, 29700, 29600, 29900, 30200)
+)
+
+ggplot(retention, aes(mois)) +
+  geom_linerange(
+    aes(ymin = 0.805, ymax = (renouvellements - 25000) / 250000 + 0.805),
+    colour = couleurs_act["or"], alpha = 0.7, linewidth = 12
+  ) +
+  geom_line(aes(y = taux, group = 1, colour = "Taux de rétention"), linewidth = 0.65) +
+  geom_point(aes(y = taux, colour = "Taux de rétention"), size = 1.5) +
+  scale_y_continuous(
+    name = "Taux de rétention",
+    labels = scales::label_percent(accuracy = 0.5),
+    sec.axis = sec_axis(~ (. - 0.805) * 250000 + 25000, name = "Polices potentiellement renouvelées", labels = scales::label_number(big.mark = " "))
+  ) +
+  scale_colour_manual(values = c(`Taux de rétention` = couleurs_act["rouge"])) +
+  theme_act
+```
+
+---
+
+### Croissance {.english-subtitle subtitle="Growth"}
+
+La croissance reflète la capacité de la compagnie à acquérir de nouvelles affaires et à retenir ses assurés existants.
+
+$$
+\begin{aligned}
+\text{Croissance en nombre de polices}
+&= \frac{\text{Nouvelles polices écrites} - \text{Polices perdues}}{\text{Polices au début de la période}} \\
+&= \frac{\text{Polices à la fin de la période}}{\text{Polices au début de la période}} - 1
+\end{aligned}
+$$
+
+Les polices perdues comprennent les polices annulées et non renouvelées.
+
+---
+
+```{r}
+#| label: croissance
+#| fig-width: 8
+#| fig-height: 4
+#| fig-alt: "Croissance mensuelle et nombre de polices. La croissance augmente graduellement après juillet."
+
+croissance <- data.frame(
+  mois,
+  taux = c(0.0010, 0.0015, 0.0017, 0.0015, 0.0018, 0.0020, 0.0026, 0.0031),
+  polices = c(355000, 356000, 357000, 358000, 359000, 360000, 362000, 364000)
+)
+
+ggplot(croissance, aes(mois)) +
+  geom_col(aes(y = (polices - 350000) / 5e7), fill = couleurs_act["or"], alpha = 0.6) +
+  geom_line(aes(y = taux, group = 1, colour = "Croissance"), linewidth = 0.65) +
+  geom_point(aes(y = taux, colour = "Croissance"), size = 1.5) +
+  scale_y_continuous(
+    name = "Croissance",
+    labels = scales::label_percent(accuracy = 0.1),
+    sec.axis = sec_axis(~ . * 5e7 + 350000, name = "Nombre de polices", labels = scales::label_number(big.mark = " "))
+  ) +
+  scale_colour_manual(values = c(Croissance = couleurs_act["rouge"])) +
+  theme_act
+```
+
+## Analyse de distribution {.english-subtitle subtitle="Distributional Analysis"}
+
+On peut comparer la distribution d’un portefeuille selon une variable, par exemple le montant d’assurance.
+
+```{r}
+#| label: analyse-distribution
+#| fig-width: 8
+#| fig-height: 4
+#| fig-alt: "Nombre de polices et prime moyenne par tranche de montant d’assurance. Les volumes diminuent dans les tranches les plus élevées alors que la prime moyenne augmente."
+
+montant_assurance <- data.frame(
+  tranche = factor(c("<100 k", "100–150 k", "150–200 k", "200–250 k", "250–300 k", "300–350 k", "350–400 k", "400–450 k", ">450 k"), ordered = TRUE),
+  polices = c(2500, 8500, 14000, 15500, 12000, 8000, 4000, 1500, 500),
+  prime = c(114, 143, 265, 435, 451, 520, 620, 790, 968)
+)
+
+ggplot(montant_assurance, aes(tranche)) +
+  geom_col(aes(y = polices / 20), fill = couleurs_act["or"], alpha = 0.65) +
+  geom_line(aes(y = prime, group = 1, colour = "Prime moyenne"), linewidth = 0.65) +
+  geom_point(aes(y = prime, colour = "Prime moyenne"), size = 1.5) +
+  scale_y_continuous(
+    name = "Prime moyenne",
+    sec.axis = sec_axis(~ . * 20, name = "Nombre de polices", labels = scales::label_number(big.mark = " "))
+  ) +
+  scale_colour_manual(values = c(`Prime moyenne` = couleurs_act["rouge"])) +
+  labs(x = "Montant d’assurance") +
+  theme_act +
+  theme(axis.text.x = element_text(angle = 25, hjust = 1))
+```
+
+::: {.notes}
+L’idéal est de comparer la distribution du portefeuille à celle de la population. Si la compagnie suppose qu’un groupe représente 5 % de la population alors qu’il en représente 15 %, elle pourrait ne pas être compétitive pour ce groupe.
+:::
+
+## Analyse de dislocation {.english-subtitle subtitle="Policyholder Dislocation Analysis"}
+
+Un changement de taux affecte directement les assurés existants au renouvellement. L’analyse de dislocation permet de quantifier le nombre d’assurés qui recevront un changement de taux donné et d’extrapoler l’effet sur la rétention.
+
+Si les dislocations sont majeures, la compagnie peut revoir le changement proposé. On les analyse souvent au total, mais aussi par variable.
+
+## Techniques méthodiques {.english-subtitle subtitle="Systematic Market Analysis"}
+
+Les techniques plus automatisées considèrent à la fois les considérations de marché et les indiqués actuariels :
+
+- analyse de la valeur du client à long terme;
+- optimisation des prix.
+
+## Analyse de la valeur du client à long terme {.english-subtitle subtitle="Lifetime Value Analysis"}
+
+Profit sur un horizon de quatre années pour un assuré de 22 ans :
+
+- taux d’intérêt annuel de 5 %;
+- primes, sinistres et frais payables au début de la période.
+
+| Année | Âge | Prime | Sinistres | Frais | Profit | Prob. renouv. | Prob. cumulée |
+|------:|----:|------:|----------:|------:|-------:|-------------:|--------------:|
+| 1 | 22 | 810 \$ | 800 \$ | 35 \$ | −25 \$ | 100 % | 100 % |
+| 2 | 23 | 800 \$ | 750 \$ | 15 \$ | 35 \$ | 75 % | 75 % |
+| 3 | 24 | 790 \$ | 700 \$ | 15 \$ | 75 \$ | 75 % | 56,3 % |
+| 4 | 25 | 780 \$ | 650 \$ | 15 \$ | 115 \$ | 80 % | 45 % |
+
+---
+
+| Année | Profit ajusté | Profit actualisé | Prime actualisée | Profit / prime |
+|------:|--------------:|-----------------:|-----------------:|---------------:|
+| 1 | −25,00 \$ | −25,00 \$ | 810,00 \$ | −3,1 % |
+| 2 | 26,25 \$ | 25,00 \$ | 571,43 \$ | 4,4 % |
+| 3 | 42,23 \$ | 38,30 \$ | 403,42 \$ | 9,5 % |
+| 4 | 51,75 \$ | 44,70 \$ | 303,21 \$ | 14,7 % |
+| **Total** | **95,23 \$** | **83,01 \$** | **2 088,06 \$** | **4,0 %** |
+
+$$
+\begin{aligned}
+\text{Profit} &= \text{Prime} - \text{Sinistres} - \text{Frais} \\
+P_{\text{cum},t} &= P_{\text{renouv},t} \times P_{\text{cum},t-1} \\
+\text{Profit ajusté}_t &= \text{Profit}_t \times P_{\text{cum},t}
+\end{aligned}
+$$
+
+## Optimisation des prix {.english-subtitle subtitle="Optimized Pricing"}
+
+Les modèles multivariés, notamment les GLM, peuvent modéliser la prime pure pour les assurés ayant différentes caractéristiques.
+
+Les mêmes modèles peuvent aussi servir à développer :
+
+- un modèle de transformation, qui prédit si une soumission deviendra une nouvelle affaire;
+- un modèle de rétention, qui prédit si un renouvellement potentiel sera effectivement renouvelé.
+
+---
+
+### Modèle de transformation
+
+Même principe qu’un GLM qui prédit les coûts, mais appliqué à la transformation. Il peut utiliser les caractéristiques du risque, le montant de la prime soumissionnée et la compétitivité de cette prime.
+
+### Modèle de rétention
+
+Même principe qu’un GLM qui prédit les coûts, mais appliqué à la rétention. Il peut utiliser les caractéristiques du risque, le montant de la prime proposée, son changement par rapport à la prime précédente et sa compétitivité.
+
+---
+
+```{r}
+#| label: optimisation-prix
+#| fig-width: 8
+#| fig-height: 4
+#| fig-alt: "Sortie illustrative d’une optimisation des prix. Le profit espéré atteint son maximum pour un changement de prime modéré, tandis que les taux de renouvellement diminuent avec une hausse de prime."
+
+# Valeurs reconstruites à partir du graphique historique pour illustrer le compromis
+# entre profit et rétention; elles ne représentent pas un portefeuille réel.
+changement <- seq(-20, 20, by = 2)
+optimisation <- data.frame(
+  changement,
+  profit = 1.8 * exp(-((changement - 3) / 11)^2),
+  renouvellement_premiere = 0.89 - 0.0025 * changement,
+  renouvellement_subsequent = 0.86 - 0.0020 * changement
+)
+
+ggplot(optimisation, aes(changement)) +
+  geom_col(aes(y = profit / 12), fill = couleurs_act["rouge"], alpha = 0.8) +
+  geom_line(aes(y = renouvellement_premiere, colour = "1er renouvellement"), linewidth = 0.65) +
+  geom_line(aes(y = renouvellement_subsequent, colour = "Renouvellements subséquents"), linewidth = 0.65) +
+  scale_colour_manual(values = c(
+    `1er renouvellement` = couleurs_act["bleu"],
+    `Renouvellements subséquents` = "#D55E00"
+  )) +
+  scale_y_continuous(
+    name = "Taux de renouvellement",
+    labels = scales::label_percent(),
+    sec.axis = sec_axis(~ . * 12, name = "Profit espéré relatif")
+  ) +
+  labs(x = "Changement de prime (%)") +
+  theme_act
+```
+
+---
+
+- Plusieurs scénarios de changement de taux sont évalués.
+- Le modèle de prédiction des coûts et le modèle de transformation ou de rétention sont utilisés ensemble pour prédire :
+  - le volume de primes espéré ou les unités espérées;
+  - les sinistres espérés;
+  - les profits espérés.
+
+::: {.callout-important title="Objectif"}
+L’objectif de l’optimisation des prix est de sélectionner le changement de taux qui répond le mieux aux objectifs de rentabilité et de volume de primes ou d’unités de la compagnie.
+:::

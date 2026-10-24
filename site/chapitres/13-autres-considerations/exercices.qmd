@@ -1,0 +1,237 @@
+---
+metadata-files:
+  - ../_exercices.yml
+---
+
+<!-- Le graphique historique de l’exercice 3 est reconstitué en R à partir de valeurs lues visuellement. -->
+
+::: {.question}
+(CAS Examen 5, Automne 2015 – Q8)
+
+Une compagnie a un taux combiné de 125 % la première année durant laquelle elle écrit des polices.
+
+Expliquer deux raisons qui expliqueraient que la compagnie soit tout de même profitable à long terme sans augmenter les taux.
+
+::: {.solution}
+
+Plusieurs réponses sont possibles :
+
+- Les frais, en particulier les frais d’acquisition, sont plus élevés pour une nouvelle compagnie. Comme c’est la première année durant laquelle la compagnie écrit des polices, on peut supposer qu’elle a investi beaucoup en publicité afin de se faire connaître. Si les frais d’acquisition diminuent dans les années à venir, la compagnie pourrait être profitable à long terme.
+- Les nouvelles affaires tendent à avoir un taux de sinistre pire que les renouvellements. Au fur et à mesure que la proportion de nouvelles affaires dans le portefeuille diminue, le taux de sinistre risque de s’améliorer.
+- La compagnie peut modifier ses normes de souscription et décider de ne pas renouveler les pires risques.
+- Un portefeuille avec un petit volume est plus volatile. Il est possible que la compagnie ait subi quelques pertes majeures durant la première année. En supposant que le volume de primes écrites et le volume de primes acquises augmentent dans les prochaines années, les résultats seront moins volatils. La compagnie pourrait être profitable à long terme sans diminuer les taux.
+
+:::
+:::
+
+::: {.question}
+(CAS Examen 5, Automne 2013 – Q12)
+
+Une compagnie d’assurance a récemment débuté dans un nouvel État et planifie d’investir grandement dans le marketing afin de croître agressivement pour son portefeuille d’assurance habitation. Ces frais de marketing seront significatifs relativement au petit volume de primes dans cet État.
+
+La direction de la compagnie propose à l’actuaire de développer un niveau de taux où la provision pour frais reflète seulement les frais variables typiques. Construire un argumentaire solide pour soutenir cette proposition.
+
+::: {.solution}
+
+Comme le volume de primes est petit, les frais de marketing seront une grande proportion de la prime.
+
+Le ratio des frais de marketing sur les primes diminuera de façon significative si l’assureur réussit à attirer de nouvelles affaires. Par exemple, si les frais de marketing sont de 1 M \$ par année et que les primes sont de 1 M \$ la première année, le ratio des frais de marketing est de 100 %. Si les primes de la deuxième année sont de 10 M \$, le ratio des frais de marketing passe à 10 %. Si les primes sont de 100 M \$ l’année 3, le ratio passe à 1 %.
+
+Si la compagnie inclut tous les frais la première année, les taux seront trop élevés pour attirer de nouvelles affaires et les taux ne tiendront pas compte de la valeur espérée à long terme des coûts futurs. Même si la compagnie écrit des polices à perte la première année, elle pourra atteindre le niveau de profitabilité désiré à long terme. Le ratio de frais d’acquisition diminuera d’une année à l’autre. Si l’actuaire développe un niveau de taux sur un horizon d’un an en incluant tous les frais de marketing de l’année à venir, son niveau de taux indiqué diminuera drastiquement d’une année à l’autre. Cette variation dans l’indiqué, ainsi que dans les taux s’ils sont ajustés pour être en ligne avec l’indiqué, n’est pas désirable. Il est préférable de développer un niveau de taux indiqué avec une vision à plus long terme, particulièrement pour une nouvelle ligne d’affaires.
+
+:::
+:::
+
+:::: {.question}
+En tant qu’actuaire de la compagnie XYZ, vous avez implanté un changement de taux le 2019/01/01 en assurance automobile. Avec les données suivantes :
+
+```{r}
+#| echo: false
+#| fig-width: 8
+#| fig-height: 5.25
+#| fig-alt: "Graphique comparant les primes moyennes avant et après un changement de taux de XYZ à celles d’un compétiteur selon quatre groupes d’âge du véhicule. Après le changement, XYZ est plus cher pour les véhicules d’âge 0 et moins cher pour ceux de 11 ans et plus. Les unités en force sont les plus nombreuses pour les véhicules de 4 à 10 ans."
+
+library(ggplot2)
+
+# Valeurs déterministes reconstituées à partir du graphique historique.
+donnees_exercice_3 <- data.frame(
+  age = factor(c("0", "1–3", "4–10", "11+"), levels = c("0", "1–3", "4–10", "11+")),
+  unites = c(10000, 30000, 35000, 20000),
+  apres = c(1100, 900, 750, 600),
+  competiteur = c(1050, 900, 800, 650),
+  avant = c(950, 900, 800, 725)
+)
+
+primes_exercice_3 <- data.frame(
+  age = rep(donnees_exercice_3$age, 3),
+  prime = c(
+    donnees_exercice_3$apres,
+    donnees_exercice_3$competiteur,
+    donnees_exercice_3$avant
+  ),
+  serie = factor(
+    rep(
+      c(
+        "XYZ après changement de taux",
+        "Compétiteur",
+        "XYZ avant changement de taux"
+      ),
+      each = nrow(donnees_exercice_3)
+    ),
+    levels = c(
+      "XYZ après changement de taux",
+      "Compétiteur",
+      "XYZ avant changement de taux"
+    )
+  )
+)
+
+facteur_exposition <- 0.03
+
+ggplot(donnees_exercice_3, aes(age)) +
+  geom_col(
+    aes(y = unites * facteur_exposition),
+    fill = "#B3CDE3",
+    width = 0.42
+  ) +
+  geom_line(
+    data = primes_exercice_3,
+    aes(y = prime, colour = serie, group = serie),
+    linewidth = 0.6
+  ) +
+  geom_point(
+    data = primes_exercice_3,
+    aes(y = prime, colour = serie, shape = serie),
+    size = 1.6
+  ) +
+  scale_colour_manual(
+    values = c(
+      "XYZ après changement de taux" = "#0072B2",
+      "Compétiteur" = "#D55E00",
+      "XYZ avant changement de taux" = "#009E73"
+    )
+  ) +
+  scale_shape_manual(values = c(16, 17, 15)) +
+  scale_y_continuous(
+    name = "Prime moyenne ($)",
+    limits = c(0, 1200),
+    breaks = seq(0, 1200, 200),
+    sec.axis = sec_axis(
+      ~ . / facteur_exposition,
+      name = "Unités en force",
+      breaks = seq(0, 40000, 10000),
+      labels = scales::label_number(big.mark = " ")
+    )
+  ) +
+  labs(x = "Âge du véhicule", colour = NULL, shape = NULL) +
+  theme_minimal(base_size = 12) +
+  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_blank(),
+    legend.position = "right",
+    legend.key.width = grid::unit(1.2, "lines")
+  )
+```
+
+::: {.question}
+Expliquer quel a été l’impact de votre changement de taux sur la compétitivité de la compagnie XYZ par âge de véhicule.
+
+::: {.solution}
+
+Avant le changement de taux :
+
+- La prime moyenne pour les véhicules d’âge 0 est inférieure à la prime moyenne du compétiteur.
+- La prime moyenne pour les véhicules d’âge 11+ est supérieure à la prime moyenne du compétiteur.
+
+Après le changement de taux :
+
+- La prime moyenne pour les véhicules d’âge 0 est maintenant supérieure à la prime moyenne du compétiteur, ce qui a fort probablement diminué la compétitivité de XYZ chez les véhicules récents.
+- La prime moyenne pour les véhicules d’âge 11+ est maintenant inférieure à la prime moyenne du compétiteur, ce qui a fort probablement augmenté la compétitivité de XYZ chez les vieux véhicules.
+
+:::
+:::
+
+::: {.question}
+Expliquer quel sera l’impact à long terme de votre changement de taux sur la distribution du portefeuille par âge de véhicule pour cette compagnie.
+
+::: {.solution}
+
+Comme la compétitivité de XYZ a augmenté chez les vieux véhicules, on peut s’attendre à ce que la proportion de vieux véhicules dans son portefeuille augmente à long terme. À l’inverse, on peut s’attendre à une baisse de la proportion de véhicules récents. L’âge moyen des véhicules dans le portefeuille augmentera donc.
+
+:::
+:::
+::::
+
+:::: {.question}
+Vous êtes en processus de révision de vos primes et vous avez retenu les quatre scénarios suivants :
+
+| Scénario | Taux de transformation prédit | Taux de rétention prédit | Taux de sinistre prédit | Profit |
+|:--------:|------------------------------:|-------------------------:|------------------------:|-------:|
+| 1 | 30 % | 90 % | 65 % | 30 000 000 \$ |
+| 2 | 27 % | 89 % | 63 % | 36 000 000 \$ |
+| 3 | 40 % | 91 % | 70 % | 5 000 000 \$ |
+| 4 | 45 % | 92 % | 85 % | −5 000 000 \$ |
+
+Toutes les données sont sur un horizon d’un an seulement.
+
+::: {.question}
+Discuter des scénarios possibles pour une entreprise qui veut maximiser sa croissance.
+
+::: {.solution}
+
+Le scénario 4 est celui qui génère le plus de ventes et le plus de renouvellements. Cependant, ce scénario génère le plus haut taux de sinistre et un profit négatif sur un an. Il faudrait donc vérifier si l’entreprise veut optimiser la croissance au détriment d’un profit négatif. Sinon, le scénario 3 présente tout de même un taux de transformation et un taux de renouvellement élevés, tout en conservant un profit prédit positif; il pourrait donc être une option intéressante.
+
+:::
+:::
+
+::: {.question}
+Discuter du scénario optimal si l’entreprise veut maximiser le profit.
+
+::: {.solution}
+
+Le scénario 2 est celui qui maximise le profit, au détriment du taux de transformation et du taux de rétention, qui sont plus bas.
+
+:::
+:::
+::::
+
+::: {.question}
+(CAS Examen 5, Printemps 2013 – Q10a)
+
+Avec l’information suivante pour une police :
+
+- Prime acquise annuelle : 1 000 \$.
+- Taux de sinistre espéré pour la nouvelle affaire : 60 %.
+- On prévoit que les sinistres vont diminuer de 25 \$ par année.
+- Frais pour la nouvelle affaire : 420 \$.
+- Frais pour chaque renouvellement : 350 \$.
+- Probabilité d’un premier renouvellement : 0,85.
+- Probabilité d’un second renouvellement : 0,90.
+- Probabilité d’un troisième renouvellement : 0 %.
+- Taux d’actualisation annuel : 3 %.
+- Les primes, sinistres et frais sont payables en début d’année.
+
+Calculer la valeur espérée du profit à long terme en pourcentage de la prime.
+
+::: {.solution}
+
+Pour chaque année, la valeur actualisée du profit espéré est :
+
+$$
+\text{Profit actualisé espéré}
+= \text{Profit} \times \text{Probabilité cumulative de renouvellement}
+  \times \text{Facteur d’actualisation}.
+$$
+
+| Année | Prime acquise | Sinistres | Frais | Profit | Prob. de renouvellement | Prob. cumulée de renouvellement | Facteur d’actualisation | Profit actualisé espéré | Prime actualisée espérée | Profit / prime |
+|:------|--------------:|----------:|------:|-------:|------------------------:|--------------------------------:|------------------------:|------------------------:|------------------------:|---------------:|
+| 1 (nouvelle affaire) | 1 000 | $0,60 \times 1\,000 = 600$ | 420 | −20 | 1,00 | 1,000 | $1 / 1,03^{1 - 1} = 1$ | −20,00 | 1 000,00 | −0,0200 |
+| 2 (renouvellement 1) | 1 000 | $600 - 25 = 575$ | 350 | 75 | 0,85 | 0,850 | $1 / 1,03^{2 - 1} = 0,9709$ | 61,89 | 825,24 | 0,0750 |
+| 3 (renouvellement 2) | 1 000 | $575 - 25 = 550$ | 350 | 100 | 0,90 | 0,765 | $1 / 1,03^{3 - 1} = 0,9426$ | 72,11 | 721,09 | 0,1000 |
+| 4 (renouvellement 3) | 1 000 | $550 - 25 = 525$ | 350 | 125 | 0,00 | 0,000 | $1 / 1,03^{4 - 1} = 0,9151$ | 0,00 | 0,00 | 0,0000 |
+| **Total** | **4 000** | **2 250** | **1 470** | **280** |  |  |  | **114,00** | **2 546,33** | **0,0448** |
+
+La valeur espérée du profit à long terme en pourcentage de la prime est donc de **4,48 %**.
+
+:::
+:::
