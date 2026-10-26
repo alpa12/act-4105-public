@@ -14,25 +14,20 @@ Ce chapitre est adapté du chapitre 12 du texte *Basic Ratemaking* :
 
 ## Contenu du chapitre {.progress-overview}
 
-# Mesurer la crédibilité d’un estimé actuariel {data-progress-label="Mesurer"}
+# Mesurer la crédibilité d’un estimé actuariel {data-progress-label="Crédibilité"}
 
 ## Introduction
 
-Dans les chapitres précédents, on a appliqué des techniques de tarification qui utilisaient les données historiques pour développer des estimés actuariels de l’expérience de sinistre future.
+- Dans les chapitres précédents, on a appliqué des techniques de tarification qui utilisaient les données historiques pour développer des estimés actuariels de l’expérience de sinistre future.
+- Loi des grands nombres
+  - Lorsque le volume d’unités similaires et indépendantes augmente, l’expérience observée approche la « vraie » expérience.
+- L’expérience d’un assuré peut varier significativement d’une année à l’autre. En assurant un grand nombre de risques indépendants, l’expérience du groupe entier devient plus stable et peut être prédite de façon plus précise.
 
-**Loi des grands nombres**
+## Définition
 
-Lorsque le volume d’unités similaires et indépendantes augmente, l’expérience observée approche la « vraie » expérience.
-
-L’expérience d’un assuré peut varier significativement d’une année à l’autre. En assurant un grand nombre de risques indépendants, l’expérience du groupe entier devient plus stable et peut être prédite de façon plus précise.
+> **Crédibilité :** Mesure de la valeur prédictive que l’actuaire accorde à ses données.
 
 ## Crédibilité
-
-::: {.center}
-Mesure de la valeur prédictive que l’actuaire accorde à ses données.
-:::
-
----
 
 $Z$ est la quantité de crédibilité accordée à l’expérience observée.
 
@@ -42,15 +37,16 @@ En assumant des risques homogènes, la quantité de crédibilité accordée à l
 2. $Z$ augmente lorsque le nombre de risques dans l’analyse augmente, toutes autres choses étant égales par ailleurs.
 3. Lorsque le nombre de risques augmente, toutes autres choses étant égales par ailleurs, $Z$ devrait augmenter à un taux non croissant.
 
-## Approche classique de crédibilité {.english-subtitle subtitle="Classical Credibility Approach"}
+## Approche classique de crédibilité
 
 $$
 \text{Estimé} = Z \times \text{Expérience observée}
 + (1 - Z) \times \text{Expérience reliée}
 $$
+Avec :
 
-$Y$ : nombre total de réclamations  
-$S$ : montant total de sinistres
+- $Y$ : nombre total de réclamations  
+- $S$ : montant total de sinistres
 
 On détermine $\operatorname{E}(Y)$ requis pour que l’expérience observée soit pleinement crédible ($Z = 1$).
 
@@ -59,8 +55,7 @@ On détermine $\operatorname{E}(Y)$ requis pour que l’expérience observée so
 L’expérience observée est considérée pleinement crédible lorsque la probabilité $p$ est élevée dans l’équation suivante :
 
 $$
-\Pr\left(left|Y - \operatorname{E}(Y)\right|
-\leq k\operatorname{E}(Y)\right) \geq p
+\operatorname{P}\left((1-k)\operatorname{E}(S) \leq S \leq (1+k)\operatorname{E}(S)\right) = p
 $$
 
 Selon le théorème central limite :
@@ -75,23 +70,23 @@ $$
 L’expression peut être transformée de la façon suivante :
 
 $$
-\Pr\left(
--\frac{k\operatorname{E}(Y)}{\sqrt{\operatorname{Var}(Y)}}
+\operatorname{P}\left(
+\frac{(1-k)\operatorname{E}(S) - \operatorname{E}(S)}{\sqrt{\operatorname{Var}(S)}}
 \leq
-\frac{Y - \operatorname{E}(Y)}{\sqrt{\operatorname{Var}(Y)}}
+\frac{S - \operatorname{E}(S)}{\sqrt{\operatorname{Var}(S)}}
 \leq
-\frac{k\operatorname{E}(Y)}{\sqrt{\operatorname{Var}(Y)}}
-\right) \geq p
+\frac{(1+k)\operatorname{E}(S) - \operatorname{E}(S)}{\sqrt{\operatorname{Var}(S)}}
+\right) = p
 $$
 
 Comme la loi normale est symétrique autour de sa moyenne :
 
 $$
-\frac{k\operatorname{E}(Y)}{\sqrt{\operatorname{Var}(Y)}}
+\frac{(1+k)\operatorname{E}(S) - \operatorname{E}(S)}{\sqrt{\operatorname{Var}(S)}}
 \geq z_{(p+1)/2}
 $$
 
-où $z_{(p+1)/2}$ est la valeur d’une table de loi $N(0, 1)$ telle que $\Pr\left(N(0,1) \leq z_{(p+1)/2}\right) = (p+1)/2$.
+où $z_{(p+1)/2}$ est la valeur d’une table de loi $N(0, 1)$ telle que $\operatorname{P}\left(N(0,1) \leq z_{(p+1)/2}\right) = (p+1)/2$.
 
 ---
 
@@ -140,12 +135,14 @@ $$
 Par exemple, avec 100 réclamations dans l’expérience :
 
 $$
-Z = \sqrt{\frac{100}{1\,082}} = 0.30
+Z = \min\left(\sqrt{\frac{100}{1082}}, 1\right) = 0.30
 $$
 
 ---
 
 En pratique, on peut vouloir exprimer le standard pour une crédibilité complète selon les unités acquises plutôt que selon le nombre de réclamations.
+
+Exemples de nombre de réclamations et d’unités acquises nécessaires pour une crédibilité complète selon différents niveaux de $k$ et $p$ :
 
 | $k$ | $p$ | $z_{(p+1)/2}$ | Réclamations pour crédibilité complète | Fréquence | Unités acquises pour crédibilité complète |
 |---:|---:|---:|---:|---:|---:|
@@ -199,7 +196,7 @@ $$
 :::
 ::::
 
-# Qualités désirables d’un complément de crédibilité {data-progress-label="Qualités"}
+# Qualités désirables d’un complément de crédibilité {data-progress-label="Qual"}
 
 ## Qualités désirables d’un complément de crédibilité
 
@@ -216,18 +213,15 @@ Un complément de crédibilité devrait être :
 
 1. **Précis** : la variance de l’erreur autour des sinistres futurs espérés estimés doit être la plus petite possible.
 2. **Non biaisé** : il ne devrait pas être systématiquement plus haut ou plus bas que l’expérience observée.
+    - _**Non biaisé** et **précis** sont deux concepts différents!_
 3. **Statistiquement indépendant de la base statistique** : autrement, les erreurs sont composées.
 4. **Disponible** : autrement, le complément n’est pas pratique.
 5. **Facile à calculer**.
 6. En **relation logique** avec la base statistique.
 
-::: {.callout-warning}
-**Non biaisé** et **précis** sont deux concepts différents.
-:::
-
 # Complément pour une couverture au premier dollar {data-progress-label="Premier dollar"}
 
-## Tarification d’une couverture au premier dollar {.english-subtitle subtitle="First Dollar Ratemaking"}
+## Tarification d’une couverture au premier dollar
 
 Les produits d’assurance au premier dollar couvrent les réclamations à partir du premier dollar de perte, ou après une franchise peu élevée, jusqu’à une certaine limite.
 
@@ -247,7 +241,7 @@ Six méthodes peuvent déterminer un complément de crédibilité pour une couve
 5. Taux présents projetés.
 6. Taux des compétiteurs.
 
-## Prime pure d’un grand groupe qui inclut le groupe tarifé {.english-subtitle subtitle="Loss Costs of a Larger Group that Include the Group being Rated"}
+## 1. Prime pure d’un grand groupe qui inclut le groupe tarifé
 
 Exemples :
 
@@ -262,14 +256,14 @@ Nous cherchons un complément de crédibilité pour la prime pure 2019 du groupe
 
 | Groupe | Classe | Unités 2019 | Prime pure 2019 | Unités 2017–2019 | Prime pure 2017–2019 |
 |:---|:---|---:|---:|---:|---:|
-| A | 1 | 100 | 50 $ | 250 | 64 $ |
-| A | 2 | 300 | 67 $ | 850 | 65 $ |
-| A | 3 | 400 | 48 $ | 1 100 | 50 $ |
-| A | 1, 2, 3 | 800 | 55 $ | 2 200 | 57 $ |
-| B | 1, 2 et 3 | 800 | 48 $ | 1 700 | 32 $ |
-| C | 1, 2 et 3 | 600 | 72 $ | 2 800 | 86 $ |
-| D | 1, 2 et 3 | 1 000 | 94 $ | 5 600 | 87 $ |
-| **Total** | **Total** | **4 000** | **74 $** | **12 300** | **74 $** |
+| A | 1 | 100 | 50 \$ | 250 | 64 \$ |
+| A | 2 | 300 | 67 \$ | 850 | 65 \$ |
+| A | 3 | 400 | 48 \$ | 1 100 | 50 \$ |
+| A | 1, 2, 3 | 800 | 55 \$ | 2 200 | 57 \$ |
+| B | 1, 2 et 3 | 800 | 48 \$ | 1 700 | 32 \$ |
+| C | 1, 2 et 3 | 600 | 72 \$ | 2 800 | 86 \$ |
+| D | 1, 2 et 3 | 1 000 | 94 \$ | 5 600 | 87 \$ |
+| **Total** | **Total** | **4 000** | **74 \$** | **12 300** | **74 \$** |
 
 ---
 
@@ -307,7 +301,7 @@ Cette dernière option serait probablement la meilleure parmi les options prése
 - La prime pure du grand groupe est souvent disponible et facile à calculer.
 - Si tous les risques du grand groupe ont quelque chose en commun, le complément possède une connexion logique avec le groupe tarifé.
 
-## Prime pure d’un grand groupe relié {.english-subtitle subtitle="Loss Costs of a Larger Related Group"}
+## 2. Prime pure d’un grand groupe relié {.text-small}
 
 La prime pure d’un grand groupe séparé, mais similaire, est utilisée comme complément.
 
@@ -315,14 +309,16 @@ Exemple : en assurance habitation pour les condos, l’expérience de la couver
 
 Évaluation du complément :
 
-- Généralement biaisé; l’idéal est de l’ajuster pour réduire le biais, ce qui peut être difficile à expliquer.
+- Généralement biaisé. L’idéal est de l’ajuster pour réduire le biais, ce qui peut être difficile à expliquer.
 - Indépendant.
 - Les données sont normalement disponibles et les calculs devraient être les mêmes que ceux du groupe tarifé.
 - Sa relation logique est forte lorsque les groupes sont étroitement liés.
 
-## Changement de taux d’un grand groupe appliqué aux taux présents {.english-subtitle subtitle="Rate Change from the Larger Group Applied to Present Rates"}
+## 3. Changement de taux d’un grand groupe appliqué aux taux présents {.text-smaller}
 
 Au lieu d’utiliser la prime pure d’un groupe relié, on utilise le changement de taux indiqué d’un grand groupe et on l’applique à la prime pure du groupe tarifé :
+
+::: {.text-xs}
 
 $$
 C = \text{Prime pure actuelle du groupe tarifé}
@@ -331,7 +327,15 @@ C = \text{Prime pure actuelle du groupe tarifé}
      {\text{Prime pure actuelle d’un grand groupe}}
 $$
 
-Ce complément est non biaisé. Si les changements de taux sont relativement petits, il est précis à long terme. Son indépendance dépend de la grosseur du groupe tarifé relativement au grand groupe; les données sont disponibles et les calculs simples.
+:::
+
+Évaluation du complément :
+
+- Non biaisé.
+- Si les changements de taux sont relativement petits, ce complément sera précis à long terme.
+- L’indépendance dépend de la grosseur du groupe tarifé relativement au grand groupe.
+- Données disponibles, calculs simples.
+- Souvent logique que le changement de taux indiqué pour un grand groupe soit indicateur du changement de taux pour le groupe tarifié.
 
 ---
 
@@ -342,10 +346,10 @@ Ce complément est non biaisé. Si les changements de taux sont relativement pet
 - Prime pure actuelle du grand groupe : 300 $.
 
 $$
-C = 200 \times \frac{330}{300} = 220
+C = 200 \times \frac{330}{300} = 220 \text{\$}
 $$
 
-## Méthode d’Harwayne
+## 4. Méthode d’Harwayne
 
 La méthode est utilisée lorsque l’expérience du groupe tarifé et l’expérience reliée ont des distributions significativement différentes.
 
@@ -355,67 +359,76 @@ Par exemple, le groupe tarifé peut être dans une province alors que le complé
 
 Calculer un complément de crédibilité pour la classe 1 du Québec selon la méthode d’Harwayne.
 
+::: {.text-smaller}
+
 | Province | Classe | Unités acquises | Sinistres | Prime pure |
 |:---|:---|---:|---:|---:|
-| Québec | 1 | 100 | 250 $ | 2.50 $ |
-|  | 2 | 125 | 500 $ | 4.00 $ |
-|  | Sous-total | 225 | 750 $ | 3.33 $ |
-| Ontario | 1 | 190 | 600 $ | 3.16 $ |
-|  | 2 | 325 | 1 500 $ | 4.62 $ |
-|  | Sous-total | 515 | 2 100 $ | 4.08 $ |
-| Nouveau-Brunswick | 1 | 180 | 500 $ | 2.78 $ |
-|  | 2 | 450 | 1 800 $ | 4.00 $ |
-|  | Sous-total | 630 | 2 300 $ | 3.65 $ |
-| **Total** | **1** | **470** | **1 350 $** | **2.87 $** |
-|  | **2** | **900** | **3 800 $** | **4.22 $** |
-|  | **Total** | **1 370** | **5 150 $** | **3.76 $** |
+| Québec | 1 | 100 | 250 \$ | **2.50 \$** |
+|  | 2 | 125 | 500 \$ | 4.00 \$ |
+|  | Sous-total | 225 | 750 \$ | 3.33 \$ |
+| Ontario | 1 | 190 | 600 \$ | 3.16 \$ |
+|  | 2 | 325 | 1 500 \$ | 4.62 \$ |
+|  | Sous-total | 515 | 2 100 \$ | 4.08 \$ |
+| Nouveau-Brunswick | 1 | 180 | 500 \$ | 2.78 \$ |
+|  | 2 | 450 | 1 800 \$ | 4.00 \$ |
+|  | Sous-total | 630 | 2 300 \$ | 3.65 \$ |
+| Total | 1 | 470 | 1 350 \$ | 2.87 \$ |
+|  | 2 | 900 | 3 800 \$ | 4.22 \$ |
+|  | Total | 1 370 | 5 150 \$ | 3.76 \$ |
+
+:::
 
 ---
 
-**Étape 1 : Calculer la prime pure moyenne du Québec.**
+### Étape 1 : Calculer la prime pure moyenne de la province de Québec
 
 $$
-\overline{L}_Q = \frac{100 \times 2.50 + 125 \times 4.00}{100 + 125} = 3.33
-$$
-
----
-
-**Étape 2 : Calculer les primes pures de l’Ontario et du Nouveau-Brunswick avec la distribution du Québec.**
-
-$$
-\widehat{L}_O = \frac{100 \times 3.16 + 125 \times 4.62}{100 + 125} = 3.97
-$$
-
-$$
-\widehat{L}_N = \frac{100 \times 2.78 + 125 \times 4.00}{100 + 125} = 3.46
+\overline{L}_{QC} = \frac{100 \times 2.50 + 125 \times 4.00}{100 + 125} = 3.33
 $$
 
 ---
 
-**Étape 3 : Calculer les facteurs d’ajustement pour les différences entre les provinces.**
+### Étape 2 : Calculer les primes pures de l’Ontario et du Nouveau-Brunswick, mais basées sur la distribution du Québec
 
 $$
-F_O = \frac{\overline{L}_Q}{\widehat{L}_O} = \frac{3.33}{3.97} = 0.84
+\widehat{L}_{ONT} = \frac{\mathbf{100} \times 3.16 + \mathbf{125} \times 4.62}{\mathbf{100} + \mathbf{125}} = 3.97
+$$
+
+$$
+\widehat{L}_{NB} = \frac{\mathbf{100} \times 2.78 + \mathbf{125} \times 4.00}{\mathbf{100} + \mathbf{125}} = 3.46
+$$
+
+---
+
+### Étape 3 : Calculer les facteurs d’ajustement pour la différence de prime pure entre provinces
+
+$$
+F_{ONT} = \frac{\overline{L}_{QC}}{\widehat{L}_{ONT}} = \frac{3.33}{3.97} = 0.84
 \qquad
-F_N = \frac{\overline{L}_Q}{\widehat{L}_N} = \frac{3.33}{3.46} = 0.96
+F_{NB} = \frac{\overline{L}_{QC}}{\widehat{L}_{NB}} = \frac{3.33}{3.46} = 0.96
 $$
 
 ---
 
-**Étape 4 : Calculer les primes pures ajustées de la classe 1.**
+### Étape 4 : Calculer les primes pures ajustées de la classe 1 par province
 
 $$
-\widehat{L}_{1,O} = 3.16 \times 0.84 = 2.65
+\widehat{L}_{1,ONT} = 3.16 \times 0.84 = 2.65
 \qquad
-\widehat{L}_{1,N} = 2.78 \times 0.96 = 2.67
+\widehat{L}_{1,NB} = 2.78 \times 0.96 = 2.67
 $$
 
 ---
 
-**Étape 5 : Pondérer les primes pures ajustées par les unités acquises.**
+### Étape 5 : Pondérer les primes pures ajustées par les unités acquises.
 
 $$
-C = \frac{2.65 \times 190 + 2.67 \times 180}{190 + 180} = 2.66
+\begin{align}
+C
+&= \frac{\widehat{L}_{1,ONT} \times X_{1,ONT} + \widehat{L}_{1,NB} \times X_{1,NB}}{X_{1,ONT} + X_{1,NB}} \\
+&= \frac{2.65 \times 190 + 2.67 \times 180}{190 + 180} \\
+&= 2.66
+\end{align}
 $$
 
 ---
@@ -428,7 +441,9 @@ $$
 - Les données sont généralement disponibles, mais les calculs peuvent être compliqués et longs.
 - Sa relation logique avec le groupe tarifé peut être difficile à expliquer, car les calculs sont complexes.
 
-## Taux présents projetés {.english-subtitle subtitle="Trended Present Rates"}
+## 5. Taux présents projetés
+
+ICI ICI ICI
 
 Si aucun grand groupe n’est disponible, l’actuaire peut utiliser les taux courants comme meilleur estimé du taux indiqué.
 
@@ -487,7 +502,7 @@ $$
 :::
 ::::
 
-## Taux présents projetés {.english-subtitle subtitle="Trended Present Rates"}
+## 5. Taux présents projetés
 
 Évaluation du complément :
 
@@ -496,7 +511,7 @@ $$
 - Il peut être indépendant ou non, selon le chevauchement entre l’expérience historique du groupe tarifé et celle du complément.
 - Les données sont disponibles, les calculs faciles et l’approche est facile à expliquer.
 
-## Taux des compétiteurs
+## 6. Taux des compétiteurs
 
 Cette méthode est utile pour les nouvelles ou petites compagnies qui ont peu de données. Lorsque les compétiteurs ont un grand nombre d’unités d’exposition, on suppose que leurs statistiques sont plus fiables.
 
@@ -631,7 +646,7 @@ Ce pourcentage peut ensuite être appliqué aux sinistres totaux afin de déterm
 - Les calculs sont plus compliqués, moins faciles à communiquer et les données ne sont pas nécessairement disponibles.
 - Il est logiquement lié aux sinistres de la tranche.
 
-# Crédibilité et modélisation statistique {data-progress-label="Modélisation"}
+# Crédibilité et modélisation statistique {data-progress-label=""}
 
 ## Crédibilité lors de l’utilisation de méthodes de modélisation statistiques
 
