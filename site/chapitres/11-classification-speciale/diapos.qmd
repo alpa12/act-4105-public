@@ -129,7 +129,7 @@ Il est possible de faire des analyses univariées (chapitre 9) ou multivariées
 
 Cependant, comme ce sont des sinistres peu fréquents, les résultats de ces analyses ne sont pas toujours crédibles et souvent volatiles.
 
-## Approche standard de calcul des facteurs de limites augmentées
+## Calcul des facteurs de limites augmentées
 
 ### Notation
 
@@ -189,18 +189,18 @@ Avec les données suivantes :
 - Les sinistres non censurés sont disponibles.
 
 | Montant de perte | Nombre de réclamations | Sinistres |
- 
+|:--|--:|--:|
 | $X \leq 100\,000$ | 2 324 | 117 629 223 $ |
 | $100\,000 < X \leq 250\,000$ | 1 923 | 307 599 929 $ |
 | $250\,000 < X \leq 500\,000$ | 680 | 222 793 514 $ |
-| $500\,000 < X \leq 1\,000\,000$ | 73 | 56 788 827 $ |
-| **Total** | **5 000** | **704 811 493 $** |
+| $500\,000 < X \leq 1\,000\,000$ | 73 | 43 047 470 $ |
+| **Total** | **5 000** | **691 070 136 $** |
 
 Calculer le facteur de limite augmentée indiqué à 250 000 $.
 
 :::
 
-::: {.solution .text-small}
+::: {.solution .text-smaller}
 
 $$
 ILF(250\,000)_{\text{indiqué}}
@@ -223,7 +223,7 @@ $$
 :::
 ::::
 
-## Approche standard de calcul des facteurs de limites augmentées {.english-subtitle subtitle="Censored Losses"}
+## Calcul des facteurs de limites augmentées
 
 ### Sinistres censurés
 
@@ -433,7 +433,7 @@ $$
 :::
 ::::
 
-## Approche standard de calcul des facteurs de limites augmentées {.english-subtitle subtitle="Censored Losses"}
+## Calcul des facteurs de limites augmentées
 
 **Sinistres censurés**
 
@@ -452,11 +452,11 @@ $f(x)$ : Distribution continue des sinistres de montant $x$
 $H$ : Limite de police
 
 $$
-LAS(H) = \int_0^H x f(x)\,dx + H\left(1 - \int_H^\infty f(x)\,dx\right)
+LAS(H) = \int_0^H x f(x)\,dx + H\int_H^\infty f(x)\,dx
 $$
 
 $$
-ILF(H) = \frac{\int_0^H x f(x)\,dx + H\left(1 - \int_H^\infty f(x)\,dx\right)}{\int_0^B x f(x)\,dx + B\left(1 - \int_B^\infty f(x)\,dx\right)}
+ILF(H) = \frac{\int_0^H x f(x)\,dx + H\int_H^\infty f(x)\,dx}{\int_0^B x f(x)\,dx + B\int_B^\infty f(x)\,dx}
 $$
 
 # Tarification des franchises {data-progress-label="Franchises"}
@@ -522,7 +522,7 @@ Plusieurs méthodes permettent de déterminer les différentiels indiqués pour 
   - Les données sont groupées par franchise et une méthode présentée au chapitre 9 est appliquée.
 - Méthodes de classification multivariée
   - Un modèle multivarié est appliqué sur les données et la variable franchise est incluse dans ce modèle (ex : GLM présenté au chapitre 10).
-- Approche du ratio d'élimination des pertes
+- **Approche du ratio d'élimination des pertes**
 
 ## Approche du ratio d’élimination des pertes {.english-subtitle subtitle="Loss Elimination Ratio"}
 
@@ -660,7 +660,7 @@ ICI ICI ICI
 
 
 
-::: {.fdjsifowe smart-tables-width="full" tbl-colwidths="[30,31,45]"}
+::: {.fdjsifowe .fdsjkl smart-tables-width="full" tbl-colwidths="[30,31,45]"}
 
 Avec les données suivantes, calculer $LER(250)$.
 
@@ -867,19 +867,19 @@ Un assureur pourrait décider de limiter le rabais en dollars applicable pour un
 
 # Assurance à la valeur {data-progress-label="Assurance valeur"}
 
-## Coût de reconstruction
+## Coût de reconstruction {.text-smaller}
 
 En assurance habitation, une variable de tarification importante est le coût de reconstruction de la maison (c’est-à-dire le montant nécessaire pour reconstruire l’habitation à neuf en cas de perte totale).
 
 Les compagnies d’assurance posent plusieurs questions sur le bâtiment à assurer afin de déterminer leur meilleure estimation du coût de reconstruction de la maison :
 
-- Modèle de résidence (détachée, jumelée, etc.).
-- Nombre d’étages.
-- Forme et revêtement de la toiture.
-- Finition extérieure (bois, vinyle, pierre, etc.).
-- Autres caractéristiques du bâtiment.
+- Modèle de résidence (détachée, jumelée, etc.)
+- Nombre d’étages
+- Forme et revêtement de la toiture
+- Finition extérieure (bois, vinyle, pierre, etc.)
+- Autres caractéristiques du bâtiment
 
-::: {.callout-warning title="Attention"}
+::: {.callout-warning title="Attention!"}
 Le coût de reconstruction n’est pas la valeur marchande ni le prix payé et exclut le prix du terrain.
 :::
 
@@ -891,10 +891,9 @@ Le niveau d’assurance à la valeur indique comment le montant d’assurance ch
 
 :::: {.question title="Taux indiqué selon le coût de reconstruction"}
 
-### a) Coût de reconstruction de 200 000 $
+::: {.text-smaller}
 
-Avec les données suivantes, calculer le taux indiqué par 1 000 $ d’assurance pour une maison ayant un coût de reconstruction de 200 000 $.
-
+- Avec les données suivantes, calculer le taux indiqué par 1 000 $ d’assurance pour une maison ayant un coût de reconstruction de 200 000 $.
 - L’assureur n’a aucun frais et le profit cible est 0 %.
 - La fréquence de perte est 1 %.
 - Si un sinistre survient, le montant de la perte a la distribution suivante :
@@ -909,6 +908,8 @@ Avec les données suivantes, calculer le taux indiqué par 1 000 $ d’assuran
 | $125\,000 < X \leq 150\,000$ | 12.5 % | 137 500 $ |
 | $150\,000 < X \leq 175\,000$ | 12.5 % | 162 500 $ |
 | $175\,000 < X \leq 200\,000$ | 12.5 % | 187 500 $ |
+
+:::
 
 ##
 
@@ -1063,39 +1064,22 @@ Le but d’une clause de coassurance est d’atteindre une plus grande équité 
 
 ---
 
-### Notation
+### Notation et formules
 
-**$I$**
-: Indemnité reçue après la perte.
-
-**$L$**
-: Montant de la perte après la franchise.
-
-**$F$**
-: Montant d’assurance sur la police (montant choisi par l’assuré).
-
-**$V$**
-: Valeur de la propriété ou coût de reconstruction.
-
-**$c$**
-: Pourcentage de coassurance exigé.
-
-**$e$**
-: Pénalité de coassurance.
+- $F$ : Montant d’assurance sur la police (montant choisi par l’assuré)
+- $V$ : Valeur de la propriété ou coût de reconstruction
+- $c$ : Pourcentage de coassurance exigé
+  - $c \times V$ : montant d’assurance requis pour qu’aucune pénalité ne soit applicable
 
 ---
 
-### Montant d’assurance requis
+- $a$ : Ratio de répartition (*apportionment ratio*)
+  - $a = \min\left(\frac{F}{cV}, 1.0\right)$
 
-$$
-cV = \text{montant d’assurance requis pour qu’aucune pénalité ne soit applicable}
-$$
+---
 
-$$
-a = \min\left(\frac{F}{cV}, 1.0\right)
-$$
-
-où $a$ est le ratio de répartition (*apportionment ratio*).
+- $I$ : Indemnité reçue après la perte
+- $L$ : Montant de la perte après la franchise
 
 Le montant d’indemnité payable est :
 
@@ -1105,11 +1089,9 @@ $$
 
 ---
 
-La pénalité de coassurance ($e$) est le montant par lequel le paiement d’indemnité est réduit suite à l’application de la clause de coassurance.
+- $e$ : Pénalité de coassurance, c'est le montant par lequel le paiement d’indemnité est réduit suite à l’application de la clause de coassurance.
 
-### Conditions d’application de la pénalité
-
-Une réduction survient lorsque les trois conditions suivantes s’appliquent :
+Une pénalité survient lorsque les trois conditions suivantes s’appliquent :
 
 1. Un sinistre non nul survient ($L > 0$).
 2. L’assuré est sous-assuré ($F < cV$).
@@ -1133,6 +1115,20 @@ $$
 
 ![](assets/coinsurance-penalty.png){.nostretch width="72%" fig-alt="Graphique de la pénalité de coassurance selon le montant de la perte."}
 
+---
+
+### Toute la notation
+
+- $I$ : Indemnité reçue après la perte
+- $L$ : Montant de la perte après la franchise
+- $F$ : Montant d’assurance sur la police (montant choisi par l’assuré)
+- $V$ : Valeur de la propriété ou coût de reconstruction
+- $c$ : Pourcentage de coassurance exigé
+- $e$ : Pénalité de coassurance
+- $a$ : Ratio de répartition (*apportionment ratio*)
+
+---
+
 :::: {.question title="Clause de coassurance"}
 
 Une maison évaluée à 500 000 $ est assurée pour 300 000 $ malgré un pourcentage de coassurance requis de 80 %.
@@ -1150,6 +1146,10 @@ Une maison évaluée à 500 000 $ est assurée pour 300 000 $ malgré un pou
 ### a) Ratio de répartition
 
 $$
+F = 300\,000 \\
+V = 500\,000 \\
+c = 0.8 \\
+\\
 \begin{aligned}
 a
 &= \min\left(\frac{F}{cV}, 1\right) \\
@@ -1161,94 +1161,88 @@ $$
 
 ##
 
-### b) Perte de 200\,000 $
+### b) Perte de 200 000 $
 
 Pour une perte de 200 000 $ :
 
-$$
-\begin{aligned}
-I &= 200\,000 \times 0.75 = 150\,000 \\
-L &\leq 300\,000 \quad \Rightarrow \quad e = L - I = 200\,000 - 150\,000 = \textbf{50\,000}
-\end{aligned}
-$$
+- L'assureur devrait payer $I = 200\,000 \times 0.75 = 150\,000 \text{\$}$.
+- Le montant d'assurance choisi est $300\,000 \text{\$}$. Sans clause de coassurance, l'assureur aurait payé une indemnité de $200\,000 \text{\$} = L$.
+- Donc, $e = L - I = 200\,000 - 150\,000 = 50\,000 \text{\$}$.
 
 ##
 
-### c) Perte de 300\,000 $
+### c) Perte de 300 000 $
 
 Pour une perte de 300 000 $ :
 
-$$
-\begin{aligned}
-I &= 300\,000 \times 0.75 = 225\,000 \\
-L &\leq 300\,000 \quad \Rightarrow \quad e = L - I = 300\,000 - 225\,000 = \textbf{75\,000}
-\end{aligned}
-$$
+- L'assureur devrait payer $I = 300\,000 \times 0.75 = 225\,000 \text{\$}$.
+- Le montant d'assurance choisi est $300\,000 \text{\$}$. Sans clause de coassurance, l'assureur aurait payé une indemnité de $300\,000 \text{\$} = F = L$.
+- Donc, $e = L - I = 300\,000 - 225\,000 = 75\,000 \text{\$}$.
 
 ##
 
-### d) Perte de 350\,000 $
+### d) Perte de 350 000 $
 
 Pour une perte de 350 000 $ :
 
-$$
-\begin{aligned}
-I &= 350\,000 \times 0.75 = 262\,500 \\
-&F < L \leq cV \quad \Rightarrow \quad e = F - I = 300\,000 - 262\,500 = \textbf{37\,500}
-\end{aligned}
-$$
+- L'assureur devrait payer $I = 350\,000 \times 0.75 = 262\,500 \text{\$}$.
+- Le montant d'assurance choisi est $300\,000 \text{\$}$. Sans clause de coassurance, l'assureur aurait payé une indemnité de $300\,000 \text{\$} = F$ (pas $L$ à cause du montant d'assurance $F < L$).
+- Donc, $e = F - I = 300\,000 - 262\,500 = 37\,500 \text{\$}$.
+
 
 ##
 
-### e) Perte de 450\,000 $
+### e) Perte de 450 000 $
 
 Pour une perte de 450 000 $ :
 
-$$
-\begin{aligned}
-I &= 300\,000 \\
-L &> cV \quad \Rightarrow \quad e = \textbf{0}
-\end{aligned}
-$$
+- L'assureur *devrait* payer $I = 450\,000 \times 0.75 = 337\,500 \text{\$}$.
+- Le montant d'assurance choisi est $300\,000 \text{\$}$. Ça limite donc l'indemnité à  
+  $I = F = 300\,000 \text{\$}$.
+- Sans clause de coassurance, l'assureur aurait payé une indemnité de  
+  $300\,000 \text{\$} = F$ (pas $L$ à cause du montant d'assurance $F < L$).
+- Donc, $e = F - I = 300\,000 - 300\,000 = 0 \text{\$}$.
 
 :::
 ::::
 
 ## Variation des taux selon le niveau d’assurance à la valeur
 
-On calcule le taux indiqué par 1 000 $ d’assurance à l’aide des sinistres espérés.
+Principe : on recalcule le taux indiqué par 1 000 $ d’assurance à l’aide des sinistres espérés.
 
 ### Notation
 
-**$f$**
-: Fréquence de perte.
+$f$ : Fréquence de perte.
 
-**$s(L)$**
-: Probabilité d’une perte d’un montant donné.
+$s(L)$ : Probabilité d’une perte d’un montant donné.
 
-**$F$**
-: Montant d’assurance sur la police (montant choisi par l’assuré).
+$F$ : Montant d’assurance sur la police (montant choisi par l’assuré).
 
-**$V$**
-: Perte maximale possible.
+$V$ : Perte maximale possible.
 
 ---
+
+::: {.text-small}
 
 ### Distribution empirique
 
 $$
-\text{Taux indiqué par }1\,000\ \text{\$}\text{ d’assurance}
-= \frac{f \times \left[\sum_{L=1}^{F} Ls(L) + F\left(1.0 - \sum_{L=1}^{F}s(L)\right)\right]}{F} \times 1\,000
+\begin{align}
+&\text{Taux indiqué par }1\,000\ \text{\$ d’assurance} \\ \\
+&= \frac{f \times \left[\sum_{L=1}^{F} Ls(L) + F\left(1.0 - \sum_{L=1}^{F}s(L)\right)\right]}{\frac{F}{1000}}
+\end{align}
 $$
 
----
 
 ### Distribution continue
 
 $$
-\text{Taux indiqué par }1\,000\ \text{\$}\text{ d’assurance}
-= \frac{f \times \left[\int_0^F Ls(L)\,dL + F\left(1.0 - \int_0^F s(L)\,dL\right)\right]}{F} \times 1\,000
+\begin{align}
+&\text{Taux indiqué par }1\,000\ \text{\$}\text{ d’assurance} \\ \\
+&= \frac{f \times \left[\int_0^F Ls(L)\,dL + F\left(1.0 - \int_0^F s(L)\,dL\right)\right]}{\frac{F}{1000}}
+\end{align}
 $$
+:::
 
 ## Initiatives pour augmenter le niveau d’assurance à la valeur
 
