@@ -1,0 +1,78 @@
+.reveal .slides .prime-pure-a-credibiliser {
+  --prime-pure-surlignage: rgb(227 5 19 / 0.24);
+
+  padding: 0 0.04em;
+  background: linear-gradient(
+    to bottom,
+    transparent 8%,
+    var(--prime-pure-surlignage) 8% 92%,
+    transparent 92%
+  );
+  color: #000;
+  font-weight: 700;
+}
+
+.reveal .slides .prime-pure-a-credibiliser-or {
+  --prime-pure-surlignage: rgb(255 193 3 / 0.4);
+}
+
+.reveal .slides .prime-pure-a-credibiliser-bleu {
+  --prime-pure-surlignage: rgb(0 156 222 / 0.28);
+}
+
+.reveal .slides .prime-pure-a-credibiliser-vert {
+  --prime-pure-surlignage: rgb(61 139 95 / 0.28);
+}
+
+.reveal .slides .grand-groupe-option {
+  align-items: flex-start;
+}
+
+.reveal .slides .grand-groupe-option-detail {
+  --grand-groupe-option-accent: var(--act-laval-gold);
+  --grand-groupe-option-surface: rgb(255 193 3 / 0.16);
+
+  margin: 0;
+  padding: clamp(0.7rem, 1.4vh, 1rem) clamp(0.8rem, 1.2vw, 1.1rem);
+  border: 1px solid color-mix(in srgb, var(--grand-groupe-option-accent) 46%, #fff);
+  border-left: 0.28rem solid var(--grand-groupe-option-accent);
+  border-radius: 0.5rem;
+  background: var(--grand-groupe-option-surface);
+  box-shadow: 0 0.2rem 0.55rem rgb(31 35 40 / 0.08);
+  font-size: 0.78em;
+  line-height: 1.25;
+}
+
+.reveal .slides .grand-groupe-option-detail > :first-child {
+  margin-top: 0;
+}
+
+.reveal .slides .grand-groupe-option-detail > :last-child {
+  margin-bottom: 0;
+}
+
+.reveal .slides .grand-groupe-option-detail > p:first-child {
+  margin-bottom: 0.58em;
+  color: #000;
+  font-size: 1.08em;
+  font-weight: 700;
+}
+
+.reveal .slides .grand-groupe-option-detail li::marker {
+  color: var(--grand-groupe-option-accent);
+}
+
+.reveal .slides .grand-groupe-option-or {
+  --grand-groupe-option-accent: var(--act-laval-gold);
+  --grand-groupe-option-surface: rgb(255 193 3 / 0.16);
+}
+
+.reveal .slides .grand-groupe-option-bleu {
+  --grand-groupe-option-accent: var(--act-laval-blue);
+  --grand-groupe-option-surface: rgb(0 156 222 / 0.13);
+}
+
+.reveal .slides .grand-groupe-option-vert {
+  --grand-groupe-option-accent: var(--act-slide-solution-accent);
+  --grand-groupe-option-surface: rgb(61 139 95 / 0.13);
+}
