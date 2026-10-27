@@ -484,7 +484,7 @@ Avec l’information suivante :
 | Total | – |
 
 ::: {.question}
-Sachant que les sinistres écrêtés à 250 000 $ sont de 1 500 000 $, calculer un complément de crédibilité pour les sinistres dans la tranche entre 500 000 $ et 750 000 $.
+Sachant que les sinistres écrêtés à 250 000 \$ sont de 1 500 000 \$, calculer un complément de crédibilité pour les sinistres dans la tranche entre 500 000 \$ et 750 000 \$.
 
 ::: {.solution}
 
@@ -521,7 +521,7 @@ Avec l’information suivante :
 | 1 000 000 $ | 3.50 |
 | Total | – |
 
-Sachant que les sinistres écrêtés à 100 000 $ sont de 1 200 000 $, calculer un complément de crédibilité pour les sinistres dans la tranche entre 500 000 $ et 750 000 $.
+Sachant que les sinistres écrêtés à 100 000 \$ sont de 1 200 000 \$, calculer un complément de crédibilité pour les sinistres dans la tranche entre 500 000 \$ et 750 000 \$.
 
 ::: {.solution}
 
