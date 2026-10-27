@@ -13,6 +13,21 @@ metadata-files:
 #| include: false
 
 library(tarifr)
+library(ggplot2)
+
+couleurs_act <- c(
+  rouge = "#e30513",
+  bleu = "#009cde",
+  or = "#ffc103",
+  vert = "#3d8b5f",
+  gris = "#626974"
+)
+
+theme_act <- theme_minimal(base_size = 14) +
+  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_blank()
+  )
 ```
 
 ## Lectures recommandées
@@ -1111,13 +1126,7 @@ $$
 
 ---
 
-### Pénalité de coassurance
-
-![](assets/coinsurance-penalty.png){.nostretch width="72%" fig-alt="Graphique de la pénalité de coassurance selon le montant de la perte."}
-
----
-
-### Toute la notation
+### Résumé de la notation
 
 - $I$ : Indemnité reçue après la perte
 - $L$ : Montant de la perte après la franchise
@@ -1202,6 +1211,86 @@ Pour une perte de 450 000 $ :
 - Sans clause de coassurance, l'assureur aurait payé une indemnité de  
   $300\,000 \text{\$} = F$ (pas $L$ à cause du montant d'assurance $F < L$).
 - Donc, $e = F - I = 300\,000 - 300\,000 = 0 \text{\$}$.
+
+## 
+
+
+### Pénalité de coassurance
+
+```{r}
+#| label: penalite-coassurance
+#| fig-width: 8
+#| fig-height: 4
+#| fig-alt: "Pénalité de coassurance pour une maison évaluée à 500 000 dollars, assurée pour 300 000 dollars avec une exigence de coassurance de 80 pour cent. La pénalité augmente jusqu’à 75 000 dollars quand la perte atteint F, soit 300 000 dollars, puis diminue jusqu’à zéro à cV, soit 400 000 dollars. Les quatre points rouges illustrent les pertes de 200 000, 300 000, 350 000 et 450 000 dollars de l’exemple et leurs pénalités respectives de 50 000, 75 000, 37 500 et zéro dollar."
+
+F <- 300000
+valeur_propriete <- 500000
+pourcentage_coassurance <- 0.80
+cV <- pourcentage_coassurance * valeur_propriete
+a <- min(F / cV, 1)
+
+perte <- seq(0, 500000, by = 1000)
+penalite_coassurance <- pmin(perte, F) - pmin(perte * a, F)
+
+penalite <- data.frame(perte, penalite_coassurance)
+exemples <- data.frame(
+  perte = c(200000, 300000, 350000, 450000),
+  libelle = c(
+    "L = 200 000 $\ne = 50 000 $",
+    "L = 300 000 $\ne = 75 000 $",
+    "L = 350 000 $\ne = 37 500 $",
+    "L = 450 000 $\ne = 0 $"
+  ),
+  label_x = c(133000, 310000, 365000, 480000),
+  label_y = c(50000, 75000, 37500, 8000),
+  label_hjust = c(0, 0, 0, 1)
+)
+exemples$penalite_coassurance <- pmin(exemples$perte, F) -
+  pmin(exemples$perte * a, F)
+
+ggplot(penalite, aes(perte, penalite_coassurance)) +
+  geom_vline(
+    xintercept = c(F, cV),
+    colour = couleurs_act["gris"],
+    linetype = "dashed",
+    linewidth = 0.4
+  ) +
+  geom_area(fill = couleurs_act["or"], alpha = 0.22) +
+  geom_line(colour = couleurs_act["bleu"], linewidth = 0.8) +
+  geom_point(
+    data = exemples,
+    colour = couleurs_act["rouge"],
+    size = 1.6
+  ) +
+  geom_text(
+    data = exemples,
+    aes(label_x, label_y, label = libelle, hjust = label_hjust),
+    colour = couleurs_act["rouge"],
+    fontface = "bold",
+    size = 3.2,
+    lineheight = 0.9,
+    inherit.aes = FALSE
+  ) +
+  annotate("text", x = F, y = 10000, label = "F = 300 000 $", fontface = "italic", vjust = 0) +
+  annotate("text", x = 400000, y = 84500, label = "cV = 400 000 $", fontface = "italic", vjust = 0) +
+  scale_x_continuous(
+    breaks = c(0, 100000, 200000, F, cV, 500000),
+    labels = scales::label_number(big.mark = " ", suffix = " $", accuracy = 1),
+    expand = expansion(mult = c(0.01, 0.02))
+  ) +
+  scale_y_continuous(
+    limits = c(-2000, 90000),
+    breaks = seq(0, 80000, by = 20000),
+    labels = scales::label_number(big.mark = " ", suffix = " $", accuracy = 1),
+    expand = expansion(mult = c(0, 0))
+  ) +
+  labs(
+    x = "Montant de la perte",
+    y = "Pénalité de coassurance"
+  ) +
+  theme_act
+```
+
 
 :::
 ::::
