@@ -91,6 +91,14 @@ the source ratio. A planned table can become horizontally scrollable on a
 narrow slide; this is intentional and prevents protected header lines from
 overlapping cells.
 
+With `overflow: auto`, the wrapper always keeps its horizontal auto-scroller.
+Its vertical scroller is based on the final transformed bounds of the visible
+Revealjs slide or theme card rather than a fixed `vh` cap. A table that fits
+visibly keeps its natural height; a genuine overflow receives a cap converted
+to Revealjs layout coordinates. The extension reevaluates that state after
+Revealjs navigation and delayed typesetting such as MathJax. Explicit `scroll`,
+`hidden`, and `visible` overflow values retain their usual CSS behavior.
+
 Use `.reveal .table-brand ...` for reveal-specific color or typography rules.
 Do not globally set `.smart-table { width: 100% }`, change
 `.smart-table-wrap` to `display: block`, or remove `.smart-table-scroll`.

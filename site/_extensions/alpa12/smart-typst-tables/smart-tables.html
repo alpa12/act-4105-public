@@ -369,3 +369,137 @@
   }
 }
 </style>
+<script>
+(() => {
+  "use strict";
+
+  const selector = ".reveal .smart-table-scroll.smart-table-reveal";
+  const tolerance = 2;
+  const observed = new WeakSet();
+  let animationFrame = null;
+
+  function usesAutomaticOverflow(wrapper) {
+    return window.getComputedStyle(wrapper)
+      .getPropertyValue("--smart-table-reveal-overflow")
+      .trim()
+      .toLowerCase() === "auto";
+  }
+
+  function visualBounds(wrapper) {
+    const slide = wrapper.closest("section.present") || wrapper.closest(".reveal .slides section");
+    const card = wrapper.closest(".card, .slide-content, .slide-content-container, .quarto-slide-content");
+    const container = card || slide;
+    const reveal = wrapper.closest(".reveal");
+    if (!container || !reveal) return null;
+
+    const containerBounds = container.getBoundingClientRect();
+    const revealBounds = reveal.getBoundingClientRect();
+    return {
+      bottom: Math.min(containerBounds.bottom, revealBounds.bottom),
+      top: Math.max(containerBounds.top, revealBounds.top),
+    };
+  }
+
+  function revealScale(wrapper) {
+    if (window.Reveal && typeof window.Reveal.getScale === "function") {
+      const scale = window.Reveal.getScale();
+      if (Number.isFinite(scale) && scale > 0) return scale;
+    }
+
+    const slide = wrapper.closest(".reveal .slides section");
+    if (slide && slide.offsetHeight > 0) {
+      return slide.getBoundingClientRect().height / slide.offsetHeight;
+    }
+    return 1;
+  }
+
+  function updateVerticalOverflow(wrapper) {
+    if (!usesAutomaticOverflow(wrapper)) return;
+
+    const content = wrapper.querySelector(".smart-table-wrap, .smart-table");
+    const bounds = visualBounds(wrapper);
+    if (!content || !bounds || wrapper.clientHeight === 0) return;
+
+    const contentBounds = content.getBoundingClientRect();
+    const wrapperBounds = wrapper.getBoundingClientRect();
+    wrapper.style.overflowY = "hidden";
+    const fitsVisually = contentBounds.top >= bounds.top - tolerance && contentBounds.bottom <= bounds.bottom + tolerance;
+    if (fitsVisually) {
+      wrapper.style.maxHeight = "none";
+      wrapper.toggleAttribute("data-smart-table-reveal-vertical-overflow", false);
+      return;
+    }
+
+    const availableVisualHeight = Math.max(0, bounds.bottom - Math.max(bounds.top, wrapperBounds.top));
+    wrapper.style.maxHeight = `${availableVisualHeight / revealScale(wrapper)}px`;
+    wrapper.style.overflowY = "auto";
+    wrapper.toggleAttribute("data-smart-table-reveal-vertical-overflow", true);
+  }
+
+  function scheduleUpdate() {
+    if (animationFrame !== null) {
+      return;
+    }
+
+    animationFrame = window.requestAnimationFrame(() => {
+      animationFrame = null;
+      document.querySelectorAll(selector).forEach(updateVerticalOverflow);
+    });
+  }
+
+  function observe(wrapper) {
+    if (observed.has(wrapper)) {
+      return;
+    }
+    observed.add(wrapper);
+
+    if ("ResizeObserver" in window) {
+      const resizeObserver = new ResizeObserver(scheduleUpdate);
+      const content = wrapper.querySelector(".smart-table-wrap, .smart-table");
+      if (content) {
+        resizeObserver.observe(content);
+      }
+    }
+
+    const mutationObserver = new MutationObserver(scheduleUpdate);
+    mutationObserver.observe(wrapper, {
+      childList: true,
+      characterData: true,
+      subtree: true,
+    });
+  }
+
+  function initialize() {
+    document.querySelectorAll(selector).forEach((wrapper) => {
+      if (usesAutomaticOverflow(wrapper)) {
+        wrapper.style.maxHeight = "none";
+        wrapper.style.overflowY = "hidden";
+      }
+      observe(wrapper);
+    });
+    scheduleUpdate();
+  }
+
+  function observeReveal() {
+    if (!window.Reveal || typeof window.Reveal.on !== "function") {
+      return;
+    }
+    ["ready", "resize", "slidechanged"].forEach((event) => {
+      window.Reveal.on(event, initialize);
+    });
+  }
+
+  function start() {
+    initialize();
+    observeReveal();
+    window.addEventListener("load", initialize, { once: true });
+    window.addEventListener("resize", scheduleUpdate);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", start, { once: true });
+  } else {
+    start();
+  }
+})();
+</script>
