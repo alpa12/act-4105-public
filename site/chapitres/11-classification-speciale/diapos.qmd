@@ -539,7 +539,7 @@ Plusieurs méthodes permettent de déterminer les différentiels indiqués pour 
   - Un modèle multivarié est appliqué sur les données et la variable franchise est incluse dans ce modèle (ex : GLM présenté au chapitre 10).
 - **Approche du ratio d'élimination des pertes**
 
-## Approche du ratio d’élimination des pertes {.english-subtitle subtitle="Loss Elimination Ratio"}
+## Approche du ratio d’élimination des pertes
 
 **Hypothèses** :
 
@@ -547,7 +547,7 @@ Plusieurs méthodes permettent de déterminer les différentiels indiqués pour 
 - Les frais de souscription variables sont un pourcentage constant de la prime et ce pourcentage ne varie pas selon le niveau de franchise.
 - Le profit est un pourcentage constant de la prime et ne varie pas selon le niveau de franchise.
 
-## Approche du ratio d’élimination des pertes
+---
 
 Calcul du différentiel indiqué pour une police avec franchise $D$ (pour des fins d’illustration, la classe de base est une police sans franchise) :
 
@@ -668,9 +668,9 @@ afficher_tableau_ler <- function() {
 
 :::: {.question title="Ratio d’élimination des pertes avec sinistres non censurés"}
 
-ICI ICI
-
 Avec les données suivantes, calculer $LER(250)$.
+
+::: {.thereisabugsoiaddthisuselessclass smart-tables-column-1="formula"}
 
 ```{r}
 #| label: uncensored-losses-table-question
@@ -680,11 +680,15 @@ Avec les données suivantes, calculer $LER(250)$.
 afficher_tableau_ler()
 ```
 
+:::
+
 ::: {.solution}
 
-##
+## {.text-smaller}
 
 ### Calcul à partir des sinistres éliminés
+
+::: {.thereisabugsoiaddthisuselessclass smart-tables-column-1="formula"}
 
 ```{r}
 #| label: uncensored-losses-table-eliminated
@@ -694,11 +698,13 @@ afficher_tableau_ler()
 afficher_tableau_ler()
 ```
 
+:::
+
 $$
 \begin{aligned}
 LER(D)
-&= \frac{\text{Sinistres et frais de règlement de sinistres éliminés par la franchise}}
-         {\text{Sinistres et frais de règlement de sinistres totaux}} \\
+&= \frac{\text{Sinistres et frais de règl de sinistres } \textbf{éliminés par la franchise}}
+         {\text{Sinistres et frais de règl de sinistres totaux}} \\
 LER(250)
 &= \frac{240\,365 + 207\,588 + 250 \times (1\,187 + 1\,845 + 2\,543)}{13\,604\,390} \\
 &= \textbf{0.135}
@@ -709,13 +715,7 @@ $$
 
 ### Calcul à partir des sinistres non éliminés
 
-```{r}
-#| label: uncensored-losses-table-not-eliminated
-#| echo: false
-#| output: asis
-
-afficher_tableau_ler()
-```
+::: {.text-smaller}
 
 On peut aussi calculer le ratio d’élimination des pertes à partir des sinistres non éliminés par la franchise :
 
@@ -725,24 +725,28 @@ LER(D)
            {\sum_{\text{tous les sinistres}} \text{Montant de perte}}
 $$
 
+:::
+
+::: {.text-scale scale=0.63}
+
 $$
-\begin{aligned}
-LER(250)
-&= 1 - \frac{3\,200 \times 0 + 1\,225 \times 0 + (463\,954 - 1\,187 \times 250)
+LER(250) = \\ \\
+1 - \frac{3\,200 \times 0 + 1\,225 \times 0 + (463\,954 - 1\,187 \times 250)
            + (1\,551\,938 - 1\,845 \times 250)
-           + (11\,140\,545 - 2\,543 \times 250)}{13\,604\,390} \\
-&= \textbf{0.135}
-\end{aligned}
+           + (11\,140\,545 - 2\,543 \times 250)}{13\,604\,390} \\ \\
+= \textbf{0.135}
 $$
+
+:::
 
 :::
 ::::
 
-## Approche du ratio d’élimination des pertes {.english-subtitle subtitle="Censored Losses"}
+## Approche du ratio d’élimination des pertes
 
 ### Sinistres censurés
 
-:::: {.columns}
+:::: {.columns .text-smaller}
 ::: {.column width="58%"}
 En pratique, un assureur offre des polices avec plusieurs niveaux de franchise (ex. : 0\$, 100\$, 250\$, 500\$, 1 000\$, etc.).
 
@@ -751,23 +755,21 @@ Il est fort fréquent qu’un assureur ne connaisse pas tous les montants de sin
 En effet, l’assureur a souvent seulement la portion des sinistres excédant la franchise, c’est-à-dire les pertes nettes de la franchise.
 :::
 ::: {.column width="42%"}
-::: {.callout-note title=""}
-La franchise de mon contrat d’assurance habitation est de 500\$. Vais-je appeler mon assureur pour signaler le cellulaire de 300\$ que je me suis fait voler ?
+::: {.callout-note title="Réflexion" icon="false"}
+La franchise de mon contrat d’assurance habitation est de 500\$. Vais-je appeler mon assureur pour signaler le cellulaire de 300\$ que je me suis fait voler?
 :::
-
-![](assets/franchise-question.png){.nostretch width="70%" fig-alt="Personne qui se demande si elle doit déclarer un petit sinistre lorsque la franchise est élevée."}
 :::
 ::::
 
 ---
-
-### Utilisation des données censurées
 
 On essayera de prendre le plus de données possibles pour faire les calculs de $LER$. Cependant, les polices avec une franchise plus élevée que la franchise pour laquelle on essaie de déterminer le différentiel ne peuvent être utilisées pour calculer le ratio d’élimination des pertes étant donné que nous n’avons que des données censurées.
 
 :::: {.question title="Crédit pour une hausse de franchise"}
 
 Avec les données suivantes, calculer le crédit pour passer d’une franchise de 250\$ à une franchise de 500\$.
+
+::: {.text-small}
 
 | Franchise | Nombre de réclamations rapportées | Sinistres rapportés nets de la franchise | Sinistres rapportés nets en assumant une franchise de 500\$ | Sinistres rapportés nets en assumant une franchise de 250\$ |
 |:--|--:|--:|--:|--:|
@@ -778,6 +780,8 @@ Avec les données suivantes, calculer le crédit pour passer d’une franchise d
 | 1 000\$ | 254 | 859 755\$ | Inconnus | Inconnus |
 | **Total** | **5 022** | **10 998 292\$** | — | — |
 
+:::
+
 ::: {.solution}
 
 ##
@@ -786,39 +790,44 @@ On doit calculer le ratio d’élimination des pertes en passant d’une franchi
 
 Pour ce faire, on calcule la proportion des sinistres avec franchise de 250\$ éliminés en passant à une franchise de 500\$, ce qui donnera ainsi le crédit applicable à la prime pour passer d’une franchise de 250\$ à 500\$.
 
+On utilise le plus de données possibles, tout en tenant compte du biais lié aux données censurées.
+
 ##
 
-::: {.callout-tip title=""}
-On utilise le plus de données possibles, tout en tenant compte du biais lié aux données censurées. On ne se contente pas seulement d’utiliser les données des polices avec une franchise de 250\$.
-:::
+::: {.text-small}
 
-| Franchise | Réclamations | Nets de la franchise | Nets à 500\$ | Nets à 250\$ |
+| Franchise | Nombre de réclamations rapportées | Sinistres rapportés nets de la franchise | Sinistres rapportés nets en assumant une franchise de 500\$ | Sinistres rapportés nets en assumant une franchise de 250\$ |
 |:--|--:|--:|--:|--:|
-| 0\$ | 500 | 680 220\$ | 524 924\$ | 588 134\$ |
-| 100\$ | 680 | 1 268 403\$ | 1 049 848\$ | 1 176 269\$ |
-| 250\$ | 1 394 | 2 940 672\$ | 2 624 621\$ | 2 940 672\$ |
-| 500\$ | 2 194 | 5 249 242\$ | 5 249 242\$ | Inconnus |
-| 1 000\$ | 254 | 859 755\$ | Inconnus | Inconnus |
-| **Total** | **5 022** | **10 998 292\$** | — | — |
+| **0\$** | **500** | **680 220\$** | **524 924\$** | **588 134\$** |
+| **100\$** | **680** | **1 268 403\$** | **1 049 848\$** | **1 176 269\$** |
+| **250\$** | **1 394** | **2 940 672\$** | **2 624 621\$** | **2 940 672\$** |
+| *500\$* | *2 194* | *5 249 242\$* | *5 249 242\$* | *Inconnus* |
+| *1 000\$* | *254* | *859 755\$* | *Inconnus* | *Inconnus* |
+| Total | 5 022 | 10 998 292\$ | — | — |
 
-::: {.callout-warning title=""}
-Les données des polices avec franchises de 500\$ et 1 000\$ ne peuvent pas être utilisées pour ce calcul, car il est impossible de connaître quels auraient été les sinistres rapportés avec des franchises de 250\$ et 500\$ pour ces polices.
 :::
 
-##
+*Les données des polices avec franchises de 500\$ et 1 000\$ ne peuvent pas être utilisées pour ce calcul, car il est impossible de connaître quels auraient été les sinistres rapportés avec des franchises de 250\$ et 500\$ pour ces polices.*
 
-### Calcul du crédit
+##
 
 Les données pour les polices avec franchise de plus de 250\$ ne sont utilisées ni au numérateur ni au dénominateur dans notre calcul du ratio d’élimination des pertes.
 
+::: {.text-smaller}
+
 $$
-\begin{aligned}
-\text{Crédit pour passer de }250\ \text{\$}\text{ à }500\ \text{\$}
+\begin{align}
+&\text{Ratio d'éliminination de pertes pour passer d'une franchise de }250\ \text{\$}\text{ à }500\ \text{\$} \\
+&= \frac{\text{Sinistres et frais de régl de sinistres éliminés par le changement de franchise}}{\text{Sinistre et frais de règlement de sinistre avec franchise de 250\$}} \\
 &= \frac{(588\,134 - 524\,924) + (1\,176\,269 - 1\,049\,848) + (2\,940\,672 - 2\,624\,621)}{588\,134 + 1\,176\,269 + 2\,940\,672} \\
 &= \frac{63\,210 + 126\,421 + 316\,051}{588\,134 + 1\,176\,269 + 2\,940\,672} \\
-&= \textbf{10.7\,%}
-\end{aligned}
+&= \mathbf{0.107}
+\end{align}
 $$
+
+:::
+
+Le crédit pour passer d’une franchise de 250\$ à 500\$ est donc de 10.7\%.
 
 :::
 ::::
@@ -833,35 +842,34 @@ $$
 LER(D) = \frac{\int_0^D x f(x)\,dx + D\int_D^\infty f(x)\,dx}{\int_0^\infty x f(x)\,dx}
 $$
 
-::: {.callout-note title="Note"}
 Cette formule s’applique lorsque la franchise de base est 0\$.
-:::
+
 
 ## Considérations pratiques
 
+::: {.text-smaller}
+
 ### Niveau de la franchise et propension à réclamer
 
-L’approche du ratio d’élimination des pertes assume que le comportement de l’assuré sera le même peu importe la franchise.
-
-En pratique, un assuré qui réclamera une perte pour une police avec une franchise à 250\$ pourrait ne pas réclamer cette même perte s’il avait une police avec une franchise à 1 000\$ (ex. : assuré avec une perte de 1 100\$).
+- L’approche du ratio d’élimination des pertes assume que le comportement de l’assuré sera le même peu importe la franchise.
+  - En pratique, un assuré qui réclamera une perte pour une police avec une franchise à 250\$ pourrait ne pas réclamer cette même perte s’il avait une police avec une franchise à 1 000\$ (ex. : assuré avec une perte de 1 100\$).
 
 ### Niveau de la franchise versus fréquence de réclamation
 
-Les assurés avec une plus petite fréquence de réclamation ont tendance à choisir une police avec une franchise plus élevée. Comme l’approche du ratio d’élimination des pertes ne reconnaît pas cette particularité, elle peut conduire à une profitabilité plus élevée pour les polices avec franchise élevée que pour celles avec de basses franchises.
+- Les assurés avec une plus petite fréquence de réclamation ont tendance à choisir une police avec une franchise plus élevée.
+- Comme l’approche du ratio d’élimination des pertes ne reconnaît pas cette particularité, elle peut conduire à une profitabilité plus élevée pour les polices avec franchise élevée que pour celles avec de basses franchises.
 
-::: {.callout-note title="Note"}
 Les méthodes présentées aux chapitres 9 et 10 reconnaissent ces différences de comportement de l’assuré selon la franchise, car les données historiques les reflètent.
+
 :::
 
 ---
 
 ### Hausse de franchise versus diminution de prime
 
-L’approche du ratio d’élimination des pertes résulte en un crédit à appliquer à la prime pour modifier la franchise. Dans l’exemple 11.3, le crédit pour passer d’une franchise de 0\$ à une franchise de 250\$ était de 13.5 %.
-
-Si la prime de la police pour une franchise de 0\$ est de 3 000\$, le crédit pour passer à une franchise de 250\$ est de $3\,000\ \text{\$} \times 0.135 = 405\ \text{\$}$. Comme la réduction de prime est supérieure au changement de franchise, l’assuré aurait tout avantage à opter pour une police avec franchise à 250\$.
-
-Un assureur pourrait décider de limiter le rabais en dollars applicable pour une franchise. Par exemple, pour passer d’une franchise de 0\$ à une franchise de 250\$, l’assureur pourrait déterminer un rabais maximal de 150\$.
+- L’approche du ratio d’élimination des pertes résulte en un crédit à appliquer à la prime pour modifier la franchise. Dans l’exemple 11.3, le crédit pour passer d’une franchise de 0\$ à une franchise de 250\$ était de 13.5\%.
+- Si la prime de la police pour une franchise de 0\$ est de 3 000\$, le crédit pour passer à une franchise de 250\$ est de $3\,000\ \text{\$} \times 0.135 = 405\ \text{\$}$. Comme la réduction de prime est supérieure au changement de franchise, l’assuré aurait tout avantage à opter pour une police avec franchise à 250\$.
+- Un assureur pourrait décider de limiter le rabais en dollars applicable pour une franchise. Par exemple, pour passer d’une franchise de 0\$ à une franchise de 250\$, l’assureur pourrait déterminer un rabais maximal de 150\$.
 
 # Assurance à la valeur {data-progress-label="Assurance valeur"}
 
