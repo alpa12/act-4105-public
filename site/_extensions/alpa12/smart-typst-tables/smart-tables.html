@@ -367,6 +367,16 @@
   .smart-table.smart-table-repeat-header thead {
     display: table-header-group;
   }
+
+  /* RevealJS turns every slide into a .pdf-page for ?print-pdf.  The
+     interactive overflow calculation uses viewport geometry, which has no
+     useful relationship to those document-wide page coordinates.  Keep the
+     table at its natural height even if an earlier script run left a cap. */
+  :is(html.reveal-print, html.print-pdf)
+    .reveal .smart-table-scroll.smart-table-reveal {
+    max-height: none !important;
+    overflow-y: hidden !important;
+  }
 }
 </style>
 <script>
@@ -383,6 +393,29 @@
       .getPropertyValue("--smart-table-reveal-overflow")
       .trim()
       .toLowerCase() === "auto";
+  }
+
+  function isRevealPrintContext(wrapper) {
+    const root = document.documentElement;
+    if (root.classList.contains("print-pdf") || root.classList.contains("reveal-print")) {
+      return true;
+    }
+
+    if (new URLSearchParams(window.location.search).has("print-pdf")) {
+      return true;
+    }
+
+    if (window.matchMedia && window.matchMedia("print").matches) {
+      return true;
+    }
+
+    return Boolean(wrapper.closest(".pdf-page"));
+  }
+
+  function resetVerticalOverflow(wrapper) {
+    wrapper.style.removeProperty("max-height");
+    wrapper.style.removeProperty("overflow-y");
+    wrapper.removeAttribute("data-smart-table-reveal-vertical-overflow");
   }
 
   function visualBounds(wrapper) {
@@ -414,6 +447,11 @@
   }
 
   function updateVerticalOverflow(wrapper) {
+    if (isRevealPrintContext(wrapper)) {
+      resetVerticalOverflow(wrapper);
+      return;
+    }
+
     if (!usesAutomaticOverflow(wrapper)) return;
 
     const content = wrapper.querySelector(".smart-table-wrap, .smart-table");
@@ -431,7 +469,13 @@
     }
 
     const availableVisualHeight = Math.max(0, bounds.bottom - Math.max(bounds.top, wrapperBounds.top));
-    wrapper.style.maxHeight = `${availableVisualHeight / revealScale(wrapper)}px`;
+    const availableLayoutHeight = availableVisualHeight / revealScale(wrapper);
+    if (!Number.isFinite(availableLayoutHeight) || availableLayoutHeight <= tolerance) {
+      resetVerticalOverflow(wrapper);
+      return;
+    }
+
+    wrapper.style.maxHeight = `${availableLayoutHeight}px`;
     wrapper.style.overflowY = "auto";
     wrapper.toggleAttribute("data-smart-table-reveal-vertical-overflow", true);
   }
@@ -445,6 +489,19 @@
       animationFrame = null;
       document.querySelectorAll(selector).forEach(updateVerticalOverflow);
     });
+  }
+
+  function resetPrintOverflow() {
+    document.querySelectorAll(selector).forEach((wrapper) => {
+      if (isRevealPrintContext(wrapper)) {
+        resetVerticalOverflow(wrapper);
+      }
+    });
+  }
+
+  function handlePrintModeChange() {
+    resetPrintOverflow();
+    scheduleUpdate();
   }
 
   function observe(wrapper) {
@@ -471,7 +528,9 @@
 
   function initialize() {
     document.querySelectorAll(selector).forEach((wrapper) => {
-      if (usesAutomaticOverflow(wrapper)) {
+      if (isRevealPrintContext(wrapper)) {
+        resetVerticalOverflow(wrapper);
+      } else if (usesAutomaticOverflow(wrapper)) {
         wrapper.style.maxHeight = "none";
         wrapper.style.overflowY = "hidden";
       }
@@ -489,9 +548,29 @@
     });
   }
 
+  function observePrintMode() {
+    const rootObserver = new MutationObserver((mutations) => {
+      if (mutations.some((mutation) => mutation.attributeName === "class")) {
+        handlePrintModeChange();
+      }
+    });
+    rootObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+
+    window.addEventListener("beforeprint", handlePrintModeChange);
+    const printMedia = window.matchMedia && window.matchMedia("print");
+    if (printMedia) {
+      if (typeof printMedia.addEventListener === "function") {
+        printMedia.addEventListener("change", handlePrintModeChange);
+      } else if (typeof printMedia.addListener === "function") {
+        printMedia.addListener(handlePrintModeChange);
+      }
+    }
+  }
+
   function start() {
     initialize();
     observeReveal();
+    observePrintMode();
     window.addEventListener("load", initialize, { once: true });
     window.addEventListener("resize", scheduleUpdate);
   }

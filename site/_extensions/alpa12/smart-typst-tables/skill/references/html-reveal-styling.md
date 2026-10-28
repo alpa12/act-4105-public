@@ -96,8 +96,11 @@ Its vertical scroller is based on the final transformed bounds of the visible
 Revealjs slide or theme card rather than a fixed `vh` cap. A table that fits
 visibly keeps its natural height; a genuine overflow receives a cap converted
 to Revealjs layout coordinates. The extension reevaluates that state after
-Revealjs navigation and delayed typesetting such as MathJax. Explicit `scroll`,
-`hidden`, and `visible` overflow values retain their usual CSS behavior.
+Revealjs navigation and delayed typesetting such as MathJax. In RevealJS PDF
+export (`?print-pdf`), the dynamic vertical calculation is disabled and stale
+inline overflow styles are reset so tables retain their natural printed height.
+Explicit `scroll`, `hidden`, and `visible` overflow values retain their usual
+CSS behavior.
 
 Use `.reveal .table-brand ...` for reveal-specific color or typography rules.
 Do not globally set `.smart-table { width: 100% }`, change
