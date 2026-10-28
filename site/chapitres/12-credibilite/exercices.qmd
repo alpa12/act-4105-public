@@ -11,8 +11,8 @@ Avec les données suivantes :
 - Vous établissez le standard pour crédibilité complète de façon à ce que la valeur observée soit à l’intérieur de plus ou moins 10 % de sa moyenne dans 95 % des cas.
 - La règle de la racine carrée est utilisée pour accorder de la crédibilité partielle.
 - Les unités dans votre portefeuille sont homogènes. La fréquence suit une loi de Poisson et la sévérité des réclamations est constante.
-- La prime pure est de 500 $ pour le Québec et elle est calculée sur 150 réclamations.
-- Vous décidez d’utiliser la prime pure de la province de l’Ontario (1 000 $) comme complément de crédibilité.
+- La prime pure est de 500\$ pour le Québec et elle est calculée sur 150 réclamations.
+- Vous décidez d’utiliser la prime pure de la province de l’Ontario (1 000\$) comme complément de crédibilité.
 - Quelques données pour une loi $N(0,1)$ :
 
 | $x$ | 1.28 | 1.645 | 1.96 | 2.33 |
@@ -91,12 +91,12 @@ L’actuaire en chef se questionne à propos de la crédibilité des données de
 
 Avec l’information suivante :
 
-- Prime pure actuelle pour l’État X : 1 600 $.
-- Prime pure actuelle nationale : 1 800 $.
-- Prime pure nationale indiquée : 1 710 $.
-- Sinistres et frais de règlement de sinistres de l’État X : 1 000 000 $.
+- Prime pure actuelle pour l’État X : 1 600\$.
+- Prime pure actuelle nationale : 1 800\$.
+- Prime pure nationale indiquée : 1 710\$.
+- Sinistres et frais de règlement de sinistres de l’État X : 1 000 000\$.
 - Unités d’exposition de l’État X : 1 000.
-- Frais fixes de l’État X : 200 000 $.
+- Frais fixes de l’État X : 200 000\$.
 - Frais variables : 25 %.
 - Profit et contingences : 5 %.
 - Le standard pour crédibilité complète est de 16 000 unités.
@@ -164,7 +164,7 @@ $$
 
 On vous donne l’information suivante :
 
-- Taux moyen actuel : 200 $.
+- Taux moyen actuel : 200\$.
 - Tendance annuelle dans les sinistres : 10 %.
 - Le dernier changement demandé aux autorités était de 20 %.
 - Un changement de taux de 15 % avait été approuvé.
@@ -401,10 +401,10 @@ En utilisant les données suivantes, calculer le complément de crédibilité po
 
 | Classe | Unités | Sinistres ultimes projetés | Prime pure actuelle |
 |---:|---:|---:|---:|
-| 1 | 200 | 100 000 $ | 550.00 $ |
-| 2 | 300 | 135 000 $ | 500.00 $ |
-| 3 | 500 | 215 000 $ | 455.00 $ |
-| **Total** | **1 000** | **450 000 $** | **487.50 $** |
+| 1 | 200 | 100 000\$ | 550.00\$ |
+| 2 | 300 | 135 000\$ | 500.00\$ |
+| 3 | 500 | 215 000\$ | 455.00\$ |
+| **Total** | **1 000** | **450 000\$** | **487.50\$** |
 
 ::: {.solution}
 
@@ -430,9 +430,9 @@ Utiliser l’information suivante pour déterminer le changement de taux indiqu�
 
 | Année de police | Primes acquises au taux courant projetées | Sinistres ultimes projetés, incluant les frais de règlement de sinistres | Nombre de réclamations | Poids accordé à l’année |
 |---:|---:|---:|---:|---:|
-| 2001 | 123 000 $ | 98 000 $ | 338 | 0.2 |
-| 2002 | 157 000 $ | 143 000 $ | 507 | 0.3 |
-| 2003 | 218 000 $ | 137 000 $ | 480 | 0.5 |
+| 2001 | 123 000\$ | 98 000\$ | 338 | 0.2 |
+| 2002 | 157 000\$ | 143 000\$ | 507 | 0.3 |
+| 2003 | 218 000\$ | 137 000\$ | 480 | 0.5 |
 
 - Standard de crédibilité : 3 000 réclamations. La règle de la racine carrée est utilisée pour la crédibilité partielle.
 - Complément de crédibilité pour le taux de sinistre : 0.68.
@@ -476,11 +476,11 @@ Avec l’information suivante :
 
 | Limite d’assurance | Facteur de limite augmentée (ILF) |
 |---:|---:|
-| 100 000 $ | 1.00 |
-| 250 000 $ | 2.00 |
-| 500 000 $ | 2.75 |
-| 750 000 $ | 3.25 |
-| 1 000 000 $ | 3.50 |
+| 100 000\$ | 1.00 |
+| 250 000\$ | 2.00 |
+| 500 000\$ | 2.75 |
+| 750 000\$ | 3.25 |
+| 1 000 000\$ | 3.50 |
 | Total | – |
 
 ::: {.question}
@@ -514,11 +514,11 @@ Avec l’information suivante :
 
 | Limite d’assurance | Facteur de limite augmentée (ILF) |
 |---:|---:|
-| 100 000 $ | 1.00 |
-| 250 000 $ | 2.00 |
-| 500 000 $ | 2.75 |
-| 750 000 $ | 3.25 |
-| 1 000 000 $ | 3.50 |
+| 100 000\$ | 1.00 |
+| 250 000\$ | 2.00 |
+| 500 000\$ | 2.75 |
+| 750 000\$ | 3.25 |
+| 1 000 000\$ | 3.50 |
 | Total | – |
 
 Sachant que les sinistres écrêtés à 100 000 \$ sont de 1 200 000 \$, calculer un complément de crédibilité pour les sinistres dans la tranche entre 500 000 \$ et 750 000 \$.

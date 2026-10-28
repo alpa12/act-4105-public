@@ -200,18 +200,18 @@ $$
 
 Avec les données suivantes :
 
-- La limite de base est 100 000 $.
+- La limite de base est 100 000\$.
 - Les sinistres non censurés sont disponibles.
 
 | Montant de perte | Nombre de réclamations | Sinistres |
 |:--|--:|--:|
-| $X \leq 100\,000$ | 2 324 | 117 629 223 $ |
-| $100\,000 < X \leq 250\,000$ | 1 923 | 307 599 929 $ |
-| $250\,000 < X \leq 500\,000$ | 680 | 222 793 514 $ |
-| $500\,000 < X \leq 1\,000\,000$ | 73 | 43 047 470 $ |
+| $X \leq 100\,000$ | 2 324 | 117 629 223\$ |
+| $100\,000 < X \leq 250\,000$ | 1 923 | 307 599 929\$ |
+| $250\,000 < X \leq 500\,000$ | 680 | 222 793 514\$ |
+| $500\,000 < X \leq 1\,000\,000$ | 73 | 43 047 470\$ |
 | **Total** | **5 000** | **691 070 136 $** |
 
-Calculer le facteur de limite augmentée indiqué à 250 000 $.
+Calculer le facteur de limite augmentée indiqué à 250 000\$.
 
 :::
 
@@ -254,7 +254,7 @@ La méthode consiste à utiliser le plus de données possibles, sans le biais li
 
 Avec les données suivantes :
 
-- La limite de base est 100 000 $.
+- La limite de base est 100 000\$.
 - Les sinistres censurés à la limite de police sont disponibles.
 
 ```{r}
@@ -319,13 +319,13 @@ afficher_tableau_limites <- function(tableau) {
 afficher_tableau_limites(tableau_limites)
 ```
 
-Calculer le facteur de limite augmentée indiqué à 250 000 $.
+Calculer le facteur de limite augmentée indiqué à 250 000\$.
 
 :::
 
 ::: {.solution}
 
-##
+## {.text-smaller}
 
 La méthode consiste à utiliser le plus de données possibles, sans le biais lié à l’écrêtement.
 
@@ -488,8 +488,8 @@ Deux types de franchises répandus :
 
 1. Franchise en dollars
   - Spécifie un montant en dessous duquel les sinistres ne sont pas couverts.
-    - Franchise de 500 $ sur la couverture bâtiment en assurance habitation.
-    - Franchise de 100 000 $ sur la couverture bâtiment en assurance commerciale.
+    - Franchise de 500\$ sur la couverture bâtiment en assurance habitation.
+    - Franchise de 100 000\$ sur la couverture bâtiment en assurance commerciale.
 
 2. Franchise en pourcentage
   - Spécifie un pourcentage du montant d’assurance en dessous duquel les sinistres ne sont pas couverts.
@@ -595,7 +595,7 @@ $$
 
 
 ::: {.aside}
-La même logique s’applique lorsque la classe de base n’est pas la franchise de 0 $. Dans ce cas, on calcule le ratio d’élimination de pertes par rapport à la franchise de base.
+La même logique s’applique lorsque la classe de base n’est pas la franchise de 0\$. Dans ce cas, on calcule le ratio d’élimination de pertes par rapport à la franchise de base.
 :::
 
 ## Approche du ratio d’élimination des pertes
@@ -609,13 +609,10 @@ $$
 \begin{aligned}
 LER(D)
 &= \frac{\text{Sinistres et frais de règlement de sinistres } \textbf{éliminés par la franchise}}
-         {\text{Sinistres et frais de règlement de sinistres totaux}} \\
+         {\text{Sinistres et frais de règlement de sinistres totaux}} \\ \\
 &= 1 - \frac{\text{Sinistres et frais de règlement de sinistres }\textbf{non éliminés par la franchise}}
              {\text{Sinistres et frais de règlement de sinistres totaux}}
-\end{aligned}
-$$
-
-$$
+\end{aligned} \\ \\
 LER(D)
 = 1 -
 \frac{\displaystyle \sum_{\text{tous les sinistres}}
@@ -671,11 +668,7 @@ afficher_tableau_ler <- function() {
 
 :::: {.question title="Ratio d’élimination des pertes avec sinistres non censurés"}
 
-ICI ICI ICI
-
-
-
-::: {.fdjsifowe .fdsjkl smart-tables-width="full" tbl-colwidths="[30,31,45]"}
+ICI ICI
 
 Avec les données suivantes, calculer $LER(250)$.
 
@@ -687,15 +680,11 @@ Avec les données suivantes, calculer $LER(250)$.
 afficher_tableau_ler()
 ```
 
-:::
-
 ::: {.solution}
 
 ##
 
 ### Calcul à partir des sinistres éliminés
-
-::: {smart-tables-width="full" tbl-colwidths="[24,31,45]"}
 
 ```{r}
 #| label: uncensored-losses-table-eliminated
@@ -704,8 +693,6 @@ afficher_tableau_ler()
 
 afficher_tableau_ler()
 ```
-
-:::
 
 $$
 \begin{aligned}
@@ -722,8 +709,6 @@ $$
 
 ### Calcul à partir des sinistres non éliminés
 
-::: {smart-tables-width="full" tbl-colwidths="[24,31,45]"}
-
 ```{r}
 #| label: uncensored-losses-table-not-eliminated
 #| echo: false
@@ -731,8 +716,6 @@ $$
 
 afficher_tableau_ler()
 ```
-
-:::
 
 On peut aussi calculer le ratio d’élimination des pertes à partir des sinistres non éliminés par la franchise :
 
@@ -761,7 +744,7 @@ $$
 
 :::: {.columns}
 ::: {.column width="58%"}
-En pratique, un assureur offre des polices avec plusieurs niveaux de franchise (ex. : 0 $, 100 $, 250 $, 500 $, 1 000 $, etc.).
+En pratique, un assureur offre des polices avec plusieurs niveaux de franchise (ex. : 0\$, 100\$, 250\$, 500\$, 1 000\$, etc.).
 
 Il est fort fréquent qu’un assureur ne connaisse pas tous les montants de sinistres avant de considérer la franchise.
 
@@ -769,7 +752,7 @@ En effet, l’assureur a souvent seulement la portion des sinistres excédant la
 :::
 ::: {.column width="42%"}
 ::: {.callout-note title=""}
-La franchise de mon contrat d’assurance habitation est de 500 $. Vais-je appeler mon assureur pour signaler le cellulaire de 300 $ que je me suis fait voler ?
+La franchise de mon contrat d’assurance habitation est de 500\$. Vais-je appeler mon assureur pour signaler le cellulaire de 300\$ que je me suis fait voler ?
 :::
 
 ![](assets/franchise-question.png){.nostretch width="70%" fig-alt="Personne qui se demande si elle doit déclarer un petit sinistre lorsque la franchise est élevée."}
@@ -784,49 +767,49 @@ On essayera de prendre le plus de données possibles pour faire les calculs de $
 
 :::: {.question title="Crédit pour une hausse de franchise"}
 
-Avec les données suivantes, calculer le crédit pour passer d’une franchise de 250 $ à une franchise de 500 $.
+Avec les données suivantes, calculer le crédit pour passer d’une franchise de 250\$ à une franchise de 500\$.
 
-| Franchise | Nombre de réclamations rapportées | Sinistres rapportés nets de la franchise | Sinistres rapportés nets en assumant une franchise de 500 $ | Sinistres rapportés nets en assumant une franchise de 250 $ |
+| Franchise | Nombre de réclamations rapportées | Sinistres rapportés nets de la franchise | Sinistres rapportés nets en assumant une franchise de 500\$ | Sinistres rapportés nets en assumant une franchise de 250\$ |
 |:--|--:|--:|--:|--:|
-| 0 $ | 500 | 680 220 $ | 524 924 $ | 588 134 $ |
-| 100 $ | 680 | 1 268 403 $ | 1 049 848 $ | 1 176 269 $ |
-| 250 $ | 1 394 | 2 940 672 $ | 2 624 621 $ | 2 940 672 $ |
-| 500 $ | 2 194 | 5 249 242 $ | 5 249 242 $ | Inconnus |
-| 1 000 $ | 254 | 859 755 $ | Inconnus | Inconnus |
-| **Total** | **5 022** | **10 998 292 $** | — | — |
+| 0\$ | 500 | 680 220\$ | 524 924\$ | 588 134\$ |
+| 100\$ | 680 | 1 268 403\$ | 1 049 848\$ | 1 176 269\$ |
+| 250\$ | 1 394 | 2 940 672\$ | 2 624 621\$ | 2 940 672\$ |
+| 500\$ | 2 194 | 5 249 242\$ | 5 249 242\$ | Inconnus |
+| 1 000\$ | 254 | 859 755\$ | Inconnus | Inconnus |
+| **Total** | **5 022** | **10 998 292\$** | — | — |
 
 ::: {.solution}
 
 ##
 
-On doit calculer le ratio d’élimination des pertes en passant d’une franchise de 250 $ à 500 $.
+On doit calculer le ratio d’élimination des pertes en passant d’une franchise de 250\$ à 500\$.
 
-Pour ce faire, on calcule la proportion des sinistres avec franchise de 250 $ éliminés en passant à une franchise de 500 $, ce qui donnera ainsi le crédit applicable à la prime pour passer d’une franchise de 250 $ à 500 $.
+Pour ce faire, on calcule la proportion des sinistres avec franchise de 250\$ éliminés en passant à une franchise de 500\$, ce qui donnera ainsi le crédit applicable à la prime pour passer d’une franchise de 250\$ à 500\$.
 
 ##
 
 ::: {.callout-tip title=""}
-On utilise le plus de données possibles, tout en tenant compte du biais lié aux données censurées. On ne se contente pas seulement d’utiliser les données des polices avec une franchise de 250 $.
+On utilise le plus de données possibles, tout en tenant compte du biais lié aux données censurées. On ne se contente pas seulement d’utiliser les données des polices avec une franchise de 250\$.
 :::
 
-| Franchise | Réclamations | Nets de la franchise | Nets à 500 $ | Nets à 250 $ |
+| Franchise | Réclamations | Nets de la franchise | Nets à 500\$ | Nets à 250\$ |
 |:--|--:|--:|--:|--:|
-| 0 $ | 500 | 680 220 $ | 524 924 $ | 588 134 $ |
-| 100 $ | 680 | 1 268 403 $ | 1 049 848 $ | 1 176 269 $ |
-| 250 $ | 1 394 | 2 940 672 $ | 2 624 621 $ | 2 940 672 $ |
-| 500 $ | 2 194 | 5 249 242 $ | 5 249 242 $ | Inconnus |
-| 1 000 $ | 254 | 859 755 $ | Inconnus | Inconnus |
-| **Total** | **5 022** | **10 998 292 $** | — | — |
+| 0\$ | 500 | 680 220\$ | 524 924\$ | 588 134\$ |
+| 100\$ | 680 | 1 268 403\$ | 1 049 848\$ | 1 176 269\$ |
+| 250\$ | 1 394 | 2 940 672\$ | 2 624 621\$ | 2 940 672\$ |
+| 500\$ | 2 194 | 5 249 242\$ | 5 249 242\$ | Inconnus |
+| 1 000\$ | 254 | 859 755\$ | Inconnus | Inconnus |
+| **Total** | **5 022** | **10 998 292\$** | — | — |
 
 ::: {.callout-warning title=""}
-Les données des polices avec franchises de 500 $ et 1 000 $ ne peuvent pas être utilisées pour ce calcul, car il est impossible de connaître quels auraient été les sinistres rapportés avec des franchises de 250 $ et 500 $ pour ces polices.
+Les données des polices avec franchises de 500\$ et 1 000\$ ne peuvent pas être utilisées pour ce calcul, car il est impossible de connaître quels auraient été les sinistres rapportés avec des franchises de 250\$ et 500\$ pour ces polices.
 :::
 
 ##
 
 ### Calcul du crédit
 
-Les données pour les polices avec franchise de plus de 250 $ ne sont utilisées ni au numérateur ni au dénominateur dans notre calcul du ratio d’élimination des pertes.
+Les données pour les polices avec franchise de plus de 250\$ ne sont utilisées ni au numérateur ni au dénominateur dans notre calcul du ratio d’élimination des pertes.
 
 $$
 \begin{aligned}
@@ -851,7 +834,7 @@ LER(D) = \frac{\int_0^D x f(x)\,dx + D\int_D^\infty f(x)\,dx}{\int_0^\infty x f(
 $$
 
 ::: {.callout-note title="Note"}
-Cette formule s’applique lorsque la franchise de base est 0 $.
+Cette formule s’applique lorsque la franchise de base est 0\$.
 :::
 
 ## Considérations pratiques
@@ -860,7 +843,7 @@ Cette formule s’applique lorsque la franchise de base est 0 $.
 
 L’approche du ratio d’élimination des pertes assume que le comportement de l’assuré sera le même peu importe la franchise.
 
-En pratique, un assuré qui réclamera une perte pour une police avec une franchise à 250 $ pourrait ne pas réclamer cette même perte s’il avait une police avec une franchise à 1 000 $ (ex. : assuré avec une perte de 1 100 $).
+En pratique, un assuré qui réclamera une perte pour une police avec une franchise à 250\$ pourrait ne pas réclamer cette même perte s’il avait une police avec une franchise à 1 000\$ (ex. : assuré avec une perte de 1 100\$).
 
 ### Niveau de la franchise versus fréquence de réclamation
 
@@ -874,11 +857,11 @@ Les méthodes présentées aux chapitres 9 et 10 reconnaissent ces différences 
 
 ### Hausse de franchise versus diminution de prime
 
-L’approche du ratio d’élimination des pertes résulte en un crédit à appliquer à la prime pour modifier la franchise. Dans l’exemple 11.3, le crédit pour passer d’une franchise de 0 $ à une franchise de 250 $ était de 13.5 %.
+L’approche du ratio d’élimination des pertes résulte en un crédit à appliquer à la prime pour modifier la franchise. Dans l’exemple 11.3, le crédit pour passer d’une franchise de 0\$ à une franchise de 250\$ était de 13.5 %.
 
-Si la prime de la police pour une franchise de 0 $ est de 3 000 $, le crédit pour passer à une franchise de 250 $ est de $3\,000\ \text{\$} \times 0.135 = 405\ \text{\$}$. Comme la réduction de prime est supérieure au changement de franchise, l’assuré aurait tout avantage à opter pour une police avec franchise à 250 $.
+Si la prime de la police pour une franchise de 0\$ est de 3 000\$, le crédit pour passer à une franchise de 250\$ est de $3\,000\ \text{\$} \times 0.135 = 405\ \text{\$}$. Comme la réduction de prime est supérieure au changement de franchise, l’assuré aurait tout avantage à opter pour une police avec franchise à 250\$.
 
-Un assureur pourrait décider de limiter le rabais en dollars applicable pour une franchise. Par exemple, pour passer d’une franchise de 0 $ à une franchise de 250 $, l’assureur pourrait déterminer un rabais maximal de 150 $.
+Un assureur pourrait décider de limiter le rabais en dollars applicable pour une franchise. Par exemple, pour passer d’une franchise de 0\$ à une franchise de 250\$, l’assureur pourrait déterminer un rabais maximal de 150\$.
 
 # Assurance à la valeur {data-progress-label="Assurance valeur"}
 
@@ -904,155 +887,166 @@ Le client qui achète une police d’assurance habitation choisit une limite d�
 
 Le niveau d’assurance à la valeur indique comment le montant d’assurance choisi par le client (la limite d’assurance) se compare au coût de reconstruction de la maison.
 
-:::: {.question title="Taux indiqué selon le coût de reconstruction"}
+:::: {.question title="Taux indiqué pour une maison de 200 000 \$"}
 
 ::: {.text-smaller}
 
-- Avec les données suivantes, calculer le taux indiqué par 1 000 $ d’assurance pour une maison ayant un coût de reconstruction de 200 000 $.
-- L’assureur n’a aucun frais et le profit cible est 0 %.
-- La fréquence de perte est 1 %.
-- Si un sinistre survient, le montant de la perte a la distribution suivante :
+:::: {.columns}
+::: {.column width="40%"}
 
-| Montant de la perte ($X$) | Probabilité | Perte rapportée moyenne |
-|:--|--:|--:|
-| $0 < X \leq 25\,000$ | 12.5 % | 12 500 $ |
-| $25\,000 < X \leq 50\,000$ | 12.5 % | 37 500 $ |
-| $50\,000 < X \leq 75\,000$ | 12.5 % | 62 500 $ |
-| $75\,000 < X \leq 100\,000$ | 12.5 % | 87 500 $ |
-| $100\,000 < X \leq 125\,000$ | 12.5 % | 112 500 $ |
-| $125\,000 < X \leq 150\,000$ | 12.5 % | 137 500 $ |
-| $150\,000 < X \leq 175\,000$ | 12.5 % | 162 500 $ |
-| $175\,000 < X \leq 200\,000$ | 12.5 % | 187 500 $ |
-
-:::
-
-##
-
-### b) Coût de reconstruction de 250 000 $
-
-Avec les données suivantes, calculer le taux indiqué par 1 000 $ d’assurance pour une maison ayant un coût de reconstruction de 250 000 $.
+Avec les données suivantes, calculer le taux indiqué par 1 000\$ d’assurance pour une maison ayant un coût de reconstruction de **200 000 \$**.
 
 - L’assureur n’a aucun frais et le profit cible est 0 %.
 - La fréquence de perte est 1 %.
 - Si un sinistre survient, le montant de la perte a la distribution suivante :
 
+:::
+::: {.column width="60%"}
+
 | Montant de la perte ($X$) | Probabilité | Perte rapportée moyenne |
 |:--|--:|--:|
-| $0 < X \leq 25\,000$ | 10 % | 12 500 $ |
-| $25\,000 < X \leq 50\,000$ | 10 % | 37 500 $ |
-| $50\,000 < X \leq 75\,000$ | 10 % | 62 500 $ |
-| $75\,000 < X \leq 100\,000$ | 10 % | 87 500 $ |
-| $100\,000 < X \leq 125\,000$ | 10 % | 112 500 $ |
-| $125\,000 < X \leq 150\,000$ | 10 % | 137 500 $ |
-| $150\,000 < X \leq 175\,000$ | 10 % | 162 500 $ |
-| $175\,000 < X \leq 200\,000$ | 10 % | 187 500 $ |
-| $200\,000 < X \leq 225\,000$ | 10 % | 212 500 $ |
-| $225\,000 < X \leq 250\,000$ | 10 % | 237 500 $ |
+| $0 < X \leq 25\,000$ | 12.5 % | 12 500\$ |
+| $25\,000 < X \leq 50\,000$ | 12.5 % | 37 500\$ |
+| $50\,000 < X \leq 75\,000$ | 12.5 % | 62 500\$ |
+| $75\,000 < X \leq 100\,000$ | 12.5 % | 87 500\$ |
+| $100\,000 < X \leq 125\,000$ | 12.5 % | 112 500\$ |
+| $125\,000 < X \leq 150\,000$ | 12.5 % | 137 500\$ |
+| $150\,000 < X \leq 175\,000$ | 12.5 % | 162 500\$ |
+| $175\,000 < X \leq 200\,000$ | 12.5 % | 187 500\$ |
 
-##
-
-### c) Sous-assurance
-
-À l’aide des données en a) et b), calculer le taux indiqué par 1 000 $ d’assurance pour une maison ayant un coût de reconstruction de 250 000 $, mais assurée pour 200 000 $.
-
-::: {.callout-warning title="Attention"}
-Le paiement de l’assureur est limité au montant d’assurance, soit 200 000 $.
 :::
+::::
 
-| Montant de la perte ($X$) | Probabilité | Perte rapportée | Paiement moyen de l’assureur |
-|:--|--:|--:|--:|
-| $0 < X \leq 25\,000$ | 10 % | 12 500 $ | 12 500 $ |
-| $25\,000 < X \leq 50\,000$ | 10 % | 37 500 $ | 37 500 $ |
-| $50\,000 < X \leq 75\,000$ | 10 % | 62 500 $ | 62 500 $ |
-| $75\,000 < X \leq 100\,000$ | 10 % | 87 500 $ | 87 500 $ |
-| $100\,000 < X \leq 125\,000$ | 10 % | 112 500 $ | 112 500 $ |
-| $125\,000 < X \leq 150\,000$ | 10 % | 137 500 $ | 137 500 $ |
-| $150\,000 < X \leq 175\,000$ | 10 % | 162 500 $ | 162 500 $ |
-| $175\,000 < X \leq 200\,000$ | 10 % | 187 500 $ | 187 500 $ |
-| $200\,000 < X \leq 225\,000$ | 10 % | 212 500 $ | 200 000 $ |
-| $225\,000 < X \leq 250\,000$ | 10 % | 237 500 $ | 200 000 $ |
+:::
 
 ::: {.solution .text-smaller}
 
-##
+## {.text-smaller}
 
-### a) Solution
-
-::: {.text-smaller}
-
-$$
-\begin{aligned}
+<!-- Pour garder l'équation à gauche...! -->
+$\displaystyle\begin{aligned}
 \text{Sévérité}
 ={}&12\,500 \times 0.125 + 37\,500 \times 0.125 + 62\,500 \times 0.125 + 87\,500 \times 0.125 \\
-&+ 112\,500 \times 0.125 + 137\,500 \times 0.125 + 162\,500 \times 0.125 + 187\,500 \times 0.125 \\
-={}&100\,000
-\end{aligned}
-$$
+&+ 112\,500 \times 0.125 + 137\,500 \times 0.125 + 162\,500 \times 0.125 \\
+&+ 187\,500 \times 0.125 \\
+={}&100\,000\text{\$}
+\end{aligned}$
 
-$$
-\begin{aligned}
-\text{Prime pure} &= \text{Fréquence} \times \text{Sévérité} \\
-&= 0.01 \times 100\,000\ \text{\$} = 1\,000\ \text{\$} \\
-\text{Prime indiquée} &= \frac{1\,000\ \text{\$} + 0\ \text{\$}}{1 - 0 - 0} = 1\,000\ \text{\$} \\
-\text{Taux indiqué par }1\,000\ \text{\$}\text{ d’assurance} &= \frac{1\,000}{200\,000} \times 1\,000 = \textbf{5.00}\ \text{\$}
-\end{aligned}
-$$
+$\text{Prime pure} = \text{Fréquence} \times \text{Sévérité} = 0.01 \times 100\,000\ \text{\$} = 1\,000\ \text{\$}$
+
+$\text{Prime indiquée} = \frac{1\,000\ \text{\$} + 0\ \text{\$}}{1 - 0 - 0} = 1\,000\ \text{\$}$
+
+$\text{Taux indiqué par }1\,000\ \text{\$}\text{ d’assurance} = \frac{1\,000}{200\,000} \times 1\,000 = \textbf{5.00}\ \text{\$}$
+
 
 :::
+::::
 
-##
-
-### b) Solution
+:::: {.question title="Taux indiqué pour une maison de 250 000 \$"}
 
 ::: {.text-smaller}
 
-$$
-\begin{aligned}
-\text{Sévérité}
-={}&12\,500 \times 0.1 + 37\,500 \times 0.1 + 62\,500 \times 0.1 + 87\,500 \times 0.1 + 112\,500 \times 0.1 \\
-&+ 137\,500 \times 0.1 + 162\,500 \times 0.1 + 187\,500 \times 0.1 + 212\,500 \times 0.1 + 237\,500 \times 0.1 \\
-={}&125\,000
-\end{aligned}
-$$
+:::: {.columns}
+::: {.column width="40%"}
+Avec les données suivantes, calculer le taux indiqué par 1 000\$ d’assurance pour une maison ayant un coût de reconstruction de **250 000 \$**.
 
-$$
-\begin{aligned}
-\text{Prime pure} &= \text{Fréquence} \times \text{Sévérité} \\
-&= 0.01 \times 125\,000\ \text{\$} = 1\,250\ \text{\$} \\
-\text{Prime indiquée} &= \frac{1\,250\ \text{\$} + 0\ \text{\$}}{1 - 0 - 0} = 1\,250\ \text{\$} \\
-\text{Taux indiqué par }1\,000\ \text{\$}\text{ d’assurance} &= \frac{1\,250}{250\,000} \times 1\,000 = \textbf{5.00}\ \text{\$}
-\end{aligned}
-$$
+- L’assureur n’a aucun frais et le profit cible est 0 %.
+- La fréquence de perte est 1 %.
+- Si un sinistre survient, le montant de la perte a la distribution suivante :
 
 :::
+::: {.column width="60%"}
 
-##
+| Montant de la perte ($X$) | Probabilité | Perte rapportée moyenne |
+|:--|--:|--:|
+| $0 < X \leq 25\,000$ | 10 % | 12 500\$ |
+| $25\,000 < X \leq 50\,000$ | 10 % | 37 500\$ |
+| $50\,000 < X \leq 75\,000$ | 10 % | 62 500\$ |
+| $75\,000 < X \leq 100\,000$ | 10 % | 87 500\$ |
+| $100\,000 < X \leq 125\,000$ | 10 % | 112 500\$ |
+| $125\,000 < X \leq 150\,000$ | 10 % | 137 500\$ |
+| $150\,000 < X \leq 175\,000$ | 10 % | 162 500\$ |
+| $175\,000 < X \leq 200\,000$ | 10 % | 187 500\$ |
+| $200\,000 < X \leq 225\,000$ | 10 % | 212 500\$ |
+| $225\,000 < X \leq 250\,000$ | 10 % | 237 500\$ |
 
-### c) Solution
+:::
+::::
+:::
+
+::: {.solution .text-smaller}
+
+## {.text-smaller}
+
+$\displaystyle\begin{aligned}
+\text{Sévérité}
+={}&12\,500 \times 0.1 + 37\,500 \times 0.1 + 62\,500 \times 0.1 \\
+&+ 87\,500 \times 0.1 + 112\,500 \times 0.1 + 137\,500 \times 0.1 \\
+&+ 162\,500 \times 0.1 + 187\,500 \times 0.1 + 212\,500 \times 0.1 + 237\,500 \times 0.1 \\
+={}&125\,000\text{\$}
+\end{aligned}$
+
+$\text{Prime pure} = \text{Fréquence} \times \text{Sévérité} = 0.01 \times 125\,000\ \text{\$} = 1\,250\ \text{\$}$
+
+$\text{Prime indiquée} = \frac{1\,250\ \text{\$} + 0\ \text{\$}}{1 - 0 - 0} = 1\,250\ \text{\$}$
+
+$\text{Taux indiqué par }1\,000\ \text{\$}\text{ d’assurance} = \frac{1\,250}{250\,000} \times 1\,000 = \textbf{5.00}\ \text{\$}$
+
+:::
+::::
+
+:::: {.question title="Taux indiqué en situation de sous-assurance"}
 
 ::: {.text-smaller}
 
-$$
-\begin{aligned}
+:::: {.columns}
+::: {.column width="40%"}
+Avec les données suivantes, calculer le taux indiqué par 1 000 \$ d’assurance pour une maison **ayant un coût de reconstruction de 250 000 \$, mais assurée pour 200 000 \$**.
+
+- L’assureur n’a aucun frais et le profit cible est 0 %.
+- La fréquence de perte est 1 %.
+- Si un sinistre survient, le montant de la perte a la distribution suivante :
+
+:::
+::: {.column width="60%"}
+
+| Montant de la perte ($X$) | Probabilité | Perte rapportée | Paiement moyen de l’assureur |
+|:--|--:|--:|--:|
+| $0 < X \leq 25\,000$ | 10 % | 12 500\$ | 12 500\$ |
+| $25\,000 < X \leq 50\,000$ | 10 % | 37 500\$ | 37 500\$ |
+| $50\,000 < X \leq 75\,000$ | 10 % | 62 500\$ | 62 500\$ |
+| $75\,000 < X \leq 100\,000$ | 10 % | 87 500\$ | 87 500\$ |
+| $100\,000 < X \leq 125\,000$ | 10 % | 112 500\$ | 112 500\$ |
+| $125\,000 < X \leq 150\,000$ | 10 % | 137 500\$ | 137 500\$ |
+| $150\,000 < X \leq 175\,000$ | 10 % | 162 500\$ | 162 500\$ |
+| $175\,000 < X \leq 200\,000$ | 10 % | 187 500\$ | 187 500\$ |
+| $200\,000 < X \leq 225\,000$ | 10 % | 212 500\$ | 200 000\$ |
+| $225\,000 < X \leq 250\,000$ | 10 % | 237 500\$ | 200 000\$ |
+
+:::
+::::
+:::
+
+::: {.solution .text-smaller}
+
+## {.text-smaller}
+
+$\displaystyle\begin{aligned}
 \text{Sévérité}
-={}&12\,500 \times 0.1 + 37\,500 \times 0.1 + 62\,500 \times 0.1 + 87\,500 \times 0.1 + 112\,500 \times 0.1 \\
-&+ 137\,500 \times 0.1 + 162\,500 \times 0.1 + 187\,500 \times 0.1 + 200\,000 \times 0.1 + 200\,000 \times 0.1 \\
-={}&120\,000
-\end{aligned}
-$$
+={}&12\,500 \times 0.1 + 37\,500 \times 0.1 + 62\,500 \times 0.1 \\
+&+ 87\,500 \times 0.1 + 112\,500 \times 0.1 + 137\,500 \times 0.1 \\
+&+ 162\,500 \times 0.1 + 187\,500 \times 0.1 + 200\,000 \times 0.1 + 200\,000 \times 0.1 \\
+={}&120\,000\text{\$}
+\end{aligned}$
 
-$$
-\begin{aligned}
-\text{Prime pure} &= \text{Fréquence} \times \text{Sévérité} \\
-&= 0.01 \times 120\,000\ \text{\$} = 1\,200\ \text{\$} \\
-\text{Prime indiquée} &= \frac{1\,200\ \text{\$} + 0\ \text{\$}}{1 - 0 - 0} = 1\,200\ \text{\$} \\
-\text{Taux indiqué par }1\,000\ \text{\$}\text{ d’assurance} &= \frac{1\,200}{200\,000} \times 1\,000 = \textbf{6.00}\ \text{\$}
-\end{aligned}
-$$
+$\text{Prime pure} = \text{Fréquence} \times \text{Sévérité} = 0.01 \times 120\,000\ \text{\$} = 1\,200\ \text{\$}$
+
+$\text{Prime indiquée} = \frac{1\,200\ \text{\$} + 0\ \text{\$}}{1 - 0 - 0} = 1\,200\ \text{\$}$
+
+$\text{Taux indiqué par }1\,000\ \text{\$}\text{ d’assurance} = \frac{1\,200}{200\,000} \times 1\,000 = \textbf{6.00}\ \text{\$}$
 
 :::
 
-:::
 ::::
 
 ## Assurance à la valeur
@@ -1140,13 +1134,13 @@ $$
 
 :::: {.question title="Clause de coassurance"}
 
-Une maison évaluée à 500 000 $ est assurée pour 300 000 $ malgré un pourcentage de coassurance requis de 80 %.
+Une maison évaluée à 500 000\$ est assurée pour 300 000\$ malgré un pourcentage de coassurance requis de 80 %.
 
 - Calculer le ratio de répartition.
-- Calculer le montant d’indemnité versée et la pénalité de coassurance pour une perte de 200 000 $.
-- Calculer le montant d’indemnité versée et la pénalité de coassurance pour une perte de 300 000 $.
-- Calculer le montant d’indemnité versée et la pénalité de coassurance pour une perte de 350 000 $.
-- Calculer le montant d’indemnité versée et la pénalité de coassurance pour une perte de 450 000 $.
+- Calculer le montant d’indemnité versée et la pénalité de coassurance pour une perte de 200 000\$.
+- Calculer le montant d’indemnité versée et la pénalité de coassurance pour une perte de 300 000\$.
+- Calculer le montant d’indemnité versée et la pénalité de coassurance pour une perte de 350 000\$.
+- Calculer le montant d’indemnité versée et la pénalité de coassurance pour une perte de 450 000\$.
 
 ::: {.solution}
 
@@ -1170,9 +1164,9 @@ $$
 
 ##
 
-### b) Perte de 200 000 $
+### b) Perte de 200 000\$
 
-Pour une perte de 200 000 $ :
+Pour une perte de 200 000\$ :
 
 - L'assureur devrait payer $I = 200\,000 \times 0.75 = 150\,000 \text{\$}$.
 - Le montant d'assurance choisi est $300\,000 \text{\$}$. Sans clause de coassurance, l'assureur aurait payé une indemnité de $200\,000 \text{\$} = L$.
@@ -1180,9 +1174,9 @@ Pour une perte de 200 000 $ :
 
 ##
 
-### c) Perte de 300 000 $
+### c) Perte de 300 000\$
 
-Pour une perte de 300 000 $ :
+Pour une perte de 300 000\$ :
 
 - L'assureur devrait payer $I = 300\,000 \times 0.75 = 225\,000 \text{\$}$.
 - Le montant d'assurance choisi est $300\,000 \text{\$}$. Sans clause de coassurance, l'assureur aurait payé une indemnité de $300\,000 \text{\$} = F = L$.
@@ -1190,9 +1184,9 @@ Pour une perte de 300 000 $ :
 
 ##
 
-### d) Perte de 350 000 $
+### d) Perte de 350 000\$
 
-Pour une perte de 350 000 $ :
+Pour une perte de 350 000\$ :
 
 - L'assureur devrait payer $I = 350\,000 \times 0.75 = 262\,500 \text{\$}$.
 - Le montant d'assurance choisi est $300\,000 \text{\$}$. Sans clause de coassurance, l'assureur aurait payé une indemnité de $300\,000 \text{\$} = F$ (pas $L$ à cause du montant d'assurance $F < L$).
@@ -1201,9 +1195,9 @@ Pour une perte de 350 000 $ :
 
 ##
 
-### e) Perte de 450 000 $
+### e) Perte de 450 000\$
 
-Pour une perte de 450 000 $ :
+Pour une perte de 450 000\$ :
 
 - L'assureur *devrait* payer $I = 450\,000 \times 0.75 = 337\,500 \text{\$}$.
 - Le montant d'assurance choisi est $300\,000 \text{\$}$. Ça limite donc l'indemnité à  
@@ -1297,7 +1291,7 @@ ggplot(penalite, aes(perte, penalite_coassurance)) +
 
 ## Variation des taux selon le niveau d’assurance à la valeur
 
-Principe : on recalcule le taux indiqué par 1 000 $ d’assurance à l’aide des sinistres espérés.
+Principe : on recalcule le taux indiqué par 1 000\$ d’assurance à l’aide des sinistres espérés.
 
 ### Notation
 
