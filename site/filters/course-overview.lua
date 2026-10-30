@@ -48,6 +48,16 @@ local function is_course_page()
   return normalized:match("cours/%d%d%.qmd$") ~= nil
 end
 
+local function course_number(input_file)
+  if input_file == nil then
+    return nil
+  end
+
+  local normalized = input_file:gsub("\\", "/")
+  local number = normalized:match("cours/(%d%d)%.qmd$")
+  return number and tostring(tonumber(number)) or nil
+end
+
 local function html_escape(text)
   return (text or "")
     :gsub("&", "&amp;")
@@ -99,9 +109,10 @@ function Meta(meta)
 
   local week_id = meta_string(meta["week-id"])
   local title = meta_string(meta.title)
+  local number = course_number(current_input_file()) or week_id
 
-  if week_id ~= nil and title ~= nil then
-    meta.title = pandoc.MetaString("Cours " .. week_id .. " : " .. title)
+  if number ~= nil and title ~= nil then
+    meta.title = pandoc.MetaString("Cours " .. number .. " : " .. title)
   end
 
   return meta

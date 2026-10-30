@@ -1,0 +1,6 @@
+---
+metadata-files:
+  - ../_exercices.yml
+---
+
+Les exercices de ce chapitre sont en préparation à partir du matériel de cours historique.

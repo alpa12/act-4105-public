@@ -1,0 +1,11 @@
+---
+title: "Autres considérations et Implantation"
+description: "Présente les contraintes réglementaires, opérationnelles et de marché qui influencent la prime sélectionnée, puis les solutions permettant d’implanter les changements de taux."
+label: "Autres considérations et Implantation"
+week-id: 13
+chapitres:
+  - path: /chapitres/13-autres-considerations
+    title: "Autres considérations"
+  - path: /chapitres/14-implantation
+    title: "Implantation"
+---

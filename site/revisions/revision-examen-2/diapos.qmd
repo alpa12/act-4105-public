@@ -1,0 +1,25 @@
+---
+title: "Révision pour l’examen 2"
+suppress-title-prefix: true
+format:
+  revealjs: default
+metadata-files:
+  - ../../chapitres/_diapos.yml
+---
+
+## À propos de cette révision
+
+Ce document est un complément aux notes de cours, et non un résumé exhaustif de la matière.
+
+## Contenu {.progress-overview}
+
+- Classification des risques
+- Crédibilité
+- Considérations de tarification et implantation
+- Tarification en lignes commerciales et sur base de réclamations présentées
+
+# Contenu en préparation {data-progress-label="À venir"}
+
+## Révision pour l’examen 2
+
+Les notes de révision sont en préparation à partir du matériel de cours historique.

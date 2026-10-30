@@ -1,0 +1,9 @@
+---
+title: "Crédibilité"
+description: "Présente la mesure de la crédibilité d’un estimé actuariel et les compléments de crédibilité pour les couvertures au premier dollar et excédentaires."
+label: "Crédibilité"
+week-id: 12
+chapitres:
+  - path: /chapitres/12-credibilite
+    title: "Crédibilité"
+---

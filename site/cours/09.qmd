@@ -1,0 +1,9 @@
+---
+title: "Classification spéciale"
+description: "Présente l’analyse des territoires, la tarification des limites augmentées et des franchises, ainsi que l’assurance à la valeur."
+label: "Classification spéciale"
+week-id: 11
+chapitres:
+  - path: /chapitres/11-classification-speciale
+    title: "Classification spéciale"
+---

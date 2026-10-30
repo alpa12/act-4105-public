@@ -1,0 +1,24 @@
+---
+title: "Chapitre 15: Méthodes de tarification en lignes commerciales"
+format:
+  revealjs: default
+metadata-files:
+  - ../_diapos.yml
+---
+
+## Lectures recommandées
+
+Ce chapitre est adapté du chapitre 15 du texte *Basic Ratemaking* :
+
+[Werner, G. et Modlin, C. (2016). *Basic Ratemaking*, Casualty Actuarial Society, 5e édition.](http://www.casact.org/library/studynotes/Werner_Modlin_Ratemaking.pdf)
+
+## Contenu du chapitre {.progress-overview}
+
+- Techniques de modification du taux
+- Techniques de tarification pour les risques commerciaux de grande taille
+
+# Contenu en préparation {data-progress-label="À venir"}
+
+## Tarification en lignes commerciales
+
+Les notes de ce chapitre sont en préparation à partir du matériel de cours historique.

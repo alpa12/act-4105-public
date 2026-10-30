@@ -54,6 +54,18 @@ website:
             text: "Cours 7 : Examen 1"
           - href: cours/08.qmd
             text: "Cours 8 : Classification multivariée"
+          # - href: cours/09.qmd
+          #   text: "Cours 9 : Classification spéciale"
+          # - href: cours/10.qmd
+          #   text: "Cours 10 : Crédibilité"
+          # - href: cours/11.qmd
+          #   text: "Cours 11 : Autres considérations et Implantation"
+          # - href: cours/12.qmd
+          #   text: "Cours 12 : Méthodes de tarification en lignes commerciales et Tarification sur base de réclamations présentées"
+          # - href: cours/13.qmd
+          #   text: "Cours 13 : Fête de l’Université"
+          # - href: cours/14.qmd
+          #   text: "Cours 14 : Examen 2"
       - text: Notes
         menu:
           - href: chapitres/index.qmd
@@ -78,12 +90,18 @@ website:
             text: "Chapitre 9 : Classification traditionnelle des risques"
           - href: chapitres/10-classification-multivariee/diapos.qmd
             text: "Chapitre 10 : Classification multivariée"
-          - href: chapitres/11-classification-speciale/diapos.qmd
-            text: "Chapitre 11 : Classification spéciale"
-          - href: chapitres/12-credibilite/diapos.qmd
-            text: "Chapitre 12 : Crédibilité"
-          - href: chapitres/13-autres-considerations/diapos.qmd
-            text: "Chapitre 13 : Autres considérations"
+          # - href: chapitres/11-classification-speciale/diapos.qmd
+          #   text: "Chapitre 11 : Classification spéciale"
+          # - href: chapitres/12-credibilite/diapos.qmd
+          #   text: "Chapitre 12 : Crédibilité"
+          # - href: chapitres/13-autres-considerations/diapos.qmd
+          #   text: "Chapitre 13 : Autres considérations"
+          # - href: chapitres/14-implantation/diapos.qmd
+          #   text: "Chapitre 14 : Implantation"
+          # - href: chapitres/15-methodes-de-tarification-en-lignes-commerciales/diapos.qmd
+          #   text: "Chapitre 15 : Méthodes de tarification en lignes commerciales"
+          # - href: chapitres/16-tarification-sur-base-de-reclamations-presentees/diapos.qmd
+          #   text: "Chapitre 16 : Tarification sur base de réclamations présentées"
       - text: Exercices
         menu:
           - href: chapitres/index.qmd
@@ -108,14 +126,24 @@ website:
             text: "Chapitre 9 : Classification traditionnelle des risques"
           - href: chapitres/10-classification-multivariee/exercices.qmd
             text: "Chapitre 10 : Classification multivariée"
-          - href: chapitres/12-credibilite/exercices.qmd
-            text: "Chapitre 12 : Crédibilité"
-          - href: chapitres/13-autres-considerations/exercices.qmd
-            text: "Chapitre 13 : Autres considérations"
+          # - href: chapitres/11-classification-speciale/exercices.qmd
+          #   text: "Chapitre 11 : Classification spéciale"
+          # - href: chapitres/12-credibilite/exercices.qmd
+          #   text: "Chapitre 12 : Crédibilité"
+          # - href: chapitres/13-autres-considerations/exercices.qmd
+          #   text: "Chapitre 13 : Autres considérations"
+          # - href: chapitres/14-implantation/exercices.qmd
+          #   text: "Chapitre 14 : Implantation"
+          # - href: chapitres/15-methodes-de-tarification-en-lignes-commerciales/exercices.qmd
+          #   text: "Chapitre 15 : Méthodes de tarification en lignes commerciales"
+          # - href: chapitres/16-tarification-sur-base-de-reclamations-presentees/exercices.qmd
+          #   text: "Chapitre 16 : Tarification sur base de réclamations présentées"
       - text: Révisions
         menu:
           - href: revisions/revision-examen-1/diapos.qmd
             text: "Révision pour l’examen 1"
+          # - href: revisions/revision-examen-2/diapos.qmd
+          #   text: "Révision pour l’examen 2"
     right:
       - href: licence.qmd
         text: Licence et crédits

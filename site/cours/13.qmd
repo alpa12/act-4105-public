@@ -1,0 +1,9 @@
+---
+title: "Fête de l’Université"
+description: "Aucun cours n’est donné en raison de la fête de l’Université."
+label: "Fête de l’Université"
+week-id: 15
+chapitres: []
+---
+
+Il n’y a pas de cours le 8 décembre en raison de la fête de l’Université.

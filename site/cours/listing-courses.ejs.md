@@ -14,7 +14,9 @@
 <tr <%= metadataAttrs(item) %>>
 ```
 
-<td><a href="<%- item.path %>" class="no-external">Cours&nbsp;<%= item["week-id"] %></a></td>
+<% const courseMatch = String(item.path || "").match(/\/(\d+)\.(?:qmd|html)$/); %>
+<% const courseNumber = courseMatch ? Number(courseMatch[1]) : item["week-id"]; %>
+<td><a href="<%- item.path %>" class="no-external">Cours&nbsp;<%= courseNumber %></a></td>
 <td>
 <% const firstClassDate = item["first-class-date"]; %>
 <% const weekId = Number(item["week-id"]); %>
@@ -40,7 +42,7 @@
 <% }); %>
 </div>
 <% } else { %>
-<span class="course-listing-empty">Examen&nbsp;1</span>
+<span class="course-listing-empty"><%= item.label || item.title || "À venir" %></span>
 <% } %>
 </td>
 <td><%= item.description || "" %></td>

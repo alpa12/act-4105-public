@@ -1,0 +1,11 @@
+---
+title: "Méthodes de tarification en lignes commerciales et Tarification sur base de réclamations présentées"
+description: "Présente les méthodes de tarification des risques commerciaux et les principes de la tarification sur base de réclamations présentées."
+label: "Méthodes de tarification en lignes commerciales et Tarification sur base de réclamations présentées"
+week-id: 14
+chapitres:
+  - path: /chapitres/15-methodes-de-tarification-en-lignes-commerciales
+    title: "Méthodes de tarification en lignes commerciales"
+  - path: /chapitres/16-tarification-sur-base-de-reclamations-presentees
+    title: "Tarification sur base de réclamations présentées"
+---

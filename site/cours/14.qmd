@@ -1,0 +1,11 @@
+---
+title: "Examen 2"
+description: "Deuxième examen du cours."
+label: "Examen 2"
+week-id: 16
+chapitres: []
+---
+
+L’examen 2 a lieu le 15 décembre.
+
+Pour vous y préparer, consultez [le contenu de révision pour l’examen 2](../revisions/revision-examen-2/diapos.qmd).

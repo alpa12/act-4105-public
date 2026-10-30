@@ -1,0 +1,26 @@
+---
+title: "Chapitre 16: Tarification sur base de réclamations présentées"
+format:
+  revealjs: default
+metadata-files:
+  - ../_diapos.yml
+---
+
+## Lectures recommandées
+
+Ce chapitre est adapté du chapitre 16 du texte *Basic Ratemaking* :
+
+[Werner, G. et Modlin, C. (2016). *Basic Ratemaking*, Casualty Actuarial Society, 5e édition.](http://www.casact.org/library/studynotes/Werner_Modlin_Ratemaking.pdf)
+
+## Contenu du chapitre {.progress-overview}
+
+- Historique
+- Compilation des sinistres par année rapportée et par délai de présentation de sinistre
+- Cinq principes des polices sur base de réclamations présentées
+- Coordination de couverture
+
+# Contenu en préparation {data-progress-label="À venir"}
+
+## Réclamations présentées
+
+Les notes de ce chapitre sont en préparation à partir du matériel de cours historique.

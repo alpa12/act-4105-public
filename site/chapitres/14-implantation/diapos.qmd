@@ -1,0 +1,24 @@
+---
+title: "Chapitre 14: Implantation"
+format:
+  revealjs: default
+metadata-files:
+  - ../_diapos.yml
+---
+
+## Lectures recommandées
+
+Ce chapitre est adapté du chapitre 14 du texte *Basic Ratemaking* :
+
+[Werner, G. et Modlin, C. (2016). *Basic Ratemaking*, Casualty Actuarial Society, 5e édition.](http://www.casact.org/library/studynotes/Werner_Modlin_Ratemaking.pdf)
+
+## Contenu du chapitre {.progress-overview}
+
+- Solutions non tarifaires à une équation fondamentale non balancée
+- Solutions tarifaires à une équation fondamentale non balancée pour un produit existant
+
+# Contenu en préparation {data-progress-label="À venir"}
+
+## Implantation des changements de taux
+
+Les notes de ce chapitre sont en préparation à partir du matériel de cours historique.
