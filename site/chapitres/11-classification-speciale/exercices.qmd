@@ -79,13 +79,15 @@ $$
 
 Avec les données suivantes, la limite de base est de 100 000 \$.
 
-::: {smart-tables-column-1="formula"}
+Les abréviations K et M représentent respectivement 1 000 \$ et 1 000 000 \$. Dans le tableau, $n$ est le nombre de réclamations et $S$ les sinistres, en M \$.
 
-| Montant de la perte | Limite de 100 000 \$ : nombre | Limite de 100 000 \$ : sinistres | Limite de 250 000 \$ : nombre | Limite de 250 000 \$ : sinistres | Limite de 500 000 \$ : nombre | Limite de 500 000 \$ : sinistres |
+::: {smart-tables-column-1="formula" smart-tables-column-2="numeric" smart-tables-column-3="numeric" smart-tables-column-4="numeric" smart-tables-column-5="numeric" smart-tables-column-6="numeric" smart-tables-column-7="numeric" smart-tables-text-size="0.85em"}
+
+| Perte | 100 K<br>$n$ | 100 K<br>$S$ | 250 K<br>$n$ | 250 K<br>$S$ | 500 K<br>$n$ | 500 K<br>$S$ |
 |:--|--:|--:|--:|--:|--:|--:|
-| $X \leq 100\,000\ \text{\$}$ | 100 | 8 000 000 \$ | 35 | 1 800 000 \$ | 35 | 1 800 000 \$ |
-| $100\,000\ \text{\$} < X \leq 250\,000\ \text{\$}$ |  |  | 40 | 7 400 000 \$ | 25 | 3 900 000 \$ |
-| $250\,000\ \text{\$} < X \leq 500\,000\ \text{\$}$ |  |  |  |  | 15 | 5 200 000 \$ |
+| $X \leq 100\,\text{K}$ | 100 | 8,0 | 35 | 1,8 | 35 | 1,8 |
+| $100\,\text{K} < X \leq 250\,\text{K}$ | — | — | 40 | 7,4 | 25 | 3,9 |
+| $250\,\text{K} < X \leq 500\,\text{K}$ | — | — | — | — | 15 | 5,2 |
 
 :::
 
