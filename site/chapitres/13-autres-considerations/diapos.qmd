@@ -2,6 +2,7 @@
 title: "Chapitre 13: Autres considérations"
 format:
   revealjs: default
+chapter-css: diapos.css
 execute:
   echo: false
   cache: true
@@ -31,6 +32,36 @@ theme_act <- theme_minimal(base_size = 14) +
     legend.position = "right",
     legend.title = element_blank()
   )
+
+theme_prix <- theme(
+  axis.text = element_blank(),
+  panel.border = element_rect(
+    colour = couleurs_act["gris"],
+    fill = NA,
+    linewidth = 0.5
+  )
+)
+
+geom_exposition_marche <- function(data, x, exposition, base = 0,
+                                   facteur = 1, decalage = 0, width = 0.38) {
+  histogramme <- data.frame(
+    position = if (is.factor(data[[x]])) as.numeric(data[[x]]) else data[[x]],
+    sommet = base + (data[[exposition]] - decalage) * facteur
+  )
+
+  geom_rect(
+    data = histogramme,
+    aes(
+      xmin = position - width, xmax = position + width,
+      ymin = base, ymax = sommet
+    ),
+    inherit.aes = FALSE,
+    fill = unname(couleurs_act["or"]),
+    colour = unname(couleurs_act["gris"]),
+    linewidth = 0.2,
+    alpha = 0.45
+  )
+}
 ```
 
 ## Lectures recommandées
@@ -49,10 +80,12 @@ Ce chapitre est adapté du chapitre 13 du texte *Basic Ratemaking* :
 
 ## Contraintes réglementaires
 
-- L’industrie de l’assurance est très réglementée; l’encadrement varie notamment selon la province.
+L’industrie de l’assurance est très réglementée.
+
+- La règlementation varie par province.
 - Les exigences varient aussi selon la ligne d’affaires :
   - L’assurance automobile en lignes personnelles est réglementée parce qu’elle est obligatoire.
-  - L’indemnisation des accidents du travail est obligatoire pour plusieurs employeurs aux États-Unis.
+  - L’indemnisation des accidents du travail (*Workers Compensation*)est obligatoire pour plusieurs employeurs aux États-Unis.
   - Certaines assurances commerciales font l’objet de moins de surveillance, par exemple l’assurance responsabilité des administrateurs et dirigeants (*D&O*).
 
 ---
@@ -62,32 +95,30 @@ Les règles nécessitent souvent le dépôt d’un manuel de tarification.
 Au Canada :
 
 - Les taux sont réglementés par les provinces.
-- Certaines provinces exigent l’approbation préalable des taux, par exemple l’Ontario.
-- D’autres fonctionnent davantage selon la libre concurrence, par exemple l’assurance habitation au Québec.
-- Certaines protections sont gouvernementales, par exemple les blessures corporelles couvertes par la SAAQ au Québec.
+- Certaines provinces exigent l’approbation préalable des taux.
+  - Ex : Ontario
+- D’autres fonctionnent davantage selon la libre concurrence.
+  - Ex : assurance habitation au Québec
+- Certaines protections sont gouvernementales.
+  - Ex : blessures corporelles couvertes par la SAAQ au Québec
 
 ## Exemples de contraintes réglementaires aux États-Unis
 
-- **Limitation du changement de taux** :
-  - au niveau global;
-  - au niveau individuel ou d’un groupe d’individus.
-
-  Exemple : une hausse globale moyenne supérieure à 25 %, ou touchant un nombre important de consommateurs avec une hausse supérieure à 30 %, peut être interdite.
-
-- **Interdiction de certaines caractéristiques** même lorsqu’elles sont statistiquement prédictives du risque.
-
-  Exemple : l’utilisation de la cote de crédit pour la tarification et la souscription en lignes personnelles est interdite dans certains États ou provinces.
-
-- **Techniques de tarification prescrites**.
-
-  Exemple : l’État de Washington exige un GLM pour établir les relativités associées à la cote de crédit en assurance automobile en lignes personnelles.
+- Limitation du changement de taux
+  - au niveau global
+  - au niveau individuel ou d’un groupe d’individus
+  - Ex : Une hausse globale moyenne supérieure à 25 %, ou touchant un nombre important de consommateurs avec une hausse supérieure à 30 %, peut être interdite.
+- Interdiction de certaines caractéristiques même lorsqu’elles sont statistiquement prédictives du risque.
+  - Ex : L’utilisation de la cote de crédit pour la tarification et la souscription en lignes personnelles est interdite dans certains États ou provinces.
+- Techniques de tarification prescrites
+  - Ex : L’État de Washington exige un GLM pour établir les relativités associées à la cote de crédit en assurance automobile en lignes personnelles.
 
 ## Divergence de points de vue entre l’actuaire et le régulateur
 
 L’actuaire et le régulateur peuvent ne pas s’entendre sur certaines hypothèses :
 
-- le choix de la méthode de calcul de la tendance des sinistres;
-- la sélection du facteur de projection des sinistres.
+- Choix de la méthode de calcul de la tendance des sinistres
+- Sélection du facteur de projection des sinistres
 
 La négociation avec le régulateur peut entraîner des coûts, par exemple un délai dans l’implantation des nouveaux taux ou le recours à des employés spécialisés pour défendre le point de vue de la compagnie.
 
@@ -106,7 +137,7 @@ Elles peuvent rendre difficile ou indésirable l’implantation du taux indiqué
 
 Pour que les primes des soumissions soient générées automatiquement lorsque l’information du client est collectée, les algorithmes de tarification, les taux et les différentiels doivent être programmés.
 
-- Les taux de base et les différentiels sont souvent relativement faciles à changer.
+- Les taux de base et les différentiels sont généralement faciles à changer.
 - Modifier la structure de l’algorithme de tarification peut toutefois nécessiter des changements importants et coûteux.
 
 ---
@@ -118,8 +149,8 @@ La complexité du changement dépend principalement de deux facteurs :
 
 Exemples :
 
-- des données non entrées dans le système de tarification, ou qui ne sont pas obligatoires;
-- de nouvelles techniques de construction, comme la résistance au vent, qui nécessitent des employés très spécialisés.
+- Données non entrées dans le système de tarification, ou qui ne sont pas obligatoires
+- Nouvelles techniques de construction (ex : résistance au vent) qui nécessitent des employés très spécialisés
 
 ## Analyse coût/bénéfice
 
@@ -127,14 +158,11 @@ Une contrainte de système peut empêcher l’implantation d’une nouvelle vari
 
 - **Coût** : coût tangible associé aux modifications du système.
 - **Bénéfice** : profit incrémental généré par des taux plus précis et, possiblement, par l’attraction de clients mieux tarifés.
-
-::: {.callout-note title="Distribution du portefeuille"}
-Le calcul du profit incrémental devrait considérer tout changement dans la distribution du portefeuille qui résulte du changement proposé.
-:::
+  - Le calcul du profit incrémental devrait considérer tout changement dans la distribution du portefeuille qui résulte du changement proposé.
 
 :::: {.question title="Rentabilité d’une nouvelle caractéristique de risque"}
 
-##
+## {.text-smaller}
 
 Une analyse de tarification a identifié qu’une caractéristique de risque explique une différence de 10 % de sinistres et frais entre les classes A et B.
 
@@ -149,20 +177,104 @@ Une analyse de tarification a identifié qu’une caractéristique de risque exp
 
 Déterminer s’il est rentable d’implanter la caractéristique :
 
-a. sans changement dans la distribution du portefeuille;
-b. avec une hausse de 25 % des unités de la classe A et aucune variation pour la classe B.
+a. Sans changement dans la distribution du portefeuille
+b. Avec une hausse de 25 % des unités de la classe A et aucune variation pour la classe B
 
 ::: {.solution}
 
-##
+## {.text-smaller}
+
+```{r}
+#| label: rentabilite-caracteristique-risque-tableaux
+#| include: false
+
+donnees_caracteristique_risque <- data.frame(
+  Classe = c("A", "B"),
+  unites = c(50e3, 1e6),
+  sinistres_frais = c(45e6, 1e9)
+)
+
+preparer_tableau_profit <- function(unites, primes_unitaire) {
+  pertes_unitaire <- donnees_caracteristique_risque$sinistres_frais /
+    donnees_caracteristique_risque$unites
+  sinistres_frais <- pertes_unitaire * unites
+  profit <- (primes_unitaire - pertes_unitaire) * unites
+
+  tableau <- data.frame(
+    Classe = donnees_caracteristique_risque$Classe,
+    `Nb unités` = unites,
+    `Sinistres et frais ultimes projetés` = sinistres_frais,
+    `Sinistres et frais ultimes projetés par unités` = pertes_unitaire,
+    `Prime par unité` = primes_unitaire,
+    `Profit en dollars` = profit,
+    `Profit en % de la prime` = profit / (primes_unitaire * unites),
+    check.names = FALSE
+  )
+
+  total_unites <- sum(unites)
+  total_sinistres_frais <- sum(sinistres_frais)
+  total_prime <- sum(primes_unitaire * unites)
+  total_profit <- sum(profit)
+
+  rbind(
+    tableau,
+    data.frame(
+      Classe = "Total",
+      `Nb unités` = total_unites,
+      `Sinistres et frais ultimes projetés` = total_sinistres_frais,
+      `Sinistres et frais ultimes projetés par unités` = total_sinistres_frais / total_unites,
+      `Prime par unité` = total_prime / total_unites,
+      `Profit en dollars` = total_profit,
+      `Profit en % de la prime` = total_profit / total_prime,
+      check.names = FALSE
+    )
+  )
+}
+
+unites_actuelles <- donnees_caracteristique_risque$unites
+unites_avec_changement_distribution <- unites_actuelles * c(1.25, 1)
+
+tableau_profit_actuel <- preparer_tableau_profit(
+  unites_actuelles,
+  c(1050, 1050)
+)
+tableau_profit_taux_proposes <- preparer_tableau_profit(
+  unites_actuelles,
+  c(950, 1055)
+)
+tableau_profit_taux_proposes_distribution <- preparer_tableau_profit(
+  unites_avec_changement_distribution,
+  c(950, 1055)
+)
+
+entetes_calculs_profit <- c(
+  "", "(1)", "(2)", "(3) = (2)/(1)", "(4)",
+  "(5) = ((4)-(3)) * (1)", "(6) = (5) / ((4)*(1))"
+)
+```
 
 ### a. Profit actuel
 
-| Classe | Unités | Sinistres et frais | Par unité | Prime par unité | Profit | Profit / prime |
-|:-------|-------:|-------------------:|----------:|----------------:|-------:|---------------:|
-| A | 50 000 | 45 000 000 \$ | 900 \$ | 1 050 \$ | 7 500 000 \$ | 14,3 % |
-| B | 1 000 000 | 1 000 000 000 \$ | 1 000 \$ | 1 050 \$ | 50 000 000 \$ | 4,8 % |
-| **Total** | **1 050 000** | **1 045 000 000 \$** | **995 \$** | **1 050 \$** | **57 500 000 \$** | **5,2 %** |
+::: {.tableau-calculs-sur-une-ligne}
+
+```{r}
+#| label: rentabilite-caracteristique-risque-profit-actuel-a
+#| output: asis
+
+tarifr::afficher_table(
+  tableau_profit_actuel,
+  align = c("l", "r", "r", "r", "r", "r", "r"),
+  formats = list(
+    list(colonnes = 2, type = "nombre", digits = 0),
+    list(colonnes = 3:6, type = "montant", digits = 0),
+    list(colonnes = 7, type = "pourcentage", digits = 1)
+  ),
+  lignes_gras = "derniere",
+  entetes_calculs = entetes_calculs_profit
+)
+```
+
+:::
 
 Le profit total actuel est de **57 500 000 \$**, soit 5,2 % de la prime, mais il varie fortement selon la classe.
 
@@ -170,11 +282,26 @@ Le profit total actuel est de **57 500 000 \$**, soit 5,2 % de la prime, mai
 
 ### a. Profit avec les taux proposés
 
-| Classe | Unités | Sinistres et frais | Par unité | Prime par unité | Profit | Profit / prime |
-|:-------|-------:|-------------------:|----------:|----------------:|-------:|---------------:|
-| A | 50 000 | 45 000 000 \$ | 900 \$ | 950 \$ | 2 500 000 \$ | 5,2 % |
-| B | 1 000 000 | 1 000 000 000 \$ | 1 000 \$ | 1 055 \$ | 55 000 000 \$ | 5,2 % |
-| **Total** | **1 050 000** | **1 045 000 000 \$** | **995 \$** | **1 050 \$** | **57 500 000 \$** | **5,2 %** |
+::: {.tableau-calculs-sur-une-ligne}
+
+```{r}
+#| label: rentabilite-caracteristique-risque-taux-proposes-a
+#| output: asis
+
+tarifr::afficher_table(
+  tableau_profit_taux_proposes,
+  align = c("l", "r", "r", "r", "r", "r", "r"),
+  formats = list(
+    list(colonnes = 2, type = "nombre", digits = 0),
+    list(colonnes = 3:6, type = "montant", digits = 0),
+    list(colonnes = 7, type = "pourcentage", digits = 1)
+  ),
+  lignes_gras = "derniere",
+  entetes_calculs = entetes_calculs_profit
+)
+```
+
+:::
 
 Le profit total demeure 57 500 000 \$.
 
@@ -186,17 +313,53 @@ Le profit additionnel est de $57,5\ \text{M}\ \$ - 57,5\ \text{M}\ \$ = 0\ \$$. 
 
 ### b. Profit actuel
 
-Avec les taux actuellement en vigueur, les mêmes calculs donnent un profit total de **57 500 000 \$**.
+::: {.tableau-calculs-sur-une-ligne}
+
+```{r}
+#| label: rentabilite-caracteristique-risque-profit-actuel-b
+#| output: asis
+
+tarifr::afficher_table(
+  tableau_profit_actuel,
+  align = c("l", "r", "r", "r", "r", "r", "r"),
+  formats = list(
+    list(colonnes = 2, type = "nombre", digits = 0),
+    list(colonnes = 3:6, type = "montant", digits = 0),
+    list(colonnes = 7, type = "pourcentage", digits = 1)
+  ),
+  lignes_gras = "derniere",
+  entetes_calculs = entetes_calculs_profit
+)
+```
+
+:::
+
+Avec les taux actuellement en vigueur, le profit total est de **57 500 000 \$**.
 
 ---
 
 ### b. Profit avec les taux proposés et le changement de distribution
 
-| Classe | Unités | Sinistres et frais | Par unité | Prime par unité | Profit | Profit / prime |
-|:-------|-------:|-------------------:|----------:|----------------:|-------:|---------------:|
-| A | 62 500 | 56 250 000 \$ | 900 \$ | 950 \$ | 3 125 000 \$ | 5,3 % |
-| B | 1 000 000 | 1 000 000 000 \$ | 1 000 \$ | 1 055 \$ | 55 000 000 \$ | 5,2 % |
-| **Total** | **1 062 500** | **1 056 250 000 \$** | **995 \$** | **1 050 \$** | **58 125 000 \$** | **5,2 %** |
+::: {.tableau-calculs-sur-une-ligne}
+
+```{r}
+#| label: rentabilite-caracteristique-risque-taux-proposes-b
+#| output: asis
+
+tarifr::afficher_table(
+  tableau_profit_taux_proposes_distribution,
+  align = c("l", "r", "r", "r", "r", "r", "r"),
+  formats = list(
+    list(colonnes = 2, type = "nombre", digits = 0),
+    list(colonnes = 3:6, type = "montant", digits = 0),
+    list(colonnes = 7, type = "pourcentage", digits = 1)
+  ),
+  lignes_gras = "derniere",
+  entetes_calculs = entetes_calculs_profit
+)
+```
+
+:::
 
 ::: {.callout-important title="Conclusion"}
 Le profit additionnel est de $58,125\ \text{M}\ \$ - 57,5\ \text{M}\ \$ = 625\,000\ \$$. Comme il est supérieur au coût d’implantation de 150 000 $, le changement est rentable avec cette hypothèse.
@@ -211,13 +374,13 @@ Le profit additionnel est de $58,125\ \text{M}\ \$ - 57,5\ \text{M}\ \$ = 625\,0
 
 La compagnie doit considérer la prime à laquelle elle peut couvrir ses coûts et atteindre son profit de souscription cible.
 
-Elle doit aussi considérer sa capacité à vendre le produit.
+Elle doit aussi considérer sa capacité à **vendre le produit**.
 
 ::: {.notes}
 Illustrer la réaction d’un client à une prime qu’il juge trop élevée.
 :::
 
-## Profit en fonction du prix
+## Profit en fonction du prix {.compact-market-plot .nostretch}
 
 En supposant que le nombre de polices est fixe, le profit augmente avec le prix.
 
@@ -234,10 +397,11 @@ ggplot(data.frame(prix, profit_fixe), aes(prix, profit_fixe)) +
   geom_line(colour = couleurs_act["rouge"], linewidth = 0.65) +
   geom_point(colour = couleurs_act["rouge"], size = 1.5) +
   labs(x = "Prix", y = "Profit") +
-  theme_act
+  theme_act +
+  theme_prix
 ```
 
-## Volume en fonction du prix
+## Volume en fonction du prix {.compact-market-plot .nostretch}
 
 Cependant, une hausse du prix a un impact sur la demande.
 
@@ -253,10 +417,11 @@ ggplot(data.frame(prix, volume), aes(prix, volume)) +
   geom_line(colour = "#D55E00", linewidth = 0.65) +
   geom_point(colour = "#D55E00", size = 1.5) +
   labs(x = "Prix", y = "Volume") +
-  theme_act
+  theme_act +
+  theme_prix
 ```
 
-## Profit espéré
+## Profit espéré {.compact-market-plot .nostretch}
 
 Le profit espéré dépend à la fois du prix et de la demande.
 
@@ -277,12 +442,13 @@ ggplot(donnees_prix, aes(prix, value, colour = serie)) +
   geom_line(linewidth = 0.65) +
   geom_point(size = 1.35) +
   scale_colour_manual(values = c(
-    `Profit à volume fixe` = couleurs_act["rouge"],
+    `Profit à volume fixe` = unname(couleurs_act["rouge"]),
     Volume = "#D55E00",
-    `Profit espéré` = couleurs_act["bleu"]
-  )) +
+    `Profit espéré` = unname(couleurs_act["bleu"])
+  ), breaks = c("Profit à volume fixe", "Volume", "Profit espéré")) +
   labs(x = "Prix", y = "Niveau relatif") +
-  theme_act
+  theme_act +
+  theme_prix
 ```
 
 ## Considérations de marché
@@ -295,15 +461,13 @@ Avant de finaliser un changement de taux et de sélectionner la prime chargée, 
 
 ### Soumissions et nouvelles affaires
 
-Clients potentiels qui ne sont présentement pas assurés ou qui sont assurés chez un compétiteur.
+- Clients potentiels qui ne sont présentement pas assurés ou qui sont assurés chez un compétiteur
 
 ### Renouvellements
 
-Clients existants ayant déjà le produit d’assurance analysé.
+- Clients existants ayant déjà le produit d’assurance analysé
 
-::: {.callout-note title="Deux analyses distinctes"}
 Les soumissions et les renouvellements sont souvent analysés séparément, car le comportement d’achat et le profit espéré peuvent être très différents.
-:::
 
 ## Facteurs qui influencent l’achat ou le renouvellement
 
@@ -317,27 +481,23 @@ Les soumissions et les renouvellements sont souvent analysés séparément, car 
 Utiliser l’exemple d’un client qui compare des forfaits de télécommunications, comme Vidéotron et Bell.
 :::
 
-## Techniques traditionnelles {.english-subtitle subtitle="Traditional Market Analysis"}
+## Techniques traditionnelles
 
-On peut incorporer les considérations de marché au jugement de tarification par :
+On peut incorporer les considérations de marché au jugement de l'actuaire en regardant, par exemples : 
 
-- une comparaison de compétitivité;
-- les taux de transformation, de rétention et la croissance;
-- une analyse de distribution;
-- une analyse de dislocation.
+- Comparaison de compétitivité
+- Taux de transformation, de rétention et croissance
+- Analyse de distribution
+- Analyse de dislocation
 
-## Comparaison de compétitivité {.english-subtitle subtitle="Competitive Comparison"}
+## Comparaison de compétitivité
 
 Comparer la prime de la compagnie à celle des compétiteurs, notamment à partir des manuels de taux déposés auprès des autorités, des courtiers, des clients assurés ailleurs ou des soumissions sur le Web.
 
 Deux niveaux de comparaison :
 
-1. tous les risques combinés, en moyenne;
-2. des risques ou groupes de risques précis, par exemple les véhicules récents.
-
-::: {.notes}
-Utiliser l’exemple d’un client qui compare des forfaits de télécommunications, comme Vidéotron et Bell.
-:::
+1. Tous les risques combinés, en moyenne
+2. Des risques ou groupes de risques précis, par exemple les véhicules récents
 
 ---
 
@@ -363,18 +523,26 @@ On peut aussi inverser le ratio.
 #| fig-alt: "Nombre de polices par intervalle de compétitivité. La distribution est concentrée autour d’une prime comparable à celle du compétiteur."
 
 competitivite <- data.frame(
-  ecart = factor(
-    c("−50 %", "−40 %", "−30 %", "−20 %", "−10 %", "0 %", "10 %", "20 %", "30 %", "40 %", "50 %"),
-    levels = c("−50 %", "−40 %", "−30 %", "−20 %", "−10 %", "0 %", "10 %", "20 %", "30 %", "40 %", "50 %")
+  bucket = factor(
+    c(
+      "Moins de\n−30 %", "−30 % à\n−21 %", "−20 % à\n−11 %",
+      "−10 % à\n−6 %", "−5 % à\n5 %", "6 % à\n10 %",
+      "11 % à\n20 %", "21 % à\n30 %", "Plus de\n30 %"
+    ),
+    levels = c(
+      "Moins de\n−30 %", "−30 % à\n−21 %", "−20 % à\n−11 %",
+      "−10 % à\n−6 %", "−5 % à\n5 %", "6 % à\n10 %",
+      "11 % à\n20 %", "21 % à\n30 %", "Plus de\n30 %"
+    )
   ),
-  polices = c(500, 1000, 1400, 1500, 1200, 950, 650, 430, 300, 220, 150)
+  polices = c(400, 1000, 1400, 1520, 1270, 960, 600, 410, 220)
 )
 
-ggplot(competitivite, aes(ecart, polices)) +
+ggplot(competitivite, aes(bucket, polices)) +
   geom_col(fill = couleurs_act["or"], colour = couleurs_act["gris"], width = 0.78) +
   labs(x = "Prime du compétiteur / prime de la compagnie − 1", y = "Nombre de polices") +
   theme_act +
-  theme(axis.text.x = element_text(angle = 35, hjust = 1))
+  theme(axis.text.x = element_text(hjust = 0.5, lineheight = 0.9, margin = margin(t = 6)))
 ```
 
 ---
@@ -388,11 +556,42 @@ ggplot(competitivite, aes(ecart, polices)) +
 # Valeurs reconstruites à partir de la courbe historique; elles servent à illustrer
 # l’écart entre deux algorithmes plutôt qu’à représenter des données observées.
 age <- 16:75
+vehicules <- c(
+  0, 0, 3, 7, 20, 34, 65, 68, 95, 70, 90, 72, 92, 80, 85,
+  72, 86, 95, 88, 70, 85, 98, 75, 65, 87, 73, 68, 50, 82, 48,
+  86, 66, 55, 50, 52, 48, 50, 46, 40, 30, 35, 20, 30, 25, 20,
+  12, 15, 12, 17, 10, 7, 12, 5, 4, 7, 5, 9, 4, 3, 12
+)
+
+# La compagnie A utilise des classes d’âge : les segments constants rendent
+# visible un algorithme moins sophistiqué que celui de la compagnie B.
+relativite_a <- c(
+  rep(2.20, 2), rep(1.85, 2), 1.45, rep(1.32, 2),
+  rep(1.22, 2), rep(1.08, 2), rep(0.92, 2), rep(0.88, 3),
+  rep(0.85, 4), rep(0.82, 5), rep(0.80, 6), rep(0.78, 8),
+  rep(0.76, 8), rep(0.78, 5), rep(0.84, 4), rep(0.92, 2),
+  1.00, 1.62
+)
+relativite_b <- c(
+  3.20, 2.60, 2.20, 1.70, 1.45,
+  1.30, 1.18, 1.05, 0.95, 0.85,
+  0.78, 0.73, 0.70, 0.67, 0.65,
+  0.64, 0.63, 0.64, 0.66, 0.68,
+  0.69, 0.70, 0.72, 0.74, 0.75,
+  0.74, 0.73, 0.72, 0.72, 0.73,
+  0.72, 0.71, 0.70, 0.70, 0.71,
+  0.72, 0.74, 0.75, 0.76, 0.75,
+  0.76, 0.78, 0.82, 0.85, 0.88,
+  0.82, 0.78, 0.75, 0.74, 0.76,
+  0.78, 0.80, 0.83, 0.86, 0.90,
+  0.92, 0.95, 1.00, 1.05, 1.30
+)
+
 comparaison_age <- data.frame(
   age,
-  `Compagnie A` = 0.85 + 2.0 * exp(-(age - 16) / 5) + 0.30 * pmax(age - 65, 0) / 10,
-  `Compagnie B` = 0.82 + 1.25 * exp(-(age - 16) / 6) + 0.48 * pmax(age - 65, 0) / 10,
-  vehicules = round(14000 * dnorm(age, mean = 38, sd = 13)),
+  `Compagnie A` = relativite_a,
+  `Compagnie B` = relativite_b,
+  vehicules,
   check.names = FALSE
 )
 comparaison_longue <- rbind(
@@ -400,20 +599,55 @@ comparaison_longue <- rbind(
   data.frame(age = comparaison_age$age, compagnie = "Compagnie B", relativite = comparaison_age$`Compagnie B`)
 )
 
+base_relativite <- 0.4
+facteur_vehicules_relativite <- 0.029
+
 ggplot() +
-  geom_col(
+  geom_rect(
     data = comparaison_age,
-    aes(age, vehicules / 12000),
-    fill = couleurs_act["or"], alpha = 0.55, width = 0.8
+    aes(
+      xmin = age - 0.38, xmax = age + 0.38,
+      ymin = base_relativite,
+      ymax = base_relativite + vehicules * facteur_vehicules_relativite,
+      fill = "Nombre de véhicules"
+    ),
+    colour = couleurs_act["gris"], linewidth = 0.2, alpha = 0.45
   ) +
   geom_line(
     data = comparaison_longue,
     aes(age, relativite, colour = compagnie),
     linewidth = 0.65
   ) +
-  scale_colour_manual(values = c(`Compagnie A` = couleurs_act["rouge"], `Compagnie B` = couleurs_act["bleu"])) +
+  geom_point(
+    data = comparaison_longue,
+    aes(age, relativite, colour = compagnie, shape = compagnie),
+    size = 1.45
+  ) +
+  scale_fill_manual(values = c(`Nombre de véhicules` = unname(couleurs_act["or"]))) +
+  scale_colour_manual(values = c(`Compagnie A` = unname(couleurs_act["rouge"]), `Compagnie B` = unname(couleurs_act["bleu"]))) +
+  scale_shape_manual(values = c(`Compagnie A` = 15, `Compagnie B` = 17)) +
+  scale_x_continuous(breaks = seq(16, 75, by = 5)) +
+  scale_y_continuous(
+    breaks = seq(0.4, 3.2, by = 0.4),
+    limits = c(0.4, 3.3),
+    sec.axis = sec_axis(
+      ~ (. - base_relativite) / facteur_vehicules_relativite,
+      name = "Nombre de véhicules"
+    )
+  ) +
   labs(x = "Âge du conducteur", y = "Relativité") +
-  theme_act
+  guides(
+    fill = guide_legend(order = 1, override.aes = list(alpha = 1)),
+    colour = guide_legend(order = 2),
+    shape = guide_legend(order = 2)
+  ) +
+  theme_act +
+  theme(
+    axis.text.x = element_text(size = 8),
+    legend.position = "bottom",
+    legend.box = "horizontal",
+    legend.key.width = grid::unit(1.5, "lines")
+  )
 ```
 
 ---
@@ -426,8 +660,34 @@ ggplot() +
 
 comparaison_primes <- data.frame(
   age,
-  `Compagnie A` = 725 * comparaison_age$`Compagnie A`,
-  `Compagnie B` = 675 * comparaison_age$`Compagnie B`,
+  `Compagnie A` = c(
+    1120, 1110, 1070, 830, 800,
+    650, 670, 620, 580, 580,
+    580, 560, 560, 550, 540,
+    560, 540, 500, 490, 510,
+    460, 490, 520, 490, 550,
+    450, 450, 420, 420, 450,
+    430, 430, 430, 450, 460,
+    400, 400, 420, 430, 410,
+    450, 450, 410, 400, 400,
+    420, 460, 450, 430, 440,
+    480, 520, 530, 550, 570,
+    580, 600, 550, 600, 650
+  ),
+  `Compagnie B` = c(
+    1480, 1480, 1440, 950, 770,
+    700, 640, 570, 500, 500,
+    520, 500, 490, 490, 490,
+    500, 500, 480, 470, 480,
+    480, 460, 490, 520, 520,
+    470, 460, 440, 440, 430,
+    420, 440, 440, 470, 450,
+    420, 420, 440, 450, 430,
+    460, 460, 440, 440, 450,
+    440, 490, 510, 480, 450,
+    500, 520, 550, 630, 630,
+    640, 710, 780, 800, 790
+  ),
   vehicules = comparaison_age$vehicules,
   check.names = FALSE
 )
@@ -436,23 +696,58 @@ primes_longues <- rbind(
   data.frame(age = comparaison_primes$age, compagnie = "Compagnie B", prime = comparaison_primes$`Compagnie B`)
 )
 
+base_prime <- 300
+facteur_vehicules_prime <- 13
+
 ggplot() +
-  geom_col(
+  geom_rect(
     data = comparaison_primes,
-    aes(age, vehicules / 10),
-    fill = couleurs_act["or"], alpha = 0.55, width = 0.8
+    aes(
+      xmin = age - 0.38, xmax = age + 0.38,
+      ymin = base_prime,
+      ymax = base_prime + vehicules * facteur_vehicules_prime,
+      fill = "Nombre de véhicules"
+    ),
+    colour = couleurs_act["gris"], linewidth = 0.2, alpha = 0.45
   ) +
   geom_line(data = primes_longues, aes(age, prime, colour = compagnie), linewidth = 0.65) +
-  scale_colour_manual(values = c(`Compagnie A` = couleurs_act["rouge"], `Compagnie B` = couleurs_act["bleu"])) +
+  geom_point(
+    data = primes_longues,
+    aes(age, prime, colour = compagnie, shape = compagnie),
+    size = 1.45
+  ) +
+  scale_fill_manual(values = c(`Nombre de véhicules` = unname(couleurs_act["or"]))) +
+  scale_colour_manual(values = c(`Compagnie A` = unname(couleurs_act["rouge"]), `Compagnie B` = unname(couleurs_act["bleu"]))) +
+  scale_shape_manual(values = c(`Compagnie A` = 15, `Compagnie B` = 17)) +
+  scale_x_continuous(breaks = seq(16, 75, by = 5)) +
+  scale_y_continuous(
+    breaks = seq(300, 1500, by = 300),
+    limits = c(300, 1600),
+    sec.axis = sec_axis(
+      ~ (. - base_prime) / facteur_vehicules_prime,
+      name = "Nombre de véhicules"
+    )
+  ) +
   labs(x = "Âge du conducteur", y = "Prime moyenne") +
-  theme_act
+  guides(
+    fill = guide_legend(order = 1, override.aes = list(alpha = 1)),
+    colour = guide_legend(order = 2),
+    shape = guide_legend(order = 2)
+  ) +
+  theme_act +
+  theme(
+    axis.text.x = element_text(size = 8),
+    legend.position = "bottom",
+    legend.box = "horizontal",
+    legend.key.width = grid::unit(1.5, "lines")
+  )
 ```
 
 ::: {.notes}
 En moyenne, le compétiteur est environ 7 % moins cher. L’écart entre les profils suggère que les algorithmes diffèrent; dans ce contexte, la prime moyenne est plus informative que les relativités seules.
 :::
 
-## Taux de transformation, de rétention et croissance {.english-subtitle subtitle="Conversion, Retention and Growth"}
+## Taux de transformation, de rétention et croissance
 
 ### Taux de transformation
 
@@ -472,20 +767,28 @@ $$
 mois <- factor(month.name[1:8], levels = month.name[1:8], labels = c("Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août"))
 transformation <- data.frame(
   mois,
-  taux = c(0.243, 0.250, 0.257, 0.252, 0.258, 0.259, 0.263, 0.272),
-  soumissions = c(23500, 24100, 24500, 24300, 24900, 25300, 25900, 26700)
+  taux = c(0.240, 0.241, 0.241, 0.240, 0.239, 0.240, 0.247, 0.255),
+  soumissions = c(25000, 25500, 25800, 25600, 25900, 26000, 26400, 26200)
 )
+transformation$position <- seq_len(nrow(transformation))
 
-ggplot(transformation, aes(mois)) +
-  geom_col(aes(y = soumissions / 100000), fill = couleurs_act["or"], alpha = 0.6) +
+ggplot(transformation, aes(position)) +
+  geom_exposition_marche(transformation, "position", "soumissions", base = 0.20, facteur = 1e-5, decalage = 20000) +
   geom_line(aes(y = taux, group = 1, colour = "Taux de transformation"), linewidth = 0.65) +
   geom_point(aes(y = taux, colour = "Taux de transformation"), size = 1.5) +
+  scale_x_continuous(breaks = transformation$position, labels = transformation$mois) +
   scale_y_continuous(
     name = "Taux de transformation",
+    breaks = seq(0.20, 0.30, by = 0.02),
+    limits = c(0.20, 0.30),
     labels = scales::label_percent(accuracy = 1),
     sec.axis = sec_axis(~ . * 100000, name = "Nombre de soumissions", labels = scales::label_number(big.mark = " "))
   ) +
-  scale_colour_manual(values = c(`Taux de transformation` = couleurs_act["rouge"])) +
+  scale_colour_manual(
+    values = c(`Taux de transformation` = unname(couleurs_act["rouge"])),
+    guide = "none"
+  ) +
+  labs(x = "Mois") +
   theme_act
 ```
 
@@ -515,26 +818,29 @@ retention <- data.frame(
   taux = c(0.810, 0.812, 0.810, 0.810, 0.812, 0.811, 0.813, 0.817),
   renouvellements = c(29700, 29300, 29600, 29800, 29700, 29600, 29900, 30200)
 )
+retention$position <- seq_len(nrow(retention))
 
-ggplot(retention, aes(mois)) +
-  geom_linerange(
-    aes(ymin = 0.805, ymax = (renouvellements - 25000) / 250000 + 0.805),
-    colour = couleurs_act["or"], alpha = 0.7, linewidth = 12
-  ) +
+ggplot(retention, aes(position)) +
+  geom_exposition_marche(retention, "position", "renouvellements", base = 0.805, facteur = 1 / 250000, decalage = 25000) +
   geom_line(aes(y = taux, group = 1, colour = "Taux de rétention"), linewidth = 0.65) +
   geom_point(aes(y = taux, colour = "Taux de rétention"), size = 1.5) +
+  scale_x_continuous(breaks = retention$position, labels = retention$mois) +
   scale_y_continuous(
     name = "Taux de rétention",
     labels = scales::label_percent(accuracy = 0.5),
     sec.axis = sec_axis(~ (. - 0.805) * 250000 + 25000, name = "Polices potentiellement renouvelées", labels = scales::label_number(big.mark = " "))
   ) +
-  scale_colour_manual(values = c(`Taux de rétention` = couleurs_act["rouge"])) +
+  scale_colour_manual(
+    values = c(`Taux de rétention` = unname(couleurs_act["rouge"])),
+    guide = "none"
+  ) +
+  labs(x = "Mois") +
   theme_act
 ```
 
 ---
 
-### Croissance {.english-subtitle subtitle="Growth"}
+### Croissance
 
 La croissance reflète la capacité de la compagnie à acquérir de nouvelles affaires et à retenir ses assurés existants.
 
@@ -558,48 +864,70 @@ Les polices perdues comprennent les polices annulées et non renouvelées.
 
 croissance <- data.frame(
   mois,
-  taux = c(0.0010, 0.0015, 0.0017, 0.0015, 0.0018, 0.0020, 0.0026, 0.0031),
-  polices = c(355000, 356000, 357000, 358000, 359000, 360000, 362000, 364000)
+  taux = c(0.00085, 0.00150, 0.00165, 0.00145, 0.00175, 0.00183, 0.00275, 0.00302),
+  polices = c(360000, 360700, 361250, 361800, 362600, 363200, 364250, 365500)
 )
+croissance$position <- seq_len(nrow(croissance))
 
-ggplot(croissance, aes(mois)) +
-  geom_col(aes(y = (polices - 350000) / 5e7), fill = couleurs_act["or"], alpha = 0.6) +
+ggplot(croissance, aes(position)) +
+  geom_exposition_marche(croissance, "position", "polices", facteur = 1 / 4e6, decalage = 350000) +
   geom_line(aes(y = taux, group = 1, colour = "Croissance"), linewidth = 0.65) +
   geom_point(aes(y = taux, colour = "Croissance"), size = 1.5) +
+  scale_x_continuous(breaks = croissance$position, labels = croissance$mois) +
   scale_y_continuous(
     name = "Croissance",
+    breaks = seq(0, 0.005, by = 0.001),
+    limits = c(0, 0.005),
     labels = scales::label_percent(accuracy = 0.1),
-    sec.axis = sec_axis(~ . * 5e7 + 350000, name = "Nombre de polices", labels = scales::label_number(big.mark = " "))
+    sec.axis = sec_axis(
+      ~ . * 4e6 + 350000,
+      name = "Nombre de polices",
+      breaks = seq(350000, 370000, by = 2000),
+      labels = scales::label_number(big.mark = " ")
+    )
   ) +
-  scale_colour_manual(values = c(Croissance = couleurs_act["rouge"])) +
+  scale_colour_manual(
+    values = c(Croissance = unname(couleurs_act["rouge"])),
+    guide = "none"
+  ) +
+  labs(x = "Mois") +
   theme_act
 ```
 
-## Analyse de distribution {.english-subtitle subtitle="Distributional Analysis"}
+## Analyse de distribution
 
 On peut comparer la distribution d’un portefeuille selon une variable, par exemple le montant d’assurance.
 
 ```{r}
 #| label: analyse-distribution
 #| fig-width: 8
-#| fig-height: 4
+#| fig-height: 3.2
 #| fig-alt: "Nombre de polices et prime moyenne par tranche de montant d’assurance. Les volumes diminuent dans les tranches les plus élevées alors que la prime moyenne augmente."
 
 montant_assurance <- data.frame(
-  tranche = factor(c("<100 k", "100–150 k", "150–200 k", "200–250 k", "250–300 k", "300–350 k", "350–400 k", "400–450 k", ">450 k"), ordered = TRUE),
+  tranche = factor(
+    c("<100 k", "100–150 k", "150–200 k", "200–250 k", "250–300 k", "300–350 k", "350–400 k", "400–450 k", ">450 k"),
+    levels = c("<100 k", "100–150 k", "150–200 k", "200–250 k", "250–300 k", "300–350 k", "350–400 k", "400–450 k", ">450 k"),
+    ordered = TRUE
+  ),
   polices = c(2500, 8500, 14000, 15500, 12000, 8000, 4000, 1500, 500),
   prime = c(114, 143, 265, 435, 451, 520, 620, 790, 968)
 )
+montant_assurance$position <- seq_len(nrow(montant_assurance))
 
-ggplot(montant_assurance, aes(tranche)) +
-  geom_col(aes(y = polices / 20), fill = couleurs_act["or"], alpha = 0.65) +
+ggplot(montant_assurance, aes(position)) +
+  geom_exposition_marche(montant_assurance, "position", "polices", facteur = 1 / 20) +
   geom_line(aes(y = prime, group = 1, colour = "Prime moyenne"), linewidth = 0.65) +
   geom_point(aes(y = prime, colour = "Prime moyenne"), size = 1.5) +
+  scale_x_continuous(breaks = montant_assurance$position, labels = montant_assurance$tranche) +
   scale_y_continuous(
     name = "Prime moyenne",
     sec.axis = sec_axis(~ . * 20, name = "Nombre de polices", labels = scales::label_number(big.mark = " "))
   ) +
-  scale_colour_manual(values = c(`Prime moyenne` = couleurs_act["rouge"])) +
+  scale_colour_manual(
+    values = c(`Prime moyenne` = unname(couleurs_act["rouge"])),
+    guide = "none"
+  ) +
   labs(x = "Montant d’assurance") +
   theme_act +
   theme(axis.text.x = element_text(angle = 25, hjust = 1))
@@ -609,13 +937,13 @@ ggplot(montant_assurance, aes(tranche)) +
 L’idéal est de comparer la distribution du portefeuille à celle de la population. Si la compagnie suppose qu’un groupe représente 5 % de la population alors qu’il en représente 15 %, elle pourrait ne pas être compétitive pour ce groupe.
 :::
 
-## Analyse de dislocation {.english-subtitle subtitle="Policyholder Dislocation Analysis"}
+## Analyse de dislocation
 
 Un changement de taux affecte directement les assurés existants au renouvellement. L’analyse de dislocation permet de quantifier le nombre d’assurés qui recevront un changement de taux donné et d’extrapoler l’effet sur la rétention.
 
 Si les dislocations sont majeures, la compagnie peut revoir le changement proposé. On les analyse souvent au total, mais aussi par variable.
 
-## Techniques méthodiques {.english-subtitle subtitle="Systematic Market Analysis"}
+## Techniques méthodiques
 
 Les techniques plus automatisées considèrent à la fois les considérations de marché et les indiqués actuariels :
 
@@ -654,7 +982,7 @@ P_{\text{cum},t} &= P_{\text{renouv},t} \times P_{\text{cum},t-1} \\
 \end{aligned}
 $$
 
-## Optimisation des prix {.english-subtitle subtitle="Optimized Pricing"}
+## Optimisation des prix
 
 Les modèles multivariés, notamment les GLM, peuvent modéliser la prime pure pour les assurés ayant différentes caractéristiques.
 

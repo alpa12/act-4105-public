@@ -1,0 +1,7 @@
+.reveal .slides section.compact-market-plot img[data-src*="figure-revealjs/"],
+.reveal .slides section.compact-market-plot img[src*="figure-revealjs/"] {
+  width: 74% !important;
+  max-width: 74% !important;
+  display: block;
+  margin-inline: auto !important;
+}
