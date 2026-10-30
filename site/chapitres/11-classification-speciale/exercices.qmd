@@ -1,0 +1,632 @@
+---
+metadata-files:
+  - ../_exercices.yml
+---
+
+<!-- Les graphiques de pénalité de coassurance sont reproduits en R à partir des paramètres de chaque exercice. -->
+
+```{r}
+#| echo: false
+#| include: false
+
+library(ggplot2)
+
+couleurs_act <- c(
+  rouge = "#e30513",
+  bleu = "#009cde",
+  or = "#ffc103",
+  gris = "#626974"
+)
+
+theme_act <- theme_minimal(base_size = 14) +
+  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_blank()
+  )
+```
+
+::: {.question}
+(CAS Examen 5, Printemps 2015 – Q14a)
+
+Avec les données de réclamations rapportées suivantes :
+
+::: {smart-tables-column-1="formula"}
+
+| Montant de la perte | Nombre de réclamations rapportées | Sinistres non censurés (avant l’application de la limite) |
+|:--|--:|--:|
+| $X \leq 1\,000\ \text{\$}$ | 120 | 75 000 \$ |
+| $1\,000\ \text{\$} < X \leq 4\,000\ \text{\$}$ | 117 | 209 000 \$ |
+| $4\,000\ \text{\$} < X$ | 3 | 22 000 \$ |
+
+:::
+
+- Les réclamations individuelles au-dessus de 4 000 \$ sont de 5 500 \$, 6 500 \$ et 10 000 \$.
+
+Calculer le facteur de limite augmentée indiqué pour une limite de 6 000 \$, sachant que la limite de base est de 4 000 \$.
+
+::: {.solution}
+Les limites sont peu élevées dans cet exercice. Il pourrait s’agir d’un produit d’assurance comme l’assurance spécifique des bijoux en assurance habitation : le contrat de base contient une couverture limitée pour ce type de biens et l’assuré peut acheter une couverture supplémentaire.
+
+Les sinistres non censurés étant connus, on peut calculer les paiements pour une couverture avec une limite de 4 000 \$ et de 6 000 \$.
+
+$$
+ILF(6\,000)_{\text{indiqué}}
+= \frac{LAS(6\,000)}{LAS(4\,000)}
+= \frac{\text{sévérité avec les sinistres écrêtés à 6\,000}}{\text{sévérité avec les sinistres écrêtés à 4\,000}}
+$$
+
+::: {smart-tables-column-1="formula"}
+
+| Montant de la perte | Sinistres écrêtés à 4 000 \$ | Sinistres écrêtés à 6 000 \$ |
+|:--|--:|--:|
+| $X \leq 1\,000\ \text{\$}$ | 75 000 \$ | 75 000 \$ |
+| $1\,000\ \text{\$} < X \leq 4\,000\ \text{\$}$ | 209 000 \$ | 209 000 \$ |
+| $4\,000\ \text{\$} < X$ | $3 \times 4\,000 = 12\,000\ \text{\$}$ | $5\,500 + 6\,000 + 6\,000 = 17\,500\ \text{\$}$ |
+| **Total** | **296 000 \$** | **301 500 \$** |
+
+:::
+
+$$
+ILF(6\,000)_{\text{indiqué}}
+= \frac{301\,500}{296\,000}
+= \textbf{1.019}
+$$
+:::
+:::
+
+:::: {.question}
+(CAS Examen 5, Automne 2013 – Q11)
+
+Avec les données suivantes, la limite de base est de 100 000 \$.
+
+::: {smart-tables-column-1="formula"}
+
+| Montant de la perte | Limite de 100 000 \$ : nombre | Limite de 100 000 \$ : sinistres | Limite de 250 000 \$ : nombre | Limite de 250 000 \$ : sinistres | Limite de 500 000 \$ : nombre | Limite de 500 000 \$ : sinistres |
+|:--|--:|--:|--:|--:|--:|--:|
+| $X \leq 100\,000\ \text{\$}$ | 100 | 8 000 000 \$ | 35 | 1 800 000 \$ | 35 | 1 800 000 \$ |
+| $100\,000\ \text{\$} < X \leq 250\,000\ \text{\$}$ |  |  | 40 | 7 400 000 \$ | 25 | 3 900 000 \$ |
+| $250\,000\ \text{\$} < X \leq 500\,000\ \text{\$}$ |  |  |  |  | 15 | 5 200 000 \$ |
+
+:::
+
+| Limite | Facteur de limite augmentée indiqué provenant d’une analyse GLM sur la prime pure |
+|--:|--:|
+| 100 000 \$ | 1,00 |
+| 250 000 \$ | 0,95 |
+| 500 000 \$ | 1,15 |
+
+::: {.question}
+Calculer le facteur de limite augmentée indiqué pour une police à 250 000 \$.
+
+::: {.solution}
+Le but est d’utiliser le plus de données possible sans introduire le biais dû à l’écrêtement.
+
+$$
+ILF(250\,000)_{\text{indiqué}}
+= \frac{LAS(250\,000)}{LAS(100\,000)}
+$$
+
+On utilise toutes les polices dont la limite est au moins de 100 000 \$ :
+
+$$
+LAS(100\,000)
+= \frac{8\,000\,000 + 1\,800\,000 + 40(100\,000) + 1\,800\,000 + (25 + 15)(100\,000)}{100 + 35 + 40 + 35 + 25 + 15}
+= 78\,400.
+$$
+
+Pour $LAS(250\,000)$, on n’utilise ensuite que les polices avec une limite de 250 000 \$ ou de 500 000 \$ :
+
+$$
+\begin{aligned}
+P(X > 100\,000)
+&= \frac{40 + 25 + 15}{35 + 35 + 40 + 25 + 15}
+= 0.53333333, \\
+\text{Sévérité dans la tranche de 100\,000 à 250\,000}
+&= \frac{7\,400\,000 - 40(100\,000) + 3\,900\,000 - 25(100\,000) + 15(250\,000 - 100\,000)}{40 + 25 + 15} \\
+&= 88\,125, \\
+LAS(250\,000)
+&= 78\,400 + 0.53333333(88\,125)
+= 125\,400.
+\end{aligned}
+$$
+
+$$
+ILF(250\,000)_{\text{indiqué}}
+= \frac{125\,400}{78\,400}
+= \textbf{1.599}.
+$$
+:::
+:::
+
+::: {.question}
+Expliquer la différence entre le facteur de limite augmentée calculé en a) et les résultats du GLM.
+
+::: {.solution}
+Le facteur de limite augmentée suppose que la fréquence est la même, peu importe la limite de police, car il ne compare que les sévérités. L’approche GLM ne fait pas cette hypothèse; elle peut donc produire des résultats contre-intuitifs, comme le facteur de 0,95 pour la limite de 250 000 \$.
+
+Le facteur GLM inférieur au facteur calculé en a) indique probablement que la fréquence de sinistre est plus basse pour les polices avec une limite de 250 000 \$ que pour celles avec une limite de 100 000 \$, possiblement en raison d’un profil d’assurés différent ou d’une souscription plus serrée.
+:::
+:::
+
+::: {.question}
+Sélectionner un facteur de limite augmentée et expliquer brièvement votre raisonnement.
+
+::: {.solution}
+Différentes réponses sont acceptées. Il n’est pas possible d’implanter un facteur pour une limite de 250 000 \$ inférieur à celui d’une limite de 100 000 \$, car les assurés actuellement à une limite de 100 000 \$ auraient alors avantage à acheter une limite de 250 000 \$.
+
+On peut donc recommander le facteur calculé en a), soit **1,599**. Une autre sélection raisonnable est **1,1**, situé entre les facteurs indiqués par le GLM pour les limites de 100 000 \$ et de 500 000 \$.
+:::
+:::
+::::
+
+::: {.question}
+(CAS Examen 5, 2012 – Q12)
+
+Avec l’information suivante, calculer un facteur de limite augmentée indiqué pour une limite de police à 300 000 \$, en supposant une limite de base de 100 000 \$.
+
+| Montant de la perte | Nombre de réclamations : limite 100 000 \$ | Nombre de réclamations : limite 300 000 \$ | Nombre de réclamations : limite 500 000 \$ |
+|:--|--:|--:|--:|
+| 50 000 \$ | 30 | 25 | 80 |
+| 100 000 \$ | 150 | 60 | 120 |
+| 300 000 \$ |  | 35 | 50 |
+| 500 000 \$ |  |  | 30 |
+| **Total** | **180** | **120** | **280** |
+
+::: {.solution}
+Le but est d’utiliser le plus de données possible sans introduire le biais dû à l’écrêtement.
+
+$$
+\begin{aligned}
+LAS(100\,000)
+&= \frac{(30 + 25 + 80)(50\,000) + (150 + 60 + 120)(100\,000) + (35 + 50 + 30)(100\,000)}{180 + 120 + 280} \\
+&= 88\,362.
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+P(X > 100\,000)
+&= \frac{35 + 50 + 30}{120 + 280}
+= 0.2875, \\
+\text{Sévérité dans la tranche de 100\,000 à 300\,000}
+&= \frac{200\,000(35 + 50 + 30)}{35 + 50 + 30}
+= 200\,000.
+\end{aligned}
+$$
+
+Toutes les pertes supérieures à 100 000 \$ sont aussi supérieures à 300 000 \$; la sévérité dans cette tranche est donc de 200 000 \$.
+
+$$
+\begin{aligned}
+LAS(300\,000)
+&= 88\,362 + 0.2875(200\,000)
+= 145\,862, \\
+ILF(300\,000)_{\text{indiqué}}
+&= \frac{145\,862}{88\,362}
+= \textbf{1.6507}.
+\end{aligned}
+$$
+:::
+:::
+
+::: {.question}
+Nommer et expliquer brièvement les quatre avantages d’une franchise dans un contrat d’assurance.
+
+::: {.solution}
+1. **Réduction de la prime.** Si l’assuré est prêt à assumer une portion des pertes en cas de sinistre, l’assureur peut habituellement accorder un rabais sur la prime.
+2. **Élimination des petites réclamations de nuisance.** Sans franchise, il est avantageux de réclamer tous les petits sinistres, même lorsque les frais de règlement de l’assureur dépassent parfois l’indemnité versée. Une franchise diminue la fréquence de ces réclamations et aide à contrôler les frais de règlement.
+3. **Incitatif au contrôle des pertes.** Puisqu’il assume une partie des pertes, l’assuré a un incitatif financier à éviter les sinistres.
+4. **Contrôle de l’exposition aux catastrophes.** Des franchises élevées pour les périls catastrophiques, comme le tremblement de terre, diminuent l’exposition de l’assureur et le risque de ne pas être en mesure de remplir ses obligations.
+:::
+:::
+
+:::: {.question}
+(CAS Examen 5, 2008 – Q32)
+
+Avec les données suivantes :
+
+| Montant de perte avant considération de la franchise | Probabilité |
+|--:|--:|
+| 100 \$ | 20 % |
+| 250 \$ | 10 % |
+| 500 \$ | 15 % |
+| 1 000 \$ | 30 % |
+| 3 000 \$ | 20 % |
+| 8 000 \$ | 5 % |
+
+- La prime pour une police avec une franchise de 0 \$ est de 350 \$.
+- Le taux de sinistre espéré pour une police avec une franchise de 0 \$ est de 60,9 %.
+- Les frais fixes sont de 31,70 \$.
+- La provision pour frais de souscription variables est de 22 % et la provision pour profit est de 2 %.
+- Les frais de règlement de sinistres sont de 10 % des sinistres avant considération de la franchise et ne sont pas sujets à la franchise.
+
+::: {.question}
+Calculer le ratio d’élimination des pertes pour passer d’une police avec une franchise de 0 \$ à une police avec une franchise de 500 \$.
+
+::: {.solution}
+| Sévérité | Montant payable avec une franchise de 0 \$ | Montant payable avec une franchise de 500 \$ | Sinistres éliminés | Probabilité |
+|--:|--:|--:|--:|--:|
+| 100 \$ | 100 \$ | 0 \$ | 100 \$ | 0,20 |
+| 250 \$ | 250 \$ | 0 \$ | 250 \$ | 0,10 |
+| 500 \$ | 500 \$ | 0 \$ | 500 \$ | 0,15 |
+| 1 000 \$ | 1 000 \$ | 500 \$ | 500 \$ | 0,30 |
+| 3 000 \$ | 3 000 \$ | 2 500 \$ | 500 \$ | 0,20 |
+| 8 000 \$ | 8 000 \$ | 7 500 \$ | 500 \$ | 0,05 |
+
+$$
+LER
+= \frac{100(0.20) + 250(0.10) + 500(0.15 + 0.30 + 0.20 + 0.05)}{100(0.20) + 250(0.10) + 500(0.15) + 1\,000(0.30) + 3\,000(0.20) + 8\,000(0.05)}
+= \frac{395}{1\,420}
+= \textbf{0.2782}.
+$$
+:::
+:::
+
+::: {.question}
+Calculer la prime pour une police avec une franchise de 500 \$.
+
+::: {.solution}
+On suppose que les frais de règlement de sinistres alloués correspondent à 10 % des sinistres non censurés. Le crédit de 27,82 % est appliqué seulement à la portion des sinistres espérés.
+
+$$
+\begin{aligned}
+\text{Sinistres espérés pour la police avec franchise de 0}
+&= 350(0.609)
+= 213.15, \\
+\text{Sinistres espérés pour la police avec franchise de 500}
+&= 213.15(1 - 0.2782)
+= 153.8583, \\
+\text{Frais de règlement de sinistres alloués}
+&= 0.1(213.15)
+= 21.315, \\
+\text{Prime avec franchise de 500}
+&= \frac{153.8583 + 21.315 + 31.70}{1 - 0.22 - 0.02}
+= \textbf{272.20\ \text{\$}}.
+\end{aligned}
+$$
+:::
+:::
+::::
+
+:::: {.question}
+(CAS Examen 5, 2011 – Q14 modifiée)
+
+Avec l’information suivante :
+
+| Franchise | Nombre de réclamations rapportées | Sinistres rapportés nets de la franchise | Sinistres rapportés nets avec une franchise de 750 \$ | Sinistres rapportés nets avec une franchise de 1 000 \$ |
+|--:|--:|--:|--:|--:|
+| 0 \$ | 990 | 1 347 000 \$ | 772 000 \$ | 605 000 \$ |
+| 250 \$ | 2 770 | 5 167 000 \$ | 4 024 000 \$ | 3 505 000 \$ |
+| 500 \$ | 4 360 | 9 198 000 \$ | 8 244 000 \$ | 7 345 000 \$ |
+| 750 \$ | 1 350 | 3 230 000 \$ | 3 230 000 \$ | 2 926 000 \$ |
+| 1 000 \$ | 500 | 1 690 000 \$ | Inconnus | 1 692 000 \$ |
+| **Total** | **9 970** | **20 634 000 \$** |  |  |
+
+::: {.question}
+Utiliser l’approche du ratio d’élimination des pertes pour calculer le crédit accordé pour passer d’une franchise de 750 \$ à une franchise de 1 000 \$.
+
+::: {.solution}
+Les sinistres censurés sont disponibles. On prend le plus de données possible, mais seulement les polices avec une franchise d’au plus 750 \$, puisqu’on ne connaît pas les sinistres sous la franchise pour les polices avec une franchise de 1 000 \$.
+
+$$
+LER
+= \frac{(772\,000 - 605\,000) + (4\,024\,000 - 3\,505\,000) + (8\,244\,000 - 7\,345\,000) + (3\,230\,000 - 2\,926\,000)}{772\,000 + 4\,024\,000 + 8\,244\,000 + 3\,230\,000}
+= \textbf{0.1161}.
+$$
+:::
+:::
+
+::: {.question}
+L’approche du ratio d’élimination des pertes suppose que la propension à réclamer d’un assuré est la même pour tous les niveaux de franchise. Expliquer pourquoi cette hypothèse ne tient pas toujours en pratique. Donner un exemple pour illustrer.
+
+::: {.solution}
+Pour un assuré ayant une perte, l’incitatif financier à réclamer varie selon le niveau de franchise. Par exemple, un assuré ayant une police avec une franchise de 250 \$ risque de réclamer un sinistre de 1 001 \$, alors qu’un assuré avec une police ayant une franchise de 1 000 \$ risque de ne pas réclamer.
+:::
+:::
+::::
+
+:::: {.question}
+(CAS Examen 5, Automne 2015 – Q12)
+
+Avec l’information suivante pour une propriété :
+
+- Valeur de la propriété : 750 000 \$.
+- Pourcentage de coassurance exigé : 85 %.
+- Montant d’assurance sélectionné par le client : 600 000 \$.
+- Il y a 30 % de chances d’avoir une perte totale, sachant qu’il y a une réclamation.
+- Tous les autres sinistres sont uniformément distribués entre 0 \$ et 750 000 \$.
+- Fréquence de réclamation : 2 %.
+
+::: {.question}
+Dessiner un graphique de pénalité de coassurance en fonction du montant de sinistre. Marquer et donner les valeurs des points critiques.
+
+::: {.solution}
+Soit $F = 600\,000$, $c = 0.85$ et $V = 750\,000$. Ainsi, $cV = 637\,500$.
+
+Pour un sinistre de 0 \$, la pénalité est nulle. Pour un sinistre de 600 000 \$, la pénalité maximale est :
+
+$$
+600\,000 - 600\,000\left(\frac{600\,000}{637\,500}\right) = 35\,294.1176.
+$$
+
+Il n’y a plus de pénalité à partir de $cV = 637\,500$. Pour les sinistres entre 0 et $F$, la pénalité est $L - I$; entre $F$ et $cV$, elle est $F - I$; au-delà de $cV$, elle est nulle.
+
+```{r}
+#| label: exercice-7-penalite-coassurance
+#| fig-width: 8
+#| fig-height: 4
+#| fig-alt: "Pénalité de coassurance pour une propriété de 750 000 dollars, assurée pour 600 000 dollars avec une exigence de coassurance de 85 pour cent. La pénalité augmente linéairement de zéro jusqu’à 35 294 dollars quand la perte atteint F, soit 600 000 dollars, puis diminue jusqu’à zéro à cV, soit 637 500 dollars."
+
+F <- 600000
+valeur_propriete <- 750000
+pourcentage_coassurance <- 0.85
+cV <- pourcentage_coassurance * valeur_propriete
+a <- min(F / cV, 1)
+
+perte <- seq(0, valeur_propriete, by = 1000)
+penalite <- data.frame(
+  perte = perte,
+  penalite_coassurance = pmin(perte, F) - pmin(perte * a, F)
+)
+points_critiques <- subset(penalite, perte %in% c(0, F, cV))
+
+ggplot(penalite, aes(perte, penalite_coassurance)) +
+  geom_vline(
+    xintercept = c(F, cV),
+    colour = couleurs_act["gris"],
+    linetype = "dashed",
+    linewidth = 0.4
+  ) +
+  geom_area(fill = couleurs_act["or"], alpha = 0.22) +
+  geom_line(colour = couleurs_act["bleu"], linewidth = 0.8) +
+  geom_point(
+    data = points_critiques,
+    colour = couleurs_act["rouge"],
+    size = 1.6
+  ) +
+  annotate(
+    "text",
+    x = F - 15000,
+    y = 36500,
+    label = "F = 600 000 $\ne = 35 294 $",
+    colour = couleurs_act["rouge"],
+    fontface = "bold",
+    hjust = 0,
+    vjust = 0
+  ) +
+  annotate(
+    "text",
+    x = valeur_propriete - 30000,
+    y = 3500,
+    label = "cV = 637 500 $\ne = 0 $",
+    colour = couleurs_act["rouge"],
+    fontface = "bold",
+    hjust = 1,
+    vjust = 0
+  ) +
+  scale_x_continuous(
+    breaks = c(0, 200000, 400000, F, valeur_propriete),
+    labels = scales::label_number(big.mark = " ", suffix = " $", accuracy = 1),
+    expand = expansion(mult = c(0.01, 0.02))
+  ) +
+  scale_y_continuous(
+    limits = c(-1000, 45000),
+    breaks = seq(0, 40000, by = 5000),
+    labels = scales::label_number(big.mark = " ", suffix = " $", accuracy = 1),
+    expand = expansion(mult = c(0, 0))
+  ) +
+  labs(
+    x = "Montant de la perte",
+    y = "Pénalité de coassurance"
+  ) +
+  theme_act +
+  theme(axis.title.x = element_text(hjust = 0.5))
+```
+:::
+:::
+
+::: {.question}
+Calculer le taux par 1 000 \$ à charger pour cette propriété en supposant qu’aucune pénalité de coassurance n’est utilisée.
+
+::: {.solution}
+Le montant d’assurance représente 80 % de la valeur de la propriété, soit moins que le pourcentage de coassurance exigé. Sans pénalité, le taux doit correspondre aux paiements que le produit versera réellement.
+
+Pour une perte totale, l’assurance paie 600 000 \$. Pour une perte partielle, elle paie le montant du sinistre jusqu’à 600 000 \$, puis 600 000 \$ au-delà.
+
+$$
+\begin{aligned}
+\text{Paiement moyen conditionnel à une perte partielle}
+&= \frac{1}{750\,000}\int_0^{600\,000} x\,dx
++ 600\,000\left(\frac{1}{750\,000}\int_{600\,000}^{750\,000} dx\right) \\
+&= 360\,000, \\
+\text{Sinistres espérés}
+&= 0.02\left[0.7(360\,000) + 0.3(600\,000)\right]
+= 8\,640, \\
+\text{Taux par 1\,000\ \text{\$} d’assurance}
+&= \frac{8\,640}{600\,000 / 1\,000}
+= \textbf{14.40\ \text{\$}}.
+\end{aligned}
+$$
+:::
+:::
+::::
+
+:::: {.question}
+(CAS Examen 5, 2012 – Q15)
+
+Avec les informations suivantes sur la distribution du coût de réclamation espéré pour des propriétés avec un coût de remplacement de 350 000 \$ :
+
+| Paiement de réclamation | Probabilité |
+|--:|--:|
+| 0 \$ | 97,0 % |
+| 10 000 \$ | 1,5 % |
+| 50 000 \$ | 0,8 % |
+| 200 000 \$ | 0,5 % |
+| 350 000 \$ | 0,2 % |
+
+- Il n’y a aucune dépense et le profit cible est de 0 %.
+
+::: {.question}
+Calculer la prime pure par 1 000 \$ d’assurance en supposant que tous les assurés achètent une couverture complète.
+
+::: {.solution}
+$$
+\begin{aligned}
+\text{Sinistres espérés}
+&= 0(0.970) + 10\,000(0.015) + 50\,000(0.008) + 200\,000(0.005) + 350\,000(0.002) \\
+&= 2\,250\ \text{\$}, \\
+\text{Prime pure par 1\,000\ \text{\$} d’assurance}
+&= \frac{2\,250}{350\,000 / 1\,000}
+= \textbf{6.4286\ \text{\$}}.
+\end{aligned}
+$$
+:::
+:::
+
+::: {.question}
+Démontrer avec un exemple que l’utilisation d’un taux fixe par 1 000 \$ d’assurance est inéquitable si un sous-groupe d’assurés achète seulement une couverture partielle.
+
+::: {.solution}
+Pour les assurés qui achètent une police avec une limite de 350 000 \$, la prime payée est $350\,000 \times 6.4286 / 1\,000 = 2\,250\ \text{\$}$, égale aux sinistres espérés.
+
+Pour un assuré qui achète une police avec une limite de 10 000 \$ pour une propriété dont le coût de remplacement est de 350 000 \$, la prime est $10\,000 \times 6.4286 / 1\,000 = 64.29\ \text{\$}$. Cependant, ses sinistres espérés sont :
+
+$$
+0(0.970) + 10\,000(0.015 + 0.008 + 0.005 + 0.002) = 300\ \text{\$}, 
+$$
+
+ce qui est supérieur à 64,29 \$.
+:::
+:::
+
+::: {.question}
+Décrire deux initiatives d’un assureur qui réduiraient l’iniquité décrite en b), et expliquer de quelle façon ces initiatives réduiraient cette iniquité.
+
+::: {.solution}
+1. **Clause de coassurance.** Réduire le montant payable aux assurés qui achètent une couverture partielle. Cette mesure est plus équitable, car elle réduit les sinistres remboursés pour compenser la prime plus petite découlant d’une limite inférieure.
+2. **Faire varier le taux selon le niveau d’assurance à la valeur.** Cette mesure rétablit l’équité, car la prime payée représente les sinistres espérés.
+:::
+:::
+::::
+
+::: {.question}
+(CAS Examen 5, 2009 – Q40)
+
+Avec les données suivantes :
+
+- La propriété est évaluée à 500 000 \$.
+- Le pourcentage de coassurance exigé est de 88 % de la valeur de la propriété.
+- Le montant d’assurance de la police est de 300 000 \$.
+
+Dessiner et libeller le graphique de la fonction de pénalité de coassurance.
+
+::: {.solution}
+$$
+\begin{aligned}
+V &= 500\,000, \\
+cV &= 0.88(500\,000) = 440\,000, \\
+F &= 300\,000, \\
+a &= \min\left(1.0, \frac{F}{cV}\right)
+= 0.68181818.
+\end{aligned}
+$$
+
+La pénalité maximale survient lorsque $L = F = 300\,000$. Dans ce cas :
+
+$$
+e = 300\,000 - 0.6818(300\,000) = 95\,454.5.
+$$
+
+```{r}
+#| label: exercice-9-penalite-coassurance
+#| fig-width: 8
+#| fig-height: 4
+#| fig-alt: "Pénalité de coassurance pour une propriété de 500 000 dollars, assurée pour 300 000 dollars avec une exigence de coassurance de 88 pour cent. La pénalité augmente linéairement de zéro jusqu’à 95 455 dollars quand la perte atteint F, soit 300 000 dollars, puis diminue jusqu’à zéro à cV, soit 440 000 dollars et demeure nulle ensuite."
+
+F <- 300000
+valeur_propriete <- 500000
+pourcentage_coassurance <- 0.88
+cV <- pourcentage_coassurance * valeur_propriete
+a <- min(F / cV, 1)
+
+perte <- seq(0, valeur_propriete, by = 1000)
+penalite <- data.frame(
+  perte = perte,
+  penalite_coassurance = pmin(perte, F) - pmin(perte * a, F)
+)
+points_critiques <- subset(penalite, perte %in% c(0, F, cV))
+
+ggplot(penalite, aes(perte, penalite_coassurance)) +
+  geom_vline(
+    xintercept = c(F, cV),
+    colour = couleurs_act["gris"],
+    linetype = "dashed",
+    linewidth = 0.4
+  ) +
+  geom_area(fill = couleurs_act["or"], alpha = 0.22) +
+  geom_line(colour = couleurs_act["bleu"], linewidth = 0.8) +
+  geom_point(
+    data = points_critiques,
+    colour = couleurs_act["rouge"],
+    size = 1.6
+  ) +
+  annotate(
+    "text",
+    x = F,
+    y = 106000,
+    label = "F = 300 000 $\ne = 95 455 $",
+    colour = couleurs_act["rouge"],
+    fontface = "bold",
+    hjust = 0,
+    vjust = 0
+  ) +
+  annotate(
+    "text",
+    x = cV - 10000,
+    y = 9000,
+    label = "cV = 440 000 $\ne = 0 $",
+    colour = couleurs_act["rouge"],
+    fontface = "bold",
+    hjust = 1,
+    vjust = 0
+  ) +
+  scale_x_continuous(
+    breaks = c(0, 100000, 200000, F, valeur_propriete),
+    labels = scales::label_number(big.mark = " ", suffix = " $", accuracy = 1),
+    expand = expansion(mult = c(0.01, 0.02))
+  ) +
+  scale_y_continuous(
+    limits = c(-2000, 125000),
+    breaks = seq(0, 120000, by = 20000),
+    labels = scales::label_number(big.mark = " ", suffix = " $", accuracy = 1),
+    expand = expansion(mult = c(0, 0))
+  ) +
+  labs(
+    x = "Montant de la perte",
+    y = "Pénalité de coassurance"
+  ) +
+  theme_act +
+  theme(axis.title.x = element_text(hjust = 0.2))
+```
+:::
+:::
+
+::: {.question}
+(CAS Examen 5, Automne 2013 – Q13)
+
+Le directeur de la souscription d’une compagnie offrant de l’assurance habitation informe le directeur de l’actuariat qu’une analyse a été faite sur le coût de remplacement de toutes les habitations dans le portefeuille. Le portefeuille contient seulement deux territoires, A et B.
+
+L’analyse indique que, depuis les 10 dernières années, toutes les habitations du territoire A ont été uniformément sous-assurées de 20 %, alors que toutes les habitations du territoire B ont été adéquatement assurées. Le contrat d’assurance courant ne contient aucune clause de coassurance. Le directeur de l’actuariat sait que la structure de tarification a été complètement revue dans la dernière année.
+
+Discuter du niveau global de suffisance des primes, du niveau de suffisance des primes par territoire et de l’équité parmi les assurés.
+
+::: {.solution}
+La question est difficile et demande une bonne compréhension de plusieurs concepts de la classification spéciale.
+
+Puisque la situation est la même depuis 10 ans, on suppose que les taux ont été calculés avec le niveau d’assurance actuel. Le différentiel par territoire tient donc compte de la différence de prime pure par territoire. Il capte l’effet des niveaux d’assurance différents : toutes choses égales par ailleurs, le différentiel du territoire A est plus élevé que celui du territoire B pour compenser le fait qu’une même maison assurée pour $0.8X$ dans le territoire A est assurée pour $X$ dans le territoire B.
+
+Le niveau de primes global et le niveau de primes par territoire devraient donc être adéquats.
+
+Les assurés du territoire B paient une prime adéquate correspondant aux coûts espérés. Puisque toutes les habitations du territoire A sont sous-assurées et que le différentiel territorial compense cette sous-assurance, les assurés du territoire A paient aussi une prime correspondant aux coûts espérés. Les primes sont donc équitables.
+:::
+:::
