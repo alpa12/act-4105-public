@@ -74,20 +74,51 @@ $$
 :::
 :::
 
+```{=typst}
+#pagebreak(weak: true)
+```
+
 :::: {.question}
 (CAS Examen 5, Automne 2013 – Q11)
 
 Avec les données suivantes, la limite de base est de 100 000 \$.
 
-Les abréviations K et M représentent respectivement 1 000 \$ et 1 000 000 \$. Dans le tableau, $n$ est le nombre de réclamations et $S$ les sinistres, en M \$.
+Dans le tableau, $n$ est le nombre de réclamations et les sinistres sont en M \$.
 
 ::: {smart-tables-column-1="formula" smart-tables-column-2="numeric" smart-tables-column-3="numeric" smart-tables-column-4="numeric" smart-tables-column-5="numeric" smart-tables-column-6="numeric" smart-tables-column-7="numeric" smart-tables-text-size="0.85em"}
 
-| Perte | 100 K<br>$n$ | 100 K<br>$S$ | 250 K<br>$n$ | 250 K<br>$S$ | 500 K<br>$n$ | 500 K<br>$S$ |
-|:--|--:|--:|--:|--:|--:|--:|
-| $X \leq 100\,\text{K}$ | 100 | 8,0 | 35 | 1,8 | 35 | 1,8 |
-| $100\,\text{K} < X \leq 250\,\text{K}$ | — | — | 40 | 7,4 | 25 | 3,9 |
-| $250\,\text{K} < X \leq 500\,\text{K}$ | — | — | — | — | 15 | 5,2 |
+```{r}
+#| label: exercice-2-sinistres-par-limite
+#| echo: false
+#| output: asis
+
+tableau_limites <- data.frame(
+  perte = c(
+    "$X \\leq 100\\,\\text{K}$",
+    "$100\\,\\text{K} < X \\leq 250\\,\\text{K}$",
+    "$250\\,\\text{K} < X \\leq 500\\,\\text{K}$"
+  ),
+  n_100 = c("100", "—", "—"),
+  s_100 = c("8,0", "—", "—"),
+  n_250 = c("35", "40", "—"),
+  s_250 = c("1,8", "7,4", "—"),
+  n_500 = c("35", "25", "15"),
+  s_500 = c("1,8", "3,9", "5,2")
+)
+names(tableau_limites) <- c(
+  "Montant de la perte", rep(c("Nombre ($n$)", "Sinistres"), 3)
+)
+
+tarifr::afficher_table(
+  tableau_limites,
+  align = c("l", rep("r", 6)),
+  entetes_groupes = list(
+    list(label = "Polices avec une limite de 100 K\\$", colonnes = 2:3),
+    list(label = "Polices avec une limite de 250 K\\$", colonnes = 4:5),
+    list(label = "Polices avec une limite de 500 K\\$", colonnes = 6:7)
+  )
+)
+```
 
 :::
 
@@ -119,17 +150,23 @@ $$
 Pour $LAS(250\,000)$, on n’utilise ensuite que les polices avec une limite de 250 000 \$ ou de 500 000 \$ :
 
 $$
-\begin{aligned}
 P(X > 100\,000)
-&= \frac{40 + 25 + 15}{35 + 35 + 40 + 25 + 15}
-= 0.53333333, \\
-\text{Sévérité dans la tranche de 100\,000 à 250\,000}
-&= \frac{7\,400\,000 - 40(100\,000) + 3\,900\,000 - 25(100\,000) + 15(250\,000 - 100\,000)}{40 + 25 + 15} \\
-&= 88\,125, \\
-LAS(250\,000)
-&= 78\,400 + 0.53333333(88\,125)
-= 125\,400.
+= \frac{40 + 25 + 15}{35 + 35 + 40 + 25 + 15}
+= 0.53333333.
+$$
+
+La sévérité dans la tranche de 100 000 \$ à 250 000 \$ est :
+
+$$
+\begin{aligned}
+&\frac{7\,400\,000 - 40(100\,000) + 3\,900\,000 - 25(100\,000)}{40 + 25 + 15} \\
+&\qquad + \frac{15(250\,000 - 100\,000)}{40 + 25 + 15}
+= 88\,125.
 \end{aligned}
+$$
+
+$$
+LAS(250\,000) = 78\,400 + 0.53333333(88\,125) = 125\,400.
 $$
 
 $$
@@ -186,14 +223,15 @@ LAS(100\,000)
 $$
 
 $$
-\begin{aligned}
 P(X > 100\,000)
-&= \frac{35 + 50 + 30}{120 + 280}
-= 0.2875, \\
-\text{Sévérité dans la tranche de 100\,000 à 300\,000}
-&= \frac{200\,000(35 + 50 + 30)}{35 + 50 + 30}
-= 200\,000.
-\end{aligned}
+= \frac{35 + 50 + 30}{120 + 280}
+= 0.2875.
+$$
+
+La sévérité dans la tranche de 100 000 \$ à 300 000 \$ est :
+
+$$
+\frac{200\,000(35 + 50 + 30)}{35 + 50 + 30} = 200\,000.
 $$
 
 Toutes les pertes supérieures à 100 000 \$ sont aussi supérieures à 300 000 \$; la sévérité dans cette tranche est donc de 200 000 \$.
@@ -256,10 +294,14 @@ Calculer le ratio d’élimination des pertes pour passer d’une police avec un
 | 8 000 \$ | 8 000 \$ | 7 500 \$ | 500 \$ | 0,05 |
 
 $$
-LER
-= \frac{100(0.20) + 250(0.10) + 500(0.15 + 0.30 + 0.20 + 0.05)}{100(0.20) + 250(0.10) + 500(0.15) + 1\,000(0.30) + 3\,000(0.20) + 8\,000(0.05)}
+\begin{aligned}
+N &= 100(0.20) + 250(0.10) + 500(0.15 + 0.30 + 0.20 + 0.05), \\
+D &= 100(0.20) + 250(0.10) + 500(0.15) \\
+  &\quad + 1\,000(0.30) + 3\,000(0.20) + 8\,000(0.05), \\
+LER &= \frac{N}{D}
 = \frac{395}{1\,420}
 = \textbf{0.2782}.
+\end{aligned}
 $$
 :::
 :::
@@ -283,7 +325,7 @@ $$
 = 21.315, \\
 \text{Prime avec franchise de 500}
 &= \frac{153.8583 + 21.315 + 31.70}{1 - 0.22 - 0.02}
-= \textbf{272.20\ \text{\$}}.
+= \mathbf{272.20}\ \text{\$}.
 \end{aligned}
 $$
 :::
@@ -311,9 +353,13 @@ Utiliser l’approche du ratio d’élimination des pertes pour calculer le cré
 Les sinistres censurés sont disponibles. On prend le plus de données possible, mais seulement les polices avec une franchise d’au plus 750 \$, puisqu’on ne connaît pas les sinistres sous la franchise pour les polices avec une franchise de 1 000 \$.
 
 $$
-LER
-= \frac{(772\,000 - 605\,000) + (4\,024\,000 - 3\,505\,000) + (8\,244\,000 - 7\,345\,000) + (3\,230\,000 - 2\,926\,000)}{772\,000 + 4\,024\,000 + 8\,244\,000 + 3\,230\,000}
+\begin{aligned}
+N &= (772\,000 - 605\,000) + (4\,024\,000 - 3\,505\,000) \\
+  &\quad + (8\,244\,000 - 7\,345\,000) + (3\,230\,000 - 2\,926\,000), \\
+D &= 772\,000 + 4\,024\,000 + 8\,244\,000 + 3\,230\,000, \\
+LER &= \frac{N}{D}
 = \textbf{0.1161}.
+\end{aligned}
 $$
 :::
 :::
@@ -343,7 +389,7 @@ Avec l’information suivante pour une propriété :
 Dessiner un graphique de pénalité de coassurance en fonction du montant de sinistre. Marquer et donner les valeurs des points critiques.
 
 ::: {.solution}
-Soit $F = 600\,000$, $c = 0.85$ et $V = 750\,000$. Ainsi, $cV = 637\,500$.
+Soit $F = 600\,000$ le montant d’assurance, $c = 0.85$ le pourcentage de coassurance, $V = 750\,000$ la valeur de la propriété, $L$ le montant du sinistre et $I$ l’indemnité payée. Ainsi, $cV = 637\,500$.
 
 Pour un sinistre de 0 \$, la pénalité est nulle. Pour un sinistre de 600 000 \$, la pénalité maximale est :
 
@@ -355,6 +401,7 @@ Il n’y a plus de pénalité à partir de $cV = 637\,500$. Pour les sinistres e
 
 ```{r}
 #| label: exercice-7-penalite-coassurance
+#| echo: false
 #| fig-width: 8
 #| fig-height: 4
 #| fig-alt: "Pénalité de coassurance pour une propriété de 750 000 dollars, assurée pour 600 000 dollars avec une exigence de coassurance de 85 pour cent. La pénalité augmente linéairement de zéro jusqu’à 35 294 dollars quand la perte atteint F, soit 600 000 dollars, puis diminue jusqu’à zéro à cV, soit 637 500 dollars."
@@ -365,7 +412,7 @@ pourcentage_coassurance <- 0.85
 cV <- pourcentage_coassurance * valeur_propriete
 a <- min(F / cV, 1)
 
-perte <- seq(0, valeur_propriete, by = 1000)
+perte <- sort(unique(c(seq(0, valeur_propriete, by = 1000), F, cV)))
 penalite <- data.frame(
   perte = perte,
   penalite_coassurance = pmin(perte, F) - pmin(perte * a, F)
@@ -433,20 +480,26 @@ Calculer le taux par 1 000 \$ à charger pour cette propriété en supposant q
 ::: {.solution}
 Le montant d’assurance représente 80 % de la valeur de la propriété, soit moins que le pourcentage de coassurance exigé. Sans pénalité, le taux doit correspondre aux paiements que le produit versera réellement.
 
-Pour une perte totale, l’assurance paie 600 000 \$. Pour une perte partielle, elle paie le montant du sinistre jusqu’à 600 000 \$, puis 600 000 \$ au-delà.
+Pour une perte totale, l’assurance paie 600 000 \$. Pour une perte partielle, elle paie le montant du sinistre jusqu’à 600 000 \$, puis 600 000 \$ au-delà. Le paiement moyen conditionnel à une perte partielle est donc :
 
 $$
 \begin{aligned}
-\text{Paiement moyen conditionnel à une perte partielle}
-&= \frac{1}{750\,000}\int_0^{600\,000} x\,dx
+&\frac{1}{750\,000}\int_0^{600\,000} x\,dx
 + 600\,000\left(\frac{1}{750\,000}\int_{600\,000}^{750\,000} dx\right) \\
-&= 360\,000, \\
+&= 360\,000\ \text{\$}.
+\end{aligned}
+$$
+
+Les sinistres espérés et le taux par 1 000 \$ d’assurance sont alors :
+
+$$
+\begin{aligned}
 \text{Sinistres espérés}
 &= 0.02\left[0.7(360\,000) + 0.3(600\,000)\right]
-= 8\,640, \\
-\text{Taux par 1\,000\ \text{\$} d’assurance}
+= 8\,640\ \text{\$}, \\
+\text{Taux}
 &= \frac{8\,640}{600\,000 / 1\,000}
-= \textbf{14.40\ \text{\$}}.
+= \mathbf{14.40}\ \text{\$}.
 \end{aligned}
 $$
 :::
@@ -475,12 +528,16 @@ Calculer la prime pure par 1 000 \$ d’assurance en supposant que tous les as
 $$
 \begin{aligned}
 \text{Sinistres espérés}
-&= 0(0.970) + 10\,000(0.015) + 50\,000(0.008) + 200\,000(0.005) + 350\,000(0.002) \\
-&= 2\,250\ \text{\$}, \\
-\text{Prime pure par 1\,000\ \text{\$} d’assurance}
-&= \frac{2\,250}{350\,000 / 1\,000}
-= \textbf{6.4286\ \text{\$}}.
+&= 0(0.970) + 10\,000(0.015) + 50\,000(0.008) \\
+&\quad + 200\,000(0.005) + 350\,000(0.002) \\
+&= 2\,250\ \text{\$}.
 \end{aligned}
+$$
+
+La prime pure par tranche de 1 000 \$ d’assurance est :
+
+$$
+\frac{2\,250}{350\,000 / 1\,000} = \mathbf{6.4286}\ \text{\$}.
 $$
 :::
 :::
@@ -489,7 +546,7 @@ $$
 Démontrer avec un exemple que l’utilisation d’un taux fixe par 1 000 \$ d’assurance est inéquitable si un sous-groupe d’assurés achète seulement une couverture partielle.
 
 ::: {.solution}
-Pour les assurés qui achètent une police avec une limite de 350 000 \$, la prime payée est $350\,000 \times 6.4286 / 1\,000 = 2\,250\ \text{\$}$, égale aux sinistres espérés.
+Pour les assurés qui achètent une police avec une limite de 350 000 \$, la prime payée est d’environ $350\,000 \times 6.4286 / 1\,000 = 2\,250\ \text{\$}$, égale aux sinistres espérés avant arrondissement.
 
 Pour un assuré qui achète une police avec une limite de 10 000 \$ pour une propriété dont le coût de remplacement est de 350 000 \$, la prime est $10\,000 \times 6.4286 / 1\,000 = 64.29\ \text{\$}$. Cependant, ses sinistres espérés sont :
 
@@ -506,7 +563,7 @@ Décrire deux initiatives d’un assureur qui réduiraient l’iniquité décrit
 
 ::: {.solution}
 1. **Clause de coassurance.** Réduire le montant payable aux assurés qui achètent une couverture partielle. Cette mesure est plus équitable, car elle réduit les sinistres remboursés pour compenser la prime plus petite découlant d’une limite inférieure.
-2. **Faire varier le taux selon le niveau d’assurance à la valeur.** Cette mesure rétablit l’équité, car la prime payée représente les sinistres espérés.
+2. **Faire varier le taux selon le niveau d’assurance à la valeur.** Fixer le taux de chaque niveau selon ses sinistres espérés permet d’ajuster la prime au coût de la couverture.
 :::
 :::
 ::::
@@ -536,13 +593,15 @@ $$
 La pénalité maximale survient lorsque $L = F = 300\,000$. Dans ce cas :
 
 $$
-e = 300\,000 - 0.6818(300\,000) = 95\,454.5.
+e = 300\,000 - \frac{300\,000}{440\,000}(300\,000) \approx 95\,455\ \text{\$}.
 $$
 
 ```{r}
 #| label: exercice-9-penalite-coassurance
+#| echo: false
 #| fig-width: 8
 #| fig-height: 4
+#| out-width: "80%"
 #| fig-alt: "Pénalité de coassurance pour une propriété de 500 000 dollars, assurée pour 300 000 dollars avec une exigence de coassurance de 88 pour cent. La pénalité augmente linéairement de zéro jusqu’à 95 455 dollars quand la perte atteint F, soit 300 000 dollars, puis diminue jusqu’à zéro à cV, soit 440 000 dollars et demeure nulle ensuite."
 
 F <- 300000

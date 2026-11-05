@@ -149,7 +149,7 @@ Cependant, comme ce sont des sinistres peu fréquents, les résultats de ces ana
 ### Notation
 
 - **$ILF(H)$** : Facteur de limite augmentée pour la limite $H$.
-- **$B$** : Taux de base (pour la limite de base).
+- **$B$** : Limite de base.
 - **$H$** : Limite sélectionnée.
 - **$LAS(H)$** : Sévérité des sinistres écrêtés à $H$ (*limited average severity* à $H$).
 
@@ -1101,7 +1101,7 @@ Le but d’une clause de coassurance est d’atteindre une plus grande équité 
 Le montant d’indemnité payable est :
 
 $$
-I = L \times \frac{F}{cV}, \qquad I \leq F \quad \text{et} \quad I \leq L
+I = \min(La, F)
 $$
 
 ---
