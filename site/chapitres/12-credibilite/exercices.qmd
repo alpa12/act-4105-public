@@ -30,7 +30,7 @@ $$
 \operatorname{E}(Y)
 = \left(\frac{z_{(p+1)/2}}{k}\right)^2
 = \left(\frac{1.96}{0.10}\right)^2
-= 384
+= 384.16 \rightarrow 385
 $$
 
 :::
@@ -168,9 +168,9 @@ On vous donne l’information suivante :
 - Tendance annuelle dans les sinistres : 10 %.
 - Le dernier changement demandé aux autorités était de 20 %.
 - Un changement de taux de 15 % avait été approuvé.
-- La date d’implantation demandée était le 2006/01/01.
-- La date d’implantation réelle a été le 2006/06/01.
-- La date d’implantation proposée pour le prochain changement est le 2008/01/01.
+- La date d’implantation demandée était le {{< dynamic-date "YYYY-01-01" -1 >}}.
+- La date d’implantation réelle a été le {{< dynamic-date "YYYY-06-01" -1 >}}.
+- La date d’implantation proposée pour le prochain changement est le {{< dynamic-date "YYYY-01-01" 1 >}}.
 
 ::: {.question}
 Calculer le complément de crédibilité en utilisant la méthode des taux présents projetés.
@@ -186,7 +186,7 @@ C = \text{Taux actuel}
              {1 + \text{changement de taux implanté dans la dernière analyse}}
 $$
 
-Pour calculer le facteur de tendance dans les sinistres, la période de projection va de la date d’implantation prévue lors du dernier changement de taux, le 2006/01/01, à la date d’implantation prévue du prochain changement, le 2008/01/01. La période de projection est donc de deux ans.
+Pour calculer le facteur de tendance dans les sinistres, la période de projection va de la date d’implantation prévue lors du dernier changement de taux, le {{< dynamic-date "YYYY-01-01" -1 >}}, à la date d’implantation prévue du prochain changement, le {{< dynamic-date "YYYY-01-01" 1 >}}. La période de projection est donc de deux ans.
 
 $$
 C = 200 \times 1.10^2 \times \frac{1.20}{1.15} = 252.52
@@ -287,7 +287,7 @@ $$
 
 Vous faites une révision de taux pour la responsabilité civile générale commerciale et vous avez l’information suivante :
 
-|  | 2002 | 2003 | 2004 |
+|  | {{< dynamic-year -3 >}} | {{< dynamic-year -2 >}} | {{< dynamic-year -1 >}} |
 |:---|---:|---:|---:|
 | Taux de sinistre ultime projeté | 45 % | 65 % | 52 % |
 | Poids accordé à l’année | 20 % | 30 % | 50 % |
@@ -302,8 +302,8 @@ Vous faites une révision de taux pour la responsabilité civile générale comm
 
 | Résumé de la dernière analyse | Valeur |
 |:---|:---|
-| Date d’implantation prévue lors de la dernière analyse de changement de taux | 2005/06/01 |
-| Date d’effet du dernier changement de taux | 2006/09/01 |
+| Date d’implantation prévue lors de la dernière analyse de changement de taux | {{< dynamic-date "YYYY-06-01" >}} |
+| Date d’effet prévue du nouveau changement de taux | {{< dynamic-date "YYYY-09-01" 1 >}} |
 | Indiqué lors de la dernière analyse | 8 % |
 | Dernier changement de taux implanté | 3 % |
 
@@ -328,9 +328,9 @@ Le taux de sinistre ultime projeté est déjà donné pour chaque année. Le tau
 
 | Année | Taux de sinistre ultime projeté | Poids |
 |---:|---:|---:|
-| 2002 | 0.45 | 0.2 |
-| 2003 | 0.65 | 0.3 |
-| 2004 | 0.52 | 0.5 |
+| {{< dynamic-year -3 >}} | 0.45 | 0.2 |
+| {{< dynamic-year -2 >}} | 0.65 | 0.3 |
+| {{< dynamic-year -1 >}} | 0.52 | 0.5 |
 | **Total** | **$0.45 \times 0.2 + 0.65 \times 0.3 + 0.52 \times 0.5 = 0.545$** | **–** |
 
 En assumant que tous les frais sont variables :
@@ -360,7 +360,7 @@ C =
      {1 + \text{changement de taux implanté dans la dernière analyse}}
 $$
 
-La période de projection va de la date d’implantation prévue des taux courants, le 2005/06/01, à la date d’implantation prévue des nouveaux taux, le 2006/09/01 : elle est de 1.25 année.
+La période de projection va de la date d’implantation prévue des taux courants, le {{< dynamic-date "YYYY-06-01" >}}, à la date d’implantation prévue des nouveaux taux, le {{< dynamic-date "YYYY-09-01" 1 >}} : elle est de 1.25 année.
 
 $$
 C = \frac{(1.02 \times 1.04)^{1.25}}{1.03^{1.25}}
@@ -430,9 +430,9 @@ Utiliser l’information suivante pour déterminer le changement de taux indiqu�
 
 | Année de police | Primes acquises au taux courant projetées | Sinistres ultimes projetés, incluant les frais de règlement de sinistres | Nombre de réclamations | Poids accordé à l’année |
 |---:|---:|---:|---:|---:|
-| 2001 | 123 000\$ | 98 000\$ | 338 | 0.2 |
-| 2002 | 157 000\$ | 143 000\$ | 507 | 0.3 |
-| 2003 | 218 000\$ | 137 000\$ | 480 | 0.5 |
+| {{< dynamic-year -3 >}} | 123 000\$ | 98 000\$ | 338 | 0.2 |
+| {{< dynamic-year -2 >}} | 157 000\$ | 143 000\$ | 507 | 0.3 |
+| {{< dynamic-year -1 >}} | 218 000\$ | 137 000\$ | 480 | 0.5 |
 
 - Standard de crédibilité : 3 000 réclamations. La règle de la racine carrée est utilisée pour la crédibilité partielle.
 - Complément de crédibilité pour le taux de sinistre : 0.68.
@@ -445,9 +445,9 @@ Nous utilisons la méthode du taux de sinistre, puisque les sinistres et les pri
 
 | Année de police | Primes acquises au taux courant projetées | Sinistres ultimes projetés | Taux de sinistre ultime projeté |
 |---:|---:|---:|---:|
-| 2001 | 123 K | 98 K | $98 / 123 = 0.7967$ |
-| 2002 | 157 K | 143 K | $143 / 157 = 0.9108$ |
-| 2003 | 218 K | 137 K | $137 / 218 = 0.6284$ |
+| {{< dynamic-year -3 >}} | 123 K | 98 K | $98 / 123 = 0.7967$ |
+| {{< dynamic-year -2 >}} | 157 K | 143 K | $143 / 157 = 0.9108$ |
+| {{< dynamic-year -1 >}} | 218 K | 137 K | $137 / 218 = 0.6284$ |
 | **Total** | **498 K** | **378 K** | **$0.7967 \times 0.2 + 0.9108 \times 0.3 + 0.6284 \times 0.5 = 0.7468$** |
 
 $$
