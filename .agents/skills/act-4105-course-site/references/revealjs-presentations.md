@@ -19,6 +19,7 @@ Chapter `_metadata.yml` supplies listing metadata. Update it when replacing plac
 ## Shared Configuration
 
 - `site/chapitres/_diapos.yml` configures both `revealjs` and `clean-revealjs`.
+- Shared `lightbox: true` enables Quarto lightboxes for slide figures in chapter and review decks. `site/includes/revealjs-lightbox-controls.html` prevents RevealJS navigation keys from acting while a lightbox is open.
 - Presentations are top aligned by default with `center: false`; use `.center` on a heading for an exceptional centered content slide.
 - Use `revealjs: default`; the shared metadata supplies the local Clean theme and presentation CSS.
 - If local chapter CSS is needed, load `/styles/diapos.css`, `/styles/diapos-clean.css`, then the chapter-local `diapos.css`.

@@ -1,9 +1,13 @@
 ---
-title: "Classification spéciale"
-description: "Présente l’analyse des territoires, la tarification des limites augmentées et des franchises, ainsi que l’assurance à la valeur."
-label: "Classification spéciale"
+title: "Classification multivariée et classification spéciale"
+description: "Présente la classification multivariée et la classification spéciale des risques."
+label: "Classification multivariée et classification spéciale"
 week-id: 11
 chapitres:
+  - path: /chapitres/10-classification-multivariee
+    title: "Classification multivariée"
   - path: /chapitres/11-classification-speciale
     title: "Classification spéciale"
 ---
+
+Les chapitres 10 et 11 seront vus pendant ce cours, le 10 novembre, à la suite de l’annulation du cours du 3 novembre.

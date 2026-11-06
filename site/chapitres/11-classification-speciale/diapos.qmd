@@ -4,6 +4,7 @@ format:
   revealjs: default
 execute:
   echo: false
+chapter-css: diapos.css
 metadata-files:
   - ../_diapos.yml
 ---
@@ -45,6 +46,7 @@ Ce chapitre est adapté du chapitre 11 du texte *Basic Ratemaking* :
 L'expérience de sinistre observée contient du signal et du bruit.
 
 - Le signal provient de facteurs **non géographiques** et **géographiques**.
+- Plusieurs facteurs non géographiques sont fortement corrélés avec la géographie (ex. : type de véhicule, âge du conducteur, etc.). 
 - L’analyse territoriale cherche à isoler l’effet géographique réel, après ajustement pour les autres variables.
 - Les écarts aléatoires entre petites zones ne doivent pas influencer directement la tarification.
 - Les assureurs définissent des territoires et utilisent ces territoires pour déterminer la prime de l’assuré.
@@ -58,6 +60,8 @@ La tarification des territoires implique normalement deux phases :
 
 ## Définir les frontières de chaque territoire
 
+### Unités géographiques de base
+
 On détermine d’abord une **unité géographique** de base qui est assez raffinée pour :
 
 - Être relativement homogène
@@ -70,52 +74,117 @@ Exemples d’unités géographiques :
 
 ---
 
-On utilisera ensuite un maximum de données liées à des données démographiques (ex. : densité de population, score de crédit moyen, etc.) et à des données géographiques (ex. : précipitations moyennes, taux de criminalité, etc.) pour finalement calculer le résidu pour chaque unité géographique.
+### Extraire le signal territorial
 
-:::::: {.rows .center}
-::::: {.row}
-:::: {.columns}
-::: {.column width="33%"}
-**Prédicteurs non-géographiques**
+::: {.text-smaller}
+
+- Dans le glm, on ajoute des variables explicatives géographiques et démographiques associées à chaque unité géographique aux variables de tarification déjà présentes.
+- Par la suite, les résidus du modèle sont analysés pour chaque unité géographique afin de déterminer si du signal géographique résiduel est présent.
+
 :::
-::: {.column width="33%"}
+
+::::: {.experience-schema}
+::: {.experience-total}
+Expérience de sinistre observée
+:::
+
+::: {.experience-signal}
+Signal
+:::
+
+::: {.experience-bruit}
+Bruit
+:::
+
+::: {.experience-facteur}
+**Prédicteurs non géographiques**
+
+Âge du conducteur  
+Type de véhicule
+:::
+
+::: {.experience-facteur}
 **Prédicteurs géographiques et démographiques**
+
+Densité de population  
+Précipitations moyennes
 :::
-::: {.column width="33%"}
-**Variation résiduelle liée à la géographie**
+
+::: {.experience-facteur}
+**Variation géographique résiduelle**
+
+Signal non expliqué par les prédicteurs du modèle
 :::
-::::
 :::::
-::::: {.row}
-:::: {.columns}
-::: {.column width="33%"}
-- Âge du conducteur
-- Type de véhicule
-:::
-::: {.column width="33%"}
-- Densité de population
-- Précipitations moyennes
-:::
-::: {.column width="33%"}
-:::
-::::
-:::::
-::::::
-
-
-
-
 
 ---
 
-Finalement, on effectue un lissage géographique puisque le risque géographique a tendance à être similaire pour des unités près les unes des autres.
+### Exemple
+
+Les résidus par code postal à trois caractères peuvent révéler une dépendance spatiale.
+
+:::: {.columns}
+::: {.column width="50%"}
+```{r}
+#| label: carte-residus-territoriaux
+#| fig-width: 6.5
+#| fig-height: 5
+#| fig-alt: "Carte fictive de la région de Québec par code postal à trois caractères. Plusieurs zones voisines au centre présentent des résidus négatifs, dont G1K à moins 600 dollars; ailleurs, certains résidus voisins sont positifs et d'autres sont plus disparates. Le résidu est calculé comme la sévérité observée moins la sévérité prédite."
+
+rta <- read.csv("assets/rta-region-quebec.csv")
+codes <- sort(unique(rta$rta))
+set.seed(4105)
+residus <- setNames(sample(seq(-500, 500, by = 100), length(codes), replace = TRUE), codes)
+
+# Deux groupes de codes voisins présentent un signal spatial; ailleurs, les
+# résidus sont tirés indépendamment pour illustrer une variation plus aléatoire.
+residus[c("G1K", "G1R", "G1L", "G1J", "G1E", "G1N")] <-
+  c(-600, -500, -400, -500, -400, -500)
+residus[c("G2A", "G2B", "G2C", "G2E", "G3K", "G3J")] <-
+  c(500, 400, 500, 400, 500, 400)
+rta$residu <- unname(residus[rta$rta])
+
+ggplot(rta, aes(longitude, latitude, group = polygone, subgroup = anneau)) +
+  geom_polygon(aes(fill = residu), colour = "white", linewidth = 0.25, rule = "evenodd") +
+  annotate("segment", x = -71.22, y = 46.81, xend = -71.13, yend = 46.91,
+           colour = "#252830", linewidth = 0.55) +
+  annotate("label", x = -71.13, y = 46.91, label = "G1K\n−600 $", hjust = 0,
+           fill = "white", colour = "#252830", size = 5, label.size = 0.25) +
+  scale_fill_gradient2(
+    low = "#0072B2", mid = "#f4f4f4", high = "#D55E00", midpoint = 0,
+    limits = c(-600, 600), breaks = c(-600, 0, 600),
+    labels = c("−600 $", "0 $", "+600 $"),
+    name = "Résidu moyen\nobservé − prédit"
+  ) +
+  coord_quickmap(xlim = c(-71.65, -70.98), ylim = c(46.65, 47.10), expand = FALSE) +
+  labs(caption = "Adapté de Statistique Canada, limites des RTA censitaires, 2021.\nCela ne constitue pas une approbation de ce produit par Statistique Canada. Résidus fictifs.") +
+  theme_void(base_size = 15) +
+  theme(legend.position = "right", plot.caption = element_text(hjust = 0, size = 10))
+```
+
+:::
+::: {.column width="50%"}
+Dans **G1K**, un résidu moyen de **−600 $** indique une sévérité prédite trop élevée : un effet territorial pourrait la réduire.
+:::
+::::
+
+---
+
+### Lissage spatial
+
+Par la suite, on effectue un lissage géographique puisque le risque géographique a tendance à être similaire pour des unités près les unes des autres.
 
 Deux types de lissage spatial :
 
 - **Basé sur la distance** : lissage des données qui donne davantage de poids aux unités géographiques plus près de l’unité analysée.
 - **Basé sur les régions adjacentes** : lissage des données qui donne davantage de poids aux unités géographiques ayant une frontière en commun avec l’unité analysée.
 
+Un équilibre est important : un lissage trop fort masque des différences réelles entre unités géographiques, mais un lissage trop faible laisse subsister du bruit.
+
+
 ---
+
+### Partitionnement en territoires {.english-subtitle subtitle="Clustering"}
 
 On groupe ensuite les unités en territoires avec l’objectif de minimiser l’hétérogénéité dans un même territoire mais de maximiser l’hétérogénéité entre les différents territoires.
 

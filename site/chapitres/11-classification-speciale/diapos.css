@@ -1,0 +1,53 @@
+.reveal .experience-schema {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.4rem;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.reveal .experience-schema > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0.55rem;
+  border-radius: 0.35rem;
+}
+
+.reveal .experience-schema p {
+  margin: 0;
+}
+
+.reveal .experience-total {
+  grid-column: 1 / -1;
+  min-height: 2.8rem;
+  background: #8b101b;
+  color: white;
+  font-weight: 600;
+}
+
+.reveal .experience-signal {
+  grid-column: 1 / 4;
+  min-height: 2.8rem;
+  background: #f4c04d;
+  font-weight: 600;
+}
+
+.reveal .experience-bruit {
+  grid-column: 4;
+  grid-row: 2 / 4;
+  background: #e5e7eb;
+  font-weight: 600;
+}
+
+.reveal .experience-facteur {
+  min-height: 4.8rem;
+  background: #fff2cd;
+  font-size: 0.7em;
+}
+
+.reveal .experience-facteur p + p {
+  margin-top: 0.4rem;
+  font-size: 0.85em;
+}
+

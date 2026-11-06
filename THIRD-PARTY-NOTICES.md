@@ -33,6 +33,13 @@ Carrier, qui a autorisé Alexandre Parent à l'adapter.
 
 ## Logiciels et ressources vendorisées
 
+- Les limites dans `site/chapitres/11-classification-speciale/assets/rta-region-quebec.csv`
+  sont adaptées de Statistique Canada, [Fichier des limites des régions de tri
+  d’acheminement censitaires, Recensement de 2021](https://www150.statcan.gc.ca/n1/fr/catalogue/92-179-X),
+  par l’intermédiaire des [limites simplifiées de canada_maps](https://github.com/sachijay/canada_maps).
+  Elles ont été transformées, découpées et arrondies; les résidus sont fictifs.
+  Cela ne constitue pas une approbation de ce produit par Statistique Canada.
+  Les données sont régies par la [Licence ouverte de Statistique Canada](https://www.statcan.gc.ca/fr/avis/licence-ouverte).
 - `site/_extensions/` est du code vendorisé immuable. Les extensions
   tierces, dont `grantmcdermott/clean` et `mcanouil/cascade`, conservent leurs
   avis et licences en amont; le fichier MIT de Cascade est conservé dans son

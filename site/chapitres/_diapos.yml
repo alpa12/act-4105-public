@@ -1,5 +1,6 @@
 subtitle: "Tarification en assurance IARD"
 title-prefix: ""
+lightbox: true
 html-math-method:
   method: mathjax
   url: /assets/vendor/mathjax/tex-mml-chtml-mathjax-newcm.js
@@ -29,6 +30,7 @@ format:
     include-after-body:
       - ../../includes/revealjs-extension-controls.html
       - ../../includes/revealjs-heading-underlines.html
+      - ../../includes/revealjs-lightbox-controls.html
     progress: false
     pdf-separate-fragments: false
     slide-number: c/t
@@ -58,6 +60,7 @@ format:
     include-after-body:
       - ../../includes/revealjs-extension-controls.html
       - ../../includes/revealjs-heading-underlines.html
+      - ../../includes/revealjs-lightbox-controls.html
     progress: false
     pdf-separate-fragments: false
     slide-number: c/t

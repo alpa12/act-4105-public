@@ -1,0 +1,14 @@
+<script>
+  document.addEventListener("keydown", (event) => {
+    if (!document.querySelector(".glightbox-container")) return;
+
+    if (event.key === "Escape") {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      window.lightboxQuarto?.close();
+    } else if (["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "PageUp", "PageDown", " "].includes(event.key)) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }
+  }, true);
+</script>
