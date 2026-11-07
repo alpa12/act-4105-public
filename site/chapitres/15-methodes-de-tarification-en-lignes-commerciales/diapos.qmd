@@ -17,8 +17,401 @@ Ce chapitre est adapté du chapitre 15 du texte *Basic Ratemaking* :
 - Techniques de modification du taux
 - Techniques de tarification pour les risques commerciaux de grande taille
 
-# Contenu en préparation {data-progress-label="À venir"}
+## Introduction
 
-## Tarification en lignes commerciales
+Pour un portefeuille d’assurance en lignes personnelles, on a souvent une quantité suffisante d’unités considérées relativement similaires pour appliquer les méthodes de tarification standard.
 
-Les notes de ce chapitre sont en préparation à partir du matériel de cours historique.
+En lignes commerciales, les unités sont trop différentes les unes des autres pour appliquer ces méthodes directement. De plus, la taille de certains risques commerciaux est tellement grande qu’on peut parfois utiliser leur propre expérience individuelle pour dériver leur taux.
+
+# Techniques de modification du taux {data-progress-label="Modification du taux"}
+
+## Techniques de modification du taux
+
+Deux techniques applicables en lignes commerciales :
+
+- *Experience rating*
+- *Schedule rating*
+
+## Experience rating
+
+L’*experience rating* est une technique utilisée lorsque l’expérience passée d’un assuré, avec ajustements appropriés, est **prédictive de son expérience future**.
+
+Ex. : restaurants (McDonald’s et restaurant du coin).
+
+---
+
+L’ajustement pour *experience rating* pour la période de police future est une combinaison de deux composantes :
+
+- Une composante reliée à l’expérience
+- Une composante reliée à l’espérance
+
+---
+
+La comparaison de la composante d’expérience avec la composante d’espérance peut se faire de plusieurs façons, mais on doit comparer des pommes avec des pommes :
+
+- Sinistres payés (et frais de règlement de sinistres) réels comparés aux sinistres (et frais de règlement de sinistres) espérés pour la période d’expérience, vus à une certaine date.
+- Sinistres rapportés (et frais de règlement de sinistres) réels comparés aux sinistres rapportés (et frais de règlement de sinistres) espérés pour la période d’expérience, vus à une certaine date.
+
+---
+
+- Sinistres ultimes (et frais de règlement de sinistres) projetés comparés aux sinistres ultimes (et frais de règlement de sinistres) espérés pour la période d’expérience.
+- Sinistres ultimes (et frais de règlement de sinistres) projetés ajustés aux unités d’exposition et dollars courants comparés aux sinistres ultimes (et frais de règlement de sinistres) espérés basés sur les unités d’exposition et dollars courants.
+
+---
+
+Éléments à considérer pour la composante d’expérience :
+
+- **Longueur de la période d’expérience** : généralement de 2 à 5 années de police, se terminant avec la dernière année complète. Une période plus courte est plus réactive au changement, mais sujette à des fluctuations plus grandes (moins d’unités d’exposition et sinistres plus immatures).
+- **Ajustement pour les sinistres non usuels ou catastrophiques** : limitation par événement (*maximum single limit per occurrence*, MSL). La limite peut s’appliquer aux sinistres ou aux sinistres et frais de règlement de sinistres. Si les sinistres réels sont limités, les sinistres espérés doivent aussi être sujets à cette même limite.
+
+---
+
+Éléments à considérer pour la composante d’expérience :
+
+- **Sinistres ultimes** : si la modification est basée sur les sinistres ultimes projetés, les sinistres et frais de règlement historiques de chaque année d’expérience doivent être développés au niveau ultime. Les sinistres espérés doivent être sur la même base.
+- **Ajustement aux unités d’exposition et dollars courants** : ajuster les sinistres historiques pour refléter l’inflation économique et sociale (par exemple, les changements dans les décisions juridiques), les changements dans les caractéristiques du risque (taille et type de compagnie) et les changements dans les limites de police.
+
+## Exemple de plan d’experience rating : responsabilité civile générale
+
+$$
+CD = \frac{AER - EER}{EER} \times Z
+$$
+
+- $CD$ : pourcentage de crédit ou de débit
+- $Z$ : crédibilité
+- $AER$ : ratio d’expérience réel (*actual experience ratio*), composante d’expérience qui mesure l’expérience réelle de la compagnie, sujette aux limitations du plan, relativement à l’expérience espérée représentée dans les taux du manuel
+- $EER$ : ratio d’expérience espéré (*expected experience ratio*), composante d’espérance
+
+:::: {.question title="Pourcentage de débit ou de crédit"}
+
+Exemple adapté de la question 12a de l’examen 5, printemps 2017 de la CAS.
+
+Pour un plan d’*experience rating* :
+
+- Sinistres rapportés, incluant les frais de règlement de sinistres alloués, limités par les limites de base et la limitation par événement (MSL), vus au 31 mars 2016 : 175 000 \$.
+- Sinistres et frais de règlement de sinistres alloués espérés utilisés dans les taux du manuel, en dollars de la période d’expérience : 225 000 \$.
+- Ratio d’expérience espéré ($EER$) : 0,875.
+- Pourcentage espéré des sinistres et frais de règlement de sinistres alloués non rapportés au 31 mars 2016 : 0,425.
+- Crédibilité : 0,35.
+
+Calculer le pourcentage de débit ou de crédit lié à l’expérience.
+
+::: {.solution}
+
+Le développement espéré des sinistres est :
+
+$$
+225\,000 \times 0.875 \times 0.425 = 83\,672
+$$
+
+$$
+\begin{aligned}
+AER &= \frac{175\,000 + 83\,672}{225\,000} = 1.15 \\
+CD &= \frac{1.15 - 0.875}{0.875} \times 0.35 = 0.11
+\end{aligned}
+$$
+
+:::
+::::
+
+## Schedule rating
+
+- Autre méthode qui modifie la prime du manuel pour établir la prime finale en lignes commerciales.
+- Elle considère les caractéristiques de risque non prises en compte dans la prime du manuel ou dans l’expérience passée, si on applique l’*experience rating*.
+
+---
+
+Le *schedule rating* applique des surcharges ou des crédits selon la présence de certains facteurs :
+
+- **Objectifs** : faciles à mesurer ou à quantifier.
+- **Subjectifs** : plus difficiles à mesurer, par exemple la qualité des gestionnaires d’une compagnie.
+
+Souvent, les surcharges ou crédits sont sujets à un maximum.
+
+## Exemples de schedule rating
+
+- **État général du bâtiment** (−10 % à +10 %) : état général, entretien ménager, entretien préventif, etc.
+- **Classification des risques** (−15 % à +15 %) : exposition supplémentaire non prise en compte dans la classe de risque ou élimination de certains risques.
+- **Installations médicales** (−5 % à +5 %) : trousse de premiers soins, assistance médicale sur place.
+- **Sécurité** (−15 % à +15 %) : programme de sécurité écrit, plan d’urgence, programme de contrôle des accidents, etc.
+- **Employés** (−15 % à +15 %) : formation des nouveaux employés et pour les postes demandant des compétences particulières.
+
+## Combinaison d’experience rating et de schedule rating
+
+Peut-on utiliser l’*experience rating* et le *schedule rating* pour la tarification ?
+
+::: {.warning}
+Oui, mais attention au **double comptage** !
+:::
+
+Une nouvelle caractéristique, par exemple un programme de prévention des pertes, se reflétera éventuellement dans l’expérience. Si on applique les deux méthodes, on donnera trop de rabais ou de surcharge.
+
+::: {.notes}
+Un nouveau programme de sécurité ou de contrôle des pertes peut justifier un ajustement de *schedule rating* tant que ses effets ne sont pas encore entièrement reflétés dans l’expérience. Après quelques années, il sera reconnu dans l’*experience rating*. Le *schedule rating* peut aussi tenir compte de caractéristiques attendues pour la période future qui ne figurent pas dans l’expérience, ou compléter une expérience qui n’est pas entièrement crédible pour une petite compagnie.
+:::
+
+# Techniques de tarification pour les risques commerciaux de grande taille {data-progress-label="Risques de grande taille"}
+
+## Techniques de tarification pour les risques commerciaux de grande taille
+
+Ces techniques ne modifient pas le taux du manuel, mais développent entièrement un taux :
+
+- *Composite rating*
+- Polices avec franchise élevée
+- Tarification rétrospective
+
+## Composite rating
+
+- Outil administratif utilisé pour faciliter la tarification de risques commerciaux de grande taille et complexes.
+- Plutôt que d’utiliser plusieurs couvertures avec différentes bases d’exposition, toutes les couvertures sont tarifiées selon une seule base d’exposition « composite », qui sert de mesure approximative de l’exposition au risque.
+- En début de période, une prime initiale (un dépôt) est basée sur un taux composite et sur des unités d’exposition composites estimées.
+- Le taux composite peut être basé sur les taux du manuel ajustés par le *schedule rating* ou l’*experience rating*, ou entièrement sur l’expérience passée de l’assuré (*loss-rated risks*).
+
+## Exemple de plan de composite rating : ISO’s Composite Rating Plan
+
+Détermination du taux composite basé entièrement sur l’expérience passée (*loss-rated risks*) :
+
+**Projection et développement des sinistres rapportés** et des frais de règlement de sinistres alloués pour chaque année d’accident :
+
+$$
+\begin{aligned}
+&\text{Sinistres ultimes projetés et frais de règlement alloués} \\
+&= \text{Sinistres rapportés incluant les frais de règlement alloués} \\
+&\quad \times \text{Facteur de développement} \times \text{Facteur de projection}
+\end{aligned}
+$$
+
+---
+
+**Projection des unités d’exposition** :
+
+$$
+\begin{aligned}
+\text{Unités composites projetées}
+&= \text{Unités composites} \\
+&\quad \times \text{Facteur de tendance dans les unités}
+\end{aligned}
+$$
+
+- Période de projection : de la date acquise moyenne dans la période d’expérience à la date acquise moyenne dans la période future.
+- La tendance annuelle dépend de la base d’exposition composite : les ventes et les salaires sont sujets à l’inflation et doivent être projetés; le nombre de véhicules-années n’a pas à être projeté.
+
+---
+
+**Estimation de la prime ajustée** (*adjusted premium*) :
+
+$$
+\text{Prime ajustée} =
+\frac{\text{Sinistres ultimes projetés et frais de règlement alloués}}
+{\text{Taux de sinistre espéré incluant les frais de règlement alloués}}
+$$
+
+**Détermination du taux composite** :
+
+$$
+\text{Taux composite} = \frac{\text{Prime ajustée}}{\text{Unités composites projetées}}
+$$
+
+::: {.note}
+Ce taux composite ne doit pas être ajusté pour l’*experience rating*, car il est lui-même basé sur l’expérience. Le *schedule rating* peut s’appliquer.
+:::
+
+:::: {.question title="Taux composite de Bob’s rental"}
+
+Les revenus de Bob’s rental proviennent de trois types d’opérations. Pour la responsabilité générale commerciale, la base d’exposition diffère selon l’opération :
+
+- Vente d’équipement neuf et usagé : recettes des ventes
+- Réparation : salaires
+- Location d’équipement : recettes des locations
+
+##
+
+La base d’exposition composite sélectionnée est le total des recettes.
+
+| Année de police | Vente d’équipement | Réparation | Location | Total |
+|:--|--:|--:|--:|--:|
+| 2003–2004 | 56 498 756 \$ | 22 599 503 \$ | 33 899 254 \$ | 112 997 513 \$ |
+| 2004–2005 | 58 564 822 \$ | 23 425 929 \$ | 35 138 893 \$ | 117 129 644 \$ |
+| 2005–2006 | 61 193 878 \$ | 24 477 551 \$ | 36 716 327 \$ | 122 387 756 \$ |
+| 2006–2007 | 63 245 228 \$ | 25 298 091 \$ | 37 947 137 \$ | 126 490 456 \$ |
+| 2007–2008 | 65 721 869 \$ | 26 288 748 \$ | 39 433 121 \$ | 131 443 738 \$ |
+| Total | 305 224 553 \$ | 122 089 822 \$ | 183 134 732 \$ | 610 449 107 \$ |
+
+Chaque année de police va du 1er juillet au 1er juillet suivant.
+
+##
+
+Sinistres rapportés, incluant les frais de règlement de sinistres alloués, au 31 décembre 2008 :
+
+| Année de police | Blessures corporelles | Dommages matériels |
+|:--|--:|--:|
+| 2003–2004 | 1 842 705 \$ | 626 162 \$ |
+| 2004–2005 | 1 406 353 \$ | 591 899 \$ |
+| 2005–2006 | 1 356 511 \$ | 517 616 \$ |
+| 2006–2007 | 1 355 545 \$ | 623 184 \$ |
+| 2007–2008 | 1 193 012 \$ | 568 669 \$ |
+| Total | 7 154 126 \$ | 2 927 530 \$ |
+
+Les montants sont limités à 250 000 \$ par événement et représentent les pertes en responsabilité générale commerciale provenant des trois opérations.
+
+##
+
+- Tendance annuelle des sinistres et frais de règlement de sinistres alloués : 6 %.
+- Tendance annuelle des unités d’exposition : 4 %.
+- Taux de sinistre espéré incluant les frais de règlement de sinistres alloués : 72 %.
+
+| Âge jusqu’à l’ultime | Blessures corporelles | Dommages matériels |
+|:--|--:|--:|
+| 66 mois | 1,10 | 1,03 |
+| 54 mois | 1,25 | 1,10 |
+| 42 mois | 1,45 | 1,20 |
+| 30 mois | 1,70 | 1,35 |
+| 18 mois | 1,95 | 1,50 |
+
+Pour la police effective du 1er juillet 2009 au 1er juillet 2010, calculer le taux composite.
+
+::: {.solution}
+
+**Facteurs de projection** :
+
+| Année de police | Période de projection | Tendance des sinistres | Facteur des sinistres | Tendance des unités | Facteur des unités |
+|:--|--:|--:|--:|--:|--:|
+| 2003–2004 | 6 | 6 % | 1,4185 | 4 % | 1,2653 |
+| 2004–2005 | 5 | 6 % | 1,3382 | 4 % | 1,2167 |
+| 2005–2006 | 4 | 6 % | 1,2625 | 4 % | 1,1699 |
+| 2006–2007 | 3 | 6 % | 1,1910 | 4 % | 1,1249 |
+| 2007–2008 | 2 | 6 % | 1,1236 | 4 % | 1,0816 |
+
+Le facteur de projection est égal à $(1 + \text{tendance annuelle})^{\text{période de projection}}$.
+
+##
+
+**Sinistres ultimes projetés** :
+
+| Année | Rapportés : blessures | Rapportés : dommages | Développement : blessures | Développement : dommages | Projection | Ultimes projetés |
+|:--|--:|--:|--:|--:|--:|--:|
+| 2003–2004 | 1 842 705 \$ | 626 162 \$ | 1,10 | 1,03 | 1,4185 | 3 790 122 \$ |
+| 2004–2005 | 1 406 353 \$ | 591 899 \$ | 1,25 | 1,10 | 1,3382 | 3 223 764 \$ |
+| 2005–2006 | 1 356 511 \$ | 517 616 \$ | 1,45 | 1,20 | 1,2625 | 3 267 451 \$ |
+| 2006–2007 | 1 355 545 \$ | 623 184 \$ | 1,70 | 1,35 | 1,1910 | 3 746 558 \$ |
+| 2007–2008 | 1 193 012 \$ | 568 669 \$ | 1,95 | 1,50 | 1,1236 | 3 572 348 \$ |
+| Total | 7 154 126 \$ | 2 927 530 \$ | | | | 17 600 243 \$ |
+
+##
+
+**Unités projetées** :
+
+| Année de police | Recettes totales (milliers de \$) | Facteur de projection | Unités projetées (milliers de \$) |
+|:--|--:|--:|--:|
+| 2003–2004 | 112 998 | 1,2653 | 142 976 |
+| 2004–2005 | 117 130 | 1,2167 | 142 512 |
+| 2005–2006 | 122 388 | 1,1699 | 143 182 |
+| 2006–2007 | 126 490 | 1,1249 | 142 289 |
+| 2007–2008 | 131 444 | 1,0816 | 142 170 |
+| Total | 610 450 | | 713 129 |
+
+##
+
+- Sinistres ultimes projetés incluant les frais de règlement : 17 600 243 \$.
+- Unités d’exposition projetées : 713 129.
+
+Prime ajustée :
+
+$$
+\frac{17\,600\,243}{0.72} = 24\,444\,782\text{\$}
+$$
+
+Taux composite par 1 000 \$ d’unités :
+
+$$
+\frac{24\,444\,782}{713\,129} = 34.28\text{\$}
+$$
+
+:::
+::::
+
+## Polices avec franchise élevée {.english-subtitle subtitle="Large Deductible Policies"}
+
+En assurances commerciales, on peut avoir des franchises similaires à celles en lignes personnelles, dont le but est d’éviter les frais reliés au traitement et à l’investigation des petites réclamations et donc d’avoir des primes plus basses. Par exemple : une couverture de biens avec une franchise de 500 \$.
+
+On peut aussi avoir des franchises élevées, par exemple 1 million de dollars. L’assuré conserve alors une portion significative du risque et la plupart des réclamations sont complètement sous la franchise.
+
+---
+
+Considérations pour les polices avec franchise élevée :
+
+- **Traitement des réclamations** : qui s’occupe des réclamations sous la franchise, l’assureur ou l’assuré ? Si c’est l’assureur, ces frais doivent être inclus dans la prime.
+- **Application de la franchise** : la franchise s’applique-t-elle à une perte incluant ou excluant les frais de règlement de sinistres alloués ?
+- **Traitement de la franchise** : qui paie la franchise initialement ? Si c’est l’assureur, il doit se faire rembourser par l’assuré; les frais reliés et le risque de défaut doivent être considérés.
+- **Marge de risque** : la marge de profit peut varier selon la franchise, car la variance des sinistres au-dessus de la franchise augmente avec celle-ci.
+
+:::: {.question title="Prime avec franchise élevée"}
+
+Avec les données suivantes :
+
+- Franchise de 500 000 \$ par événement.
+- L’assureur traite toutes les réclamations, y compris celles entièrement sous la franchise.
+- La franchise s’applique aux sinistres seulement et ne réduit pas le coût des frais de règlement de sinistres alloués.
+- Frais de règlement de sinistres alloués : 11 % des sinistres totaux.
+- Sinistres sans franchise : 1 000 000 \$.
+- Frais fixes : 50 000 \$.
+- Frais variables : 13 % de la prime.
+
+##
+
+- L’assureur paie tout le sinistre et réclame la franchise à l’assuré; ce traitement coûte 4 % des sinistres sous la franchise.
+- Le risque de crédit est estimé à 1 % des paiements espérés sous la franchise.
+- Le profit de souscription désiré sans franchise est de 2 % de la prime. L’assureur ajoute une marge de risque de 10 % des sinistres excédentaires pour une franchise de 500 000 \$.
+
+Ratios d’élimination de perte (LER), avec une franchise de base de 0 \$ :
+
+| Franchise | LER |
+|--:|--:|
+| 100 000 \$ | 0,60 |
+| 250 000 \$ | 0,80 |
+| 500 000 \$ | 0,95 |
+
+Calculer la prime pour cette police.
+
+::: {.solution}
+
+La prime est égale à la somme des sinistres au-dessus de la franchise, des frais de règlement alloués, des frais fixes, du risque de crédit et de la marge de risque, divisée par :
+
+$$
+1 - \text{Provision pour frais variables} - \text{Provision pour profit}
+$$
+
+##
+
+- Sinistres au-dessus de la franchise : $1\,000\,000(1 - 0.95) = 50\,000\text{\$}$.
+- Frais de règlement alloués : $0.11(1\,000\,000) = 110\,000\text{\$}$.
+- Frais fixes : $50\,000 + 0.04(1\,000\,000)(0.95) = 88\,000\text{\$}$.
+- Risque de crédit : $0.01(1\,000\,000)(0.95) = 9\,500\text{\$}$.
+- Marge de risque : $0.10(1\,000\,000)(0.05) = 5\,000\text{\$}$.
+
+##
+
+$$
+\begin{aligned}
+\text{Prime} &= \frac{50\,000 + 110\,000 + 88\,000 + 9\,500 + 5\,000}{1 - 0.13 - 0.02} \\
+&= 308\,824\text{\$}
+\end{aligned}
+$$
+
+:::
+::::
+
+## Tarification rétrospective {.english-subtitle subtitle="Retrospective Rating"}
+
+La tarification rétrospective, contrairement aux autres méthodes, n’utilise pas l’expérience passée pour prédire la prime nécessaire pour la période de police future, mais utilise l’expérience réelle d’une police pour calculer la prime finale de la période passée.
+
+Elle est similaire à l’autoassurance, mais les polices contiennent des dispositions selon lesquelles l’assureur conserve une portion du risque ou qui affectent le moment des paiements :
+
+- Les sinistres réels utilisés peuvent être limités pour réduire l’effet des pertes majeures ou des catastrophes.
+- La prime totale peut être sujette à un minimum et à un maximum qui stabilisent les coûts d’une année à l’autre.
+
+---
+
+La prime d’une police tarifée rétrospectivement consiste typiquement en une prime initiale calculée au début de la période de police et en des ajustements périodiques après cette période pour refléter l’expérience de sinistres.
+
+Par exemple, la prime initiale est basée sur l’espérance des frais, du profit et des coûts associés aux limitations. À la fin de la période de police, l’assuré est facturé annuellement pour tous les sinistres limités selon les dispositions de la police. Ces ajustements sont faits chaque année pendant une période prédéterminée.

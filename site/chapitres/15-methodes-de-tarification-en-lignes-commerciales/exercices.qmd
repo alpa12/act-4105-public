@@ -3,4 +3,310 @@ metadata-files:
   - ../_exercices.yml
 ---
 
-Les exercices de ce chapitre sont en préparation à partir du matériel de cours historique.
+:::: {.question}
+(CAS Examen 5, 2010 – Q34)
+
+Un assureur a suivi l’expérience de réclamation d’une très grande compagnie de construction pendant les trois années durant lesquelles il a couvert cet assuré. La compagnie de construction va implanter un nouveau programme de sécurité débutant l’année prochaine.
+
+::: {.question}
+Discuter si cet assureur devrait utiliser l’*experience rating*, le *schedule rating* ou les deux pour tarifer la compagnie de construction pour la prochaine période de police. Expliquer brièvement votre réponse.
+
+::: {.solution}
+
+L’assureur devrait utiliser les deux. L’*experience rating* devrait refléter l’expérience de sinistres des trois dernières années, alors que le *schedule rating* devrait refléter le nouveau programme de sécurité, qui n’est pas reflété dans l’expérience et qui devrait diminuer les coûts futurs.
+
+:::
+:::
+
+::: {.question}
+En supposant qu’il n’y ait aucun autre changement, déterminer si cet assureur devrait utiliser l’*experience rating*, le *schedule rating* ou les deux pour tarifer la compagnie de construction dans cinq ans. Expliquer brièvement votre réponse.
+
+::: {.solution}
+
+Selon la réponse de la CAS, l’assureur ne devrait utiliser que l’*experience rating*. Cinq ans après l’implantation du programme de sécurité, ses effets devraient se faire sentir dans l’expérience et donc être pris en compte dans l’*experience rating*. L’application d’un escompte de *schedule rating* compterait le rabais deux fois.
+
+Cette réponse suppose que l’assuré est pleinement crédible. Sinon, on peut continuer d’appliquer le *schedule rating*, en totalité ou en partie selon la crédibilité, si c’est le meilleur estimé des coûts de la période future.
+
+:::
+:::
+::::
+
+:::: {.question}
+Vous effectuez une soumission pour l’assurance responsabilité générale commerciale d’un nouveau client potentiel. Il s’agit d’une petite entreprise détenant un restaurant dans la ville de Québec. Pour chacune des méthodes suivantes, expliquer si elle peut être utilisée pour établir la prime de cet assuré.
+
+::: {.question}
+*Experience rating*.
+
+::: {.solution}
+
+L’*experience rating* ne peut pas être utilisé, car nous n’avons aucun historique de sinistres pour cet assuré. Nous ne pouvons donc pas comparer son expérience à l’espérance.
+
+:::
+:::
+
+::: {.question}
+*Schedule rating*.
+
+::: {.solution}
+
+Le *schedule rating* peut être appliqué puisqu’il ne requiert pas d’expérience historique. Il s’applique s’il y a des raisons de croire que l’expérience future de cet assuré sera différente des hypothèses utilisées pour déterminer la prime du manuel.
+
+:::
+:::
+
+::: {.question}
+Tarification composite basée entièrement sur l’expérience.
+
+::: {.solution}
+
+La tarification composite basée sur l’expérience ne peut pas être utilisée, car nous n’avons aucun historique de sinistres permettant de déterminer le taux composite de cet assuré.
+
+:::
+:::
+::::
+
+::: {.question}
+Votre collègue croit que l’*experience rating* va à l’encontre du principe selon lequel la tarification est prospective. A-t-il raison ? Expliquer votre réponse.
+
+::: {.solution}
+
+Non. L’*experience rating* est utilisé pour modifier le taux de la période future, lorsque l’expérience passée d’un assuré est prédictive de son expérience future.
+
+:::
+:::
+
+:::: {.question}
+Vous effectuez la tarification de la couverture de responsabilité générale commerciale d’une chaîne hôtelière que vous assurez depuis plusieurs années et qui a des activités variées : location de chambres d’hôtel, restauration et événementiel. Les recettes totales provenant de toutes les opérations sont votre base d’exposition composite et votre tarification est basée uniquement sur l’expérience passée de cet assuré.
+
+Avec les données suivantes :
+
+- Tendance annuelle des sinistres et frais de règlement de sinistres alloués : 5 %.
+- Tendance annuelle des unités : 3 %.
+- Taux de sinistre espéré, incluant les frais de règlement de sinistres alloués : 0,50.
+
+Facteurs de développement des sinistres :
+
+| Âge jusqu’à l’ultime | Blessures corporelles | Dommages matériels |
+|:---|---:|---:|
+| 48 mois | 1,05 | 1,00 |
+| 36 mois | 1,07 | 1,00 |
+| 24 mois | 1,20 | 1,15 |
+| 12 mois | 1,50 | 1,30 |
+
+Sinistres rapportés, incluant les frais de règlement de sinistres alloués, vus au {{< dynamic-date "YYYY-12-31" -3 >}}, et unités par année de police :
+
+```{r}
+#| label: donnees-tarification-composite
+#| include: false
+
+project_dir <- Sys.getenv("QUARTO_PROJECT_DIR")
+source(file.path(project_dir, "_extensions/alpa12/dynamic-year/dynamic-year.R"))
+
+experience <- data.frame(
+  annee = vapply(-6:-4, dynamic_year, integer(1)),
+  recettes = c(250000000, 258000000, 265000000),
+  blessures = c(800000, 860000, 900000),
+  dommages = c(750000, 780000, 810000),
+  dev_blessures = c(1.05, 1.07, 1.20),
+  dev_dommages = c(1.00, 1.00, 1.15),
+  projection = c(6, 5, 4)
+)
+experience$sinistres_projetes <- (
+  experience$blessures * experience$dev_blessures +
+    experience$dommages * experience$dev_dommages
+) * 1.05^experience$projection
+experience$unites_projetees <- experience$recettes * 1.03^experience$projection
+```
+
+```{r}
+#| label: tableau-donnees-composite
+#| echo: false
+#| output: asis
+
+tableau <- experience[, c(1, 2, 3, 4)]
+names(tableau) <- c(
+  "Année de police", "Recettes totales", "Blessures corporelles",
+  "Dommages matériels"
+)
+tarifr::afficher_table(
+  tableau,
+  align = c("l", "r", "r", "r"),
+  formats = list(list(colonnes = 2:4, type = "montant", digits = 0, symbole = TRUE))
+)
+```
+
+Chaque année de police va du 1er janvier au 31 décembre. Calculer le taux composite par 1 000 \$ de recettes pour une police effective du {{< dynamic-date "YYYY-01-01" >}} au {{< dynamic-date "YYYY-12-31" >}}.
+
+::: {.solution}
+
+On calcule d’abord les périodes de projection et les montants projetés pour chaque année de police :
+
+```{r}
+#| label: tableau-solution-composite
+#| echo: false
+#| output: asis
+
+tableau <- experience[, c(1, 7, 5, 6, 8, 9)]
+tableau <- rbind(
+  tableau,
+  data.frame(
+    annee = "Total", projection = NA_real_, dev_blessures = NA_real_,
+    dev_dommages = NA_real_, sinistres_projetes = sum(experience$sinistres_projetes),
+    unites_projetees = sum(experience$unites_projetees)
+  )
+)
+names(tableau) <- c(
+  "Année de police", "Période de projection (années)",
+  "Développement : blessures corporelles", "Développement : dommages matériels",
+  "Sinistres ultimes projetés", "Unités projetées"
+)
+tarifr::afficher_table(
+  tableau,
+  align = c("l", "r", "r", "r", "r", "r"),
+  formats = list(
+    list(colonnes = 3:4, type = "nombre", digits = 2),
+    list(colonnes = 5:6, type = "montant", digits = 0, symbole = TRUE)
+  ),
+  lignes_gras = "derniere"
+)
+```
+
+Les sinistres ultimes projetés et les unités projetées sont calculés ainsi :
+
+$$
+\begin{aligned}
+\text{Sinistres ultimes projetés}
+&= (\text{Blessures rapportées} \times \text{Facteur de développement des blessures} \\
+&\quad + \text{Dommages rapportés} \times \text{Facteur de développement des dommages}) \\
+&\quad \times 1.05^{\text{Période de projection}} \\
+\text{Unités projetées} &= \text{Recettes totales} \times 1.03^{\text{Période de projection}}
+\end{aligned}
+$$
+
+La période de projection des sinistres va de la date moyenne d’accident de l’année de police historique à celle de la période de police future. En supposant que les sinistres sont distribués uniformément durant l’année, la date moyenne pour l’année {{< dynamic-year -4 >}} est le {{< dynamic-date "YYYY-07-01" -4 >}}, et celle pour la police future est le {{< dynamic-date "YYYY-07-01" >}} : la période de projection est donc de quatre ans. La période de projection des unités est la même, car les dates moyennes acquises correspondent aux dates moyennes d’accident.
+
+Au {{< dynamic-date "YYYY-12-31" -3 >}}, les années {{< dynamic-year -4 >}}, {{< dynamic-year -5 >}} et {{< dynamic-year -6 >}} sont vues respectivement à 24, 36 et 48 mois de développement. On utilise les facteurs correspondants jusqu’à l’ultime.
+
+La prime ajustée et le taux composite sont donc :
+
+$$
+\begin{aligned}
+\text{Prime ajustée} &= \frac{6\,745\,677}{0.50} = 13\,491\,354\text{\$} \\
+\text{Taux par millier de dollars de recettes} &= \frac{13\,491\,354}{895\,865\,620 / 1\,000} = 15.06\text{\$}
+\end{aligned}
+$$
+
+:::
+::::
+
+::: {.question}
+(CAS Examen 5, Printemps 2013 – Q13)
+
+Avec l’information suivante pour une police de responsabilité générale commerciale avec franchise élevée :
+
+| Caractéristique | Valeur |
+|:---|---:|
+| Franchise par événement | 250 000 \$ |
+| Ratio d’élimination des pertes pour une franchise de 250 000 \$ | 80 % |
+| Frais de règlement de sinistres alloués en pourcentage des sinistres totaux | 10 % |
+| Estimation des sinistres totaux | 2 000 000 \$ |
+| Frais fixes | 100 000 \$ |
+| Frais variables en pourcentage de la prime | 12 % |
+| Profit cible en pourcentage de la prime | 3 % |
+| Frais de traitement des pertes sous la franchise en pourcentage des sinistres sous la franchise | 5 % |
+| Risque de crédit en pourcentage des sinistres sous la franchise | 2 % |
+| Marge de risque supplémentaire en pourcentage des sinistres excédentaires | 8 % |
+
+- L’assureur traite toutes les réclamations, y compris celles qui tombent sous la franchise.
+- L’assureur paie toutes les réclamations et demande à l’assuré le remboursement des montants sous la franchise.
+- La franchise s’applique au paiement d’indemnité seulement.
+- Tous les frais de règlement de sinistres alloués sont payés par l’assureur.
+
+Calculer la prime pour cette police avec franchise élevée.
+
+::: {.solution}
+
+On sépare les sinistres espérés totaux en une portion sous la franchise et une portion excédentaire :
+
+$$
+\begin{aligned}
+\text{Sinistres sous la franchise} &= 2\,000\,000 \times 0.80 = 1\,600\,000\text{\$} \\
+\text{Sinistres excédentaires} &= 2\,000\,000 \times (1 - 0.80) = 400\,000\text{\$}
+\end{aligned}
+$$
+
+Les autres composantes sont :
+
+- Frais de règlement de sinistres alloués : $0.10 \times 2\,000\,000 = 200\,000\text{\$}$.
+- Frais fixes, incluant le traitement des pertes sous la franchise : $100\,000 + 0.05 \times 1\,600\,000 = 180\,000\text{\$}$.
+- Risque de crédit : $0.02 \times 1\,600\,000 = 32\,000\text{\$}$.
+- Marge de risque : $0.08 \times 400\,000 = 32\,000\text{\$}$.
+
+La prime est donc :
+
+$$
+\frac{400\,000 + 200\,000 + 180\,000 + 32\,000 + 32\,000}
+{1 - 0.12 - 0.03} = 992\,941\text{\$}
+$$
+
+:::
+:::
+
+::: {.question}
+(CAS Examen 5, 2009 – Q35)
+
+Avec l’information suivante :
+
+| Fréquence | Montant de la perte |
+|---:|---:|
+| 45 % | 22 000 \$ |
+| 20 % | 35 000 \$ |
+| 15 % | 150 000 \$ |
+| 15 % | 250 000 \$ |
+| 5 % | 1 000 000 \$ |
+
+- Prime pour une couverture sans franchise : 24 793 \$.
+- Taux de sinistre pour une police sans franchise : 59 %.
+- Frais de règlement de sinistres alloués : 10 % des sinistres. La franchise ne s’applique pas à ces frais.
+- Frais fixes incrémentaux pour traiter la franchise : 4 % des sinistres sous la franchise.
+- Marge pour les paiements de franchise irrécouvrables : 1 % des sinistres sous la franchise.
+- Profit : 8 %.
+- Marge additionnelle pour risque : 5 % des sinistres excédentaires.
+- Commission : 10 %.
+- Autres frais variables : 5 %.
+
+Calculer la prime finale pour une police avec une franchise de 100 000 \$.
+
+::: {.solution}
+
+Les sinistres espérés totaux sont :
+
+$$
+0.59 \times 24\,793 = 14\,628\text{\$}
+$$
+
+Le ratio d’élimination des pertes (LER) avec une franchise de 100 000 \$ est :
+
+$$
+\begin{aligned}
+LER &= \frac{0.45(22\,000) + 0.20(35\,000) + (0.15 + 0.15 + 0.05)(100\,000)}
+{0.45(22\,000) + 0.20(35\,000) + 0.15(150\,000) + 0.15(250\,000) + 0.05(1\,000\,000)} \\
+&= \frac{51\,900}{126\,900} = 0.4090
+\end{aligned}
+$$
+
+Les composantes de la prime sont :
+
+- Sinistres espérés au-dessus de la franchise : $14\,628(1 - 0.4090) = 8\,645\text{\$}$.
+- Sinistres espérés sous la franchise : $14\,628(0.4090) = 5\,983\text{\$}$.
+- Frais de règlement de sinistres alloués : $0.10(14\,628) = 1\,463\text{\$}$.
+- Frais fixes : $0.04(5\,983) = 239\text{\$}$. Aucune autre donnée n’étant fournie sur les frais fixes, on suppose que ce sont les seuls.
+- Risque de crédit : $0.01(5\,983) = 60\text{\$}$.
+- Marge de risque : $0.05(8\,645) = 432\text{\$}$.
+
+$$
+\text{Prime} = \frac{8\,645 + 1\,463 + 239 + 60 + 432}{1 - 0.10 - 0.05 - 0.08} = 14\,077\text{\$}
+$$
+
+:::
+:::
