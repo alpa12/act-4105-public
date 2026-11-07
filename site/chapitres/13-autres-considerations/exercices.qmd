@@ -1,6 +1,8 @@
 ---
 metadata-files:
   - ../_exercices.yml
+smart-tables:
+  enabled: true
 ---
 
 <!-- Le graphique historique de l’exercice 3 est reconstitué en R à partir de valeurs lues visuellement. -->
@@ -19,7 +21,7 @@ Plusieurs réponses sont possibles :
 - Les frais, en particulier les frais d’acquisition, sont plus élevés pour une nouvelle compagnie. Comme c’est la première année durant laquelle la compagnie écrit des polices, on peut supposer qu’elle a investi beaucoup en publicité afin de se faire connaître. Si les frais d’acquisition diminuent dans les années à venir, la compagnie pourrait être profitable à long terme.
 - Les nouvelles affaires tendent à avoir un taux de sinistre pire que les renouvellements. Au fur et à mesure que la proportion de nouvelles affaires dans le portefeuille diminue, le taux de sinistre risque de s’améliorer.
 - La compagnie peut modifier ses normes de souscription et décider de ne pas renouveler les pires risques.
-- Un portefeuille avec un petit volume est plus volatile. Il est possible que la compagnie ait subi quelques pertes majeures durant la première année. En supposant que le volume de primes écrites et le volume de primes acquises augmentent dans les prochaines années, les résultats seront moins volatils. La compagnie pourrait être profitable à long terme sans diminuer les taux.
+- Un portefeuille avec un petit volume est plus volatile. Il est possible que la compagnie ait subi quelques pertes majeures durant la première année. En supposant que le volume de primes écrites et le volume de primes acquises augmentent dans les prochaines années, les résultats seront moins volatils. La compagnie pourrait être profitable à long terme sans augmenter les taux.
 
 :::
 :::
@@ -43,7 +45,7 @@ Si la compagnie inclut tous les frais la première année, les taux seront trop 
 :::
 
 :::: {.question}
-En tant qu’actuaire de la compagnie XYZ, vous avez implanté un changement de taux le 2019/01/01 en assurance automobile. Avec les données suivantes :
+En tant qu’actuaire de la compagnie XYZ, vous avez implanté un changement de taux le {{< dynamic-date "YYYY-01-01" -1 >}} en assurance automobile. Avec les données suivantes :
 
 ```{r}
 #| echo: false
@@ -133,6 +135,8 @@ ggplot(donnees_exercice_3, aes(age)) +
   )
 ```
 
+Les valeurs du graphique sont approximatives et ont été reconstituées à partir du graphique historique.
+
 ::: {.question}
 Expliquer quel a été l’impact de votre changement de taux sur la compétitivité de la compagnie XYZ par âge de véhicule.
 
@@ -165,14 +169,16 @@ Comme la compétitivité de XYZ a augmenté chez les vieux véhicules, on peut s
 :::: {.question}
 Vous êtes en processus de révision de vos primes et vous avez retenu les quatre scénarios suivants :
 
-| Scénario | Taux de transformation prédit | Taux de rétention prédit | Taux de sinistre prédit | Profit |
+::: {tbl-colwidths="[12, 19, 17, 17, 35]"}
+| Scénario | Transformation | Rétention | Sinistres | Profit |
 |:--------:|------------------------------:|-------------------------:|------------------------:|-------:|
 | 1 | 30 % | 90 % | 65 % | 30 000 000 \$ |
 | 2 | 27 % | 89 % | 63 % | 36 000 000 \$ |
 | 3 | 40 % | 91 % | 70 % | 5 000 000 \$ |
 | 4 | 45 % | 92 % | 85 % | −5 000 000 \$ |
+:::
 
-Toutes les données sont sur un horizon d’un an seulement.
+Les taux de transformation, de rétention et de sinistre ainsi que le profit sont prédits sur un horizon d’un an seulement.
 
 ::: {.question}
 Discuter des scénarios possibles pour une entreprise qui veut maximiser sa croissance.
@@ -223,13 +229,107 @@ $$
   \times \text{Facteur d’actualisation}.
 $$
 
-| Année | Prime acquise | Sinistres | Frais | Profit | Prob. de renouvellement | Prob. cumulée de renouvellement | Facteur d’actualisation | Profit actualisé espéré | Prime actualisée espérée | Profit / prime |
-|:------|--------------:|----------:|------:|-------:|------------------------:|--------------------------------:|------------------------:|------------------------:|------------------------:|---------------:|
-| 1 (nouvelle affaire) | 1 000 | $0,60 \times 1\,000 = 600$ | 420 | −20 | 1,00 | 1,000 | $1 / 1,03^{1 - 1} = 1$ | −20,00 | 1 000,00 | −0,0200 |
-| 2 (renouvellement 1) | 1 000 | $600 - 25 = 575$ | 350 | 75 | 0,85 | 0,850 | $1 / 1,03^{2 - 1} = 0,9709$ | 61,89 | 825,24 | 0,0750 |
-| 3 (renouvellement 2) | 1 000 | $575 - 25 = 550$ | 350 | 100 | 0,90 | 0,765 | $1 / 1,03^{3 - 1} = 0,9426$ | 72,11 | 721,09 | 0,1000 |
-| 4 (renouvellement 3) | 1 000 | $550 - 25 = 525$ | 350 | 125 | 0,00 | 0,000 | $1 / 1,03^{4 - 1} = 0,9151$ | 0,00 | 0,00 | 0,0000 |
-| **Total** | **4 000** | **2 250** | **1 470** | **280** |  |  |  | **114,00** | **2 546,33** | **0,0448** |
+```{r}
+#| label: donnees-profit-long-terme
+#| echo: false
+#| include: false
+
+annee <- 1:4
+prime <- rep(1000, 4)
+sinistres <- 600 - 25 * (annee - 1)
+frais <- c(420, rep(350, 3))
+renouvellement <- c(1, 0.85, 0.90, 0)
+cumulee <- cumprod(renouvellement)
+actualisation <- 1 / 1.03^(annee - 1)
+profit <- prime - sinistres - frais
+profit_actualise <- profit * cumulee * actualisation
+prime_actualisee <- prime * cumulee * actualisation
+
+donnees_profit <- data.frame(
+  annee = annee,
+  prime = prime,
+  sinistres = sinistres,
+  frais = frais,
+  profit = profit,
+  renouvellement = renouvellement,
+  cumulee = cumulee,
+  actualisation = actualisation,
+  profit_actualise = profit_actualise,
+  prime_actualisee = prime_actualisee,
+  proportion = ifelse(prime_actualisee == 0, NA_real_, profit / prime)
+)
+```
+
+```{r}
+#| label: tableau-profit-annuel
+#| echo: false
+#| output: asis
+
+tableau <- donnees_profit[, c(1, 2, 3, 4, 5, 6, 7)]
+tableau <- rbind(
+  tableau,
+  data.frame(
+    annee = "Total", prime = sum(prime), sinistres = sum(sinistres),
+    frais = sum(frais), profit = sum(profit), renouvellement = NA_real_,
+    cumulee = NA_real_
+  )
+)
+names(tableau) <- c(
+  "Année", "Prime acquise", "Sinistres", "Frais", "Profit",
+  "Probabilité de renouvellement", "Probabilité cumulée de renouvellement"
+)
+tarifr::afficher_table(
+  tableau,
+  align = c("l", "r", "r", "r", "r", "r", "r"),
+  formats = list(
+    list(colonnes = 2:5, type = "nombre", digits = 0),
+    list(colonnes = 6, type = "nombre", digits = 2),
+    list(colonnes = 7, type = "nombre", digits = 3)
+  ),
+  entetes_calculs = c(
+    "(1)", "(2)", "(3)", "(4)", "(5) = (2) - (3) - (4)",
+    "(6)", "(7) = (6) × (7) précédent"
+  )
+)
+```
+
+```{r}
+#| label: tableau-profit-actualise
+#| echo: false
+#| output: asis
+
+tableau <- donnees_profit[, c(1, 8, 9, 10, 11)]
+tableau <- rbind(
+  tableau,
+  data.frame(
+    annee = "Total", actualisation = NA_real_,
+    profit_actualise = sum(profit_actualise),
+    prime_actualisee = sum(prime_actualisee),
+    proportion = sum(profit_actualise) / sum(prime_actualisee)
+  )
+)
+names(tableau) <- c(
+  "Année", "Facteur d’actualisation",
+  "Profit actualisé espéré", "Prime actualisée espérée",
+  "Profit en proportion de la prime"
+)
+tarifr::afficher_table(
+  tableau,
+  align = c("l", "r", "r", "r", "r"),
+  formats = list(
+    list(colonnes = 2, type = "nombre", digits = 4),
+    list(colonnes = 3:4, type = "nombre", digits = 2),
+    list(colonnes = 5, type = "nombre", digits = 4)
+  ),
+  entetes_calculs = c(
+    "(1)", "(8) = 1 / 1,03^((1) - 1)",
+    "(9) = (5) × (7) × (8)", "(10) = (2) × (7) × (8)",
+    "(11) = (9) / (10)"
+  )
+)
+```
+
+La probabilité cumulée initiale est de 1. Le profit en proportion de la prime est indéfini pour l’année 4, car la prime actualisée espérée est nulle.
 
 La valeur espérée du profit à long terme en pourcentage de la prime est donc de **4,48 %**.
 

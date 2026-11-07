@@ -77,6 +77,14 @@ export function headingUnderlinePreparationExpression() {
   })()`;
 }
 
+export function removeLightboxLinksExpression() {
+  return `(() => {
+    document.querySelectorAll("a.lightbox[href]").forEach((link) => {
+      if (link.querySelector("img")) link.removeAttribute("href");
+    });
+  })()`;
+}
+
 export function pdfPageViewportExpression() {
   return `(() => {
     const page = document.querySelector(".pdf-page");
@@ -105,6 +113,7 @@ export async function printPdf(cdp, { output, timeoutMs = 15000, url, outlineH1H
   }
   await evaluate(cdp, headingUnderlinePreparationExpression());
   const outline = outlineH1H2 ? await evaluate(cdp, h1H2OutlinePreparationExpression()) : undefined;
+  await evaluate(cdp, removeLightboxLinksExpression());
   const pdf = await cdp.send("Page.printToPDF", pdfPrintOptions({ outlineH1H2 }));
   if (!pdf.stream) throw new Error("Chrome did not return a PDF stream");
   const chunks = [];

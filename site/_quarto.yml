@@ -96,8 +96,8 @@ website:
             text: "Chapitre 12 : Crédibilité"
           # - href: chapitres/13-autres-considerations/diapos.qmd
           #   text: "Chapitre 13 : Autres considérations"
-          # - href: chapitres/14-implantation/diapos.qmd
-          #   text: "Chapitre 14 : Implantation"
+          - href: chapitres/14-implantation/diapos.qmd
+            text: "Chapitre 14 : Implantation"
           # - href: chapitres/15-methodes-de-tarification-en-lignes-commerciales/diapos.qmd
           #   text: "Chapitre 15 : Méthodes de tarification en lignes commerciales"
           # - href: chapitres/16-tarification-sur-base-de-reclamations-presentees/diapos.qmd
@@ -132,8 +132,8 @@ website:
             text: "Chapitre 12 : Crédibilité"
           # - href: chapitres/13-autres-considerations/exercices.qmd
           #   text: "Chapitre 13 : Autres considérations"
-          # - href: chapitres/14-implantation/exercices.qmd
-          #   text: "Chapitre 14 : Implantation"
+          - href: chapitres/14-implantation/exercices.qmd
+            text: "Chapitre 14 : Implantation"
           # - href: chapitres/15-methodes-de-tarification-en-lignes-commerciales/exercices.qmd
           #   text: "Chapitre 15 : Méthodes de tarification en lignes commerciales"
           # - href: chapitres/16-tarification-sur-base-de-reclamations-presentees/exercices.qmd

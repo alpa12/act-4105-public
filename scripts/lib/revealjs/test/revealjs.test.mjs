@@ -10,6 +10,7 @@ import {
   headingUnderlinePreparationExpression,
   pdfPageViewportExpression,
   pdfPrintOptions,
+  removeLightboxLinksExpression,
 } from "../pdf.mjs";
 import { enumerateRevealSlides } from "../reveal.mjs";
 import { createStaticServer, injectPreflight, MIME_TYPES, resolveSafePath, servedUrl } from "../static-server.mjs";
@@ -128,6 +129,27 @@ test("PDF export derives a viewport from the rendered print page", () => {
     height: 770,
   });
   assert.equal(Function("document", `return ${expression}`)({ querySelector: () => null }), null);
+});
+
+test("PDF export removes image lightbox links while preserving other links", () => {
+  const imageLink = { href: "figure.png", image: true };
+  const textLightbox = { href: "video.html", image: false };
+  const ordinaryLink = { href: "https://example.com", image: true };
+  const links = [imageLink, textLightbox, ordinaryLink];
+  for (const link of links) {
+    link.querySelector = (selector) => selector === "img" && link.image;
+    link.removeAttribute = (name) => { if (name === "href") delete link.href; };
+  }
+  const document = {
+    querySelectorAll: (selector) => {
+      assert.equal(selector, "a.lightbox[href]");
+      return [imageLink, textLightbox];
+    },
+  };
+  Function("document", `return ${removeLightboxLinksExpression()}`)(document);
+  assert.equal(imageLink.href, undefined);
+  assert.equal(textLightbox.href, "video.html");
+  assert.equal(ordinaryLink.href, "https://example.com");
 });
 
 test("heading underline measurement uses text ranges instead of the full heading box", async () => {

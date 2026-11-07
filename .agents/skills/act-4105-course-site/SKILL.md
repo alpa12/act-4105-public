@@ -20,6 +20,7 @@ Use this skill as the project entry point. Keep it to shared invariants and load
 ## Core Rules
 
 - Work from source files, not generated output. Treat `site/_site/` as render output used only for verification.
+- In Quarto sources, write literal currency symbols as `\$` in prose and tables and as `\text{\$}` in LaTeX equations. Leave math delimiters and R `$` operators unchanged.
 - Never modify `site/TODOs.md`; treat it as read-only project context.
 - The repository has split licences: `LICENSE-CODE` applies only to original
   software; `LICENSE-CONTENT.md` applies only to eligible original pedagogical

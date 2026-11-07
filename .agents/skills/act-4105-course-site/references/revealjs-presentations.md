@@ -52,6 +52,7 @@ Chapter `_metadata.yml` supplies listing metadata. Update it when replacing plac
 - `site/includes/revealjs-print-preflight.html` is loaded with `include-in-header` before RevealJS initializes. It refreshes the print overview list and neutralizes artificial overview fragments in print mode.
 - `docs/revealjs-pdf-export-debug-notes.md` is retained until the Chrome Print Preview workflow confirms the export fix; do not delete it without user confirmation.
 - `scripts/revealjs-pdf` is the deterministic author-side PDF export path. It renders `.qmd` inputs, serves the built HTML locally, injects the print preflight if needed, and prints through Chrome/Chromium headless with `?print-pdf`.
+- Before printing, the PDF exporter removes image lightbox link targets from the browser document, preserving the image wrappers and other links. Normal HTML presentations retain their lightboxes.
 - The clean palette is in `site/styles/diapos-clean/variables.css`: Laval-inspired red primary accent, gold secondary rules/markers, and blue complementary states.
 - Keep CSS local to a chapter when it represents a semantic visual used only by that presentation. Promote to shared CSS only for repeated patterns.
 - Shared presentation CSS sets knitr's RevealJS outputs (`figure-revealjs/`) to the card content width with `height: auto !important`, retaining their proportions without relying on RevealJS's `.r-stretch` calculation. Do not add per-figure width workarounds merely to prevent horizontal overflow. Use chapter-local CSS only when a deck needs a deliberate narrower width.

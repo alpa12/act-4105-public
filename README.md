@@ -31,6 +31,8 @@ Les conventions d’implémentation sont centralisées dans le skill local :
 
 ## Conversion PDF vers Quarto
 
+Dans les sources Quarto, écrire le signe monétaire sous la forme `\$` dans le texte et les tableaux, et `\text{\$}` dans les équations LaTeX. Conserver les `$` délimiteurs des équations et les opérateurs `$` du code R.
+
 Pour des notes, utiliser le PPTX local comme source principale lorsqu’il existe et le PDF comme rendu de comparaison. Conserver l’ordre et le contenu pédagogique, transcrire les formules en LaTeX et préférer les structures Quarto natives. Un chapitre précédent est une référence visuelle seulement lorsqu’il est pertinent au contenu converti; ne pas normaliser mécaniquement les autres chapitres.
 
 Pour des exercices, conserver les seules questions et solutions dans des blocs Quarto. Après toute conversion ou révision matérielle, exécuter :
@@ -99,6 +101,8 @@ scripts/render-pdfs --revision revision-examen-1
 ```
 
 `--revision` est incompatible avec `--chapter` et ne prend en charge que les diapositives. Utiliser `--type diapos` ou `--type exercices` pour limiter le type d’export; `--chapter 06` limite l’export à un chapitre.
+
+L’export des diapositives retire les liens de lightbox des images dans le PDF, tout en conservant les autres liens. La lightbox reste active dans les présentations HTML.
 
 ## Validation RevealJS
 

@@ -85,7 +85,7 @@ L’industrie de l’assurance est très réglementée.
 - La règlementation varie par province.
 - Les exigences varient aussi selon la ligne d’affaires :
   - L’assurance automobile en lignes personnelles est réglementée parce qu’elle est obligatoire.
-  - L’indemnisation des accidents du travail (*Workers Compensation*)est obligatoire pour plusieurs employeurs aux États-Unis.
+  - L’indemnisation des accidents du travail (*Workers Compensation*) est obligatoire pour plusieurs employeurs aux États-Unis.
   - Certaines assurances commerciales font l’objet de moins de surveillance, par exemple l’assurance responsabilité des administrateurs et dirigeants (*D&O*).
 
 ---
@@ -105,13 +105,13 @@ Au Canada :
 ## Exemples de contraintes réglementaires aux États-Unis
 
 - Limitation du changement de taux
-  - au niveau global
-  - au niveau individuel ou d’un groupe d’individus
+  - Au niveau global
+  - Au niveau individuel ou d’un groupe d’individus
   - Ex : Une hausse globale moyenne supérieure à 25 %, ou touchant un nombre important de consommateurs avec une hausse supérieure à 30 %, peut être interdite.
 - Interdiction de certaines caractéristiques même lorsqu’elles sont statistiquement prédictives du risque.
-  - Ex : L’utilisation de la cote de crédit pour la tarification et la souscription en lignes personnelles est interdite dans certains États ou provinces.
+  - Ex : L’utilisation de la cote de crédit pour la tarification et la souscription en lignes personnelles est interdite dans certains états ou provinces.
 - Techniques de tarification prescrites
-  - Ex : L’État de Washington exige un GLM pour établir les relativités associées à la cote de crédit en assurance automobile en lignes personnelles.
+  - Ex : L’État de Washington exige une analyse multivariée pour certains dépôts tarifaires utilisant les antécédents ou le score de crédit ([WAC 284-24A-045](https://app.leg.wa.gov/wac/default.aspx?cite=284-24A-045)).
 
 ## Divergence de points de vue entre l’actuaire et le régulateur
 
@@ -305,8 +305,8 @@ tarifr::afficher_table(
 
 Le profit total demeure 57 500 000 \$.
 
-::: {.callout-important title="Conclusion"}
-Le profit additionnel est de $57,5\ \text{M}\ \$ - 57,5\ \text{M}\ \$ = 0\ \$$. Le changement n’est pas rentable avec cette hypothèse.
+::: {.callout-important title="Conclusion" icon="false" appearance="minimal"}
+Le profit additionnel est de $57,5\ \text{M}\ \text{\$} - 57,5\ \text{M}\ \text{\$} = 0\ \text{\$}$. Le changement n’est pas rentable avec cette hypothèse.
 :::
 
 ---
@@ -361,8 +361,8 @@ tarifr::afficher_table(
 
 :::
 
-::: {.callout-important title="Conclusion"}
-Le profit additionnel est de $58,125\ \text{M}\ \$ - 57,5\ \text{M}\ \$ = 625\,000\ \$$. Comme il est supérieur au coût d’implantation de 150 000 $, le changement est rentable avec cette hypothèse.
+::: {.callout-important title="Conclusion"  icon="false" appearance="minimal"}
+Le profit additionnel est de $58,125\text{M\$} - 57,5\text{M\$} = 625\,000\text{\$}$. Comme il est supérieur au coût d’implantation de 150 000 \$, le changement est rentable avec cette hypothèse.
 :::
 
 :::
@@ -483,7 +483,7 @@ Utiliser l’exemple d’un client qui compare des forfaits de télécommunicati
 
 ## Techniques traditionnelles
 
-On peut incorporer les considérations de marché au jugement de l'actuaire en regardant, par exemples : 
+On peut incorporer les considérations de marché au jugement de l'actuaire en regardant, par exemple :
 
 - Comparaison de compétitivité
 - Taux de transformation, de rétention et croissance
@@ -652,6 +652,12 @@ ggplot() +
 
 ---
 
+::: {.callout-note}
+La comparaison des relativités est moins informative lorsqu’une compagnie utilise des variables corrélées avec l’âge dans son algorithme de tarification. Dans ce cas, on peut plutôt comparer les primes moyennes.
+:::
+
+---
+
 ```{r}
 #| label: competitivite-prime-moyenne
 #| fig-width: 8
@@ -758,10 +764,12 @@ $$
 
 ---
 
+Taux de transformation par mois. Une baisse de taux est implantée en juillet.
+
 ```{r}
 #| label: taux-transformation
 #| fig-width: 8
-#| fig-height: 4
+#| fig-height: 3.2
 #| fig-alt: "Taux de transformation mensuel et nombre de soumissions. Une baisse de taux implantée en juillet est suivie d’une hausse du taux de transformation."
 
 mois <- factor(month.name[1:8], levels = month.name[1:8], labels = c("Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août"))
@@ -807,10 +815,12 @@ $$
 
 ---
 
+Taux de rétention par mois. Une baisse de taux est implantée en juillet.
+
 ```{r}
 #| label: taux-retention
 #| fig-width: 8
-#| fig-height: 4
+#| fig-height: 3.2
 #| fig-alt: "Taux de rétention mensuel et nombre de renouvellements potentiels. Le taux augmente après la baisse de taux de juillet."
 
 retention <- data.frame(
@@ -846,7 +856,7 @@ La croissance reflète la capacité de la compagnie à acquérir de nouvelles af
 
 $$
 \begin{aligned}
-\text{Croissance en nombre de polices}
+&\text{Pourcentage de croissance en nombre de polices} \\
 &= \frac{\text{Nouvelles polices écrites} - \text{Polices perdues}}{\text{Polices au début de la période}} \\
 &= \frac{\text{Polices à la fin de la période}}{\text{Polices au début de la période}} - 1
 \end{aligned}
@@ -862,11 +872,13 @@ Les polices perdues comprennent les polices annulées et non renouvelées.
 #| fig-height: 4
 #| fig-alt: "Croissance mensuelle et nombre de polices. La croissance augmente graduellement après juillet."
 
+# Nombre de polices à la fin de chaque mois; décembre précède la période illustrée.
+polices_decembre <- 359694
 croissance <- data.frame(
   mois,
-  taux = c(0.00085, 0.00150, 0.00165, 0.00145, 0.00175, 0.00183, 0.00275, 0.00302),
   polices = c(360000, 360700, 361250, 361800, 362600, 363200, 364250, 365500)
 )
+croissance$taux <- croissance$polices / c(polices_decembre, head(croissance$polices, -1)) - 1
 croissance$position <- seq_len(nrow(croissance))
 
 ggplot(croissance, aes(position)) +
@@ -902,16 +914,19 @@ On peut comparer la distribution d’un portefeuille selon une variable, par exe
 #| label: analyse-distribution
 #| fig-width: 8
 #| fig-height: 3.2
-#| fig-alt: "Nombre de polices et prime moyenne par tranche de montant d’assurance. Les volumes diminuent dans les tranches les plus élevées alors que la prime moyenne augmente."
+#| fig-alt: "Nombre de polices et prime moyenne par tranche de montant d’assurance. Le nombre de polices culmine entre 400 000 et 600 000 dollars, puis diminue; la prime moyenne augmente avec le montant d’assurance."
 
+# Volumes approximatifs relevés sur le graphique historique.
 montant_assurance <- data.frame(
   tranche = factor(
-    c("<100 k", "100–150 k", "150–200 k", "200–250 k", "250–300 k", "300–350 k", "350–400 k", "400–450 k", ">450 k"),
-    levels = c("<100 k", "100–150 k", "150–200 k", "200–250 k", "250–300 k", "300–350 k", "350–400 k", "400–450 k", ">450 k"),
+    c("<100 k", "100–200 k", "200–300 k", "300–400 k", "400–500 k",
+      "500–600 k", "600–700 k", "700–800 k", "800–900 k", ">900 k"),
+    levels = c("<100 k", "100–200 k", "200–300 k", "300–400 k", "400–500 k",
+      "500–600 k", "600–700 k", "700–800 k", "800–900 k", ">900 k"),
     ordered = TRUE
   ),
-  polices = c(2500, 8500, 14000, 15500, 12000, 8000, 4000, 1500, 500),
-  prime = c(114, 143, 265, 435, 451, 520, 620, 790, 968)
+  polices = c(2000, 3000, 3500, 13000, 20000, 20500, 13000, 9000, 5000, 3000),
+  prime = c(46, 143, 265, 390, 457, 517, 620, 720, 794, 968)
 )
 montant_assurance$position <- seq_len(nrow(montant_assurance))
 
@@ -943,44 +958,80 @@ Un changement de taux affecte directement les assurés existants au renouvelleme
 
 Si les dislocations sont majeures, la compagnie peut revoir le changement proposé. On les analyse souvent au total, mais aussi par variable.
 
-## Techniques méthodiques
+## Techniques méthodiques pour incorporer les considérations de marché
 
 Les techniques plus automatisées considèrent à la fois les considérations de marché et les indiqués actuariels :
 
-- analyse de la valeur du client à long terme;
-- optimisation des prix.
+- Analyse de la valeur du client à long terme
+- Optimisation des prix
 
-## Analyse de la valeur du client à long terme {.english-subtitle subtitle="Lifetime Value Analysis"}
+## Analyse de la valeur du client à long terme {.english-subtitle subtitle="Lifetime Value Analysis" .text-smaller}
 
 Profit sur un horizon de quatre années pour un assuré de 22 ans :
 
-- taux d’intérêt annuel de 5 %;
-- primes, sinistres et frais payables au début de la période.
+- Taux d’intérêt annuel : 5 %
+- Primes, sinistres et frais payables au début de la période
 
-| Année | Âge | Prime | Sinistres | Frais | Profit | Prob. renouv. | Prob. cumulée |
-|------:|----:|------:|----------:|------:|-------:|-------------:|--------------:|
-| 1 | 22 | 810 \$ | 800 \$ | 35 \$ | −25 \$ | 100 % | 100 % |
-| 2 | 23 | 800 \$ | 750 \$ | 15 \$ | 35 \$ | 75 % | 75 % |
-| 3 | 24 | 790 \$ | 700 \$ | 15 \$ | 75 \$ | 75 % | 56,3 % |
-| 4 | 25 | 780 \$ | 650 \$ | 15 \$ | 115 \$ | 80 % | 45 % |
+```{r}
+#| label: valeur-client-donnees
+#| include: false
 
----
+valeur_client <- data.frame(
+  annee = 1:4,
+  age = 22:25,
+  prime = c(810, 800, 790, 780),
+  sinistres = c(800, 750, 700, 650),
+  frais = c(35, 15, 15, 15),
+  probabilite_renouvellement = c(1, 0.75, 0.75, 0.80)
+)
+valeur_client$profit <- valeur_client$prime - valeur_client$sinistres - valeur_client$frais
+valeur_client$probabilite_cumulee <- cumprod(valeur_client$probabilite_renouvellement)
+valeur_client$profit_ajuste <- valeur_client$profit * valeur_client$probabilite_cumulee
+actualisation <- 1.05^(valeur_client$annee - 1)
+valeur_client$profit_actualise <- valeur_client$profit_ajuste / actualisation
+valeur_client$prime_actualisee <- valeur_client$prime * valeur_client$probabilite_cumulee / actualisation
+valeur_client$ratio_profit <- valeur_client$profit_actualise / valeur_client$prime_actualisee
 
-| Année | Profit ajusté | Profit actualisé | Prime actualisée | Profit / prime |
-|------:|--------------:|-----------------:|-----------------:|---------------:|
-| 1 | −25,00 \$ | −25,00 \$ | 810,00 \$ | −3,1 % |
-| 2 | 26,25 \$ | 25,00 \$ | 571,43 \$ | 4,4 % |
-| 3 | 42,23 \$ | 38,30 \$ | 403,42 \$ | 9,5 % |
-| 4 | 51,75 \$ | 44,70 \$ | 303,21 \$ | 14,7 % |
-| **Total** | **95,23 \$** | **83,01 \$** | **2 088,06 \$** | **4,0 %** |
+tableau_valeur_client <- data.frame(
+  Année = c(as.character(valeur_client$annee), "Total"),
+  Âge = c(valeur_client$age, NA),
+  Prime = c(valeur_client$prime, sum(valeur_client$prime)),
+  Sinistres = c(valeur_client$sinistres, sum(valeur_client$sinistres)),
+  Frais = c(valeur_client$frais, sum(valeur_client$frais)),
+  Profit = c(valeur_client$profit, sum(valeur_client$profit)),
+  `Prob. renouv.` = c(valeur_client$probabilite_renouvellement, NA),
+  `Prob. cumulée` = c(valeur_client$probabilite_cumulee, NA),
+  `Profit ajusté` = c(valeur_client$profit_ajuste, sum(valeur_client$profit_ajuste)),
+  `Profit actualisé` = c(valeur_client$profit_actualise, sum(valeur_client$profit_actualise)),
+  `Prime actualisée` = c(valeur_client$prime_actualisee, sum(valeur_client$prime_actualisee)),
+  `Profit / prime` = c(valeur_client$ratio_profit, sum(valeur_client$profit_actualise) / sum(valeur_client$prime_actualisee)),
+  check.names = FALSE
+)
+```
 
-$$
-\begin{aligned}
-\text{Profit} &= \text{Prime} - \text{Sinistres} - \text{Frais} \\
-P_{\text{cum},t} &= P_{\text{renouv},t} \times P_{\text{cum},t-1} \\
-\text{Profit ajusté}_t &= \text{Profit}_t \times P_{\text{cum},t}
-\end{aligned}
-$$
+```{r}
+#| label: valeur-client-tableau
+#| output: asis
+
+tarifr::afficher_table(
+  tableau_valeur_client,
+  align = c("l", rep("r", 11)),
+  formats = list(
+    list(colonnes = 2:6, type = "nombre", digits = 0),
+    list(colonnes = 7, type = "pourcentage", digits = 1),
+    list(colonnes = 8, type = "pourcentage", digits = 2),
+    list(colonnes = 9:11, type = "nombre", digits = 2),
+    list(colonnes = 12, type = "pourcentage", digits = 1)
+  ),
+  lignes_gras = "derniere",
+  entetes_calculs = c(
+    "", "(1)", "(2)", "(3)", "(4)", "(5) = (2) - (3) - (4)",
+    "(6)", "(7) = (6) × (7) préc.", "(8) = (5) × (7)",
+    "(9) = (8) actualisé à 5 %", "(10) = (2) × (7) actualisé à 5 %", "(11) = (9) / (10)"
+  )
+)
+```
+
 
 ## Optimisation des prix
 
@@ -988,62 +1039,100 @@ Les modèles multivariés, notamment les GLM, peuvent modéliser la prime pure p
 
 Les mêmes modèles peuvent aussi servir à développer :
 
-- un modèle de transformation, qui prédit si une soumission deviendra une nouvelle affaire;
-- un modèle de rétention, qui prédit si un renouvellement potentiel sera effectivement renouvelé.
+- Un modèle de transformation, qui prédit si une soumission deviendra une nouvelle affaire
+- Un modèle de rétention, qui prédit si un renouvellement potentiel sera effectivement renouvelé
 
 ---
 
 ### Modèle de transformation
 
-Même principe qu’un GLM qui prédit les coûts, mais appliqué à la transformation. Il peut utiliser les caractéristiques du risque, le montant de la prime soumissionnée et la compétitivité de cette prime.
+Ce modèle permet de prédire la probabilité qu'une soumission devienne une nouvelle affaire. Il peut notamment utiliser les caractéristiques du risque, le montant de la prime soumissionnée, la compétitivité de cette prime, etc.
 
 ### Modèle de rétention
 
-Même principe qu’un GLM qui prédit les coûts, mais appliqué à la rétention. Il peut utiliser les caractéristiques du risque, le montant de la prime proposée, son changement par rapport à la prime précédente et sa compétitivité.
+Ce modèle permet de prédire la probabilité qu'un renouvellement potentiel soit effectivement renouvelé. Il peut notamment utiliser les caractéristiques du risque, le montant de la prime proposée, son changement par rapport à la prime précédente, un indice de compétitivité de cette prime, etc.
 
----
+## Sortie d’un modèle de rétention
 
 ```{r}
-#| label: optimisation-prix
+#| label: modele-retention-prime
 #| fig-width: 8
 #| fig-height: 4
-#| fig-alt: "Sortie illustrative d’une optimisation des prix. Le profit espéré atteint son maximum pour un changement de prime modéré, tandis que les taux de renouvellement diminuent avec une hausse de prime."
+#| fig-alt: "Probabilité de renouvellement et nombre de polices selon le changement de prime. Les courbes des premiers renouvellements et des renouvellements subséquents diminuent quand la hausse de prime augmente. Les barres empilées distinguent les polices de ces deux groupes et culminent près de zéro."
 
-# Valeurs reconstruites à partir du graphique historique pour illustrer le compromis
-# entre profit et rétention; elles ne représentent pas un portefeuille réel.
-changement <- seq(-20, 20, by = 2)
-optimisation <- data.frame(
-  changement,
-  profit = 1.8 * exp(-((changement - 3) / 11)^2),
-  renouvellement_premiere = 0.89 - 0.0025 * changement,
-  renouvellement_subsequent = 0.86 - 0.0020 * changement
+# Valeurs illustratives inspirées de la figure historique; les volumes sont
+# fictifs, car l’axe des barres n’est pas identifié dans la figure source.
+retention_prime <- data.frame(
+  changement = seq(-45, 55, by = 5),
+  polices = c(200, 300, 500, 800, 1300, 2200, 3200, 4800, 5500, 6000,
+              7500, 9800, 9400, 8000, 5800, 3500, 2200, 1000, 400, 150, 80),
+  premier = c(0.81, 0.82, 0.82, 0.82, 0.83, 0.83, 0.82, 0.81, 0.80, 0.79,
+              0.77, 0.75, 0.72, 0.69, 0.66, 0.64, 0.62, 0.59, 0.57, 0.54, 0.50),
+  subsequent = c(0.86, 0.87, 0.87, 0.87, 0.87, 0.87, 0.86, 0.86, 0.85, 0.84,
+                 0.83, 0.81, 0.80, 0.79, 0.77, 0.76, 0.75, 0.73, 0.72, 0.70, 0.68)
+)
+retention_longue <- rbind(
+  data.frame(changement = retention_prime$changement, type = "Premier renouvellement", probabilite = retention_prime$premier),
+  data.frame(changement = retention_prime$changement, type = "Renouvellements subséquents", probabilite = retention_prime$subsequent)
 )
 
-ggplot(optimisation, aes(changement)) +
-  geom_col(aes(y = profit / 12), fill = couleurs_act["rouge"], alpha = 0.8) +
-  geom_line(aes(y = renouvellement_premiere, colour = "1er renouvellement"), linewidth = 0.65) +
-  geom_line(aes(y = renouvellement_subsequent, colour = "Renouvellements subséquents"), linewidth = 0.65) +
-  scale_colour_manual(values = c(
-    `1er renouvellement` = couleurs_act["bleu"],
-    `Renouvellements subséquents` = "#D55E00"
-  )) +
-  scale_y_continuous(
-    name = "Taux de renouvellement",
-    labels = scales::label_percent(),
-    sec.axis = sec_axis(~ . * 12, name = "Profit espéré relatif")
+base_retention <- 0.4
+facteur_polices <- 0.00004
+
+# Répartition fictive des expositions entre les deux groupes de renouvellement.
+retention_prime$polices_premier <- round(retention_prime$polices * 0.15)
+expositions_retention <- rbind(
+  data.frame(
+    changement = retention_prime$changement,
+    type = "Premier renouvellement",
+    bas = base_retention,
+    haut = base_retention + retention_prime$polices_premier * facteur_polices
+  ),
+  data.frame(
+    changement = retention_prime$changement,
+    type = "Renouvellements subséquents",
+    bas = base_retention + retention_prime$polices_premier * facteur_polices,
+    haut = base_retention + retention_prime$polices * facteur_polices
+  )
+)
+
+ggplot() +
+  geom_rect(
+    data = expositions_retention,
+    aes(xmin = changement - 2, xmax = changement + 2, ymin = bas, ymax = haut, fill = type),
+    alpha = 0.45
   ) +
-  labs(x = "Changement de prime (%)") +
-  theme_act
+  geom_line(data = retention_longue, aes(changement, probabilite, colour = type), linewidth = 0.65) +
+  scale_colour_manual(values = c(
+    `Premier renouvellement` = unname(couleurs_act["bleu"]),
+    `Renouvellements subséquents` = unname(couleurs_act["rouge"])
+  )) +
+  scale_fill_manual(values = c(
+    `Premier renouvellement` = unname(couleurs_act["bleu"]),
+    `Renouvellements subséquents` = unname(couleurs_act["rouge"])
+  )) +
+  scale_x_continuous(breaks = seq(-40, 40, by = 20), labels = scales::label_percent(scale = 1)) +
+  scale_y_continuous(
+    name = "Probabilité de renouvellement",
+    labels = scales::label_percent(),
+    sec.axis = sec_axis(~ (. - base_retention) / facteur_polices, name = "Nombre de polices", labels = scales::label_number(big.mark = " "))
+  ) +
+  labs(x = "Changement de prime") +
+  theme_act +
+  theme(legend.position = "bottom")
 ```
 
----
+::: {.notes}
+Graphique illustratif inspiré de Werner et Modlin, *Basic Ratemaking*, 5e édition, figure 13.18. Les nombres de polices et leur répartition entre les groupes de renouvellement sont fictifs; la figure historique ne précise pas la signification de l’axe secondaire.
+:::
+
+## Optimisation des prix
 
 - Plusieurs scénarios de changement de taux sont évalués.
-- Le modèle de prédiction des coûts et le modèle de transformation ou de rétention sont utilisés ensemble pour prédire :
-  - le volume de primes espéré ou les unités espérées;
-  - les sinistres espérés;
-  - les profits espérés.
+- Le modèle de prédiction des coûts et le modèle de transformation ou de rétention sont utilisés **ensemble** pour prédire :
+  - Le volume de primes espéré ou les unités espérées
+  - Les sinistres espérés
+  - Les profits espérés
 
-::: {.callout-important title="Objectif"}
+
 L’objectif de l’optimisation des prix est de sélectionner le changement de taux qui répond le mieux aux objectifs de rentabilité et de volume de primes ou d’unités de la compagnie.
-:::
