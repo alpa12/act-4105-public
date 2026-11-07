@@ -3,4 +3,625 @@ metadata-files:
   - ../_exercices.yml
 ---
 
-Les exercices de ce chapitre sont en préparation à partir du matériel de cours historique.
+<!-- Les tableaux et formules des solutions, rasterisés dans le PDF historique, sont transcrits en contenu éditable. -->
+
+::::: {.question}
+(CAS Examen 5, Automne 2015 – Q11 modifiée)
+
+Une compagnie d’assurance habitation utilise seulement deux variables de tarification : le territoire et le montant d’assurance. Pour les prochains taux déposés aux autorités, elle veut :
+
+- Atteindre la hausse de taux moyenne indiquée de +15 %.
+- Réviser les relativités de son plan de classification selon les résultats indiqués.
+- Garder les mêmes classes de base.
+
+Le taux de base actuel par unité est de 1 250 \$. Tous les différentiels sont multiplicatifs et il n’y a aucune portion de prime fixe.
+
+| Montant d’assurance | Différentiel actuel | Différentiel indiqué |
+|:---|---:|---:|
+| Inférieur à 100 000 \$ | 0.750 | 0.600 |
+| 100 000 \$ et plus | 1.000 | 1.200 |
+
+| Territoire | Différentiel actuel | Différentiel indiqué |
+|:---|---:|---:|
+| 1 | 0.800 | 0.850 |
+| 2 | 1.000 | 1.000 |
+
+| Montant d’assurance | Unités : territoire 1 | Unités : territoire 2 |
+|:---|---:|---:|
+| Inférieur à 100 000 \$ | 1 500 | 4 000 |
+| 100 000 \$ et plus | 1 500 | 3 000 |
+
+:::: {.question}
+En utilisant la méthode qui recalcule la prime pour chaque unité, déterminer le taux de base et les différentiels sélectionnés qui satisfont tous les objectifs de la compagnie.
+
+::: {.solution}
+
+Pour conserver les classes de base, on divise les différentiels indiqués du montant d’assurance par 1.2. Les différentiels proposés sont donc de 0.5 et 1 pour le montant d’assurance, et de 0.85 et 1 pour les territoires 1 et 2.
+
+On fixe le taux de base d’essai $B_S$ à 1 250 \$ et on recalcule la prime de chaque combinaison :
+
+| Montant d’assurance | Territoire | Unités | Différentiel actuel | Prime actuelle par unité | Prime actuelle totale |
+|:---|:---:|---:|---:|---:|---:|
+| < 100 000 \$ | 1 | 1 500 | 0.600 | 750.00 | 1 125 000 |
+| < 100 000 \$ | 2 | 4 000 | 0.750 | 937.50 | 3 750 000 |
+| ≥ 100 000 \$ | 1 | 1 500 | 0.800 | 1 000.00 | 1 500 000 |
+| ≥ 100 000 \$ | 2 | 3 000 | 1.000 | 1 250.00 | 3 750 000 |
+| **Total** | | **10 000** | | | **10 125 000** |
+
+| Montant d’assurance | Territoire | Différentiel proposé total | Prime totale avec $B_S$ |
+|:---|:---:|---:|---:|
+| < 100 000 \$ | 1 | 0.425 | 796 875 |
+| < 100 000 \$ | 2 | 0.500 | 2 500 000 |
+| ≥ 100 000 \$ | 1 | 0.850 | 1 593 750 |
+| ≥ 100 000 \$ | 2 | 1.000 | 3 750 000 |
+| **Total** | | | **8 640 625** |
+
+Le changement moyen des différentiels et le facteur d’*off-balance* sont :
+
+$$
+\Delta_S = \frac{8\,640\,625}{10\,125\,000}-1 = -0.1466,
+\qquad \text{off-balance} = \frac{1}{1+\Delta_S} = 1.1718
+$$
+
+Le taux de base proposé est donc :
+
+$$
+B_P = 1\,250 \times 1.171790235 \times 1.15 = 1\,684.45
+$$
+
+Les calculs utilisent les valeurs non arrondies; les résultats affichés sont arrondis.
+
+:::
+::::
+
+:::: {.question}
+Quelle serait votre réponse en a) si l’entreprise veut aussi instaurer une prime minimale de 800 \$?
+
+::: {.solution}
+
+L’application de la prime minimale aux primes calculées en a) augmente les primes de la première combinaison :
+
+| Montant d’assurance | Territoire | Prime par unité avant minimum | Prime par unité après minimum | Primes totales après minimum | Primes supplémentaires |
+|:---|:---:|---:|---:|---:|---:|
+| < 100 000 \$ | 1 | 715.89 | 800.00 | 1 200 000 | 126 164 |
+| < 100 000 \$ | 2 | 842.22 | 842.22 | 3 368 897 | 0 |
+| ≥ 100 000 \$ | 1 | 1 431.78 | 1 431.78 | 2 147 672 | 0 |
+| ≥ 100 000 \$ | 2 | 1 684.45 | 1 684.45 | 5 053 345 | 0 |
+| **Total** | | | | **11 769 914** | **126 164** |
+
+Il faut diminuer les primes des autres combinaisons pour compenser cette hausse. L’ajustement au taux de base est :
+
+$$
+-\frac{126\,164}{3\,368\,897+2\,147\,672+5\,053\,345} \approx -0.011936
+$$
+
+Le taux de base proposé est donc de $1\,684.45(1-0.011936) = 1\,664.34$. Les différentiels demeurent 0.5 et 1 pour le montant d’assurance, et 0.85 et 1 pour le territoire.
+
+La vérification des sélections finales donne :
+
+| Montant d’assurance | Territoire | Prime par unité avant minimum | Prime par unité après minimum | Primes totales après minimum |
+|:---|:---:|---:|---:|---:|
+| < 100 000 \$ | 1 | 707.35 | 800.00 | 1 200 000 |
+| < 100 000 \$ | 2 | 832.17 | 832.17 | 3 328 685 |
+| ≥ 100 000 \$ | 1 | 1 414.69 | 1 414.69 | 2 122 037 |
+| ≥ 100 000 \$ | 2 | 1 664.34 | 1 664.34 | 4 993 028 |
+| **Total** | | | | **11 643 750** |
+
+Les primes totalisent bien $1.15 \times 10\,125\,000$ et chaque prime par unité est d’au moins 800 \$.
+
+:::
+::::
+:::::
+
+:::: {.question}
+(CAS Examen 5, Automne 2015 – Q9 modifiée)
+
+Avec l’information suivante :
+
+| Caractéristique | Différentiel actuel |
+|:---|---:|
+| Territoire A | 0.60 |
+| Territoire B | 1.10 |
+| Détecteur de fumée | 0.90 |
+| Aucun détecteur de fumée | 1.00 |
+
+| | Unités acquises en {{< dynamic-year -1 >}} : territoire A | Unités acquises en {{< dynamic-year -1 >}} : territoire B |
+|:---|---:|---:|
+| Détecteur de fumée | 750 | 600 |
+| Aucun détecteur de fumée | 150 | 100 |
+
+| | Sinistres rapportés et frais de règlement alloués en {{< dynamic-year -1 >}} : territoire A | Territoire B |
+|:---|---:|---:|
+| Détecteur de fumée | 160 000 \$ | 260 000 \$ |
+| Aucun détecteur de fumée | 40 000 \$ | 52 000 \$ |
+
+- Le taux de base actuel est de 550 \$. Tous les différentiels sont multiplicatifs et la prime ne contient aucune portion fixe.
+- La direction a décidé que le différentiel du territoire le plus élevé n’excéderait pas 130 % du différentiel du territoire le plus bas dans tous les changements de taux futurs.
+- Les données de {{< dynamic-year -1 >}} sont pleinement crédibles.
+
+En considérant les contraintes de la direction, utiliser la méthode du taux de sinistre pour calculer les nouveaux différentiels par territoire et le nouveau taux de base afin d’obtenir un changement de taux global nul.
+
+::: {.solution}
+
+Les primes acquises aux taux courants sont :
+
+$$
+\begin{aligned}
+P_A &= 750(550)(0.6)(0.9)+150(550)(0.6) = 272\,250 \\
+P_B &= 600(550)(1.1)(0.9)+100(550)(1.1) = 387\,200
+\end{aligned}
+$$
+
+| Territoire | Unités | Primes actuelles | Sinistres | Taux de sinistre | Facteur indiqué | Différentiel indiqué |
+|:---|---:|---:|---:|---:|---:|---:|
+| A | 900 | 272 250 | 200 000 | 0.7346 | 0.9462 | 0.5677 |
+| B | 700 | 387 200 | 312 000 | 0.8058 | 1.0378 | 1.1416 |
+| **Total** | **1 600** | **659 450** | **512 000** | **0.7764** | | |
+
+Aucun différentiel territorial actuel n’est égal à 1 : on divise donc le taux de sinistre de chaque territoire par le taux de sinistre total pour obtenir le facteur de changement indiqué. Le ratio $1.1416/0.5677$ dépasse 1.30. Deux sélections équivalentes sont possibles :
+
+| Sélection | Différentiel A | Différentiel B | Changement moyen des différentiels | Facteur d’off-balance | Taux de base proposé |
+|:---|---:|---:|---:|---:|---:|
+| Conserver A | 0.5677 | 0.7380 | −0.2154 | 1.2746 | 701.03 |
+| Conserver B | 0.8782 | 1.1416 | 0.2136 | 0.8240 | 453.19 |
+
+Dans le premier cas, le différentiel de B est limité à $1.3 \times 0.5677$. Dans le second, celui de A est fixé à $1.1416/1.3$. Le facteur d’off-balance est l’inverse de un plus le changement moyen des différentiels, pondéré par les primes actuelles. Le nouveau taux de base est le taux actuel multiplié par ce facteur.
+
+:::
+::::
+
+::::: {.question}
+(CAS Examen 5, Printemps 2015 – Q10)
+
+Avec l’information suivante pour une compagnie d’assurance :
+
+| Territoire | Primes | Taux de sinistre ultime |
+|:---|---:|---:|
+| A | 45 000 000 \$ | 0.80 |
+| B | 55 000 000 \$ | 0.60 |
+
+- La compagnie établit ses taux pour atteindre un taux de sinistre permis (*permissible loss ratio*) de 65 %.
+- Tous les frais sont variables.
+- En raison de contraintes de marché, les hausses de taux dans un territoire sont limitées à +20 %.
+
+:::: {.question}
+En tenant compte des contraintes de marché, utiliser la méthode du taux de sinistre (*loss ratio method*) pour déterminer le changement de taux pour les territoires A et B.
+
+::: {.solution}
+
+Puisque tous les frais sont variables, le changement indiqué est égal au taux de sinistre ultime divisé par le taux de sinistre permis, moins un.
+
+| Territoire | Primes actuelles | Taux de sinistre | Changement indiqué | Primes indiquées |
+|:---|---:|---:|---:|---:|
+| A | 45 000 000 | 0.80 | +23.08 % | 55 384 615.38 |
+| B | 55 000 000 | 0.60 | −7.69 % | 50 769 230.77 |
+| **Total** | **100 000 000** | | | **106 153 846.15** |
+
+| Territoire | Primes indiquées | Primes après limite de 20 % | Primes manquantes |
+|:---|---:|---:|---:|
+| A | 55 384 615.38 | 54 000 000.00 | 1 384 615.38 |
+| B | 50 769 230.77 | 50 769 230.77 | 0 |
+| **Total** | **106 153 846.15** | **104 769 230.77** | **1 384 615.38** |
+
+La hausse de A est limitée à +20 %. On récupère la différence dans B :
+
+$$
+\frac{1\,384\,615.38}{50\,769\,230.77}=0.02727
+$$
+
+En utilisant les valeurs non arrondies, le changement de B est :
+
+$$
+\frac{50\,769\,230.77+1\,384\,615.38}{55\,000\,000}-1
+= -0.05175 \approx -5.17\%
+$$
+
+:::
+::::
+
+:::: {.question}
+Si la compagnie décide d’utiliser un taux de sinistre permis différent en raison de la limitation par territoire, l’équation fondamentale en assurance ne sera pas balancée pour tous les territoires. Décrire un changement autre qu’un changement de taux que la compagnie pourrait faire pour atteindre une équation fondamentale balancée.
+
+::: {.solution}
+
+Plusieurs réponses sont possibles :
+
+- Réduire les frais de souscription, par exemple les commissions aux courtiers et agents, ou les frais de règlement de sinistres.
+- Accepter un profit de souscription cible inférieur.
+- Changer la distribution du portefeuille, par exemple en ciblant davantage de clients du territoire B dans la publicité ou en modifiant les normes de souscription pour cibler les risques plus rentables.
+
+:::
+::::
+:::::
+
+::::: {.question}
+(CAS Examen 5, Printemps 2014 – Q10 modifiée)
+
+Une compagnie implante une révision de taux récemment approuvée en assurance automobile des particuliers. Le changement de taux indiqué était de +20 %, alors que le changement demandé était de +8 %.
+
+:::: {.question}
+Expliquer brièvement trois raisons pour lesquelles la compagnie peut avoir demandé une hausse de taux significativement plus basse que celle indiquée.
+
+::: {.solution}
+
+- **Contraintes réglementaires** : la réglementation peut limiter le changement de taux à 8 %.
+- **Contraintes opérationnelles** : le changement peut nécessiter une modification majeure des systèmes et la compagnie peut manquer de ressources pour la réaliser immédiatement.
+- **Contraintes de marché** : la compagnie peut vouloir rester compétitive pour attirer de nouveaux clients.
+
+:::
+::::
+
+:::: {.question}
+Discuter brièvement de deux actions que la compagnie pourrait prendre pour compenser le manque de primes.
+
+::: {.solution}
+
+Plusieurs réponses sont possibles :
+
+- Diminuer les frais de souscription, par exemple les commissions, ou les frais de règlement de sinistres.
+- Accepter un profit de souscription cible inférieur.
+- Augmenter le revenu d’investissement, par exemple avec une stratégie d’investissement plus agressive.
+- Réduire les sinistres espérés en changeant la distribution du portefeuille ou en implantant des mesures de contrôle des sinistres.
+
+:::
+::::
+
+:::: {.question}
+Calculer le taux de base proposé pour atteindre une hausse de +8 %, en supposant qu’il n’y a pas de changement des différentiels. Utiliser l’information suivante provenant des taux déposés auprès des régulateurs :
+
+| Variable $R_1$ | Unités (000) | Différentiel |
+|:---|---:|---:|
+| 1 | 150 | 1.350 |
+| 2 | 500 | 1.000 |
+| 3 | 100 | 0.990 |
+| **Total** | **750** | **1.069** |
+
+| Variable $R_2$ | Unités (000) | Différentiel |
+|:---|---:|---:|
+| A | 250 | 0.870 |
+| B | 300 | 1.250 |
+| C | 200 | 1.000 |
+| **Total** | **750** | **1.057** |
+
+| Rabais additif | Unités (000) | Différentiel |
+|:---|---:|---:|
+| Oui | 450 | 0.050 |
+| Non | 300 | 0.000 |
+| **Total** | **750** | **0.030** |
+
+- Prime moyenne actuelle par véhicule : 450 \$.
+- Changement de taux indiqué : 20 %; changement demandé : 8 %.
+- Prime additive par véhicule : 35 \$.
+
+La prime proposée par véhicule est calculée selon :
+
+$$
+P_P = B \times R_1 \times R_2 \times (1-D)+A_P
+$$
+
+où $B$ est le taux de base, $R_1$ et $R_2$ sont les facteurs de tarification multiplicatifs, $D$ est le rabais additif et $A_P$ est la prime additive fixe par véhicule.
+
+::: {.solution}
+
+La prime moyenne proposée recherchée est $450(1.08)=486$. Le taux de base actuel n’est pas donné et les données ne permettent pas de recalculer la prime de chaque unité. On utilise donc la méthode du différentiel moyen approximé :
+
+$$
+486 \approx B \bar R_1\bar R_2(1-\bar D)+35
+$$
+
+Le rabais moyen est $(450 \times 0.05+300 \times 0)/750=0.03$. Avec les différentiels moyens arrondis de l’énoncé :
+
+$$
+B \approx \frac{486-35}{1.069(1.057)(1-0.03)} = 411.48
+$$
+
+Avec les moyennes non arrondies calculées à partir des unités, on obtient environ 411,74 \$.
+
+:::
+::::
+:::::
+
+:::: {.question}
+(CAS Examen 5, Automne 2013 – Q9 modifiée)
+
+Avec l’information suivante :
+
+| Territoire | Primes | Différentiel actuel | Différentiel indiqué |
+|:---|---:|---:|---:|
+| 1 | 195 000 \$ | 0.85 | 0.75 |
+| 2 | 475 000 \$ | 1.00 | 1.00 |
+| 3 | 330 000 \$ | 1.30 | 1.20 |
+| **Total** | **1 000 000 \$** | | |
+
+L’algorithme est multiplicatif et ne comporte aucune portion de prime fixe. La direction exige un changement de taux global de 20 % et la révision des différentiels territoriaux à leur niveau indiqué, en limitant les impacts par territoire à 25 %.
+
+Calculer les différentiels par territoire qui seront implantés dans le changement de taux.
+
+::: {.solution}
+
+On suppose que le territoire 2 demeure la classe de base. Sans limitation, le changement moyen des différentiels est d’environ −4,83 % et le facteur d’off-balance est d’environ 1,0508. Le facteur de changement du taux de base est alors $1.2(1.0508) \approx 1.2609$.
+
+| Territoire | Primes actuelles | Changement de différentiel | Changement total avant limite | Primes proposées avant limite |
+|:---|---:|---:|---:|---:|
+| 1 | 195 000 | −11.76 % | +11.26 % | 216 955 |
+| 2 | 475 000 | 0.00 % | +26.09 % | 598 944 |
+| 3 | 330 000 | −7.69 % | +16.39 % | 384 100 |
+
+La classe de base dépasse la limite de 25 %. Son taux de base doit donc être limité à $1.25B_C$. Les primes recherchées sont de 1 200 000 \$, dont $475\,000(1.25)=593\,750$ pour le territoire 2. Les différentiels des territoires 1 et 3 sont ajustés proportionnellement pour obtenir le solde de 606 250 \$.
+
+En utilisant les valeurs non arrondies :
+
+$$
+\begin{aligned}
+k &= \frac{1\,200\,000-593\,750}
+ {195\,000(0.75/0.85)+330\,000(1.20/1.30)} = 1.271833 \\
+R_{1P} &= 0.75\frac{k}{1.25} = 0.7631 \\
+R_{2P} &= 1.0000 \\
+R_{3P} &= 1.20\frac{k}{1.25} = 1.2210
+\end{aligned}
+$$
+
+:::
+::::
+
+::::: {.question}
+(CAS Examen 5, Printemps 2013 – Q14)
+
+Un assureur propose d’augmenter ses taux de 6,0 % en moyenne, alors que les impacts pour plusieurs polices individuelles dépasseront 10 %. Il propose d’instaurer une règle limitant le changement de prime au niveau de la police à plus ou moins 10 %.
+
+:::: {.question}
+Identifier deux problèmes qu’une règle de limitation des changements de prime peut causer à un assureur.
+
+::: {.solution}
+
+- L’assureur ne charge pas nécessairement la prime requise pour équilibrer l’équation fondamentale et obtenir le profit de souscription cible.
+- L’assureur peut subir de l’antisélection : les risques dont la prime est inférieure à l’indiqué peuvent être incités à rester, tandis que ceux dont la prime est supérieure à l’indiqué peuvent être portés à quitter.
+
+:::
+::::
+
+:::: {.question}
+Expliquer pourquoi un assureur pourrait tout de même proposer une règle de limitation des changements de prime, malgré les problèmes identifiés en a).
+
+::: {.solution}
+
+- **Contraintes de marché** : limiter les fortes hausses au renouvellement peut réduire le magasinage et favoriser la rétention.
+- **Contraintes légales** : certaines réglementations limitent la hausse de taux qu’un assuré peut subir à chaque renouvellement.
+
+:::
+::::
+:::::
+
+::::: {.question}
+(CAS Examen 5, 2012 – Q14)
+
+Une compagnie vend de l’assurance automobile où la prime est la même pour chaque véhicule et égale à la prime pure moyenne actuelle dans l’État. Elle envisage une structure plus sophistiquée pour être plus compétitive et a déterminé l’information suivante pour trois variables de tarification potentielles d’un portefeuille existant :
+
+| Endroit stationné | Unités | Sinistres | Classe de base |
+|:---|---:|---:|:---:|
+| Urbain | 800 | 430 000 \$ | Oui |
+| Rural | 200 | 70 000 \$ | Non |
+
+| Compétences du conducteur | Unités | Sinistres | Classe de base |
+|:---|---:|---:|:---:|
+| Élevées | 950 | 476 000 \$ | Oui |
+| Faibles | 50 | 25 000 \$ | Non |
+
+| État civil | Unités | Sinistres | Classe de base |
+|:---|---:|---:|:---:|
+| Marié | 500 | 210 000 \$ | Non |
+| Célibataire | 500 | 290 000 \$ | Oui |
+
+- L’endroit où le véhicule est stationné est déterminé par le code postal.
+- Les compétences du conducteur sont déterminées par une autoévaluation lors de l’émission initiale de la police.
+- L’état civil de l’opérateur principal est déterminé à la date effective de la police.
+- Supposer que chaque variable est indépendante.
+
+:::: {.question}
+Pour chaque variable de tarification potentielle, déterminer si elle devrait être utilisée et justifier la recommandation.
+
+::: {.solution}
+
+| Variable | Classe | Unités | Sinistres | Prime pure |
+|:---|:---|---:|---:|---:|
+| Endroit stationné | Urbain | 800 | 430 000 | 537.50 |
+| | Rural | 200 | 70 000 | 350.00 |
+| Compétences | Élevées | 950 | 476 000 | 501.05 |
+| | Faibles | 50 | 25 000 | 500.00 |
+| État civil | Marié | 500 | 210 000 | 420.00 |
+| | Célibataire | 500 | 290 000 | 580.00 |
+
+- **Endroit stationné** : utiliser cette variable, car les primes pures diffèrent sensiblement et la variable est facilement mesurable et vérifiable à partir du code postal.
+- **Compétences du conducteur** : ne pas utiliser cette variable. L’autoévaluation est subjective et ouverte à interprétation. De plus, il serait contre-intuitif que les conducteurs qui déclarent de meilleures compétences aient une expérience légèrement moins favorable.
+- **État civil** : utiliser cette variable, car les primes pures diffèrent sensiblement et la variable est objective et vérifiable.
+
+Les sinistres de la variable « compétences » totalisent 501 000 \$, alors que les deux autres variables totalisent 500 000 \$. La solution historique utilise plutôt 24 000 \$ pour les compétences faibles; l’énoncé indique 25 000 \$.
+
+:::
+::::
+
+:::: {.question}
+Développer un taux de base et les facteurs de tarification pour la structure du plan de tarification recommandée en a).
+
+::: {.solution}
+
+On utilise les totaux de 500 000 \$ des deux variables retenues : la prime actuelle est donc de $500\,000/1\,000=500$ par risque. Les classes de base sont « urbain » et « célibataire ».
+
+| Endroit stationné | Unités | Sinistres | Prime pure | Primes actuelles | Différentiel indiqué | Changement de différentiel |
+|:---|---:|---:|---:|---:|---:|---:|
+| Urbain | 800 | 430 000 | 537.50 | 400 000 | 1.0000 | 0.0000 |
+| Rural | 200 | 70 000 | 350.00 | 100 000 | 0.6512 | −0.3488 |
+| **Total** | **1 000** | **500 000** | **500.00** | **500 000** | | **−0.0698** |
+
+| État civil | Unités | Sinistres | Prime pure | Primes actuelles | Différentiel indiqué | Changement de différentiel |
+|:---|---:|---:|---:|---:|---:|---:|
+| Marié | 500 | 210 000 | 420.00 | 250 000 | 0.7241 | −0.2759 |
+| Célibataire | 500 | 290 000 | 580.00 | 250 000 | 1.0000 | 0.0000 |
+| **Total** | **1 000** | **500 000** | **500.00** | **500 000** | | **−0.1379** |
+
+Les changements moyens sont pondérés par les primes actuelles. Les facteurs d’off-balance respectifs sont de 1.0750 et 1.1600. Le taux de base proposé est donc :
+
+$$
+B_P = 500(1.0750)(1.1600) = 623.50
+$$
+
+Les différentiels proposés sont 1.0000 et 0.6512 pour les lieux urbain et rural, et 0.7241 et 1.0000 pour les personnes mariées et célibataires.
+
+:::
+::::
+:::::
+
+::::: {.question}
+(CAS Examen 5, 2009 – Q38)
+
+Avec l’information suivante :
+
+| Classe | Primes totales au taux courant | Différentiel actuel | Différentiel proposé |
+|:---|---:|---:|---:|
+| 1 | 500 000 \$ | 1.00 | 1.00 |
+| 2 | 100 000 \$ | 1.25 | 1.15 |
+| 3 | 400 000 \$ | 1.60 | 1.40 |
+| **Total** | **1 000 000 \$** | | |
+
+La classe 1 reste la classe de base, le taux de base actuel est de 100 \$ et le changement global proposé est de +15 %.
+
+:::: {.question}
+Calculer le taux de base proposé.
+
+::: {.solution}
+
+| Classe | Prime actuelle | Différentiel actuel | Différentiel proposé | Changement de différentiel |
+|:---|---:|---:|---:|---:|
+| 1 | 500 000 | 1.00 | 1.00 | 0.000 |
+| 2 | 100 000 | 1.25 | 1.15 | −0.080 |
+| 3 | 400 000 | 1.60 | 1.40 | −0.125 |
+| **Total** | **1 000 000** | | | **−0.058** |
+
+Le changement moyen est pondéré par les primes :
+
+$$
+\Delta_S = \frac{0(500\,000)-0.08(100\,000)-0.125(400\,000)}{1\,000\,000} = -0.058
+$$
+
+Le facteur d’off-balance est $1/(1-0.058)=1.0616$ et le taux de base proposé est :
+
+$$
+B_P = 100 \times \frac{1}{1-0.058} \times 1.15 = 122.08
+$$
+
+:::
+::::
+
+:::: {.question}
+En supposant que l’actuaire veut limiter tout changement par classe à 20 % tout en réussissant une hausse globale de 15 %, calculer le taux de base ainsi que les différentiels révisés.
+
+::: {.solution}
+
+Avant limitation, les impacts et primes proposées sont :
+
+| Classe | Changement total avant limite | Primes avant limite | Changement limité à +20 % | Primes après limite | Primes manquantes |
+|:---|---:|---:|---:|---:|---:|
+| 1 | +22.08 % | 610 403 | +20.00 % | 600 000 | 10 403 |
+| 2 | +12.31 % | 112 314 | +12.31 % | 112 314 | 0 |
+| 3 | +6.82 % | 427 282 | +6.82 % | 427 282 | 0 |
+| **Total** | **+15.00 %** | **1 150 000** | | **1 139 597** | **10 403** |
+
+Puisque la classe de base dépasse la limite, le taux de base proposé devient $100(1.20)=120$. L’ajustement total aux différentiels des classes 2 et 3 est approximativement :
+
+$$
+\frac{1+10\,403/(112\,314+427\,282)}{1.20/1.2208} = 1.0370
+$$
+
+Les différentiels proposés sont 1.0000, $1.15(1.0370)=1.1925$ et $1.40(1.0370)=1.4517$ pour les classes 1, 2 et 3 respectivement.
+
+:::
+::::
+:::::
+
+:::: {.question}
+(CAS Examen 5, 2007 – Q48)
+
+Vous avez l’information suivante :
+
+| Territoire | Différentiel actuel | Primes acquises totales au taux courant | Sinistres et frais de règlement alloués |
+|:---|---:|---:|---:|
+| 1 | 1.00 | 8 325 000 \$ | 4 995 000 \$ |
+| 2 | 0.80 | 7 980 000 \$ | 5 087 000 \$ |
+| 3 | 0.60 | 5 160 000 \$ | 3 612 000 \$ |
+
+Supposer que le taux de base actuel est de 100 \$ et qu’il n’y a pas de frais fixes. Calculer le taux de base proposé et les différentiels indiqués pour un changement global visé de −3 %. Montrer tous les calculs.
+
+::: {.solution}
+
+On suppose que le territoire 1 demeure la classe de base. Le facteur de changement indiqué est le taux de sinistre de chaque territoire divisé par celui du territoire de base :
+
+| Territoire | Primes actuelles | Sinistres | Taux de sinistre | Facteur de changement indiqué | Différentiel indiqué | Changement de différentiel |
+|:---|---:|---:|---:|---:|---:|---:|
+| 1 | 8 325 000 | 4 995 000 | 0.6000 | 1.0000 | 1.0000 | 0.0000 |
+| 2 | 7 980 000 | 5 087 000 | 0.6375 | 1.0624 | 0.8500 | 0.0624 |
+| 3 | 5 160 000 | 3 612 000 | 0.7000 | 1.1667 | 0.7000 | 0.1667 |
+| **Total** | **21 465 000** | **13 694 000** | **0.6380** | | | **0.0633** |
+
+$$
+\Delta_S = \frac{0(8\,325\,000)+0.0624(7\,980\,000)+0.1667(5\,160\,000)}{21\,465\,000} \approx 0.0633
+$$
+
+Le facteur d’off-balance est $1/(1+0.0633) \approx 0.9405$. Le taux de base proposé est :
+
+$$
+B_P = 100(0.9405)(1-0.03) = 91.23
+$$
+
+:::
+::::
+
+::::: {.question}
+(CAS Examen 5, 2003 – Q37)
+
+À partir de l’information ci-dessous, répondre aux questions et montrer tous les calculs :
+
+- Taux de base actuel : 200 \$.
+- Hausse de taux globale proposée : +20 %.
+- La classe de base est la classe 2.
+
+| Classe | Différentiel actuel par rapport à la classe 2 | Primes acquises au taux courant | Sinistres et frais de règlement alloués | Différentiel indiqué |
+|:---|---:|---:|---:|---:|
+| 1 | 0.800 | 20 000 \$ | 18 000 \$ | 0.900 |
+| 2 | 1.000 | 10 000 \$ | 8 000 \$ | 1.000 |
+| 3 | 1.200 | 12 000 \$ | 9 000 \$ | 1.125 |
+
+:::: {.question}
+Calculer le taux de base proposé.
+
+::: {.solution}
+
+| Classe | Primes actuelles | Différentiel actuel | Différentiel indiqué | Changement de différentiel |
+|:---|---:|---:|---:|---:|
+| 1 | 20 000 | 0.800 | 0.900 | 0.1250 |
+| 2 | 10 000 | 1.000 | 1.000 | 0.0000 |
+| 3 | 12 000 | 1.200 | 1.125 | −0.0625 |
+| **Total** | **42 000** | | | **0.0417** |
+
+$$
+\Delta_S = \frac{0.125(20\,000)+0(10\,000)-0.0625(12\,000)}{42\,000}=\frac{1}{24}
+$$
+
+Le facteur d’off-balance est $1/(1+1/24)=0.96$. Le taux de base proposé est :
+
+$$
+B_P = 200(0.96)(1.2) = 230.40
+$$
+
+:::
+::::
+
+:::: {.question}
+Expliquer l’utilité d’un facteur d’off-balance dans le calcul du taux de base proposé.
+
+::: {.solution}
+
+Le facteur d’off-balance est nécessaire parce que le différentiel moyen proposé diffère du différentiel moyen actuel. Sans cet ajustement au taux de base, le changement des différentiels moyens modifierait le niveau global de primes en plus du changement souhaité.
+
+:::
+::::
+:::::

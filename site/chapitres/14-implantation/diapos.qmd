@@ -14,11 +14,643 @@ Ce chapitre est adapté du chapitre 14 du texte *Basic Ratemaking* :
 
 ## Contenu du chapitre {.progress-overview}
 
-- Solutions non tarifaires à une équation fondamentale non balancée
-- Solutions tarifaires à une équation fondamentale non balancée pour un produit existant
+:::: {.question title="Équation fondamentale"}
 
-# Contenu en préparation {data-progress-label="À venir"}
+Avec les données suivantes :
 
-## Implantation des changements de taux
+$$
+\bar L + \bar E_L = 180\text{\$}, \quad \bar E_F = 20\text{\$}, \quad V = 15\%, \quad Q_T = 5\%
+$$
 
-Les notes de ce chapitre sont en préparation à partir du matériel de cours historique.
+a) Calculer la prime indiquée moyenne par unité.
+
+b) Quel changement proposeriez-vous si la prime moyenne projetée en assumant les taux courants est de 235 \$?
+
+::::
+
+# Solutions non tarifaires à une équation fondamentale non balancée {data-progress-label="Solutions non tarifaires"}
+
+## Diminution des frais
+
+- Diminution des frais de souscription ou des frais de règlement des sinistres.
+- Par exemple, réduire le budget de marketing ou le personnel.
+
+Avec les données de l’exemple précédent, si la compagnie fait passer ses frais fixes de 20 \$ à 8 \$, la prime indiquée moyenne devient :
+
+$$
+\frac{180 + 8}{1 - 0.15 - 0.05} = 235\text{\$}
+$$
+
+## Diminution des sinistres espérés moyens
+
+- **Changer le portefeuille d’assurés** : souscription des risques plus serrée ou non-renouvellement lorsque la prime est inadéquate.
+- **Réduire la couverture** : par exemple, exclure le refoulement d’égout de la police de base tout en conservant la même prime.
+- **Mettre en place ou améliorer les procédures de contrôle des pertes** : par exemple, réduire la sévérité en implantant un programme de retour au travail en *Workers Compensation*.
+
+Avec les données de l’exemple précédent, les sinistres espérés et frais de règlement doivent passer de 180 \$ à 168 \$ pour avoir une équation balancée.
+
+---
+
+::: {.callout-warning}
+La diminution des sinistres espérés moyens doit être plus forte que celle de la prime espérée moyenne pour ramener le portefeuille vers une équation balancée.
+:::
+
+# Solutions tarifaires à une équation fondamentale non balancée pour un produit existant {data-progress-label="Solutions tarifaires"}
+
+## Profit de souscription
+
+Une compagnie pourrait décider temporairement d’avoir un profit de souscription inférieur au profit cible jusqu’à ce que des ajustements soient apportés.
+
+Avec les données de l’exemple précédent, l’analyse indique que le taux moyen doit passer de 235 \$ à 250 \$. Si 235 \$ est le maximum qu’elle peut charger à court terme, elle doit accepter un profit de souscription de :
+
+$$
+\frac{235 - 180 - 20 - 0.15(235)}{235} \approx -0.0011
+$$
+
+La plupart des compagnies vont décider de changer les taux courants pour atteindre ou approcher l’équilibre.
+
+::: {.notes}
+Parler de certains segments qui en subventionnent d’autres (par exemple, automobile et habitation).
+:::
+
+## Établissement des taux finaux
+
+Afin d’établir les taux finaux pour un produit existant, une compagnie doit :
+
+- Choisir une prime moyenne globale prévue pour la période de police future.
+- Finaliser la structure de l’algorithme de tarification.
+- Choisir les différentiels finaux pour chaque variable de tarification.
+- Calculer les frais fixes ou autres primes additives, s’il y a lieu.
+- Dériver le taux de base nécessaire pour atteindre la prime moyenne globale prévue.
+
+## Exemple d’algorithme de tarification
+
+::: {.callout-note}
+Les algorithmes de tarification peuvent varier considérablement d’une compagnie à l’autre et d’un produit à l’autre.
+:::
+
+**Prime variable** (*variable premium*)
+: Portion de la prime totale qui varie selon les caractéristiques du risque, soit une fonction du taux de base et des différentiels.
+
+**Prime fixe** (*flat premium* ou *additive premium*)
+: Portion de la prime totale qui provient des frais fixes ou d’autres montants fixes en dollars.
+
+---
+
+$$
+P_{P,ijkm} = [B_P R_{1P,i} R_{2P,j}(1-D_{1P,k}-D_{2P,m}) + A_P] X_{ijkm}
+$$
+
+- $B$ : taux de base; $R_1$, $R_2$ : variables de tarification multiplicatives.
+- $D_1$, $D_2$ : escomptes retranchés à 1; $A$ : portion fixe additive par unité.
+- $X$ : unités; $P$ : proposé; $i$, $j$, $k$, $m$ : niveaux des variables et escomptes.
+
+---
+
+| $R_1$ | Actuel | Indiqué | Compétiteur | Proposé |
+|:---|---:|---:|---:|---:|
+| 1 | 0.8000 | 0.9000 | 0.9200 | 0.9000 |
+| 2 | 1.0000 | 1.0000 | 1.0000 | 1.0000 |
+| 3 | 1.2000 | 1.2500 | 1.2500 | 1.2500 |
+
+| $R_2$ | Actuel | Indiqué | Compétiteur | Proposé |
+|:---|---:|---:|---:|---:|
+| A | 1.0000 | 1.0000 | 1.0000 | 1.0000 |
+| B | 1.0500 | 0.9000 | 0.9500 | 0.9500 |
+| C | 1.2000 | 1.3000 | 1.3500 | 1.3000 |
+
+---
+
+| $D_1$ | Actuel | Indiqué | Compétiteur | Proposé |
+|:---|---:|---:|---:|---:|
+| Y | 5.0 % | 4.0 % | 5.0 % | 5.0 % |
+| N | 0.0 % | 0.0 % | 0.0 % | 0.0 % |
+
+| $D_2$ | Actuel | Indiqué | Compétiteur | Proposé |
+|:---|---:|---:|---:|---:|
+| Y | 10.0 % | 2.5 % | 7.5 % | 5.0 % |
+| N | 0.0 % | 0.0 % | 0.0 % | 0.0 % |
+
+## Calcul des frais fixes ou autres primes additives
+
+Les frais fixes doivent être ajustés pour tenir compte des frais variables et du profit de la même façon que les sinistres et frais de règlement sont ajustés. La compagnie a des frais variables et espère un profit sur toute la prime, y compris la portion qui provient des frais fixes.
+
+:::: {.question title="Prime fixe par unité"}
+
+Avec les données suivantes :
+
+- Frais fixes moyens par unité : 20 \$.
+- Frais variables : 15 %.
+- Profit de souscription cible : 5 %.
+
+Calculer $A_P$.
+
+::: {.solution}
+
+$$
+A_P = \frac{20\text{\$}}{1 - 0.15 - 0.05} = 25\text{\$}
+$$
+
+::: {.notes}
+Les 25 \$ comprennent les 20 \$ de frais fixes ainsi que les frais variables et le profit associés à cette portion de la prime.
+:::
+
+:::
+::::
+
+:::: {.question title="Prime fixe et ratio de frais"}
+
+Avec les données suivantes :
+
+- Ratio de frais fixes : 8 %.
+- Prime moyenne projetée par unité : 250 \$.
+- Frais variables : 15 %.
+- Profit de souscription cible : 5 %.
+
+Calculer $A_P$.
+
+::: {.notes}
+Avec la méthode de projection des frais basée sur les primes (*premium-based expense projection method*).
+:::
+
+::: {.solution}
+
+$$
+\begin{aligned}
+\text{Frais fixes par unité} &= 0.08 \times 250\text{\$} = 20\text{\$} \\
+A_P &= \frac{20\text{\$}}{1 - 0.15 - 0.05} = 25\text{\$}
+\end{aligned}
+$$
+
+:::
+::::
+
+## Dérivation du taux de base : aucun changement des différentiels
+
+Lorsque l’actuaire a sélectionné la prime moyenne proposée, les différentiels proposés et les frais fixes ou autres primes additives, il reste à déterminer le taux de base proposé.
+
+Que l’indiqué global provienne de la méthode de la prime pure ou de celle du taux de sinistre, le but est de dériver le taux de base qui atteint la prime moyenne globale prévue.
+
+---
+
+S’il n’y a aucun changement dans les différentiels :
+
+$$
+B_P = B_C \times \frac{\bar P_P - A_P}{\bar P_C - A_C}
+$$
+
+$B_P$ et $B_C$ : taux de base proposé et actuel; $\bar P_P$ et $\bar P_C$ : primes moyennes proposée et actuelle; $A_P$ et $A_C$ : primes fixes proposée et actuelle.
+
+:::: {.question title="Taux de base sans changement des différentiels"}
+
+La prime moyenne actuelle est de 1 000 \$, le taux de base actuel de 800 \$ et la prime fixe actuelle de 100 \$. La compagnie veut atteindre une hausse de prime moyenne de 5 %.
+
+Calculer le nouveau taux de base si la prime fixe demeure la même.
+
+::: {.solution}
+
+$$
+B_P = B_C \times \frac{\bar P_P - A_P}{\bar P_C - A_C}
+= 800 \times \frac{1\,000(1.05) - 100}{1\,000 - 100} = 844.44\text{\$}
+$$
+
+:::
+::::
+
+## Dérivation du taux de base : changement des différentiels
+
+Trois approches pour déterminer le taux de base :
+
+1. Méthode qui recalcule la prime pour chaque unité (*extension of exposures*).
+2. Différentiel moyen approximé.
+3. Changement dans le différentiel moyen approximé.
+
+## Méthode qui recalcule la prime pour chaque unité
+
+- Méthode la plus directe et précise, mais elle nécessite des données détaillées.
+- On tarifie à nouveau toutes les unités en considérant les différentiels et la prime fixe proposés.
+- On fixe une valeur de départ $B_S$ pour le taux de base. Si la prime moyenne résultante égale la prime globale prévue, cette valeur est le taux de base proposé; sinon, on l’ajuste.
+
+---
+
+Pour chaque combinaison de caractéristiques, on recalcule la prime avec les différentiels proposés et le taux de base d’essai :
+
+$$
+P_{S,ijkm} = [B_S R_{1P,i}R_{2P,j}(1-D_{1P,k}-D_{2P,m}) + A_P]X_{ijkm}
+$$
+
+La prime moyenne d’essai est la somme des primes divisée par le nombre d’unités :
+
+$$
+\bar P_S = B_S\frac{\sum_{ijkm}R_{1P,i}R_{2P,j}(1-D_{1P,k}-D_{2P,m})X_{ijkm}}{\sum_{ijkm}X_{ijkm}} + A_P
+$$
+
+:::: {.question title="Recalcul de la prime pour chaque unité"}
+
+$B_S = 215\text{\$}$ et la prime moyenne globale prévue est de 250 \$.
+
+| Unités | $R_1$ | $R_2$ | $D_1$ | $D_2$ | Prime proposée ($) |
+|---:|:---:|:---:|:---:|:---:|---:|
+| 10 000 | 1 | A | Y | Y | 1 991 500,00 |
+| 7 500 | 2 | A | Y | Y | 1 638 750,00 |
+| 3 000 | 3 | A | Y | Y | 800 625,00 |
+| 9 000 | 1 | B | Y | Y | 1 713 982,50 |
+| 20 000 | 2 | B | Y | Y | 4 176 500,00 |
+| 5 000 | 3 | B | Y | Y | 1 273 906,25 |
+| 1 875 | 1 | C | Y | Y | 471 365,62 |
+| 5 000 | 2 | C | Y | Y | 1 382 750,00 |
+| 2 000 | 3 | C | Y | Y | 678 875,00 |
+
+##
+
+| Unités | $R_1$ | $R_2$ | $D_1$ | $D_2$ | Prime proposée ($) |
+|---:|:---:|:---:|:---:|:---:|---:|
+| 3 500 | 1 | A | N | Y | 730 887,50 |
+| 7 500 | 2 | A | N | Y | 1 719 375,00 |
+| 3 500 | 3 | A | N | Y | 981 093,75 |
+| 15 000 | 1 | B | N | Y | 2 994 506,25 |
+| 36 000 | 2 | B | N | Y | 7 885 350,00 |
+| 9 000 | 3 | B | N | Y | 2 407 921,88 |
+| 3 750 | 1 | C | N | Y | 989 896,88 |
+| 10 000 | 2 | C | N | Y | 2 905 250,00 |
+| 2 000 | 3 | C | N | Y | 713 812,50 |
+
+##
+
+| Unités | $R_1$ | $R_2$ | $D_1$ | $D_2$ | Prime proposée ($) |
+|---:|:---:|:---:|:---:|:---:|---:|
+| 3 500 | 1 | A | Y | N | 730 887,50 |
+| 7 500 | 2 | A | Y | N | 1 719 375,00 |
+| 3 500 | 3 | A | Y | N | 981 093,75 |
+| 15 000 | 1 | B | Y | N | 2 994 506,25 |
+| 36 000 | 2 | B | Y | N | 7 885 350,00 |
+| 9 000 | 3 | B | Y | N | 2 407 921,88 |
+| 3 750 | 1 | C | Y | N | 989 896,88 |
+| 10 000 | 2 | C | Y | N | 2 905 250,00 |
+| 5 000 | 3 | C | Y | N | 1 784 531,25 |
+
+##
+
+| Unités | $R_1$ | $R_2$ | $D_1$ | $D_2$ | Prime proposée ($) |
+|---:|:---:|:---:|:---:|:---:|---:|
+| 48 000 | 1 | A | N | N | 10 488 000,00 |
+| 112 500 | 2 | A | N | N | 27 000 000,00 |
+| 25 000 | 3 | A | N | N | 7 343 750,00 |
+| 11 000 | 1 | B | N | N | 2 297 075,00 |
+| 250 000 | 2 | B | N | N | 57 312 500,00 |
+| 65 000 | 3 | B | N | N | 18 220 312,50 |
+| 28 125 | 1 | C | N | N | 7 777 968,75 |
+| 68 000 | 2 | C | N | N | 20 706 000,00 |
+| 15 000 | 3 | C | N | N | 5 615 625,00 |
+
+Total : 869 500 unités et 214 616 391,88 \$ de primes, soit une prime moyenne de 246,83 \$. Elle est inférieure à 250 \$; $B_S$ doit donc être augmenté.
+
+::::
+
+## Méthode qui recalcule la prime pour chaque unité
+
+On peut utiliser une approche d’essais et erreurs en modifiant $B_S$ à chaque essai. Avec la méthode de la prime pure, on peut aussi écrire :
+
+$$
+\bar P_S = B_S \bar S_P + A_P \qquad (1)
+$$
+
+$$
+\bar P_P = B_P \bar S_P + A_P \qquad (2)
+$$
+
+---
+
+En réarrangeant les termes et en faisant le rapport de (2) à (1), on obtient :
+
+$$
+\frac{\bar P_P - A_P}{\bar P_S - A_P} = \frac{B_P}{B_S}
+$$
+
+Le taux de base proposé est donc :
+
+$$
+B_P = B_S \times \frac{\bar P_P - A_P}{\bar P_S - A_P}
+$$
+
+:::: {.question title="Ajustement du taux de base d’essai"}
+
+- $B_S = 215\text{\$}$.
+- Prime moyenne avec le taux de base $B_S$ : 246,83 \$.
+- $A_P = 25\text{\$}$; prime moyenne globale prévue : 250 \$.
+
+Calculer $B_P$.
+
+::: {.solution}
+
+$$
+B_P = B_S \times \frac{\bar P_P - A_P}{\bar P_S - A_P}
+= 215 \times \frac{250 - 25}{246.83 - 25} = 218.07\text{\$}
+$$
+
+:::
+::::
+
+## Méthode qui recalcule la prime pour chaque unité
+
+Si la méthode du taux de sinistre est utilisée pour obtenir l’indiqué global, on calcule d’abord la prime moyenne proposée selon le changement de prime moyenne sélectionné :
+
+$$
+\bar P_P = (1 + \Delta\%)\bar P_C
+$$
+
+:::: {.question title="Changement de prime moyenne sélectionné"}
+
+- Changement de prime moyenne sélectionné : +3,25 %.
+- Prime moyenne actuelle : 242,13 \$.
+- $B_S = 215\text{\$}$; prime moyenne avec $B_S$ : 246,83 \$.
+- $A_P = 25\text{\$}$.
+
+Calculer $B_P$.
+
+::: {.solution}
+
+$$
+B_P = B_S \times \frac{(1 + \Delta\%)\bar P_C - A_P}{\bar P_S - A_P}
+= 215 \times \frac{1.0325(242.13) - 25}{246.83 - 25} = 218.07\text{\$}
+$$
+
+:::
+::::
+
+## Différentiel moyen approximé {.english-subtitle subtitle="Approximated Average Rate Differential Method"}
+
+Cette méthode est une solution de rechange lorsqu’il est impossible d’obtenir les données détaillées nécessaires pour recalculer la prime pour chaque unité.
+
+$$
+\bar P_P = B_P \bar S_P + A_P, \qquad
+\bar S_P = \frac{\sum_{ijkm} X_{ijkm}R_{1i}R_{2j}(1-D_{1k}-D_{2m})}{\sum_{ijkm}X_{ijkm}}
+$$
+
+---
+
+On obtient le taux de base proposé :
+
+$$
+B_P = \frac{\bar P_P - A_P}{\bar S_P}
+$$
+
+Lorsque l’algorithme est multiplicatif, on approxime le différentiel moyen par le produit des différentiels moyens de chaque variable :
+
+$$
+\bar S_P \approx \bar R_{1P}\bar R_{2P}(1 - \bar D_{1P} - \bar D_{2P})
+$$
+
+:::: {.question title="Différentiel moyen approximé"}
+
+| $R_1$ | Unités | Différentiel proposé | $R_2$ | Unités | Différentiel proposé |
+|:---|---:|---:|:---|---:|---:|
+| 1 | 152 500 | 0.9000 | A | 235 000 | 1.0000 |
+| 2 | 570 000 | 1.0000 | B | 480 000 | 0.9500 |
+| 3 | 147 000 | 1.2500 | C | 154 500 | 1.3000 |
+
+| Escompte | Unités Y | Unités N | Escompte proposé Y |
+|:---|---:|---:|---:|
+| $D_1$ | 156 625 | 712 875 | 5.00 % |
+| $D_2$ | 153 625 | 715 875 | 5.00 % |
+
+La prime moyenne proposée est de 250 \$ et $A_P = 25\text{\$}$. Calculer $B_P$.
+
+::: {.solution}
+
+$$
+\begin{aligned}
+\bar R_{1P} &= \frac{0.9(152\,500)+1.0(570\,000)+1.25(147\,000)}{869\,500} = 1.0247 \\
+\bar R_{2P} &= \frac{1.0(235\,000)+0.95(480\,000)+1.3(154\,500)}{869\,500} = 1.0257 \\
+\bar D_{1P} &= \frac{0.05(156\,625)}{869\,500} = 0.90\% \\
+\bar D_{2P} &= \frac{0.05(153\,625)}{869\,500} = 0.88\%
+\end{aligned}
+$$
+
+##
+
+$$
+\begin{aligned}
+\bar S_P &\approx 1.0247(1.0257)(1 - 0.0090 - 0.0088) = 1.0323 \\
+B_P &= \frac{\bar P_P - A_P}{\bar S_P} \approx \frac{250 - 25}{1.0323} = 217.96\text{\$}
+\end{aligned}
+$$
+
+::: {.notes}
+Le taux de base résultant est légèrement différent de celui calculé avec la méthode qui recalcule la prime pour chaque unité.
+:::
+
+:::
+::::
+
+## Changement dans le différentiel moyen approximé {.english-subtitle subtitle="Approximated Change in Average Rate Differential Method"}
+
+- Avec la méthode du différentiel moyen approximé, l’actuaire doit calculer le différentiel moyen pour chaque variable de tarification.
+- Il peut être préférable d’estimer le changement dans le différentiel moyen, en se limitant aux variables dont les différentiels changent.
+
+---
+
+Le changement global comprend un changement de la composante variable et un changement de la composante fixe :
+
+$$
+\bar P_P = B_P\bar S_P + A_P, \qquad \bar P_C = B_C\bar S_C + A_C
+$$
+
+Le changement dans la prime variable comprend un changement du taux de base et un changement du différentiel moyen :
+
+$$
+\frac{\bar P_P-A_P}{\bar P_C-A_C}
+= \frac{B_P}{B_C} \times \frac{\bar S_P}{\bar S_C}
+$$
+
+---
+
+En désignant par $\Delta_B\%$ le changement du taux de base et par $\Delta_S\%$ celui du différentiel moyen :
+
+$$
+1 + \Delta_B\%
+= \frac{(1+\Delta\%)\bar P_C-A_P}{\bar P_C-A_C}
+\times \underbrace{\frac{1}{1+\Delta_S\%}}_{\text{Facteur d’off-balance}}
+$$
+
+Lorsque les données nécessaires au recalcul de chaque unité ne sont pas disponibles, on doit approximer le changement du différentiel moyen.
+
+---
+
+Lorsque l’algorithme est multiplicatif, on approxime le changement global par le produit des changements des différentiels moyens de chaque variable :
+
+$$
+1 + \Delta_S\% \approx \prod_j \frac{\bar R_{jP}}{\bar R_{jC}}
+$$
+
+Dans notre exemple, les escomptes sont combinés en une variable multiplicative :
+
+$$
+1 + \Delta_S\% \approx
+\frac{\bar R_{1P}}{\bar R_{1C}}
+\frac{\bar R_{2P}}{\bar R_{2C}}
+\frac{1 - \bar D_{1P} - \bar D_{2P}}{1 - \bar D_{1C} - \bar D_{2C}}
+$$
+
+:::: {.question title="Changement dans le différentiel moyen approximé"}
+
+| $R_1$ | Unités | Actuel | Proposé | $R_2$ | Unités | Actuel | Proposé |
+|:---|---:|---:|---:|:---|---:|---:|---:|
+| 1 | 152 500 | 0.8000 | 0.9000 | A | 235 000 | 1.0000 | 1.0000 |
+| 2 | 570 000 | 1.0000 | 1.0000 | B | 480 000 | 1.0500 | 0.9500 |
+| 3 | 147 000 | 1.2000 | 1.2500 | C | 154 500 | 1.2000 | 1.3000 |
+
+| Escompte | Unités Y | Unités N | Actuel Y | Proposé Y |
+|:---|---:|---:|---:|---:|
+| $D_1$ | 156 625 | 712 875 | 5.00 % | 5.00 % |
+| $D_2$ | 153 625 | 715 875 | 10.00 % | 5.00 % |
+
+##
+
+- Taux de base actuel : 210 \$; prime moyenne actuelle : 242,13 \$.
+- Changement de prime moyenne cible : +3,25 %.
+- Prime fixe actuelle et future : 25 \$.
+
+Calculer le taux de base proposé.
+
+::: {.solution}
+
+$$
+\begin{aligned}
+\frac{\bar R_{1P}}{\bar R_{1C}} &= \frac{1.0247}{0.9987} = 1.0260 \\
+\frac{\bar R_{2P}}{\bar R_{2C}} &= \frac{1.0257}{1.0631} = 0.9648 \\
+\frac{1-\bar D_{1P}-\bar D_{2P}}{1-\bar D_{1C}-\bar D_{2C}}
+&= \frac{1-0.0090-0.0088}{1-0.0090-0.0177} = 1.0091
+\end{aligned}
+$$
+
+##
+
+$$
+\begin{aligned}
+1+\Delta_S\% &\approx 1.0260(0.9648)(1.0091) = 0.9989 \\
+1+\Delta_B\% &= \frac{1.0325(242.13)-25}{242.13-25}\times\frac{1}{0.9989} = 1.0374 \\
+B_P &= 210(1.0374) = 217.85\text{\$}
+\end{aligned}
+$$
+
+:::
+::::
+
+## Autres considérations : prime minimale
+
+Certains algorithmes contiennent des primes minimales afin que la prime couvre les frais fixes espérés et un minimum de sinistres espérés pour chaque risque. Une prime minimale peut augmenter la prime totale :
+
+$$
+\text{Effet} = \frac{\text{Prime avec le minimum}}{\text{Prime sans le minimum}} - 1
+$$
+
+On doit tenir compte de cet effet lors de la sélection du taux de base. On peut aussi multiplier le taux de base par le facteur d’*offset* approximatif :
+
+$$
+\text{Facteur d’offset} = \frac{1}{1+\text{Effet}}
+$$
+
+## Autres considérations : limitation des effets sur la prime
+
+En pratique, certains actuaires peuvent décider de limiter un différentiel pour une variable en ajustant les différentiels proposés pour des considérations stratégiques. Cela réduit le différentiel moyen proposé et nécessite une augmentation du taux de base pour atteindre la prime moyenne désirée.
+
+:::: {.question title="Limitation hors de la classe de base"}
+
+Un assureur veut atteindre un changement de prime moyenne de +15 % et limiter la hausse de prime à +20 % pour tous les niveaux. La classe de base est le niveau 2.
+
+| Niveau | Primes | Différentiel actuel | Différentiel sélectionné |
+|:---|---:|---:|---:|
+| 1 | 138 000 | 0.8000 | 0.9000 |
+| 2 | 659 000 | 1.0000 | 1.0000 |
+| 3 | 203 000 | 1.2000 | 1.2500 |
+| Total | 1 000 000 | | |
+
+Calculer les différentiels proposés et l’ajustement au taux de base qui répondent à la contrainte.
+
+::: {.solution}
+
+Sans considérer la contrainte, le changement moyen des différentiels est de 2,57 % et le facteur d’off-balance est de 0,9749.
+
+| Niveau | Changement de différentiel | Changement total | Primes proposées |
+|:---|---:|---:|---:|
+| 1 | 12.50 % | 26.13 % | 174 059 |
+| 2 | 0.00 % | 12.11 % | 738 805 |
+| 3 | 4.17 % | 16.79 % | 237 084 |
+
+##
+
+Le niveau 1 dépasse la hausse maximale de 20 %. Il ne s’agit pas de la classe de base. Ses primes proposées sont limitées à :
+
+$$
+138\,000(1.2) = 165\,600
+$$
+
+L’écart de 8 459 \$ doit être récupéré sur les niveaux 2 et 3 en augmentant le taux de base d’environ :
+
+$$
+\frac{8\,459}{738\,805+237\,084} = 0.0087
+$$
+
+##
+
+Le différentiel du niveau 1 doit être modifié pour maintenir sa hausse à 20 % :
+
+$$
+\begin{aligned}
+\text{Facteur d’ajustement au taux de base} &= 0.9749(1.15)(1.0087) = 1.1309 \\
+\text{Différentiel proposé, niveau 1} &= \frac{0.8(1.2)}{1.1309} = 0.8489
+\end{aligned}
+$$
+
+Les différentiels proposés des niveaux 2 et 3 sont respectivement de 1 et de 1,25.
+
+:::
+::::
+
+:::: {.question title="Limitation de la classe de base"}
+
+L’assureur veut atteindre un changement de prime moyenne de +15 % et limiter la hausse de prime à +20 %. La classe de base est le niveau 2.
+
+| Niveau | Primes | Différentiel actuel | Différentiel sélectionné |
+|:---|---:|---:|---:|
+| 1 | 138 000 | 0.8000 | 0.6500 |
+| 2 | 659 000 | 1.0000 | 1.0000 |
+| 3 | 203 000 | 1.2000 | 1.0500 |
+| Total | 1 000 000 | | |
+
+::: {.solution}
+
+Sans considérer la contrainte, le changement moyen des différentiels est de −5,13 % et le facteur d’off-balance est de 1,0541.
+
+| Niveau | Changement de différentiel | Changement total | Primes proposées |
+|:---|---:|---:|---:|
+| 1 | −18.75 % | −1.51 % | 135 916 |
+| 2 | 0.00 % | 21.22 % | 798 840 |
+| 3 | −12.50 % | 6.07 % | 215 322 |
+
+##
+
+La classe de base est touchée par la limitation et son différentiel doit rester égal à 1. On ajuste donc le taux de base par $1.2 / 1.2122 = 0.9899$.
+
+Le volume de primes du niveau 2 est limité à $659\,000(1.2) = 790\,800$. L’écart de 8 040 \$ doit être récupéré sur les niveaux 1 et 3 :
+
+$$
+\frac{8\,040}{135\,916+215\,322} = 0.0229
+$$
+
+L’ajustement total aux différentiels proposés des niveaux 1 et 3 est $1.0229 / 0.9899 = 1.0333$.
+
+##
+
+$$
+\begin{aligned}
+\text{Facteur d’ajustement au taux de base} &= 1.0541(0.9899)(1.15) = 1.2 \\
+\text{Différentiel proposé, niveau 1} &= 0.65(1.0333) = 0.6716 \\
+\text{Différentiel proposé, niveau 2} &= 1 \\
+\text{Différentiel proposé, niveau 3} &= 1.05(1.0333) = 1.0850
+\end{aligned}
+$$
+
+:::
+::::
