@@ -1,0 +1,36 @@
+.reveal .slides section.etapes-taux-finaux ol {
+  display: grid;
+  grid-template-columns: 1.65em minmax(0, 1fr);
+  margin-left: 1.85em;
+}
+
+.reveal .slides section.etapes-taux-finaux li {
+  grid-column: 2;
+  position: relative;
+}
+
+.reveal .slides section.etapes-taux-finaux ol::before {
+  content: "";
+  grid-column: 1;
+  grid-row: 1 / 4;
+  width: 0.35em;
+  margin-bottom: 0.17em;
+  border: 1px solid var(--act-muted);
+  border-right: 0;
+}
+
+.reveal .slides section.etapes-taux-finaux .etapes-precedentes {
+  position: absolute;
+  right: calc(100% + 3.2em);
+  top: 50%;
+  transform: translateY(-50%) rotate(180deg);
+  writing-mode: vertical-rl;
+  white-space: nowrap;
+  color: var(--act-muted);
+  font-size: 0.65em;
+}
+
+.reveal .tableaux-algorithme .smart-table-wrap.smart-table-target-reveal {
+  --smart-table-font-size: 0.65em;
+  --smart-table-inset-x: 0.2em;
+}
