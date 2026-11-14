@@ -247,9 +247,9 @@ Description des indices :
 
 ---
 
-::: {.text-smaller}
-
 ### Un pas de recul avant de continuer...
+
+::: {.text-smaller}
 
 L'équation $P_{P,ijkm} = [B_P \times R1_{P,i} \times R2_{P,j} \times (1-D1_{P,k}-D2_{P,m}) + A_P] \times X_{ijkm}$ est un exemple d'algorithme de tarification qui sera utilisé pour le reste de ce chapitre.
 
@@ -1095,6 +1095,8 @@ $$
 
 ## {.text-smaller}
 
+### Réponse finale
+
 Les facteurs et différentiels proposés sont donc :
 
 $$
@@ -1112,50 +1114,111 @@ $$
 \end{aligned}
 $$
 
+
+
+## {.text-xs}
+
+::: {.callout-tip title="Un peu plus lentement?"}
+Les prochaines diapositives détaillent les étapes de calcul que l'on vient de faire.
+:::
+
+### 1. Avant la limite : isoler l'effet des différentiels
+
+À taux de base constant, les différentiels sélectionnés font diminuer la prime totale d'environ 5,13 %. Pour viser une hausse globale de 15 %, on compense cette baisse dans le taux de base :
+
+$$
+\begin{aligned}
+\Delta_S &\approx -0.0513 \\
+\text{Facteur d’off-balance} &= \frac{1}{1+\Delta_S} \approx 1.0541 \\
+\frac{B_P}{B_C} &= \frac{1+\Delta}{1+\Delta_S} \approx 1.15 \times 1.0541 = 1.2122
+\end{aligned}
+$$
+
+On suppose ici que $A_P = A_C = 0$.
+
+## {.text-xs}
+
+### 2. Avant la limite : calculer le changement de prime par niveau
+
+Pour chaque niveau, le facteur de prime est le produit du facteur de taux de base et du rapport entre le différentiel sélectionné et le différentiel actuel :
+
+$$
+\frac{P_{P,i}}{P_{C,i}} = \frac{B_P}{B_C} \times \frac{R_{P,i}}{R_{C,i}}
+$$
+
+| Niveau | Rapport des différentiels | Facteur de prime | Changement de prime |
+|:---:|---:|---:|---:|
+| 1 | $0.65 / 0.80 = 0.8125$ | $1.2122 \times 0.8125 \approx 0.9849$ | $-1.51\%$ |
+| 2 | $1 / 1 = 1$ | $1.2122 \times 1 = 1.2122$ | $+21.22\%$ |
+| 3 | $1.05 / 1.20 = 0.8750$ | $1.2122 \times 0.8750 \approx 1.0607$ | $+6.07\%$ |
+
+Seul le niveau 2 dépasse la limite de +20 %.
+
+## {.text-xs}
+
+### 3. Limiter la classe de base et récupérer l'écart
+
+Le différentiel du niveau 2 doit rester égal à 1. Son facteur de prime est donc aussi le facteur de taux de base : on le réduit de 1,2122 à 1,20.
+
+$$
+\text{Ajustement au taux de base} \approx \frac{1.20}{1.2122} = 0.9899
+$$
+
+La réduction de la prime du niveau 2 crée un écart à récupérer sur les niveaux 1 et 3 :
+
+$$
+\begin{aligned}
+\text{Écart} &= 798\,840 - 659\,000 \times 1.20 = 8\,040\text{\$} \\
+\text{Hausse nécessaire} &= \frac{8\,040}{135\,916 + 215\,322} \approx 0.0229
+\end{aligned}
+$$
+
+## {.text-xs}
+
+### 4. Ajuster les différentiels des niveaux 1 et 3
+
+Le même facteur est appliqué à leurs différentiels sélectionnés : il compense la réduction du taux de base et permet de récupérer l'écart de primes.
+
+$$
+\text{Facteur d'ajustement des différentiels}
+= \frac{1+\text{Hausse nécessaire}}{\text{Ajustement au taux de base}}
+\approx \frac{1.0229}{0.9899} = 1.0333
+$$
+
+## {.text-xs}
+
+### 4. Ajuster les différentiels des niveaux 1 et 3
+
+Pour chaque niveau, on distingue le facteur de changement du taux de base de celui du différentiel :
+
+$$
+\begin{aligned}
+\frac{P_{P,1}}{P_{C,1}} &\approx
+\underbrace{1.2122 \times 0.9899}_{\text{Taux de base}} \times
+\underbrace{\frac{0.65}{0.80} \times 1.0229 \times \frac{1}{0.9899}}_{\text{Différentiel}} \\[1em]
+\frac{P_{P,2}}{P_{C,2}} &\approx
+\underbrace{1.2122 \times 0.9899}_{\text{Taux de base}} \times
+\underbrace{\frac{1}{1}}_{\text{Différentiel}} \\[1em]
+\frac{P_{P,3}}{P_{C,3}} &\approx
+\underbrace{1.2122 \times 0.9899}_{\text{Taux de base}} \times
+\underbrace{\frac{1.05}{1.20} \times 1.0229 \times \frac{1}{0.9899}}_{\text{Différentiel}}
+\end{aligned}
+$$
+
+Les niveaux 1 et 3 reçoivent l'ajustement de 1,0333; le différentiel de la classe de base reste égal à 1.
+
+## {.text-xs}
+
+### 5. Facteur de taux de base et différentiels finaux
+
+Le facteur à appliquer au taux de base actuel est $1.2122 \times 0.9899 \approx 1.20$.
+
+| Niveau | Différentiel sélectionné | Ajustement | Différentiel final |
+|:---:|---:|---:|---:|
+| 1 | $0.65$ | $\times 1.0333$ | $0.6716$ |
+| 2 | $1$ | Aucun | $1$ |
+| 3 | $1.05$ | $\times 1.0333$ | $1.0850$ |
+
+
 :::
 ::::
-
-
-
-## Autrement dit... {.text-xs}
-
-$$
-\Delta_S \approx -0.0513 \quad \text{off-balance factor} = 1/(1+\Delta_S) \approx 1.0541
-$$
-
-Donc, à cause des modifications aux différentiels, la prime totale récoltée diminue de 5.13 %. Pour atteindre le changement de taux global de +15 %, il faut donc augmenter le taux de base comme ceci (en assumant $A_P = A_C = 0$) :
-
-$$
-1+\Delta_B = \frac{1+\Delta}{1+\Delta_S} = 1.15 \times 1.0541 = 1.2122
-$$
-
-**Sans la limitation de +20 %**
-
-Les changements de prime pour les niveaux 1, 2 et 3 sont donc :
-
-$$
-\begin{align}
-1+\Delta_{1} = (1+\Delta_B) \times (1+\Delta_{S,1}) &= 1.2122 \times (1-0.1875) = 0.9849 \\
-1+\Delta_{2} = (1+\Delta_B) \times (1+\Delta_{S,2}) &= \underbrace{1.2122}_{\text{Changement au taux de base}} \times \underbrace{(1+0)}_{\text{Changement au différentiel}} = \mathbf{1.2122} \\
-1+\Delta_{3} = (1+\Delta_B) \times (1+\Delta_{S,3}) &= 1.2122 \times (1-0.1250) = 1.0607
-\end{align}
-$$
-
----
-
-**En considérant la limitation de +20 %**
-
-La classe de base (niveau 2) dépasse la limite, mais son différentiel doit rester égal à 1. On réduit donc le facteur proposé au taux de base à exactement $1.20$ pour que le changement dans la prime du niveau 2 soit de +20 %. On doit noter cet ajustement, parce qu'il faudra l'assigner aux différentiels des niveaux 1 et 3 :
-$$
-\text{Ajustement au taux de base} = \frac{1.20}{1+\text{Changement total}_{base}}
-= \frac{1.20}{1.2122} \approx 0.9899 \\
-$$
-
-$$
-\begin{align}
-1+\Delta_{1} = (1+\Delta_B) \times (1+\Delta_{S,1}) &= \underbrace{1.2122 \times 0.9899}_{\text{Changement au taux de base}} \times \underbrace{(1-0.1875) \times 1.0229 \times \frac{1}{0.9899}}_{\text{Changement au différentiel}} = 1.0075 \\
-1+\Delta_{2} = (1+\Delta_B) \times (1+\Delta_{S,2}) &= \underbrace{1.2122 \times 0.9899}_{\text{Changement au taux de base}} \times \underbrace{(1+0)}_{\text{Changement au différentiel}} = \mathbf{1.2} \\
-1+\Delta_{3} = (1+\Delta_B) \times (1+\Delta_{S,3}) &= 1.2122 \times (1-0.1250) = 1.0607
-\end{align}
-$$
-
