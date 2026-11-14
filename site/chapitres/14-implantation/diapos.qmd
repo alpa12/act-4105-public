@@ -982,14 +982,8 @@ Sans la contrainte, on calcule le changement du différentiel de chaque niveau 
 #| echo: false
 #| output: asis
 
-afficher_limitation(table_limitation_hors_base, 1:5)
-cat("\n\n")
-afficher_limitation(table_limitation_hors_base, c(1, 6:9))
+afficher_limitation(table_limitation_hors_base, 1:9)
 ```
-
-:::
-
-##
 
 $$
 \begin{aligned}
@@ -1000,6 +994,7 @@ $$
 \end{aligned}
 $$
 
+:::
 
 ## {.text-smaller}
 
@@ -1124,8 +1119,6 @@ $$
 \text{Différentiel proposé niveau 3} &= 1.05 \times 1.0333 = 1.0850
 \end{aligned}
 $$
-
-Avec les valeurs affichées arrondies, les variations par niveau sont approximativement de +0,74 %, +20,00 % et +8,50 %, pour une hausse globale de +15,01 %. Les valeurs non arrondies atteignent la cible de +15 %.
 
 
 
