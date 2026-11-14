@@ -189,8 +189,6 @@ $$
 
 ::: {.text-xs}
 
-On complexifie la nouvelle équation de la prime pour briser $S_i$ en plusieurs différentiels ($R$) et escomptes ($D$) :
-
 $$
 P_{P,ijkm} = [B_P \times R1_{P,i} \times R2_{P,j} \times (1-D1_{P,k}-D2_{P,m}) + A_P] \times X_{ijkm}
 $$
@@ -240,9 +238,7 @@ Description des indices :
 | Y | 10.0 % | 2.5 % | 7.5 % | 5.0 % |
 | N | 0.0 % | 0.0 % | 0.0 % | 0.0 % |
 
-
 ::::
-
 :::::
 
 ---
@@ -253,7 +249,7 @@ Description des indices :
 
 L'équation $P_{P,ijkm} = [B_P \times R1_{P,i} \times R2_{P,j} \times (1-D1_{P,k}-D2_{P,m}) + A_P] \times X_{ijkm}$ est un exemple d'algorithme de tarification qui sera utilisé pour le reste de ce chapitre.
 
-Plus généralement, on utilise $P_i = B \times S_i + A$ pour décrire les composantes de la prime d'une police d'une unité acquise. Il est important de saisir le rôle de chacune de ces composantes :
+Plus généralement, on utilise $P_i = B \times S_i + A$ pour décrire les composantes de la prime d'une police pour une unité. Il est important de saisir le rôle de chacune de ces composantes :
 
 - $B$ : taux de base, le même pour toutes les polices. Sélectionné par l'actuaire comme dernière étape de l'analyse pour atteindre la prime moyenne globale prévue.
 - $S_i$ : différentiel de la police $i$, varie selon les caractéristiques du risque. Dépend des différentiels proposés (basés sur les résultats du glm).
@@ -296,11 +292,20 @@ La prime moyenne actuelle est de 1 000 \$, le taux de base actuel de 800 \$ e
 
 Calculer le nouveau taux de base si la prime fixe demeure la même.
 
-::: {.solution}
+::: {.solution .text-small}
 
 $$
 B_P = B_C \times \frac{\overline{P_P} - A_P}{\overline{P_C} - A_C}
 = 800 \times \frac{1\,000 \times 1.05 - 100}{1\,000 - 100} = 844.44\text{\$}
+$$
+
+### Ou sans la formule : 
+
+On se rappelle que $P_i = B \times S_i + A$, donc $\overline{P} = B \times \overline{S} + A$. On peut donc écrire :
+
+$$
+\overline{P_C} = 1000 = 800 \times \overline{S} + 100 \implies \overline{S} = \frac{900}{800} = 1.125 \\
+\overline{P_P} = 1000 \times 1.05 = 1050 = B_P \times \overline{S} + 100 \implies B_P = \frac{950}{1.125} = 844.44\text{\$}
 $$
 
 :::
@@ -632,9 +637,16 @@ $$
 
 Comme la portion variable de la prime dépend de $B$ et de $S$, le changement dans la prime variable dépend du changement dans le taux de base et dans le différentiel moyen :
 
+En utilisant la notation suivante :
+
+- $\Delta_B$ : Changement dans le taux de base
+- $\Delta_S$ : Changement dans le différentiel moyen
+
 $$
-1 + \Delta_V = \frac{B_P}{B_C} \times \frac{\overline{S_P}}{\overline{S_C}} \qquad (2)
+1 + \Delta_V = \frac{B_P}{B_C} \times \frac{\overline{S_P}}{\overline{S_C}} = (1+\Delta_B) \times (1+\Delta_S) \qquad (2)
 $$
+
+---
 
 En substituant (2) dans (1) et en réarrangeant les termes :
 
@@ -642,13 +654,6 @@ $$
 \frac{B_P}{B_C} = \frac{(1+\Delta) \times \overline{P_C}-A_P}{\overline{P_C}-A_C}
 \times \frac{\overline{S_C}}{\overline{S_P}}
 $$
-
----
-
-En utilisant la notation suivante :
-
-- $\Delta_B$ : Changement dans le taux de base
-- $\Delta_S$ : Changement dans le différentiel moyen
 
 $$
 1 + \Delta_B
@@ -678,7 +683,7 @@ $$
 
 ::: {.text-smaller}
 
-En pratique, les primes variables peuvent être difficiles à obtenir. On peut donc approximer le changement dans le différentiel moyen ($1 + \Delta_{S,R1}$) en utilisant les unités acquises comme poids (plutôt que la portion varible des primes) :
+En pratique, les primes variables peuvent être difficiles à obtenir. On peut donc approximer le changement dans le différentiel moyen ($1 + \Delta_{S,R1}$) en utilisant les unités acquises comme poids (plutôt que la portion variable des primes) :
 
 
 $$
@@ -977,22 +982,28 @@ Sans la contrainte, on calcule le changement du différentiel de chaque niveau 
 #| echo: false
 #| output: asis
 
-afficher_limitation(table_limitation_hors_base, 1:9)
+afficher_limitation(table_limitation_hors_base, 1:5)
+cat("\n\n")
+afficher_limitation(table_limitation_hors_base, c(1, 6:9))
 ```
+
+:::
+
+##
 
 $$
 \begin{aligned}
 \Delta_S
-&\approx \frac{138\,000(0.1250) + 659\,000(0) + 203\,000(0.0417)}{1\,000\,000} = 0.0257 \\
+&\approx \frac{138\,000(0.1250) + 203\,000(0.0417)}{1\,000\,000} \\
+&\approx 0.0257 \\
 \text{Facteur d’off-balance} &= \frac{1}{1+\Delta_S} \approx \frac{1}{1.0257} = 0.9749
 \end{aligned}
 $$
 
-:::
 
 ## {.text-smaller}
 
-Le niveau 1 dépasse la hausse maximale de 20 % (il subit une hausse de 26,13\%). On devra donc modifier son différentiel proposé pour atteindre un changement total de 20 %.
+Le niveau 1 dépasse la hausse maximale de 20 % (il subit une hausse de 26,13 %). On devra donc modifier son différentiel proposé pour atteindre un changement total de 20 %.
 
 - Important : Le niveau 1 n’est pas la classe de base, on **peut** donc modifier son différentiel proposé.
 
@@ -1036,7 +1047,7 @@ L’assureur veut atteindre un changement de prime moyenne de +15 % et limiter 
 afficher_limitation(table_limitation_base, 1:4, calculs = FALSE)
 ```
 
-Calculer les différentiels proposés et l’ajustement au taux de base qui répondent à la contrainte.
+Calculer les différentiels proposés et l’ajustement au taux de base qui répondent à la contrainte, en supposant $A_P = A_C = 0$.
 
 ::: {.solution}
 
@@ -1052,10 +1063,10 @@ Sans considérer la contrainte du maximum de +20 %, on a :
 afficher_limitation(table_limitation_base, 1:9)
 ```
 
-
 $$
 \begin{aligned}
-\Delta_S &= \frac{138\,000(-0.1875) + 659\,000(0) + 203\,000(-0.1250)}{1\,000\,000} \approx -0.0513 \\ \\
+\Delta_S &= \frac{138\,000(-0.1875) + 203\,000(-0.1250)}{1\,000\,000} \\
+&\approx -0.0513 \\ \\
 \text{Facteur d’off-balance} &= \frac{1}{1+\Delta_S} \approx \frac{1}{1-0.0513} = 1.0541
 \end{aligned}
 $$
@@ -1113,6 +1124,8 @@ $$
 \text{Différentiel proposé niveau 3} &= 1.05 \times 1.0333 = 1.0850
 \end{aligned}
 $$
+
+Avec les valeurs affichées arrondies, les variations par niveau sont approximativement de +0,74 %, +20,00 % et +8,50 %, pour une hausse globale de +15,01 %. Les valeurs non arrondies atteignent la cible de +15 %.
 
 
 
