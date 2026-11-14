@@ -3,4 +3,607 @@ metadata-files:
   - ../_exercices.yml
 ---
 
-Les exercices de ce chapitre sont en préparation à partir du matériel de cours historique.
+<!-- Les en-têtes, pieds de page et la note générale du PDF historique sont omis.
+Les coquilles « un assureur a acheté » (question 4) et l’année répétée dans la
+période cumulative à 100 % (question 5) sont corrigées. -->
+
+```{r}
+#| label: setup-exercices
+#| include: false
+
+library(tarifr)
+source("../../_extensions/alpa12/dynamic-year/dynamic-year.R")
+
+# Les dates numériques des exercices suivent la convention yyyy/mm/dd.
+date_exercice <- function(modele, decalage) {
+  gsub("-", "/", dynamic_date(modele, decalage), fixed = TRUE)
+}
+
+arrondir_cent <- function(x) {
+  floor(x * 100 + 0.5 + 1e-8) / 100
+}
+
+# Les indices des cellules en gras excluent la colonne des années.
+afficher_matrice_sinistres <- function(tableau, cellules_gras = NULL) {
+  affichage <- tableau
+  if (is.null(cellules_gras)) {
+    formats <- list(list(colonnes = 2:ncol(tableau), type = "montant", digits = 0, symbole = TRUE))
+  } else {
+    affichage[2:ncol(tableau)] <- lapply(affichage[2:ncol(tableau)], format_montant, digits = 0, symbole = TRUE)
+    for (i in seq_len(nrow(cellules_gras))) {
+      ligne <- cellules_gras[i, 1]
+      colonne <- cellules_gras[i, 2] + 1L
+      affichage[[colonne]][[ligne]] <- paste0("**", affichage[[colonne]][[ligne]], "**")
+    }
+    formats <- list()
+  }
+  names(affichage) <- c("Année rapportée", as.character(seq_len(ncol(tableau) - 1L) - 1L))
+  afficher_table(
+    affichage,
+    align = c("r", rep("r", ncol(tableau) - 1L)),
+    formats = formats,
+    entetes_groupes = list(list(label = "Délai de présentation de la réclamation", colonnes = 2:ncol(tableau)))
+  )
+}
+```
+
+::::: {.question}
+(CAS Examen 5, Printemps 2015 – Q7)
+
+L’information suivante s’applique à un portefeuille de polices annuelles :
+
+- Toutes les polices sont écrites le 1er janvier chaque année.
+- Tous les sinistres ont lieu le 1er juillet de chaque année.
+- Les coûts des sinistres augmentent de 5 % chaque année rapportée.
+- Tous les sinistres sont rapportés à l’intérieur de quatre années de la date de survenance.
+- La notification de sinistre est toujours faite le 1er décembre pour une année donnée.
+- Les unités d’exposition sont constantes et chaque police a une unité d’exposition.
+- Aucune provision pour frais ou profit.
+- Les sinistres ultimes pour l’année rapportée {{< dynamic-year -4 >}} sont les suivants :
+
+```{r}
+#| label: donnees-primes-polices
+#| include: false
+
+primes_polices <- data.frame(
+  annee = vapply(-4:0, dynamic_year, integer(1)),
+  outer(1.05^(0:4), c(250, 350, 300, 100)),
+  check.names = FALSE
+)
+prime_presentees <- sum(primes_polices[2, 2:5])
+prime_survenance <- sum(vapply(0:3, function(d) primes_polices[[d + 2L]][[d + 2L]], numeric(1)))
+
+afficher_projection_polices <- function(diagonale = FALSE) {
+  tableau <- primes_polices
+  for (colonne in 2:5) {
+    tableau[[colonne]] <- paste0(
+      "$", primes_polices[[colonne]][[1]],
+      ifelse(0:4 == 0, "", paste0("\\times 1.05^{", 0:4, "}")), "$"
+    )
+    if (diagonale) {
+      tableau[[colonne]][[colonne]] <- paste0("**", tableau[[colonne]][[colonne]], "**")
+    }
+  }
+  names(tableau) <- c("Année rapportée", as.character(0:3))
+  afficher_table(
+    tableau,
+    align = c("r", rep("l", 4)),
+    lignes_gras = if (diagonale) integer() else 2L,
+    entetes_groupes = list(list(label = "Primes pures par délai de présentation de la réclamation", colonnes = 2:5))
+  )
+}
+```
+
+```{r}
+#| label: tableau-primes-polices-initiales
+#| echo: false
+#| output: asis
+
+tableau <- data.frame(0:3, unlist(primes_polices[1, 2:5], use.names = FALSE))
+names(tableau) <- c("Délai de présentation de la réclamation", "Prime pure")
+afficher_table(
+  tableau,
+  align = c("c", "r"),
+  formats = list(list(colonnes = 2, type = "montant", digits = 0, symbole = TRUE))
+)
+```
+
+:::: {.question}
+Calculer la prime d’une police émise en {{< dynamic-year -3 >}} pour :
+
+::: {.question}
+Une police sur base de réclamations présentées mature.
+
+::: {.solution}
+
+Les primes pures par délai de présentation de la réclamation sont :
+
+```{r}
+#| label: tableau-primes-police-presentees
+#| echo: false
+#| output: asis
+
+afficher_projection_polices()
+```
+
+Une police sur base de réclamations présentées mature émise le `r date_exercice("YYYY-01-01", -3)` couvre :
+
+$$
+\begin{aligned}
+&L(`r primes_polices[[1]][[2]]`,0) + L(`r primes_polices[[1]][[2]]`,1)
++ L(`r primes_polices[[1]][[2]]`,2) + L(`r primes_polices[[1]][[2]]`,3) \\
+&= 250(1.05) + 350(1.05) + 300(1.05) + 100(1.05) \\
+&= `r sprintf("%.0f", prime_presentees)`\text{\$}.
+\end{aligned}
+$$
+
+:::
+:::
+
+::: {.question}
+Une police sur base de survenance.
+
+::: {.solution}
+
+Les primes pures par délai de présentation de la réclamation sont :
+
+```{r}
+#| label: tableau-primes-police-survenance
+#| echo: false
+#| output: asis
+
+afficher_projection_polices(diagonale = TRUE)
+```
+
+Une police sur base de survenance émise le `r date_exercice("YYYY-01-01", -3)` couvre :
+
+$$
+\begin{aligned}
+&L(`r primes_polices[[1]][[2]]`,0) + L(`r primes_polices[[1]][[3]]`,1)
++ L(`r primes_polices[[1]][[4]]`,2) + L(`r primes_polices[[1]][[5]]`,3) \\
+&= 250(1.05) + 350(1.05)^2 + 300(1.05)^3 + 100(1.05)^4 \\
+&\approx `r sprintf("%.0f", prime_survenance)`\text{\$}.
+\end{aligned}
+$$
+
+:::
+:::
+::::
+
+::: {.question}
+Décrire un scénario dans lequel une police sur base de réclamations présentées mature serait plus dispendieuse qu’une police sur base de survenance.
+
+::: {.solution}
+
+Lorsque les coûts des sinistres diminuent (c’est-à-dire que la tendance dans les sinistres est négative), la prime pure pour une police sur base de réclamations présentées pourrait être supérieure à celle d’une police sur base de survenance. Puisqu’une police sur base de survenance couvre des sinistres qui seront payés plus tard, la tendance négative dans les sinistres les affectera davantage qu’une police sur base de réclamations présentées.
+
+:::
+:::
+
+::: {.question}
+Pour les sinistres qui surviennent le `r date_exercice("YYYY-01-01", -3)` ou après, une nouvelle loi requiert que tous les sinistres soient rapportés à l’intérieur de deux années de la date de survenance. Expliquer les ajustements nécessaires, s’il y a lieu, aux primes à la partie a) plus haut, sans fournir de calculs supplémentaires.
+
+::: {.solution}
+
+1. La prime pour une police sur base de réclamations présentées sera inchangée, car les sinistres seront dans la même année rapportée.
+2. La prime pour une police sur base de survenance sera $L(`r primes_polices[[1]][[2]]`,0) + L(`r primes_polices[[1]][[3]]`,1)$ et pourrait augmenter ou diminuer (comparée à la réponse en a)), selon la redistribution des primes pures.
+
+:::
+:::
+:::::
+
+:::: {.question}
+(CAS Examen 5, Printemps 2013 – Q6)
+
+::: {.question}
+Expliquer la différence dans la composante d’IBNR pour une police sur base de réclamations présentées et une police sur base de survenance.
+
+::: {.solution}
+
+Une police sur base de survenance a de l’*IBNR* (réserve pour les pertes encourues mais non rapportées) et de l’*IBNER* (réserve pour le développement sur les sinistres rapportés). Puisqu’une police sur base de réclamations présentées ne couvre que les réclamations rapportées dans la période, elle n’a aucun *IBNR*, mais seulement de l’*IBNER*.
+
+:::
+:::
+
+::: {.question}
+Expliquer pourquoi une police sur base de réclamations présentées devrait coûter moins cher qu’une police sur base de survenance, lorsque les coûts des sinistres augmentent.
+
+::: {.solution}
+
+Les polices sur base de réclamations présentées ont une plus petite période entre le déclencheur de couverture et le règlement de sinistre que les polices sur base de survenance. Les polices sur base de réclamations présentées sont donc moins affectées par une augmentation des coûts de sinistre, car cette augmentation se fait ressentir moins longtemps.
+
+:::
+:::
+
+::: {.question}
+Expliquer pourquoi un changement dans les tendances sous-jacentes affectera la prime estimée pour une police sur base de survenance davantage que pour une police sur base de réclamations présentées.
+
+::: {.solution}
+
+Les réclamations des polices sur base de survenance sont rapportées plus loin dans le temps que les réclamations des polices sur base de réclamations présentées (et, par le fait même, réglées plus loin dans le futur). La tendance dans les sinistres aura donc plus d’impact sur les sinistres couverts par une police sur base de survenance.
+
+:::
+:::
+
+::: {.question}
+Décrire brièvement la disposition de police qui élimine le chevauchement de couverture si un assuré passe d’une police sur base de survenance à une police sur base de réclamations présentées et pourquoi un chevauchement existerait si cette disposition n’existait pas.
+
+::: {.solution}
+
+Date rétroactive : les sinistres qui surviennent avant cette date ne sont pas couverts par la police sur base de réclamations présentées.
+
+```{r}
+#| label: donnees-notation-couverture
+#| include: false
+
+notation_couverture <- data.frame(annee = vapply(-3:0, dynamic_year, integer(1)))
+for (delai in 0:2) {
+  notation_couverture[[delai + 2L]] <- paste0("$L(", notation_couverture[[1]], ",", delai, ")$")
+}
+```
+
+```{r}
+#| label: tableau-chevauchement-couverture
+#| echo: false
+#| output: asis
+
+tableau <- notation_couverture[1:3, ]
+names(tableau) <- c("Année rapportée", as.character(0:2))
+afficher_table(
+  tableau,
+  align = c("r", "c", "c", "c"),
+  entetes_groupes = list(list(label = "Délai de présentation de la réclamation", colonnes = 2:4))
+)
+```
+
+Une police sur base de survenance {{< dynamic-year -3 >}} couvre :
+
+$$
+L(`r notation_couverture[[1]][[1]]`,0) + L(`r notation_couverture[[1]][[2]]`,1) + L(`r notation_couverture[[1]][[3]]`,2).
+$$
+
+Si l’assuré passe à une police sur base de réclamations présentées le `r date_exercice("YYYY-01-01", -2)`, sa police sur base de réclamations présentées {{< dynamic-year -2 >}} couvre :
+
+$$
+L(`r notation_couverture[[1]][[2]]`,0) + L(`r notation_couverture[[1]][[2]]`,1) + L(`r notation_couverture[[1]][[2]]`,2).
+$$
+
+Certains sinistres ($L(`r notation_couverture[[1]][[2]]`,1)$) sont donc couverts par les deux polices.
+
+En ajoutant une date rétroactive du `r date_exercice("YYYY-01-01", -2)` pour la police sur base de réclamations présentées, seulement les sinistres ayant lieu à partir du `r date_exercice("YYYY-01-01", -2)` seront couverts ($L(`r notation_couverture[[1]][[2]]`,0)$), éliminant ainsi le chevauchement.
+
+:::
+:::
+
+::: {.question}
+Expliquer pourquoi il y aurait un manque de couverture si un assuré passait d’une police sur base de réclamations présentées à une police sur base de survenance et ce qu’un assureur peut faire pour fournir la couverture manquante.
+
+::: {.solution}
+
+L’assureur peut offrir un avenant *tail coverage* qui couvre les sinistres qui sont survenus pendant que la police sur base de réclamations présentées était en vigueur, mais qui sont rapportés après l’expiration de la dernière police sur base de réclamations présentées.
+
+Exemple : l’assuré a une police sur base de réclamations présentées {{< dynamic-year -3 >}}. Le `r date_exercice("YYYY-01-01", -2)`, il passe à une police sur base de survenance.
+
+```{r}
+#| label: tableau-manque-couverture
+#| echo: false
+#| output: asis
+
+tableau <- notation_couverture
+names(tableau) <- c("Année rapportée", as.character(0:2))
+afficher_table(
+  tableau,
+  align = c("r", "c", "c", "c"),
+  entetes_groupes = list(list(label = "Délai de présentation de la réclamation", colonnes = 2:4))
+)
+```
+
+La police sur base de réclamations présentées {{< dynamic-year -3 >}} couvre :
+
+$$
+L(`r notation_couverture[[1]][[1]]`,0) + L(`r notation_couverture[[1]][[1]]`,1) + L(`r notation_couverture[[1]][[1]]`,2).
+$$
+
+La police sur base de survenance {{< dynamic-year -2 >}} couvre :
+
+$$
+L(`r notation_couverture[[1]][[2]]`,0) + L(`r notation_couverture[[1]][[3]]`,1) + L(`r notation_couverture[[1]][[4]]`,2).
+$$
+
+L’assureur pourrait offrir une *tail coverage* qui couvre :
+
+$$
+L(`r notation_couverture[[1]][[2]]`,1) + L(`r notation_couverture[[1]][[2]]`,2) + L(`r notation_couverture[[1]][[3]]`,2).
+$$
+
+:::
+:::
+::::
+
+:::: {.question}
+(CAS Examen 5, 2012 – Q8)
+
+Un médecin avait des polices sur base de survenance jusqu’en {{< dynamic-year -6 >}}. Le médecin passe à une police sur base de réclamations présentées le `r date_exercice("YYYY-01-01", -5)`. Le médecin prendra sa retraite le `r date_exercice("YYYY-12-31", -3)`. La dernière police sur base de réclamations présentées émise avant sa retraite sera effective du `r date_exercice("YYYY-01-01", -3)` au `r date_exercice("YYYY-12-31", -3)`.
+
+La table suivante contient les coûts de sinistres anticipés utilisés pour évaluer la tarification de la police du médecin. Toutes les réclamations sont rapportées à l’intérieur de trois ans.
+
+```{r}
+#| label: donnees-retraite-medecin
+#| include: false
+
+sinistres_medecin <- data.frame(
+  annee = vapply(-6:0, dynamic_year, integer(1)),
+  delai_0 = c(350, 368, 386, 405, 426, 447, 469),
+  delai_1 = c(300, 315, 331, 347, 365, 383, 402),
+  delai_2 = c(250, 263, 276, 290, 304, 319, 335),
+  delai_3 = c(100, 105, 110, 116, 122, 128, 134)
+)
+cellules_survenance <- cbind(1:4, 1:4)
+cellules_presentees <- cbind(rep(2L, 4), 1:4)
+cellules_retraite <- rbind(c(5, 2), c(5, 3), c(5, 4), c(6, 3), c(6, 4), c(7, 4))
+valeurs_retraite <- vapply(seq_len(nrow(cellules_retraite)), function(i) {
+  sinistres_medecin[[cellules_retraite[i, 2] + 1L]][[cellules_retraite[i, 1]]]
+}, numeric(1))
+prime_medecin_survenance <- sum(vapply(0:3, function(d) sinistres_medecin[[d + 2L]][[d + 1L]], numeric(1)))
+prime_medecin_presentees <- sum(sinistres_medecin[2, 2:5])
+prime_retraite <- sum(valeurs_retraite)
+```
+
+```{r}
+#| label: tableau-retraite-medecin
+#| echo: false
+#| output: asis
+
+afficher_matrice_sinistres(sinistres_medecin)
+```
+
+::: {.question}
+Décrire brièvement deux avantages qu’une couverture sur base de réclamations présentées a par rapport à une police sur base de survenance pour un assureur en responsabilité médicale.
+
+::: {.solution}
+
+- Les sinistres en responsabilité médicale peuvent prendre plusieurs années à être rapportés. Les sinistres d’une police sur base de survenance peuvent donc se développer pendant plusieurs années. Les réclamations sur une police sur base de réclamations présentées sont connues à la fin de l’année. Il n’y a donc pas d’IBNR pour une police sur base de réclamations présentées.
+- Comme les polices sur base de réclamations présentées estiment les coûts pour les réclamations rapportées dans l’année, elles sont moins affectées par une tendance dans les sinistres qu’une police sur base de survenance.
+
+:::
+:::
+
+::: {.question}
+Calculer la prime pure associée à une police sur base de survenance pour {{< dynamic-year -6 >}} et la prime pure pour une police sur base de réclamations présentées mature pour {{< dynamic-year -5 >}}. Décrire brièvement le chevauchement dans les primes pures entre les deux et le mécanisme utilisé pour le prévenir.
+
+::: {.solution}
+
+```{r}
+#| label: tableau-comparaison-primes-medecin
+#| echo: false
+#| output: asis
+
+afficher_matrice_sinistres(sinistres_medecin, unique(rbind(cellules_survenance, cellules_presentees)))
+```
+
+Base de survenance {{< dynamic-year -6 >}} :
+
+$$
+\begin{aligned}
+&L(`r sinistres_medecin[[1]][[1]]`,0) + L(`r sinistres_medecin[[1]][[2]]`,1)
++ L(`r sinistres_medecin[[1]][[3]]`,2) + L(`r sinistres_medecin[[1]][[4]]`,3) \\
+&= 350 + 315 + 276 + 116 = `r prime_medecin_survenance`\text{\$}.
+\end{aligned}
+$$
+
+Base de réclamations présentées {{< dynamic-year -5 >}} :
+
+$$
+\begin{aligned}
+&L(`r sinistres_medecin[[1]][[2]]`,0) + L(`r sinistres_medecin[[1]][[2]]`,1)
++ L(`r sinistres_medecin[[1]][[2]]`,2) + L(`r sinistres_medecin[[1]][[2]]`,3) \\
+&= 368 + 315 + 263 + 105 = `r prime_medecin_presentees`\text{\$}.
+\end{aligned}
+$$
+
+$L(`r sinistres_medecin[[1]][[2]]`,1)$ est couvert par les deux polices. Pour prévenir le chevauchement entre les deux, on ajoute une date rétroactive du `r date_exercice("YYYY-01-01", -5)` à la police sur base de réclamations présentées {{< dynamic-year -5 >}}. Seuls les sinistres ayant lieu le `r date_exercice("YYYY-01-01", -5)` ou après seront couverts ($L(`r sinistres_medecin[[1]][[2]]`,0)$).
+
+:::
+:::
+
+::: {.question}
+Identifier les primes pures dans la table ci-dessus pour lesquelles le médecin aurait de l’exposition au moment de sa retraite et la couverture que le médecin devrait acheter pour transférer cette exposition à l’assureur.
+
+::: {.solution}
+
+```{r}
+#| label: tableau-exposition-apres-retraite
+#| echo: false
+#| output: asis
+
+afficher_matrice_sinistres(sinistres_medecin, cellules_retraite)
+```
+
+L’exposition après la retraite serait pour tous les sinistres survenus avant le `r date_exercice("YYYY-01-01", -2)`, mais rapportés après le `r date_exercice("YYYY-12-31", -3)`, c’est-à-dire :
+
+$$
+\begin{aligned}
+&L(`r sinistres_medecin[[1]][[5]]`,1) + L(`r sinistres_medecin[[1]][[5]]`,2) + L(`r sinistres_medecin[[1]][[5]]`,3) \\
+&\quad + L(`r sinistres_medecin[[1]][[6]]`,2) + L(`r sinistres_medecin[[1]][[6]]`,3) + L(`r sinistres_medecin[[1]][[7]]`,3) \\
+&= `r paste(valeurs_retraite, collapse = " + ")` = `r prime_retraite`\text{\$}.
+\end{aligned}
+$$
+
+Le médecin devrait acheter un avenant *tail coverage* pour transférer cette exposition à l’assureur.
+
+:::
+:::
+::::
+
+:::: {.question}
+(CAS Examen 5, 2009 – Q28)
+
+Un assuré a acheté les polices suivantes :
+
+```{r}
+#| label: donnees-polices-successives
+#| include: false
+
+polices_successives <- data.frame(
+  repere = LETTERS[1:5],
+  decalage = -7:-3,
+  terme = rep("1 an", 5),
+  type = c(rep("Base de survenance", 2), rep("Base de réclamations présentées", 3)),
+  retroactive = c(NA_integer_, NA_integer_, rep(-5L, 3))
+)
+```
+
+```{r}
+#| label: tableau-polices-successives
+#| echo: false
+#| output: asis
+
+tableau <- data.frame(
+  vapply(polices_successives[[2]], function(x) date_exercice("YYYY-01-01", x), character(1)),
+  polices_successives[3:4],
+  vapply(polices_successives[[5]], function(x) {
+    if (is.na(x)) "Non applicable" else date_exercice("YYYY-01-01", x)
+  }, character(1)),
+  check.names = FALSE
+)
+names(tableau) <- c("Date d’effet", "Terme de police", "Type de police", "Date rétroactive")
+afficher_table(tableau, align = c("c", "c", "l", "c"))
+```
+
+Un avenant *tail coverage* est aussi acheté le `r date_exercice("YYYY-01-01", -2)` pour couvrir les sinistres qui ont eu lieu pendant que les polices sur base de réclamations présentées étaient en vigueur, mais qui n’ont pas été rapportés au `r date_exercice("YYYY-12-31", -3)`.
+
+Dessiner et libeller un tableau qui montre les sinistres couverts par chaque police ou avenant en se basant sur le moment où les sinistres surviennent et sont rapportés, en supposant que toutes les réclamations sont rapportées à l’intérieur de trois ans de la date de survenance.
+
+::: {.solution}
+
+```{r}
+#| label: tableau-sinistres-par-police
+#| echo: false
+#| output: asis
+
+tableau_couverture <- data.frame(annee = vapply(-7:0, dynamic_year, integer(1)))
+for (delai in 0:3) {
+  rapportee <- -7:0
+  accident <- rapportee - delai
+  couverture <- rep("", length(rapportee))
+  for (i in 1:2) {
+    couverture[accident == polices_successives[[2]][[i]]] <- polices_successives[[1]][[i]]
+  }
+  for (i in 3:5) {
+    couverts <- rapportee == polices_successives[[2]][[i]] & accident >= polices_successives[[5]][[i]]
+    couverture[couverts] <- polices_successives[[1]][[i]]
+  }
+  couverture[rapportee >= -2 & accident >= -5 & accident <= -3] <- "F"
+  tableau_couverture[[delai + 2L]] <- couverture
+}
+names(tableau_couverture) <- c("Année rapportée", as.character(0:3))
+afficher_table(
+  tableau_couverture,
+  align = c("r", rep("l", 4)),
+  entetes_groupes = list(list(label = "Délai de présentation de la réclamation", colonnes = 2:5))
+)
+```
+
+Où :
+
+- A : police sur base de survenance effective le `r date_exercice("YYYY-01-01", polices_successives[[2]][[1]])`.
+- B : police sur base de survenance effective le `r date_exercice("YYYY-01-01", polices_successives[[2]][[2]])`.
+- C : police sur base de réclamations présentées effective le `r date_exercice("YYYY-01-01", polices_successives[[2]][[3]])`.
+- D : police sur base de réclamations présentées effective le `r date_exercice("YYYY-01-01", polices_successives[[2]][[4]])`.
+- E : police sur base de réclamations présentées effective le `r date_exercice("YYYY-01-01", polices_successives[[2]][[5]])`.
+- F : *tail coverage* effective le `r date_exercice("YYYY-01-01", -2)`.
+
+:::
+::::
+
+::: {.question}
+(CAS Examen 5, 2003 – Q29 modifiée)
+
+Avec l’information suivante, calculer la prime pour une police sur base de survenance écrite le `r date_exercice("YYYY-01-01", -3)`. Montrer tous vos calculs.
+
+Prime pure pour une police sur base de réclamations présentées pour {{< dynamic-year -3 >}} : 600 \$, avec la distribution suivante :
+
+```{r}
+#| label: donnees-prime-frais
+#| include: false
+
+repartition_cumulative <- data.frame(
+  delai = 0:3,
+  proportion = c(0.50, 0.80, 0.95, 1.00)
+)
+repartition_cumulative[[3]] <- c(repartition_cumulative[[2]][[1]], diff(repartition_cumulative[[2]]))
+primes_frais <- data.frame(
+  annee = vapply(-3:0, dynamic_year, integer(1)),
+  prime_pure = arrondir_cent(600 * 1.05^(0:3))
+)
+primes_frais[3:6] <- as.data.frame(arrondir_cent(outer(primes_frais[[2]], repartition_cumulative[[3]])))
+prime_pure_frais <- sum(vapply(0:3, function(d) primes_frais[[d + 3L]][[d + 1L]], numeric(1)))
+prime_avec_frais <- (prime_pure_frais * 1.08 + 150) / (1 - 0.12 - 0.05 - 0.03)
+```
+
+```{r}
+#| label: tableau-repartition-cumulative
+#| echo: false
+#| output: asis
+
+tableau <- data.frame(
+  c(
+    paste("Pourcentage des sinistres provenant de réclamations survenues en", dynamic_year(-3)),
+    paste("Pourcentage des coûts provenant de réclamations survenues en", dynamic_year(-4), "ou", dynamic_year(-3)),
+    paste0("Pourcentage des coûts provenant de réclamations survenues en ", dynamic_year(-5), ", ", dynamic_year(-4), " ou ", dynamic_year(-3)),
+    paste0("Pourcentage des coûts provenant de réclamations survenues en ", dynamic_year(-6), ", ", dynamic_year(-5), ", ", dynamic_year(-4), " ou ", dynamic_year(-3))
+  ),
+  repartition_cumulative[[2]]
+)
+names(tableau) <- c("Provenance des sinistres", "Proportion cumulative")
+afficher_table(
+  tableau,
+  align = c("l", "r"),
+  formats = list(list(colonnes = 2, type = "pourcentage", digits = 0))
+)
+```
+
+- Tendance dans les sinistres : 5 %.
+- Frais fixes par police : 150 \$.
+- Commissions : 12 %.
+- Taxes sur primes : 5 %.
+- Frais de règlement de sinistres en pourcentage des sinistres : 8 %.
+- Provision pour profit : 3 %.
+
+::: {.solution}
+
+```{r}
+#| label: tableau-prime-avec-frais
+#| echo: false
+#| output: asis
+
+tableau <- primes_frais
+names(tableau) <- c("Année rapportée", "Prime pure", as.character(0:3))
+afficher_table(
+  tableau,
+  align = rep("r", 6),
+  formats = list(list(colonnes = 2:6, type = "montant", digits = 2)),
+  entetes_groupes = list(list(label = "Prime pure par délai de présentation de la réclamation", colonnes = 3:6)),
+  entetes_calculs = c(
+    "(1)", "(2) = (2 préc.) × 1.05", "(3) = (2) × 0.5",
+    "(4) = (2) × (0.8 − 0.5)", "(5) = (2) × (0.95 − 0.8)", "(6) = (2) × (1 − 0.95)"
+  )
+)
+```
+
+La prime pure pour une police sur base de survenance pour {{< dynamic-year -3 >}} est :
+
+$$
+\text{Prime pure} = 300 + 189 + 99.23 + 34.73
+= `r sprintf("%.2f", prime_pure_frais)`\text{\$}.
+$$
+
+La prime est :
+
+$$
+\text{Prime} = \frac{`r sprintf("%.2f", prime_pure_frais)`(1.08) + 150}{1 - 0.12 - 0.05 - 0.03}
+= `r sprintf("%.2f", prime_avec_frais)`\text{\$}.
+$$
+
+:::
+:::
