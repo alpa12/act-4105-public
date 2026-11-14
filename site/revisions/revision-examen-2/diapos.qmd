@@ -3,23 +3,818 @@ title: "Révision pour l’examen 2"
 suppress-title-prefix: true
 format:
   revealjs: default
+execute:
+  echo: false
 metadata-files:
   - ../../chapitres/_diapos.yml
 ---
+
+```{r}
+#| label: setup
+#| include: false
+
+library(tarifr)
+library(ggplot2)
+
+project_dir <- Sys.getenv("QUARTO_PROJECT_DIR")
+source(file.path(project_dir, "_extensions/alpa12/dynamic-year/dynamic-year.R"))
+
+theme_revision <- theme_minimal(base_size = 14) +
+  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_blank(),
+    plot.title = element_text(face = "bold", hjust = 0.5),
+    legend.position = "right",
+    legend.title = element_blank()
+  )
+
+date_exercice <- function(modele, decalage) {
+  gsub("-", "/", dynamic_date(modele, decalage), fixed = TRUE)
+}
+
+nombre_tex <- function(x, digits = 0) {
+  nombre <- formatC(x, format = "f", digits = digits, big.mark = " ", decimal.mark = ".")
+  gsub(" ", "\\,", nombre, fixed = TRUE)
+}
+```
 
 ## À propos de cette révision
 
 Ce document est un complément aux notes de cours, et non un résumé exhaustif de la matière.
 
+Adapté de [Werner, G. et Modlin, C. (2016). *Basic Ratemaking*, Casualty Actuarial Society, 5e édition.](http://www.casact.org/library/studynotes/Werner_Modlin_Ratemaking.pdf)
+
 ## Contenu {.progress-overview}
 
-- Classification des risques
+- Modèles linéaires généralisés
+- Classification spéciale
 - Crédibilité
-- Considérations de tarification et implantation
-- Tarification en lignes commerciales et sur base de réclamations présentées
+- Implantation
+- Tarification en lignes commerciales
+- Tarification sur base de réclamations présentées
 
-# Contenu en préparation {data-progress-label="À venir"}
+# Modèles linéaires généralisés {data-progress-label="GLM"}
 
-## Révision pour l’examen 2
+## Tests de diagnostic
 
-Les notes de révision sont en préparation à partir du matériel de cours historique.
+Tests de diagnostic du [chapitre 10](../../chapitres/10-classification-multivariee/diapos.qmd) :
+
+- Écart-type
+- Stabilité des résultats d’une année à l’autre
+- Comparaison du résultat prédit par le modèle au résultat historique sur un échantillon non utilisé pour la modélisation (échantillon de validation)
+- Chi carré (*Chi-Square*)
+
+## Recommandation d’une variable de tarification
+
+::: {.callout-important}
+Dans les questions demandant une recommandation quant à l’utilisation d’une variable de tarification, il est important d’évaluer la variable selon les différents tests de diagnostic et d’incorporer une **explication et un jugement** sur l’effet de cette variable.
+:::
+
+Par exemple, les différentiels indiqués augmentent lorsque le nombre de sinistres antérieurs augmente. Il est logique de penser que le nombre de sinistres antérieurs est prédictif de la fréquence.
+
+## Interaction versus corrélation
+
+Au chapitre 10, nous avons mentionné qu’un avantage du GLM est qu’il permet d’ajuster pour la **corrélation** entre deux variables.
+
+Nous avons aussi dit qu’un autre avantage du modèle GLM est qu’il permet d’inclure une **interaction** entre deux variables.
+
+---
+
+::: {.callout-warning title="Attention"}
+Une **interaction** entre deux variables n’est pas la même chose qu’une **corrélation** entre deux variables.
+:::
+
+Une **corrélation** entre deux variables signifie que la distribution des unités d’exposition d’une variable n’est pas la même selon les différents niveaux d’une autre variable de tarification.
+
+Prenons l’exemple du montant d’assurance et du territoire en assurance habitation.
+
+---
+
+| Valeur de l’habitation | Territoire 1 | Territoire 2 |
+|:--|--:|--:|
+| 0–400 000 \$ | 75 % | 40 % |
+| 400 000 \$ et plus | 25 % | 60 % |
+
+On dit ici que les variables « valeur de l’habitation » et « territoire » sont corrélées.
+
+---
+
+::: {.callout-warning title="Attention"}
+Une **interaction** entre deux variables n’est pas la même chose qu’une **corrélation** entre deux variables.
+:::
+
+```{r}
+#| label: correlation-valeur-territoire
+#| fig-width: 10
+#| fig-height: 3
+#| fig-alt: "Les différentiels selon la valeur de l’habitation sont identiques dans les deux territoires : 1 pour les habitations de 0 à 400 000 dollars et 1,2 pour celles de 400 000 dollars et plus. La corrélation des expositions n’implique donc pas une interaction."
+
+valeur_territoire <- data.frame(
+  valeur = factor(
+    rep(c("0–400 000 $", "400 000 $ et plus"), 2),
+    levels = c("0–400 000 $", "400 000 $ et plus")
+  ),
+  differentiel = rep(c(1, 1.2), 2),
+  territoire = rep(c("Territoire 1", "Territoire 2"), each = 2)
+)
+
+ggplot(valeur_territoire, aes(
+  valeur, differentiel, group = territoire,
+  colour = territoire, linetype = territoire, shape = territoire
+)) +
+  geom_line(linewidth = 0.65) +
+  geom_point(size = 2) +
+  scale_colour_manual(values = c("#D55E00", "#0072B2")) +
+  scale_linetype_manual(values = c("solid", "dashed")) +
+  scale_shape_manual(values = c(16, 1)) +
+  scale_y_continuous(labels = scales::label_number(decimal.mark = ",")) +
+  labs(
+    title = "Différentiel indiqué par valeur de l’habitation",
+    x = "Valeur de l’habitation", y = "Différentiel indiqué"
+  ) +
+  theme_revision
+```
+
+---
+
+::: {.callout-warning title="Attention"}
+Une **interaction** entre deux variables n’est pas la même chose qu’une **corrélation** entre deux variables.
+:::
+
+Une **interaction** existe lorsque l’effet d’une variable varie selon le niveau d’une autre variable. Par exemple, l’effet de l’âge de l’assuré en assurance automobile peut varier selon le sexe de l’assuré.
+
+- L’ajout d’interactions dans un modèle de tarification est un raffinement du modèle qui peut en augmenter significativement le pouvoir prédictif.
+- Cependant, les interactions augmentent aussi la complexité d’un modèle et d’un algorithme de tarification. Il faut donc s’assurer que la valeur ajoutée en vaut l’augmentation de complexité.
+
+---
+
+Prenons l’exemple de l’interaction entre l’âge de l’assuré et le sexe de l’assuré en assurance automobile.
+
+Il n’y a probablement pas de corrélation entre les deux variables (la distribution hommes/femmes est autour de 50 % pour tous les groupes d’âge), mais le différentiel indiqué par âge est bien différent selon le sexe de l’assuré.
+
+---
+
+```{r}
+#| label: interaction-age-sexe
+#| fig-width: 10
+#| fig-height: 3
+#| fig-alt: "Différentiels indiqués selon l’âge et le sexe de l’assuré. Le profil des hommes décroît de 2,6 à 0,5 et celui des femmes de 1,84 à 1, avec un croisement des profils : l’effet de l’âge varie selon le sexe."
+
+interaction_age_sexe <- data.frame(
+  age = rep(c(16, 50, 100), 2),
+  differentiel = c(1.84, 1.50, 1.00, 2.60, 1.75, 0.50),
+  sexe = rep(c("Femmes", "Hommes"), each = 3)
+)
+
+ggplot(interaction_age_sexe, aes(age, differentiel, colour = sexe, shape = sexe)) +
+  geom_line(linewidth = 0.65) +
+  geom_point(size = 1.6) +
+  scale_colour_manual(values = c(Femmes = "#D55E00", Hommes = "#0072B2")) +
+  scale_shape_manual(values = c(Femmes = 16, Hommes = 17)) +
+  scale_y_continuous(labels = scales::label_number(decimal.mark = ",")) +
+  labs(
+    title = "Différentiel indiqué par âge de l’assuré",
+    x = "Âge de l’assuré (années)", y = "Différentiel indiqué"
+  ) +
+  theme_revision
+```
+
+::: {.callout-tip}
+Dans ce cas-ci, il serait probablement pertinent d’ajouter l’interaction entre « âge de l’assuré » et « sexe de l’assuré » dans notre modèle.
+:::
+
+# Classification spéciale {data-progress-label="Classification"}
+
+## Assurance à la valeur
+
+Deux façons de régler les problèmes de sous-assurance :
+
+1. **Clause de coassurance** : pénaliser les assurés qui sont sous-assurés via le montant d’indemnité payable.
+2. **Variation des taux selon le niveau d’assurance à la valeur** : charger une prime qui tient réellement compte des sinistres espérés.
+
+:::: {.question title="Assurance à la valeur sans pénalité de coassurance"}
+
+Retour sur l’[exercice 7 b) du chapitre 11](../../chapitres/11-classification-speciale/exercices.qmd) (CAS Examen 5, automne 2015 – Q12).
+
+Avec l’information suivante pour une propriété :
+
+- Valeur de la propriété : 750 000 \$.
+- Pourcentage de coassurance exigé : 85 %.
+- Montant d’assurance sélectionné par le client : 600 000 \$.
+- Il y a 30 % de chances d’avoir une perte totale, sachant qu’il y a une réclamation.
+- Tous les autres sinistres sont uniformément distribués entre 0 \$ et 750 000 \$.
+- Fréquence de réclamation : 2 %.
+
+##
+
+b) Calculer le taux par 1 000 \$ à charger pour cette propriété en supposant qu’aucune pénalité de coassurance n’est utilisée.
+
+::: {.solution}
+
+### b) Taux sans pénalité de coassurance
+
+$$
+\begin{aligned}
+\text{Prime}
+&= \text{Fréquence} \times \text{Sévérité} \\
+&= 0.02 \times \text{Sévérité}
+\end{aligned}
+$$
+
+- **Perte totale** (probabilité de 30 %) : indemnité de 600 000 \$.
+- **Perte partielle** (probabilité de 70 %) : indemnité égale à $\min(X,600\,000)$, où $X \sim U(0,750\,000)$.
+
+##
+
+### Indemnité moyenne pour une perte partielle
+
+$$
+\begin{aligned}
+\operatorname{E}[I \mid \text{perte partielle}]
+&= \int_0^{600\,000} \frac{x}{750\,000}\,dx \\
+&\quad + \int_{600\,000}^{750\,000} \frac{600\,000}{750\,000}\,dx \\
+&= 360\,000\text{\$}
+\end{aligned}
+$$
+
+##
+
+### Sévérité, prime et taux
+
+$$
+\begin{aligned}
+\text{Sévérité}
+&= 0.3(600\,000) + 0.7(360\,000) \\
+&= 432\,000\text{\$} \\
+\text{Prime}
+&= 0.02(432\,000) = 8\,640\text{\$} \\
+\text{Taux par }1\,000\text{\$}
+&= \frac{8\,640}{600\,000 / 1\,000} = 14.40\text{\$}
+\end{aligned}
+$$
+
+:::
+::::
+
+```{r}
+#| label: donnees-franchises
+#| include: false
+
+pertes <- data.frame(
+  intervalle = c(
+    "$0 \\leq X < 100$", "$100 \\leq X < 250$",
+    "$250 \\leq X < 500$", "$500 \\leq X < 1\\,000$",
+    "$1\\,000 \\leq X$"
+  ),
+  nombre = c(3200, 1225, 1187, 1845, 2543),
+  sinistres = c(240365, 207588, 463954, 1551938, 11140545)
+)
+franchise_base <- 250
+franchise_cible <- 500
+pertes[[4]] <- c(pertes[[3]][1:2], franchise_base * pertes[[2]][3:5])
+pertes[[5]] <- c(pertes[[3]][1:3], franchise_cible * pertes[[2]][4:5])
+sinistres_sans_franchise <- sum(pertes[[3]])
+sinistres_elimines_250 <- sum(pertes[[4]])
+sinistres_elimines_250_500 <- sum(pertes[[5]] - pertes[[4]])
+sinistres_franchise_250 <- sum(pertes[[3]] - pertes[[4]])
+ler_250 <- sinistres_elimines_250 / sinistres_sans_franchise
+ler_500 <- sinistres_elimines_250_500 / sinistres_franchise_250
+
+afficher_pertes <- function(etape = NULL) {
+  tableau <- pertes[1:3]
+  tableau <- rbind(tableau, list("Total", sum(pertes[[2]]), sum(pertes[[3]])))
+  tableau[[2]] <- format_nombre(tableau[[2]], digits = 0)
+  tableau[[3]] <- format_montant(tableau[[3]], digits = 0, symbole = TRUE)
+  if (identical(etape, "a")) {
+    tableau[[3]][1:2] <- paste0("**", tableau[[3]][1:2], "**")
+    tableau[[2]][3:5] <- paste0("**", tableau[[2]][3:5], "**")
+  } else if (identical(etape, "b")) {
+    for (colonne in 2:3) {
+      tableau[[colonne]][3:5] <- paste0("**", tableau[[colonne]][3:5], "**")
+    }
+  }
+  names(tableau) <- c(
+    "Montant de perte", "Nombre de réclamations rapportées",
+    "Sinistres rapportés avant la franchise"
+  )
+  afficher_table(tableau, align = c("l", "r", "r"), lignes_gras = "derniere")
+}
+```
+
+:::: {.question title="Tarification des franchises"}
+
+Avec les données suivantes :
+
+::: {.tableau-franchises smart-tables-column-1="formula" smart-tables-nowrap="all"}
+
+```{r}
+#| label: tableau-franchises-question
+#| output: asis
+
+afficher_pertes()
+```
+
+:::
+
+##
+
+a) Calculer le ratio d’élimination des pertes pour passer d’une police avec franchise à 0 \$ à une police avec franchise à 250 \$.
+
+b) Calculer le ratio d’élimination des pertes pour passer d’une police avec franchise à 250 \$ à une police avec franchise à 500 \$.
+
+::: {.solution}
+
+### a) De 0 \$ à 250 \$
+
+::: {.tableau-franchises smart-tables-column-1="formula" smart-tables-nowrap="all"}
+
+```{r}
+#| label: tableau-franchises-solution-a
+#| output: asis
+
+afficher_pertes("a")
+```
+
+:::
+
+##
+
+### a) Ratio d’élimination des pertes
+
+$$
+\begin{aligned}
+\text{LER}_{0 \to 250}
+&= \frac{\text{Sinistres éliminés par la franchise de }250}
+{\text{Sinistres avant la franchise}} \\
+&= \frac{`r nombre_tex(pertes[[3]][[1]])` + `r nombre_tex(pertes[[3]][[2]])` + `r nombre_tex(franchise_base)`(`r nombre_tex(pertes[[2]][[3]])` + `r nombre_tex(pertes[[2]][[4]])` + `r nombre_tex(pertes[[2]][[5]])`)}
+{`r nombre_tex(sinistres_sans_franchise)`} \\
+&\approx `r nombre_tex(ler_250, digits = 3)`
+\end{aligned}
+$$
+
+##
+
+### b) De 250 \$ à 500 \$
+
+::: {.tableau-franchises smart-tables-column-1="formula" smart-tables-nowrap="all"}
+
+```{r}
+#| label: tableau-franchises-solution-b
+#| output: asis
+
+afficher_pertes("b")
+```
+
+:::
+
+##
+
+::: {.callout-important}
+La classe de base est une police avec franchise à **250 \$**. Nous exprimons donc les sinistres éliminés en pourcentage des sinistres **avec franchise à 250 \$**.
+:::
+
+##
+
+### b) Sinistres éliminés et sinistres de base
+
+$$
+\begin{aligned}
+\text{Sinistres éliminés}
+&= `r nombre_tex(pertes[[3]][[3]])` - `r nombre_tex(franchise_base)`(`r nombre_tex(pertes[[2]][[3]])`) \\
+&\quad + (`r nombre_tex(franchise_cible)` - `r nombre_tex(franchise_base)`)(`r nombre_tex(pertes[[2]][[4]])` + `r nombre_tex(pertes[[2]][[5]])`) \\
+&= `r nombre_tex(sinistres_elimines_250_500)`\text{\$} \\
+\text{Sinistres avec franchise de }250
+&= `r nombre_tex(pertes[[3]][[3]])` + `r nombre_tex(pertes[[3]][[4]])` + `r nombre_tex(pertes[[3]][[5]])` \\
+&\quad - `r nombre_tex(franchise_base)`(`r nombre_tex(pertes[[2]][[3]])` + `r nombre_tex(pertes[[2]][[4]])` + `r nombre_tex(pertes[[2]][[5]])`) \\
+&= `r nombre_tex(sinistres_franchise_250)`\text{\$}
+\end{aligned}
+$$
+
+##
+
+### b) Ratio d’élimination des pertes
+
+$$
+\begin{aligned}
+\text{LER}_{250 \to 500}
+&= \frac{\text{Sinistres éliminés en passant de }250\text{ à }500}
+{\text{Sinistres avec franchise de }250} \\
+&= \frac{`r nombre_tex(sinistres_elimines_250_500)`}{`r nombre_tex(sinistres_franchise_250)`} \\
+&\approx `r nombre_tex(ler_500, digits = 3)`
+\end{aligned}
+$$
+
+:::
+::::
+
+# Crédibilité {data-progress-label="Crédibilité"}
+
+## Compléments de crédibilité
+
+**Six méthodes** pour déterminer un complément de crédibilité pour la tarification d’une couverture au **premier dollar**.
+
+**Quatre méthodes** pour déterminer un complément de crédibilité pour la tarification d’une couverture **excédentaire**.
+
+Voir le [chapitre 12](../../chapitres/12-credibilite/diapos.qmd).
+
+# Implantation {data-progress-label="Implantation"}
+
+```{r}
+#| label: donnees-implantation
+#| include: false
+
+implantation <- data.frame(
+  niveau = c("1", "2", "3"),
+  primes = c(138000, 659000, 203000),
+  actuel = c(0.8, 1, 1.2),
+  selection = c(0.9, 1, 1.25)
+)
+implantation[[5]] <- round(implantation[[4]] / implantation[[3]] - 1, 4)
+moyenne_differentiels <- sum(implantation[[2]] * implantation[[5]]) /
+  sum(implantation[[2]])
+moyenne_differentiels <- floor(moyenne_differentiels * 10000 + 0.5) / 10000
+implantation[[6]] <- round(1 / (1 + moyenne_differentiels), 4)
+implantation[[7]] <- 0.15
+implantation[[8]] <- round(
+  (1 + implantation[[5]]) * implantation[[6]] * (1 + implantation[[7]]) - 1,
+  4
+)
+implantation[[9]] <- round(implantation[[2]] * (1 + implantation[[8]]))
+implantation <- rbind(implantation, list(
+  "Total", sum(implantation[[2]]), NA, NA, moyenne_differentiels,
+  implantation[[6]][[1]], 0.15,
+  sum(implantation[[9]]) / sum(implantation[[2]]) - 1,
+  sum(implantation[[9]])
+))
+
+afficher_implantation <- function(colonnes) {
+  tableau <- implantation[, colonnes, drop = FALSE]
+  noms <- c(
+    "Niveau", "Primes", "Différentiel actuel", "Différentiel sélectionné",
+    "Changement de différentiel", "Off-balance", "Changement global",
+    "Changement total", "Primes proposées"
+  )
+  calculs <- c(
+    "(1)", "(2)", "(3)", "(4)", "(5) = (4) / (3) − 1",
+    "(6) = 1 / (1 + total (5))", "(7)",
+    "(8) = (1 + (5)) × (6) × (1 + (7)) − 1", "(9) = (2) × (1 + (8))"
+  )
+  formats <- list()
+  for (groupe in list(
+    list(indices = c(2, 9), type = "montant", digits = 0),
+    list(indices = c(3, 4, 6), type = "nombre", digits = 4),
+    list(indices = c(5, 7, 8), type = "pourcentage", digits = 2)
+  )) {
+    positions <- which(colonnes %in% groupe$indices)
+    if (length(positions)) {
+      formats[[length(formats) + 1L]] <- list(
+        colonnes = positions, type = groupe$type, digits = groupe$digits
+      )
+    }
+  }
+  names(tableau) <- noms[colonnes]
+  afficher_table(
+    tableau, align = c("l", rep("r", length(colonnes) - 1L)),
+    formats = formats, lignes_gras = "derniere",
+    entetes_calculs = calculs[colonnes]
+  )
+}
+```
+
+:::: {.question title="Off-balance avant la contrainte de hausse"}
+
+Retour sur l’exemple de limitation des hausses du [chapitre 14](../../chapitres/14-implantation/diapos.qmd) (exemple 14.10 du matériel historique).
+
+**Sans considérer la contrainte du +20 % maximal**, on a :
+
+```{r}
+#| label: tableau-implantation-differentiels
+#| output: asis
+
+afficher_implantation(1:5)
+```
+
+##
+
+**Sans considérer la contrainte du +20 % maximal**, on a :
+
+```{r}
+#| label: tableau-implantation-primes
+#| output: asis
+
+afficher_implantation(c(1, 6:9))
+```
+
+::: {.notes}
+La première prime proposée est corrigée à 174 059 \$ : $138\,000(1 + 0.2613)$.
+Le PDF historique affiche 174 559 \$, ce qui ne concorde ni avec ce calcul ni avec le total de 1 149 948 \$.
+:::
+
+::::
+
+# Tarification en lignes commerciales {data-progress-label="Commercial"}
+
+## Méthodes de tarification en lignes commerciales
+
+Différence entre *experience rating* et *schedule rating*.
+
+Techniques de tarification pour les risques commerciaux de grande taille :
+
+1. *Composite rating*
+2. Police avec franchise élevée
+3. Tarification rétrospective
+
+# Tarification sur base de réclamations présentées {data-progress-label="Réclamations"}
+
+## Types de couverture
+
+Deux types de couverture :
+
+- Sur base de survenance
+- Sur base de réclamations présentées
+
+## Coordination des couvertures
+
+Deux outils pour aider la coordination des couvertures :
+
+**Date rétroactive**
+
+: Évite le chevauchement de couverture lorsqu’un assuré passe d’une police sur base de survenance à une police sur base de réclamations présentées.
+
+**Avenant *tail coverage***
+
+: Évite le manque de couverture lorsqu’un assuré passe d’une police sur base de réclamations présentées à une police sur base de survenance, ou lorsqu’un assuré était couvert avec des polices sur base de réclamations présentées et cesse ses activités.
+
+```{r}
+#| label: donnees-polices-successives
+#| include: false
+
+polices_successives <- data.frame(
+  repere = LETTERS[1:5],
+  decalage = -7:-3,
+  terme = rep("1 an", 5),
+  type = c(rep("Base de survenance", 2), rep("Base de réclamations présentées", 3)),
+  retroactive = c(NA_integer_, NA_integer_, rep(-5L, 3))
+)
+```
+
+:::: {.question title="Coordination de polices successives"}
+
+Retour sur l’[exercice 4 du chapitre 16](../../chapitres/16-tarification-sur-base-de-reclamations-presentees/exercices.qmd) (CAS Examen 5, 2009 – Q28).
+
+Un assuré a acheté les polices suivantes :
+
+```{r}
+#| label: tableau-polices-successives
+#| output: asis
+
+tableau <- data.frame(
+  vapply(polices_successives[[2]], function(x) date_exercice("YYYY-01-01", x), character(1)),
+  polices_successives[3:4],
+  vapply(polices_successives[[5]], function(x) {
+    if (is.na(x)) "Non applicable" else date_exercice("YYYY-01-01", x)
+  }, character(1)),
+  check.names = FALSE
+)
+names(tableau) <- c("Date d’effet", "Terme de police", "Type de police", "Date rétroactive")
+afficher_table(tableau, align = c("c", "c", "l", "c"))
+```
+
+##
+
+Un avenant *tail coverage* est aussi acheté le `r date_exercice("YYYY-01-01", -2)` pour couvrir les sinistres qui ont eu lieu pendant que les polices sur base de réclamations présentées étaient en vigueur, mais qui n’ont pas été rapportés au `r date_exercice("YYYY-12-31", -3)`.
+
+Dessiner et libeller un tableau qui montre les sinistres couverts par chaque police ou avenant en se basant sur le moment où les sinistres surviennent et sont rapportés, en supposant que toutes les réclamations sont rapportées à l’intérieur de trois ans de la date de survenance.
+
+::: {.solution}
+
+::: {.matrice-couverture smart-tables-width="full" tbl-colwidths="[20,20,20,20,20]"}
+
+```{r}
+#| label: tableau-sinistres-par-police
+#| output: asis
+
+tableau_couverture <- data.frame(annee = vapply(-7:0, dynamic_year, integer(1)))
+for (delai in 0:3) {
+  rapportee <- -7:0
+  accident <- rapportee - delai
+  couverture <- rep("", length(rapportee))
+  for (i in 1:2) {
+    couverture[accident == polices_successives[[2]][[i]]] <- polices_successives[[1]][[i]]
+  }
+  for (i in 3:5) {
+    couverts <- rapportee == polices_successives[[2]][[i]] &
+      accident >= polices_successives[[5]][[i]]
+    couverture[couverts] <- polices_successives[[1]][[i]]
+  }
+  couverture[rapportee >= -2 & accident >= -5 & accident <= -3] <- "F"
+  tableau_couverture[[delai + 2L]] <- couverture
+}
+names(tableau_couverture) <- c("Année rapportée", as.character(0:3))
+afficher_table(
+  tableau_couverture,
+  align = c("r", rep("l", 4)),
+  entetes_groupes = list(list(label = "Délai de présentation de la réclamation", colonnes = 2:5))
+)
+```
+
+:::
+
+##
+
+Où :
+
+- **A** : police sur base de survenance effective le `r date_exercice("YYYY-01-01", -7)`.
+- **B** : police sur base de survenance effective le `r date_exercice("YYYY-01-01", -6)`.
+- **C** : police sur base de réclamations présentées effective le `r date_exercice("YYYY-01-01", -5)`.
+- **D** : police sur base de réclamations présentées effective le `r date_exercice("YYYY-01-01", -4)`.
+- **E** : police sur base de réclamations présentées effective le `r date_exercice("YYYY-01-01", -3)`.
+- **F** : *tail coverage* effective le `r date_exercice("YYYY-01-01", -2)`.
+
+:::
+::::
+
+```{r}
+#| label: donnees-sinistres-assureurs
+#| include: false
+
+sinistres_assureurs <- data.frame(
+  numero = 1:8,
+  accident = c(
+    dynamic_date("YYYY-07-01", -5), dynamic_date("YYYY-08-01", -5),
+    dynamic_date("YYYY-01-01", -4), dynamic_date("YYYY-04-01", -4),
+    dynamic_date("YYYY-06-01", -3), dynamic_date("YYYY-03-01", -2),
+    dynamic_date("YYYY-04-01", -2), dynamic_date("YYYY-04-01", -1)
+  ),
+  rapportee = c(
+    dynamic_date("YYYY-10-01", -3), dynamic_date("YYYY-11-01", -4),
+    dynamic_date("YYYY-03-01", -1), dynamic_date("YYYY-05-01", -4),
+    dynamic_date("YYYY-12-01", -3), dynamic_date("YYYY-02-01", 0),
+    dynamic_date("YYYY-06-01", -1), dynamic_date("YYYY-08-01", -1)
+  ),
+  montant = c(1000, 2000, 2000, 3000, 4000, 5000, 3000, 2000)
+)
+annees_accident <- as.integer(substr(sinistres_assureurs[[2]], 1, 4))
+annees_rapportees <- as.integer(substr(sinistres_assureurs[[3]], 1, 4))
+sinistres_assureurs[[5]] <- ifelse(
+  annees_rapportees %in% vapply(-4:-3, dynamic_year, integer(1)), "A",
+  ifelse(annees_accident %in% vapply(-2:-1, dynamic_year, integer(1)), "B", "")
+)
+paiement_a <- sum(sinistres_assureurs[[4]][sinistres_assureurs[[5]] == "A"])
+paiement_b <- sum(sinistres_assureurs[[4]][sinistres_assureurs[[5]] == "B"])
+
+afficher_sinistres_assureurs <- function(
+  assureur = NULL, lignes = seq_len(nrow(sinistres_assureurs))
+) {
+  tableau <- sinistres_assureurs[lignes, 1:4]
+  tableau[2:3] <- lapply(tableau[2:3], gsub, pattern = "-", replacement = "/", fixed = TRUE)
+  names(tableau) <- c("Sinistre", "Date d’accident", "Date rapportée", "Montant de sinistre")
+  afficher_table(
+    tableau, align = c("c", "c", "c", "r"),
+    formats = list(list(colonnes = 4, type = "montant", digits = 0, symbole = TRUE)),
+    lignes_gras = which(sinistres_assureurs[[5]][lignes] %in% assureur)
+  )
+}
+
+formule_paiement <- function(assureur) {
+  selection <- which(sinistres_assureurs[[5]] == assureur)
+  montants <- sinistres_assureurs[[4]][selection]
+  groupes <- split(montants, ceiling(seq_along(montants) / 2))
+  additions <- vapply(groupes, function(x) {
+    paste(nombre_tex(x), collapse = " + ")
+  }, character(1))
+  prefixes <- c("&= ", rep("&\\quad + ", length(additions) - 1L))
+  total <- switch(assureur, A = paiement_a, B = paiement_b)
+  numeros <- paste(sinistres_assureurs[[1]][selection], collapse = ",")
+  lignes <- c(
+    paste0("&\\text{Paiement} = \\sum_{i \\in \\{", numeros, "\\}} L_i"),
+    paste0(prefixes, additions),
+    paste0("&= ", nombre_tex(total), "\\,\\text{\\$}")
+  )
+  paste0("\\begin{aligned}\n", paste(lignes, collapse = " \\\\\n"), "\n\\end{aligned}")
+}
+```
+
+:::: {.question title="Sinistres payés par chaque assureur"}
+
+*Adapté de la question 5 de l’examen 5, 2016 de la CAS.*
+
+Un assuré a une police sur base de réclamations présentées avec un assureur A en {{< dynamic-year -4 >}} et {{< dynamic-year -3 >}} avant de passer à une police sur base de survenance avec l’assureur B en {{< dynamic-year -2 >}} et {{< dynamic-year -1 >}}.
+
+Avec les sinistres suivants :
+
+##
+
+```{r}
+#| label: tableau-sinistres-assureurs-question
+#| output: asis
+
+afficher_sinistres_assureurs()
+```
+
+##
+
+Les polices sont effectives le 1er janvier de chaque année. Toutes les polices sont annuelles.
+
+a) Déterminer le montant que chaque assureur paie.
+
+b) Discuter brièvement de deux raisons pour lesquelles les estimés des sinistres ultimes d’une police sur base de survenance sont plus volatils que ceux d’une police sur base de réclamations présentées.
+
+c) Discuter de laquelle des deux polices est susceptible de réaliser un revenu d’investissement plus élevé, en supposant des taux d’intérêt stables.
+
+::: {.solution}
+
+### a) Assureur A
+
+Couvre les réclamations présentées en {{< dynamic-year -4 >}} et {{< dynamic-year -3 >}}, donc les sinistres **1, 2, 4 et 5**.
+
+::::: {.columns}
+:::: {.column width="65%"}
+
+```{r}
+#| label: tableau-sinistres-assureur-a
+#| output: asis
+
+afficher_sinistres_assureurs("A")
+```
+
+::::
+:::: {.column width="35%"}
+
+$$
+`r formule_paiement("A")`
+$$
+
+::::
+:::::
+
+##
+
+### a) Assureur B
+
+Couvre les réclamations survenues en {{< dynamic-year -2 >}} et {{< dynamic-year -1 >}}, donc les sinistres **6, 7 et 8**.
+
+::::: {.columns}
+:::: {.column width="65%"}
+
+```{r}
+#| label: tableau-sinistres-assureur-b
+#| output: asis
+
+afficher_sinistres_assureurs("B")
+```
+
+::::
+:::: {.column width="35%"}
+
+$$
+`r formule_paiement("B")`
+$$
+
+::::
+:::::
+
+##
+
+### a) Sinistre non couvert
+
+```{r}
+#| label: tableau-sinistre-non-couvert
+#| output: asis
+
+afficher_sinistres_assureurs(lignes = which(sinistres_assureurs[[5]] == ""))
+```
+
+::: {.callout-important}
+Le sinistre **3** est **rapporté après l’expiration des polices A** et est **survenu avant la prise d’effet des polices B**. Il n’est donc couvert par aucun des deux assureurs dans cet exemple.
+:::
+
+##
+
+### b) Volatilité des estimés de sinistres ultimes
+
+Les polices sur base de survenance ont des sinistres survenus mais non rapportés (**IBNR**), contrairement aux polices sur base de réclamations présentées.
+
+Les polices sur base de survenance couvrent des sinistres qui auront lieu plus tard. Ces sinistres seront donc plus affectés par la tendance dans les sinistres et seront plus difficiles à prévoir.
+
+##
+
+### c) Revenu d’investissement
+
+Le délai entre la perception de la prime et le paiement de l’indemnité est plus grand sous une police sur base de survenance que sous une police sur base de réclamations présentées.
+
+Pour une police sur base de survenance, il y a :
+
+- Un délai entre la survenance du sinistre et la date à laquelle le sinistre est rapporté (*reporting lag*).
+- Un délai entre la date à laquelle le sinistre est rapporté et la date à laquelle la réclamation est fermée (*settlement lag*).
+
+##
+
+### c) Revenu d’investissement
+
+Une police sur base de réclamations présentées ne comporte que le délai entre la date à laquelle le sinistre est rapporté et la date à laquelle la réclamation est fermée (*settlement lag*).
+
+Comme le délai entre la perception de la prime et le paiement des sinistres est plus grand sous une police sur base de survenance, les primes sont investies plus longtemps et génèrent un **revenu d’investissement plus élevé**.
+
+:::
+::::
