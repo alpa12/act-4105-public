@@ -6,22 +6,27 @@ metadata-files:
   - ../_diapos.yml
 ---
 
+```{r}
+#| label: setup
+#| include: false
+
+library(tarifr)
+source("../../_extensions/alpa12/dynamic-year/dynamic-year.R")
+```
+
 ## Lectures recommandées
 
 Ce chapitre est adapté du chapitre 15 du texte *Basic Ratemaking* :
 
 [Werner, G. et Modlin, C. (2016). *Basic Ratemaking*, Casualty Actuarial Society, 5e édition.](http://www.casact.org/library/studynotes/Werner_Modlin_Ratemaking.pdf)
 
-## Contenu du chapitre {.progress-overview}
-
-- Techniques de modification du taux
-- Techniques de tarification pour les risques commerciaux de grande taille
-
 ## Introduction
 
 Pour un portefeuille d’assurance en lignes personnelles, on a souvent une quantité suffisante d’unités considérées relativement similaires pour appliquer les méthodes de tarification standard.
 
 En lignes commerciales, les unités sont trop différentes les unes des autres pour appliquer ces méthodes directement. De plus, la taille de certains risques commerciaux est tellement grande qu’on peut parfois utiliser leur propre expérience individuelle pour dériver leur taux.
+
+## Contenu du chapitre {.progress-overview}
 
 # Techniques de modification du taux {data-progress-label="Modification du taux"}
 
@@ -36,40 +41,43 @@ Deux techniques applicables en lignes commerciales :
 
 L’*experience rating* est une technique utilisée lorsque l’expérience passée d’un assuré, avec ajustements appropriés, est **prédictive de son expérience future**.
 
-Ex. : restaurants (McDonald’s et restaurant du coin).
+Ex. : restaurants (McDonald’s vs restaurant du coin).
 
 ---
 
 L’ajustement pour *experience rating* pour la période de police future est une combinaison de deux composantes :
 
-- Une composante reliée à l’expérience
-- Une composante reliée à l’espérance
+- Une composante reliée à **l’expérience**
+- Une composante reliée à **l’espérance**
 
 ---
 
 La comparaison de la composante d’expérience avec la composante d’espérance peut se faire de plusieurs façons, mais on doit comparer des pommes avec des pommes :
 
-- Sinistres payés (et frais de règlement de sinistres) réels comparés aux sinistres (et frais de règlement de sinistres) espérés pour la période d’expérience, vus à une certaine date.
-- Sinistres rapportés (et frais de règlement de sinistres) réels comparés aux sinistres rapportés (et frais de règlement de sinistres) espérés pour la période d’expérience, vus à une certaine date.
+- On compare des sinistres et frais de règlement de sinistres réels avec des sinistres et frais de règlement de sinistres espérés pour la période
+- On peut utiliser différentes mesures de sinistres : 
+  - Payés, vus à une certaine date
+  - Rapportés, vus à une certaine date
+  - Ultimes projetés
 
 ---
 
-- Sinistres ultimes (et frais de règlement de sinistres) projetés comparés aux sinistres ultimes (et frais de règlement de sinistres) espérés pour la période d’expérience.
-- Sinistres ultimes (et frais de règlement de sinistres) projetés ajustés aux unités d’exposition et dollars courants comparés aux sinistres ultimes (et frais de règlement de sinistres) espérés basés sur les unités d’exposition et dollars courants.
+### Éléments à considérer pour la composante d’expérience
+
+**Longueur de la période d’expérience**
+: Généralement de 2 à 5 années de police, se terminant avec la dernière année complète. Une période plus courte est plus réactive au changement, mais sujette à des fluctuations plus grandes (moins d’unités d’exposition et sinistres plus immatures).
+
+**Ajustement pour les sinistres non usuels ou catastrophiques**
+: Limitation par événement (*maximum single limit per occurrence*, MSL). La limite peut s’appliquer aux sinistres ou aux sinistres et frais de règlement de sinistres. Si les sinistres réels sont limités, les sinistres espérés doivent aussi être sujets à cette même limite.
+
 
 ---
 
-Éléments à considérer pour la composante d’expérience :
+**Sinistres ultimes**
+: Si la modification est basée sur les sinistres ultimes projetés, les sinistres et frais de règlement historiques de chaque année d’expérience doivent être développés au niveau ultime. Les sinistres espérés doivent être sur la même base.
 
-- **Longueur de la période d’expérience** : généralement de 2 à 5 années de police, se terminant avec la dernière année complète. Une période plus courte est plus réactive au changement, mais sujette à des fluctuations plus grandes (moins d’unités d’exposition et sinistres plus immatures).
-- **Ajustement pour les sinistres non usuels ou catastrophiques** : limitation par événement (*maximum single limit per occurrence*, MSL). La limite peut s’appliquer aux sinistres ou aux sinistres et frais de règlement de sinistres. Si les sinistres réels sont limités, les sinistres espérés doivent aussi être sujets à cette même limite.
-
----
-
-Éléments à considérer pour la composante d’expérience :
-
-- **Sinistres ultimes** : si la modification est basée sur les sinistres ultimes projetés, les sinistres et frais de règlement historiques de chaque année d’expérience doivent être développés au niveau ultime. Les sinistres espérés doivent être sur la même base.
-- **Ajustement aux unités d’exposition et dollars courants** : ajuster les sinistres historiques pour refléter l’inflation économique et sociale (par exemple, les changements dans les décisions juridiques), les changements dans les caractéristiques du risque (taille et type de compagnie) et les changements dans les limites de police.
+**Ajustement aux unités d’exposition et dollars courants**
+: Si la formule d’experience rating projette les sinistres ultimes aux unités d’exposition et dollars courants, il faut ajuster les sinistres historiques pour refléter l’inflation économique et sociale (par exemple, les changements dans les décisions juridiques), les changements dans les caractéristiques du risque (taille et type de compagnie) et les changements dans les limites de police.
 
 ## Exemple de plan d’experience rating : responsabilité civile générale
 
@@ -77,32 +85,37 @@ $$
 CD = \frac{AER - EER}{EER} \times Z
 $$
 
-- $CD$ : pourcentage de crédit ou de débit
-- $Z$ : crédibilité
-- $AER$ : ratio d’expérience réel (*actual experience ratio*), composante d’expérience qui mesure l’expérience réelle de la compagnie, sujette aux limitations du plan, relativement à l’expérience espérée représentée dans les taux du manuel
-- $EER$ : ratio d’expérience espéré (*expected experience ratio*), composante d’espérance
+- $CD$ : Pourcentage de crédit ou de débit
+- $Z$ : Crédibilité
+- $AER$ : Ratio d’expérience réel (*actual experience ratio*). Composante d’expérience. Mesure l’expérience réelle de la compagnie, sujette aux limitations du plan, relativement à l’expérience espérée représentée dans les taux du manuel.
+- $EER$ : ratio d’expérience espéré (*expected experience ratio*). Composante d’espérance.
 
 :::: {.question title="Pourcentage de débit ou de crédit"}
+
+::: {.text-small}
 
 Exemple adapté de la question 12a de l’examen 5, printemps 2017 de la CAS.
 
 Pour un plan d’*experience rating* :
 
-- Sinistres rapportés, incluant les frais de règlement de sinistres alloués, limités par les limites de base et la limitation par événement (MSL), vus au 31 mars 2016 : 175 000 \$.
+- Sinistres rapportés, incluant les frais de règlement de sinistres alloués, limités par les limites de base et la limitation par événement (MSL), vus au 31 mars {{< dynamic-year 0 >}} : 175 000 \$.
 - Sinistres et frais de règlement de sinistres alloués espérés utilisés dans les taux du manuel, en dollars de la période d’expérience : 225 000 \$.
 - Ratio d’expérience espéré ($EER$) : 0,875.
-- Pourcentage espéré des sinistres et frais de règlement de sinistres alloués non rapportés au 31 mars 2016 : 0,425.
+- Pourcentage espéré des sinistres et frais de règlement de sinistres alloués non rapportés au 31 mars {{< dynamic-year 0 >}} : 0,425.
 - Crédibilité : 0,35.
 
 Calculer le pourcentage de débit ou de crédit lié à l’expérience.
 
+:::
+
 ::: {.solution}
 
-Le développement espéré des sinistres est :
+$$
+CD = \frac{AER - EER}{EER} \times Z
+$$
 
-$$
-225\,000 \times 0.875 \times 0.425 = 83\,672
-$$
+Le développement espéré des sinistres est :\
+$225\,000 \times 0.875 \times 0.425 = 83\,672 \text{\$}$
 
 $$
 \begin{aligned}
@@ -130,21 +143,23 @@ Souvent, les surcharges ou crédits sont sujets à un maximum.
 
 ## Exemples de schedule rating
 
-- **État général du bâtiment** (−10 % à +10 %) : état général, entretien ménager, entretien préventif, etc.
-- **Classification des risques** (−15 % à +15 %) : exposition supplémentaire non prise en compte dans la classe de risque ou élimination de certains risques.
-- **Installations médicales** (−5 % à +5 %) : trousse de premiers soins, assistance médicale sur place.
-- **Sécurité** (−15 % à +15 %) : programme de sécurité écrit, plan d’urgence, programme de contrôle des accidents, etc.
-- **Employés** (−15 % à +15 %) : formation des nouveaux employés et pour les postes demandant des compétences particulières.
+- **État général du bâtiment** (−10 % à +10 %) :\
+    Ex : entretien ménager, entretien préventif, etc.
+- **Classification des risques** (−15 % à +15 %) :\
+    Exposition supplémentaire non prise en compte dans la classe de risque ou élimination de certains risques.
+- **Installations médicales** (−5 % à +5 %) :\
+    Trousse de premiers soins, assistance médicale sur place.
+- **Sécurité** (−15 % à +15 %) :\
+    Programme de sécurité écrit, plan d’urgence, programme de contrôle des accidents, etc.
+- **Employés** (−15 % à +15 %) :\
+    Formation des nouveaux employés et pour les postes demandant des compétences particulières.
 
 ## Combinaison d’experience rating et de schedule rating
 
-Peut-on utiliser l’*experience rating* et le *schedule rating* pour la tarification ?
+Peut-on utiliser l’*experience rating* **et** le *schedule rating* pour la tarification ?
 
-::: {.warning}
-Oui, mais attention au **double comptage** !
-:::
-
-Une nouvelle caractéristique, par exemple un programme de prévention des pertes, se reflétera éventuellement dans l’expérience. Si on applique les deux méthodes, on donnera trop de rabais ou de surcharge.
+- Oui, mais **attention au double comptage**!
+  - Une nouvelle caractéristique, par exemple un programme de prévention des pertes, se reflétera éventuellement dans l’expérience. Si on applique les deux méthodes, on donnera trop de rabais ou de surcharge.
 
 ::: {.notes}
 Un nouveau programme de sécurité ou de contrôle des pertes peut justifier un ajustement de *schedule rating* tant que ses effets ne sont pas encore entièrement reflétés dans l’expérience. Après quelques années, il sera reconnu dans l’*experience rating*. Le *schedule rating* peut aussi tenir compte de caractéristiques attendues pour la période future qui ne figurent pas dans l’expérience, ou compléter une expérience qui n’est pas entièrement crédible pour une petite compagnie.
@@ -165,26 +180,31 @@ Ces techniques ne modifient pas le taux du manuel, mais développent entièremen
 - Outil administratif utilisé pour faciliter la tarification de risques commerciaux de grande taille et complexes.
 - Plutôt que d’utiliser plusieurs couvertures avec différentes bases d’exposition, toutes les couvertures sont tarifiées selon une seule base d’exposition « composite », qui sert de mesure approximative de l’exposition au risque.
 - En début de période, une prime initiale (un dépôt) est basée sur un taux composite et sur des unités d’exposition composites estimées.
-- Le taux composite peut être basé sur les taux du manuel ajustés par le *schedule rating* ou l’*experience rating*, ou entièrement sur l’expérience passée de l’assuré (*loss-rated risks*).
+- Le taux composite peut être basé sur :
+  - Les taux du manuel ajustés par le *schedule rating* ou l’*experience rating*\
+  ou
+  - Entièrement sur l’expérience passée de l’assuré (*loss-rated risks*)
 
 ## Exemple de plan de composite rating : ISO’s Composite Rating Plan
 
-Détermination du taux composite basé entièrement sur l’expérience passée (*loss-rated risks*) :
+### Détermination du taux composite basé entièrement sur l’expérience passée
 
-**Projection et développement des sinistres rapportés** et des frais de règlement de sinistres alloués pour chaque année d’accident :
+1. Projection et développement des sinistres rapportés et des frais de règlement de sinistres alloués pour chaque année d’accident :
 
 $$
 \begin{aligned}
 &\text{Sinistres ultimes projetés et frais de règlement alloués} \\
 &= \text{Sinistres rapportés incluant les frais de règlement alloués} \\
-&\quad \times \text{Facteur de développement} \times \text{Facteur de projection}
+&\quad \times \text{Facteur de développement} \\
+&\quad \times \text{Facteur de projection}
 \end{aligned}
 $$
 
 ---
 
-**Projection des unités d’exposition** :
+2. Projection des unités d’exposition
 
+::: {.text-small}
 $$
 \begin{aligned}
 \text{Unités composites projetées}
@@ -194,11 +214,17 @@ $$
 $$
 
 - Période de projection : de la date acquise moyenne dans la période d’expérience à la date acquise moyenne dans la période future.
-- La tendance annuelle dépend de la base d’exposition composite : les ventes et les salaires sont sujets à l’inflation et doivent être projetés; le nombre de véhicules-années n’a pas à être projeté.
+- La tendance annuelle dépend de la base d’exposition composite
+  - Les ventes et les salaires sont sujets à l’inflation et doivent être projetés
+  - Le nombre de véhicules-années n’a pas à être projeté.
+
+:::
 
 ---
 
-**Estimation de la prime ajustée** (*adjusted premium*) :
+::: {.text-smaller}
+
+3. Estimation de la prime ajustée
 
 $$
 \text{Prime ajustée} =
@@ -206,15 +232,56 @@ $$
 {\text{Taux de sinistre espéré incluant les frais de règlement alloués}}
 $$
 
-**Détermination du taux composite** :
+4. Détermination du taux composite
 
 $$
 \text{Taux composite} = \frac{\text{Prime ajustée}}{\text{Unités composites projetées}}
 $$
 
-::: {.note}
-Ce taux composite ne doit pas être ajusté pour l’*experience rating*, car il est lui-même basé sur l’expérience. Le *schedule rating* peut s’appliquer.
+Note : Ce taux composite ne doit pas être ajusté pour l’*experience rating*, car il est lui-même basé sur l’expérience. Le *schedule rating* peut s’appliquer.
 :::
+
+```{r}
+#| label: donnees-taux-composite
+#| include: false
+
+annees_debut <- vapply(-6:-2, dynamic_year, integer(1))
+composite <- data.frame(
+  annee = paste(annees_debut, annees_debut + 1, sep = "–"),
+  vente = c(56498756, 58564822, 61193878, 63245228, 65721869),
+  reparation = c(22599503, 23425929, 24477551, 25298091, 26288748),
+  location = c(33899254, 35138893, 36716327, 37947137, 39433121),
+  blessures = c(1842705, 1406353, 1356511, 1355545, 1193012),
+  dommages = c(626162, 591899, 517616, 623184, 568669),
+  developpement_blessures = c(1.10, 1.25, 1.45, 1.70, 1.95),
+  developpement_dommages = c(1.03, 1.10, 1.20, 1.35, 1.50),
+  periode = 6:2
+)
+composite[["recettes"]] <- rowSums(composite[2:4])
+composite[["facteur_sinistres"]] <- round(1.06^composite[["periode"]], 4)
+composite[["facteur_unites"]] <- round(1.04^composite[["periode"]], 4)
+composite[["ultimes"]] <- round(
+  (composite[["blessures"]] * composite[["developpement_blessures"]] +
+    composite[["dommages"]] * composite[["developpement_dommages"]]) *
+    composite[["facteur_sinistres"]]
+)
+composite[["recettes_milliers"]] <- round(composite[["recettes"]] / 1000)
+composite[["unites_projetees"]] <- round(
+  composite[["recettes_milliers"]] * composite[["facteur_unites"]]
+)
+ultimes_total <- sum(composite[["ultimes"]])
+unites_total <- sum(composite[["unites_projetees"]])
+prime_ajustee <- round(ultimes_total / 0.72)
+taux_composite <- prime_ajustee / unites_total
+
+ajouter_total <- function(tableau, colonnes) {
+  total <- tableau[1, , drop = FALSE]
+  total[1, ] <- NA
+  total[[1]] <- "Total"
+  for (colonne in colonnes) total[[colonne]] <- sum(tableau[[colonne]])
+  rbind(tableau, total)
+}
+```
 
 :::: {.question title="Taux composite de Bob’s rental"}
 
@@ -228,37 +295,45 @@ Les revenus de Bob’s rental proviennent de trois types d’opérations. Pour l
 
 La base d’exposition composite sélectionnée est le total des recettes.
 
-| Année de police | Vente d’équipement | Réparation | Location | Total |
-|:--|--:|--:|--:|--:|
-| 2003–2004 | 56 498 756 \$ | 22 599 503 \$ | 33 899 254 \$ | 112 997 513 \$ |
-| 2004–2005 | 58 564 822 \$ | 23 425 929 \$ | 35 138 893 \$ | 117 129 644 \$ |
-| 2005–2006 | 61 193 878 \$ | 24 477 551 \$ | 36 716 327 \$ | 122 387 756 \$ |
-| 2006–2007 | 63 245 228 \$ | 25 298 091 \$ | 37 947 137 \$ | 126 490 456 \$ |
-| 2007–2008 | 65 721 869 \$ | 26 288 748 \$ | 39 433 121 \$ | 131 443 738 \$ |
-| Total | 305 224 553 \$ | 122 089 822 \$ | 183 134 732 \$ | 610 449 107 \$ |
+```{r}
+#| label: composite-recettes
+#| echo: false
+#| output: asis
+
+tableau <- ajouter_total(composite[c(1:4, 10)], 2:5)
+names(tableau) <- c("Année de police", "Vente d’équipement", "Réparation", "Location", "Total")
+afficher_table(tableau, align = c("l", rep("r", 4)),
+  formats = list(list(colonnes = 2:5, type = "montant", symbole = TRUE)),
+  lignes_gras = "derniere")
+```
 
 Chaque année de police va du 1er juillet au 1er juillet suivant.
 
-##
+## {.text-smaller}
 
-Sinistres rapportés, incluant les frais de règlement de sinistres alloués, au 31 décembre 2008 :
+Sinistres rapportés, incluant les frais de règlement de sinistres alloués, au 31 décembre {{< dynamic-year -1 >}} :
 
-| Année de police | Blessures corporelles | Dommages matériels |
-|:--|--:|--:|
-| 2003–2004 | 1 842 705 \$ | 626 162 \$ |
-| 2004–2005 | 1 406 353 \$ | 591 899 \$ |
-| 2005–2006 | 1 356 511 \$ | 517 616 \$ |
-| 2006–2007 | 1 355 545 \$ | 623 184 \$ |
-| 2007–2008 | 1 193 012 \$ | 568 669 \$ |
-| Total | 7 154 126 \$ | 2 927 530 \$ |
+```{r}
+#| label: composite-sinistres-rapportes
+#| echo: false
+#| output: asis
+
+tableau <- ajouter_total(composite[c(1, 5, 6)], 2:3)
+names(tableau) <- c("Année de police", "Blessures corporelles", "Dommages matériels")
+afficher_table(tableau, align = c("l", "r", "r"),
+  formats = list(list(colonnes = 2:3, type = "montant", symbole = TRUE)),
+  lignes_gras = "derniere")
+```
 
 Les montants sont limités à 250 000 \$ par événement et représentent les pertes en responsabilité générale commerciale provenant des trois opérations.
 
-##
+
+## {.text-smaller}
 
 - Tendance annuelle des sinistres et frais de règlement de sinistres alloués : 6 %.
 - Tendance annuelle des unités d’exposition : 4 %.
 - Taux de sinistre espéré incluant les frais de règlement de sinistres alloués : 72 %.
+- Facteurs de développement des sinistres :
 
 | Âge jusqu’à l’ultime | Blessures corporelles | Dommages matériels |
 |:--|--:|--:|
@@ -268,19 +343,32 @@ Les montants sont limités à 250 000 \$ par événement et représentent les 
 | 30 mois | 1,70 | 1,35 |
 | 18 mois | 1,95 | 1,50 |
 
-Pour la police effective du 1er juillet 2009 au 1er juillet 2010, calculer le taux composite.
+Pour la police effective du 1er juillet {{< dynamic-year 0 >}} au 1er juillet {{< dynamic-year 1 >}}, calculer le taux composite.
 
 ::: {.solution}
 
-**Facteurs de projection** :
+Facteurs de projection :
 
-| Année de police | Période de projection | Tendance des sinistres | Facteur des sinistres | Tendance des unités | Facteur des unités |
-|:--|--:|--:|--:|--:|--:|
-| 2003–2004 | 6 | 6 % | 1,4185 | 4 % | 1,2653 |
-| 2004–2005 | 5 | 6 % | 1,3382 | 4 % | 1,2167 |
-| 2005–2006 | 4 | 6 % | 1,2625 | 4 % | 1,1699 |
-| 2006–2007 | 3 | 6 % | 1,1910 | 4 % | 1,1249 |
-| 2007–2008 | 2 | 6 % | 1,1236 | 4 % | 1,0816 |
+```{r}
+#| label: composite-facteurs-projection
+#| echo: false
+#| output: asis
+
+tableau <- data.frame(
+  composite[[1]], composite[[9]], rep(0.06, nrow(composite)),
+  composite[[11]], rep(0.04, nrow(composite)), composite[[12]],
+  check.names = FALSE
+)
+names(tableau) <- c("Année de police", "Période de projection", "Tendance des sinistres",
+  "Facteur des sinistres", "Tendance des unités", "Facteur des unités")
+afficher_table(tableau, align = c("l", rep("r", 5)),
+  formats = list(
+    list(colonnes = c(3, 5), type = "pourcentage", digits = 0),
+    list(colonnes = c(4, 6), type = "nombre", digits = 4)
+  ),
+  entetes_calculs = c("", "(1)", "(2)", "(3) = (1 + (2)) ^ (1)",
+    "(4)", "(5) = (1 + (4)) ^ (1)"))
+```
 
 Le facteur de projection est égal à $(1 + \text{tendance annuelle})^{\text{période de projection}}$.
 
@@ -288,43 +376,59 @@ Le facteur de projection est égal à $(1 + \text{tendance annuelle})^{\text{pé
 
 **Sinistres ultimes projetés** :
 
-| Année | Rapportés : blessures | Rapportés : dommages | Développement : blessures | Développement : dommages | Projection | Ultimes projetés |
-|:--|--:|--:|--:|--:|--:|--:|
-| 2003–2004 | 1 842 705 \$ | 626 162 \$ | 1,10 | 1,03 | 1,4185 | 3 790 122 \$ |
-| 2004–2005 | 1 406 353 \$ | 591 899 \$ | 1,25 | 1,10 | 1,3382 | 3 223 764 \$ |
-| 2005–2006 | 1 356 511 \$ | 517 616 \$ | 1,45 | 1,20 | 1,2625 | 3 267 451 \$ |
-| 2006–2007 | 1 355 545 \$ | 623 184 \$ | 1,70 | 1,35 | 1,1910 | 3 746 558 \$ |
-| 2007–2008 | 1 193 012 \$ | 568 669 \$ | 1,95 | 1,50 | 1,1236 | 3 572 348 \$ |
-| Total | 7 154 126 \$ | 2 927 530 \$ | | | | 17 600 243 \$ |
+```{r}
+#| label: composite-sinistres-ultimes
+#| echo: false
+#| output: asis
+
+tableau <- ajouter_total(composite[c(1, 5, 6, 7, 8, 11, 13)], c(2, 3, 7))
+names(tableau) <- c("Année de police", "Rapportés : blessures", "Rapportés : dommages",
+  "Développement : blessures", "Développement : dommages", "Projection", "Ultimes projetés")
+afficher_table(tableau, align = c("l", rep("r", 6)),
+  formats = list(
+    list(colonnes = c(2, 3, 7), type = "montant", symbole = TRUE),
+    list(colonnes = 4:5, type = "nombre", digits = 2),
+    list(colonnes = 6, type = "nombre", digits = 4)
+  ), lignes_gras = "derniere",
+  entetes_calculs = c("", "(1)", "(2)", "(3)", "(4)", "(5)",
+    "(6) = ((1) × (3) + (2) × (4)) × (5)"))
+```
 
 ##
 
 **Unités projetées** :
 
-| Année de police | Recettes totales (milliers de \$) | Facteur de projection | Unités projetées (milliers de \$) |
-|:--|--:|--:|--:|
-| 2003–2004 | 112 998 | 1,2653 | 142 976 |
-| 2004–2005 | 117 130 | 1,2167 | 142 512 |
-| 2005–2006 | 122 388 | 1,1699 | 143 182 |
-| 2006–2007 | 126 490 | 1,1249 | 142 289 |
-| 2007–2008 | 131 444 | 1,0816 | 142 170 |
-| Total | 610 450 | | 713 129 |
+```{r}
+#| label: composite-unites-projetees
+#| echo: false
+#| output: asis
+
+tableau <- ajouter_total(composite[c(1, 14, 12, 15)], c(2, 4))
+names(tableau) <- c("Année de police", "Recettes totales (milliers de \\$)",
+  "Facteur de projection", "Unités projetées (milliers de \\$)")
+afficher_table(tableau, align = c("l", "r", "r", "r"),
+  formats = list(
+    list(colonnes = c(2, 4), type = "nombre", digits = 0),
+    list(colonnes = 3, type = "nombre", digits = 4)
+  ), lignes_gras = "derniere",
+  entetes_calculs = c("", "(1)", "(2)", "(3) = (1) × (2)"))
+```
 
 ##
 
-- Sinistres ultimes projetés incluant les frais de règlement : 17 600 243 \$.
-- Unités d’exposition projetées : 713 129.
+- Sinistres ultimes projetés incluant les frais de règlement : `r format_montant(ultimes_total, symbole = TRUE)`.
+- Unités d’exposition projetées : `r format_nombre(unites_total, digits = 0)`.
 
 Prime ajustée :
 
 $$
-\frac{17\,600\,243}{0.72} = 24\,444\,782\text{\$}
+\frac{`r format(ultimes_total, scientific = FALSE, trim = TRUE)`}{0.72} = `r format(prime_ajustee, scientific = FALSE, trim = TRUE)`\text{\$}
 $$
 
 Taux composite par 1 000 \$ d’unités :
 
 $$
-\frac{24\,444\,782}{713\,129} = 34.28\text{\$}
+\frac{`r format(prime_ajustee, scientific = FALSE, trim = TRUE)`}{`r format(unites_total, scientific = FALSE, trim = TRUE)`} = `r formatC(taux_composite, format = "f", digits = 2)`\text{\$}
 $$
 
 :::
