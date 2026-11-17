@@ -281,14 +281,14 @@ $A_P$ : prime fixe proposée\
 :::
 ::: {.column width="50%"}
 $B_C$ : taux de base actuel\
-$\overline{P_C}$ : prime moyenne actuelle\
+$\overline{P_C}$ : prime moyenne au taux courant\
 $A_C$ : prime fixe actuelle
 :::
 ::::
 
 :::: {.question title="Taux de base sans changement des différentiels"}
 
-La prime moyenne actuelle est de 1 000 \$, le taux de base actuel de 800 \$ et la prime fixe actuelle de 100 \$. La compagnie veut atteindre une hausse de prime moyenne de 5 %.
+La prime moyenne au taux courant est de 1 000 \$, le taux de base actuel de 800 \$ et la prime fixe actuelle de 100 \$. La compagnie veut atteindre une hausse de prime moyenne de 5 %.
 
 Calculer le nouveau taux de base si la prime fixe demeure la même.
 
@@ -491,7 +491,7 @@ $$
 :::: {.question title="Changement de prime moyenne sélectionné"}
 
 - Changement de prime moyenne sélectionné : +3,25 %.
-- Prime moyenne actuelle : 242,13 \$.
+- Prime moyenne au taux courant : 242,13 \$.
 - $B_S = 215\text{\$}$
 - La prime moyenne avec $B_S$ : 246,83 \$.
 - $A_P = 25\text{\$}$.
@@ -758,7 +758,7 @@ $$
 Calculer le taux de base proposé avec les données suivantes :
 
 - Taux de base actuel : 210 \$
-- Prime moyenne actuelle : 242,13 \$.
+- Prime moyenne au taux courant : 242,13 \$.
 - Changement de prime moyenne cible : +3,25 %.
 - Prime fixe actuelle et future : 25 \$.
 
@@ -922,7 +922,7 @@ table_limitation_base <- calculer_limitation(c(0.65, 1, 1.05))
 afficher_limitation <- function(donnees, colonnes, calculs = TRUE) {
   tableau <- donnees[, colonnes, drop = FALSE]
   noms <- c(
-    "Niveau", "Primes actuelles", "Différentiel actuel", "Différentiel sélectionné",
+    "Niveau", "Primes au taux courant", "Différentiel actuel", "Différentiel sélectionné",
     "Changement de différentiel", "Off-balance", "Changement global",
     "Changement total", "Primes proposées"
   )

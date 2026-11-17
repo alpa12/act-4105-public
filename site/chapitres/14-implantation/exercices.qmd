@@ -1,9 +1,18 @@
 ---
 metadata-files:
   - ../_exercices.yml
+execute:
+  echo: false
+smart-tables:
+  enabled: true
 ---
 
-<!-- Les tableaux et formules des solutions, rasterisés dans le PDF historique, sont transcrits en contenu éditable. -->
+```{r}
+#| label: initialiser-tableaux
+#| include: false
+
+library(tarifr)
+```
 
 ::::: {.question}
 (CAS Examen 5, Automne 2015 – Q11 modifiée)
@@ -16,45 +25,148 @@ Une compagnie d’assurance habitation utilise seulement deux variables de tarif
 
 Le taux de base actuel par unité est de 1 250 \$. Tous les différentiels sont multiplicatifs et il n’y a aucune portion de prime fixe.
 
-| Montant d’assurance | Différentiel actuel | Différentiel indiqué |
-|:---|---:|---:|
-| Inférieur à 100 000 \$ | 0.750 | 0.600 |
-| 100 000 \$ et plus | 1.000 | 1.200 |
+```{r}
+#| label: exercice14-donnees-01
+#| include: false
 
-| Territoire | Différentiel actuel | Différentiel indiqué |
-|:---|---:|---:|
-| 1 | 0.800 | 0.850 |
-| 2 | 1.000 | 1.000 |
+q1_montants <- as.data.frame(setNames(list(
+  c("Inférieur à 100 000 \\$", "100 000 \\$ et plus"),
+  c(0.75, 1.0),
+  c(0.6, 1.2)
+), c("Montant d’assurance $R1$", "Différentiel actuel", "Différentiel indiqué")), check.names = FALSE, stringsAsFactors = FALSE)
 
-| Montant d’assurance | Unités : territoire 1 | Unités : territoire 2 |
-|:---|---:|---:|
-| Inférieur à 100 000 \$ | 1 500 | 4 000 |
-| 100 000 \$ et plus | 1 500 | 3 000 |
+q1_territoires <- as.data.frame(setNames(list(
+  c("1", "2"),
+  c(0.8, 1.0),
+  c(0.85, 1.0)
+), c("Territoire $R2$", "Différentiel actuel", "Différentiel indiqué")), check.names = FALSE, stringsAsFactors = FALSE)
+
+q1_unites <- as.data.frame(setNames(list(
+  c("Inférieur à 100 000 \\$", "100 000 \\$ et plus"),
+  c(1500.0, 1500.0),
+  c(4000.0, 3000.0)
+), c("Montant d’assurance", "Unités : territoire 1", "Unités : territoire 2")), check.names = FALSE, stringsAsFactors = FALSE)
+```
+
+```{r}
+#| label: exercice14-tableau-01
+#| output: asis
+
+
+afficher_table(
+  q1_montants,
+  align = c("l", "r", "r"),
+  formats = list(list(colonnes = 2, type = "nombre", digits = 3), list(colonnes = 3, type = "nombre", digits = 3))
+)
+```
+
+```{r}
+#| label: exercice14-tableau-02
+#| output: asis
+
+
+afficher_table(
+  q1_territoires,
+  align = c("l", "r", "r"),
+  formats = list(list(colonnes = 2, type = "nombre", digits = 3), list(colonnes = 3, type = "nombre", digits = 3))
+)
+```
+
+```{r}
+#| label: exercice14-tableau-03
+#| output: asis
+
+
+afficher_table(
+  q1_unites,
+  align = c("l", "r", "r"),
+  formats = list(list(colonnes = 2, type = "nombre", digits = 0), list(colonnes = 3, type = "nombre", digits = 0))
+)
+```
 
 :::: {.question}
 En utilisant la méthode qui recalcule la prime pour chaque unité, déterminer le taux de base et les différentiels sélectionnés qui satisfont tous les objectifs de la compagnie.
 
 ::: {.solution}
 
-Pour conserver les classes de base, on divise les différentiels indiqués du montant d’assurance par 1.2. Les différentiels proposés sont donc de 0.5 et 1 pour le montant d’assurance, et de 0.85 et 1 pour les territoires 1 et 2.
+Pour conserver les classes de base, on divise les différentiels indiqués du montant d’assurance par 1.2.
+
+```{r}
+#| label: exercice14-differentiels-proposes
+#| include: false
+
+q1_montants[[4]] <- q1_montants[[3]] / q1_montants[[3]][2]
+q1_territoires[[4]] <- q1_territoires[[3]]
+names(q1_montants)[4] <- names(q1_territoires)[4] <- "Différentiel proposé"
+```
 
 On fixe le taux de base d’essai $B_S$ à 1 250 \$ et on recalcule la prime de chaque combinaison :
 
-| Montant d’assurance | Territoire | Unités | Différentiel actuel | Prime actuelle par unité | Prime actuelle totale |
-|:---|:---:|---:|---:|---:|---:|
-| < 100 000 \$ | 1 | 1 500 | 0.600 | 750.00 | 1 125 000 |
-| < 100 000 \$ | 2 | 4 000 | 0.750 | 937.50 | 3 750 000 |
-| ≥ 100 000 \$ | 1 | 1 500 | 0.800 | 1 000.00 | 1 500 000 |
-| ≥ 100 000 \$ | 2 | 3 000 | 1.000 | 1 250.00 | 3 750 000 |
-| **Total** | | **10 000** | | | **10 125 000** |
+```{r}
+#| label: exercice14-tableau-04
+#| output: asis
 
-| Montant d’assurance | Territoire | Différentiel proposé total | Prime totale avec $B_S$ |
-|:---|:---:|---:|---:|
-| < 100 000 \$ | 1 | 0.425 | 796 875 |
-| < 100 000 \$ | 2 | 0.500 | 2 500 000 |
-| ≥ 100 000 \$ | 1 | 0.850 | 1 593 750 |
-| ≥ 100 000 \$ | 2 | 1.000 | 3 750 000 |
-| **Total** | | | **8 640 625** |
+indices_montant <- rep(seq_len(nrow(q1_montants)), each = nrow(q1_territoires))
+indices_territoire <- rep(seq_len(nrow(q1_territoires)), times = nrow(q1_montants))
+q1_calculs <- data.frame(
+  "Montant d’assurance" = c(q1_unites[[1]][indices_montant], "Total"),
+  "Territoire" = c(as.numeric(q1_territoires[[1]][indices_territoire]), NA),
+  "Unités" = c(as.numeric(t(as.matrix(q1_unites[2:3]))), sum(unlist(q1_unites[2:3]))),
+  check.names = FALSE
+)
+q1_calculs[[1]][1:4] <- ifelse(
+  indices_montant == 1,
+  sub("Inférieur à ", "< ", q1_calculs[[1]][1:4], fixed = TRUE),
+  paste0("≥ ", sub(" et plus", "", q1_calculs[[1]][1:4], fixed = TRUE))
+)
+q1_calculs[[4]] <- c(q1_montants[[2]][indices_montant] * q1_territoires[[2]][indices_territoire], NA)
+q1_calculs[[5]] <- 1250 * q1_calculs[[4]]
+q1_calculs[[6]] <- q1_calculs[[3]] * q1_calculs[[5]]
+q1_calculs[[6]][5] <- sum(q1_calculs[[6]], na.rm = TRUE)
+names(q1_calculs)[4:6] <- c("Différentiel actuel", "Prime par unité au taux courant", "Prime totale au taux courant")
+
+afficher_table(
+  q1_calculs[, 1:6],
+  align = c("l", "r", "r", "r", "r", "r"),
+  formats = list(list(colonnes = 2, type = "nombre", digits = 0), list(colonnes = 3, type = "nombre", digits = 0), list(colonnes = 4, type = "nombre", digits = 3), list(colonnes = 5, type = "nombre", digits = 2), list(colonnes = 6, type = "nombre", digits = 0)),
+  lignes_gras = "derniere",
+  entetes_calculs = c("(1)", "(2)", "(3)", "(4) = $R1_C$ × $R2_C$", "(5) = $B_C$ × (4)", "(6) = (3) × (5)")
+)
+```
+
+```{r}
+#| label: exercice14-tableau-05
+#| output: asis
+
+q1_calculs[[7]] <- c(
+  q1_montants[[4]][indices_montant] * q1_territoires[[4]][indices_territoire], NA
+)
+q1_calculs[[8]] <- 1250 * q1_calculs[[3]] * q1_calculs[[7]]
+q1_calculs[[8]][5] <- sum(q1_calculs[[8]], na.rm = TRUE)
+q1_calculs[[9]] <- q1_calculs[[7]] / q1_calculs[[4]] - 1
+q1_calculs[[9]][5] <- weighted.mean(q1_calculs[[9]][1:4], q1_calculs[[6]][1:4])
+q1_calculs[[10]] <- 1 / (1 + q1_calculs[[9]][5])
+q1_calculs[[11]] <- (1 + q1_calculs[[9]]) * q1_calculs[[10]] * 1.15 - 1
+q1_calculs[[12]] <- q1_calculs[[6]] * (1 + q1_calculs[[11]])
+q1_calculs[[12]][5] <- sum(q1_calculs[[12]][1:4])
+q1_calculs[[11]][5] <- q1_calculs[[12]][5] / q1_calculs[[6]][5] - 1
+names(q1_calculs)[7:12] <- c(
+  "Différentiel proposé", "Prime avec $B_S$", "Changement de différentiel",
+  "Off-balance", "Changement total", "Primes proposées"
+)
+afficher_table(
+  q1_calculs[, 7:12],
+  align = c("r", "r", "r", "r", "r", "r"),
+  formats = list(
+    list(colonnes = 1, type = "nombre", digits = 3),
+    list(colonnes = c(2, 6), type = "nombre", digits = 0),
+    list(colonnes = c(3, 5), type = "pourcentage", digits = 2),
+    list(colonnes = 4, type = "nombre", digits = 4)
+  ),
+  lignes_gras = "derniere",
+  entetes_calculs = c("(7) = $R1_P$ × $R2_P$", "(8) = $B_S$ × (3) × (7)", "(9) = (7) / (4) − 1", "(10) = 1 / (1 + moyenne pondérée (9))", "(11) = (1 + (9)) × (10) × 1,15 − 1", "(12) = (6) × (1 + (11))")
+)
+```
 
 Le changement moyen des différentiels et le facteur d’*off-balance* sont :
 
@@ -69,45 +181,120 @@ $$
 B_P = 1\,250 \times 1.171790235 \times 1.15 = 1\,684.45
 $$
 
-Les calculs utilisent les valeurs non arrondies; les résultats affichés sont arrondis.
+Les différentiels proposés sont :
+
+```{r}
+#| label: exercice14-differentiels-montants-a
+#| output: asis
+
+afficher_table(
+  q1_montants[, c(1, 4)],
+  align = c("l", "r"),
+  formats = list(list(colonnes = 2, type = "nombre", digits = 2))
+)
+```
+
+```{r}
+#| label: exercice14-differentiels-territoires-a
+#| output: asis
+
+afficher_table(
+  q1_territoires[, c(1, 4)],
+  align = c("l", "r"),
+  formats = list(list(colonnes = 2, type = "nombre", digits = 2))
+)
+```
 
 :::
 ::::
+
+```{=typst}
+#pagebreak(weak: true)
+```
 
 :::: {.question}
 Quelle serait votre réponse en a) si l’entreprise veut aussi instaurer une prime minimale de 800 \$?
 
 ::: {.solution}
 
-L’application de la prime minimale aux primes calculées en a) augmente les primes de la première combinaison :
+On note $B_P^{(a)}$ le taux de base proposé en a), avant l’application de la prime minimale. Celle-ci augmente les primes de la première combinaison :
 
-| Montant d’assurance | Territoire | Prime par unité avant minimum | Prime par unité après minimum | Primes totales après minimum | Primes supplémentaires |
-|:---|:---:|---:|---:|---:|---:|
-| < 100 000 \$ | 1 | 715.89 | 800.00 | 1 200 000 | 126 164 |
-| < 100 000 \$ | 2 | 842.22 | 842.22 | 3 368 897 | 0 |
-| ≥ 100 000 \$ | 1 | 1 431.78 | 1 431.78 | 2 147 672 | 0 |
-| ≥ 100 000 \$ | 2 | 1 684.45 | 1 684.45 | 5 053 345 | 0 |
-| **Total** | | | | **11 769 914** | **126 164** |
+```{r}
+#| label: exercice14-tableau-06
+#| output: asis
 
-Il faut diminuer les primes des autres combinaisons pour compenser cette hausse. L’ajustement au taux de base est :
+taux_essai <- 1250 * q1_calculs[[6]][5] / q1_calculs[[8]][5] * 1.15
+q1_calculs[[13]] <- taux_essai * q1_calculs[[7]]
+q1_calculs[[14]] <- pmax(800, q1_calculs[[13]])
+q1_calculs[[15]] <- q1_calculs[[3]] * q1_calculs[[14]]
+q1_calculs[[16]] <- q1_calculs[[3]] * (q1_calculs[[14]] - q1_calculs[[13]])
+q1_calculs[[15]][5] <- sum(q1_calculs[[15]], na.rm = TRUE)
+q1_calculs[[16]][5] <- sum(q1_calculs[[16]], na.rm = TRUE)
+names(q1_calculs)[13:16] <- c("Prime avant minimum", "Prime après minimum", "Primes totales", "Primes ajoutées")
+
+afficher_table(
+  q1_calculs[, 13:16],
+  align = c("r", "r", "r", "r"),
+  formats = list(list(colonnes = 1:2, type = "nombre", digits = 2), list(colonnes = 3:4, type = "nombre", digits = 0)),
+  lignes_gras = "derniere",
+  entetes_calculs = c("(13) = $B_P^{(a)}$ × $R1_P$ × $R2_P$", "(14) = max(800, (13))", "(15) = (3) × (14)", "(16) = (15) − (3) × (13)")
+)
+```
+
+Il faut diminuer les primes des autres combinaisons pour compenser cette hausse. En notant $E$ la prime supplémentaire de la première combinaison (colonne 16) et $P_{\min,i}$ la prime après minimum de la combinaison $i$ (colonne 15), l’ajustement au taux de base est :
 
 $$
--\frac{126\,164}{3\,368\,897+2\,147\,672+5\,053\,345} \approx -0.011936
+\Delta_{\min} = -\frac{E}{\sum_{i=2}^{4} P_{\min,i}} = -0.011936
 $$
-
-Le taux de base proposé est donc de $1\,684.45(1-0.011936) = 1\,664.34$. Les différentiels demeurent 0.5 et 1 pour le montant d’assurance, et 0.85 et 1 pour le territoire.
 
 La vérification des sélections finales donne :
 
-| Montant d’assurance | Territoire | Prime par unité avant minimum | Prime par unité après minimum | Primes totales après minimum |
-|:---|:---:|---:|---:|---:|
-| < 100 000 \$ | 1 | 707.35 | 800.00 | 1 200 000 |
-| < 100 000 \$ | 2 | 832.17 | 832.17 | 3 328 685 |
-| ≥ 100 000 \$ | 1 | 1 414.69 | 1 414.69 | 2 122 037 |
-| ≥ 100 000 \$ | 2 | 1 664.34 | 1 664.34 | 4 993 028 |
-| **Total** | | | | **11 643 750** |
+```{r}
+#| label: exercice14-tableau-07
+#| output: asis
+
+taux_final <- (1.15 * q1_calculs[[6]][5] - 800 * q1_calculs[[3]][1]) /
+  sum(q1_calculs[[3]][2:4] * q1_calculs[[7]][2:4])
+q1_calculs[[17]] <- taux_final * q1_calculs[[7]]
+q1_calculs[[18]] <- pmax(800, q1_calculs[[17]])
+q1_calculs[[19]] <- q1_calculs[[3]] * q1_calculs[[18]]
+q1_calculs[[19]][5] <- sum(q1_calculs[[19]], na.rm = TRUE)
+names(q1_calculs)[17:19] <- c("Prime par unité avant minimum", "Prime par unité après minimum", "Primes totales après minimum")
+
+afficher_table(
+  q1_calculs[, 17:19],
+  align = c("r", "r", "r"),
+  formats = list(list(colonnes = 1:2, type = "nombre", digits = 2), list(colonnes = 3, type = "nombre", digits = 0)),
+  lignes_gras = "derniere",
+  entetes_calculs = c("(17) = $B_P$ × $R1_P$ × $R2_P$", "(18) = max(800, (17))", "(19) = (3) × (18)")
+)
+```
 
 Les primes totalisent bien $1.15 \times 10\,125\,000$ et chaque prime par unité est d’au moins 800 \$.
+
+Le taux de base proposé est donc $B_P = B_P^{(a)}(1+\Delta_{\min}) = 1\,664.34\text{\$}$. Les différentiels proposés demeurent :
+
+```{r}
+#| label: exercice14-differentiels-montants-b
+#| output: asis
+
+afficher_table(
+  q1_montants[, c(1, 4)],
+  align = c("l", "r"),
+  formats = list(list(colonnes = 2, type = "nombre", digits = 2))
+)
+```
+
+```{r}
+#| label: exercice14-differentiels-territoires-b
+#| output: asis
+
+afficher_table(
+  q1_territoires[, c(1, 4)],
+  align = c("l", "r"),
+  formats = list(list(colonnes = 2, type = "nombre", digits = 2))
+)
+```
 
 :::
 ::::
@@ -118,22 +305,62 @@ Les primes totalisent bien $1.15 \times 10\,125\,000$ et chaque prime par unité
 
 Avec l’information suivante :
 
-| Caractéristique | Différentiel actuel |
-|:---|---:|
-| Territoire A | 0.60 |
-| Territoire B | 1.10 |
-| Détecteur de fumée | 0.90 |
-| Aucun détecteur de fumée | 1.00 |
+```{r}
+#| label: exercice14-tableau-08
+#| output: asis
 
-| | Unités acquises en {{< dynamic-year -1 >}} : territoire A | Unités acquises en {{< dynamic-year -1 >}} : territoire B |
-|:---|---:|---:|
-| Détecteur de fumée | 750 | 600 |
-| Aucun détecteur de fumée | 150 | 100 |
+q2_differentiels <- as.data.frame(setNames(list(
+  c("Territoire A", "Territoire B", "Détecteur de fumée", "Aucun détecteur de fumée"),
+  c(0.6, 1.1, 0.9, 1.0)
+), c("Caractéristique", "Différentiel actuel")), check.names = FALSE, stringsAsFactors = FALSE)
 
-| | Sinistres rapportés et frais de règlement alloués en {{< dynamic-year -1 >}} : territoire A | Territoire B |
-|:---|---:|---:|
-| Détecteur de fumée | 160 000 \$ | 260 000 \$ |
-| Aucun détecteur de fumée | 40 000 \$ | 52 000 \$ |
+
+afficher_table(
+  q2_differentiels,
+  align = c("l", "r"),
+  formats = list(list(colonnes = 2, type = "nombre", digits = 2))
+)
+```
+
+Unités acquises en {{< dynamic-year -1 >}} :
+
+```{r}
+#| label: exercice14-tableau-09
+#| output: asis
+
+q2_unites <- as.data.frame(setNames(list(
+  c("Détecteur de fumée", "Aucun détecteur de fumée"),
+  c(750.0, 150.0),
+  c(600.0, 100.0)
+), c("Détecteur de fumée", "Territoire A", "Territoire B")), check.names = FALSE, stringsAsFactors = FALSE)
+
+
+afficher_table(
+  q2_unites,
+  align = c("l", "r", "r"),
+  formats = list(list(colonnes = 2, type = "nombre", digits = 0), list(colonnes = 3, type = "nombre", digits = 0))
+)
+```
+
+Sinistres rapportés et frais de règlement alloués en {{< dynamic-year -1 >}} :
+
+```{r}
+#| label: exercice14-tableau-10
+#| output: asis
+
+q2_sinistres <- as.data.frame(setNames(list(
+  c("Détecteur de fumée", "Aucun détecteur de fumée"),
+  c(160000.0, 40000.0),
+  c(260000.0, 52000.0)
+), c("Détecteur de fumée", "Territoire A", "Territoire B")), check.names = FALSE, stringsAsFactors = FALSE)
+
+
+afficher_table(
+  q2_sinistres,
+  align = c("l", "r", "r"),
+  formats = list(list(colonnes = 2, type = "montant", digits = 0, symbole = TRUE), list(colonnes = 3, type = "montant", digits = 0, symbole = TRUE))
+)
+```
 
 - Le taux de base actuel est de 550 \$. Tous les différentiels sont multiplicatifs et la prime ne contient aucune portion fixe.
 - La direction a décidé que le différentiel du territoire le plus élevé n’excéderait pas 130 % du différentiel du territoire le plus bas dans tous les changements de taux futurs.
@@ -147,38 +374,141 @@ Les primes acquises aux taux courants sont :
 
 $$
 \begin{aligned}
-P_A &= 750(550)(0.6)(0.9)+150(550)(0.6) = 272\,250 \\
-P_B &= 600(550)(1.1)(0.9)+100(550)(1.1) = 387\,200
+P_{C,A} &= 750(550)(0.6)(0.9)+150(550)(0.6) = 272\,250 \\
+P_{C,B} &= 600(550)(1.1)(0.9)+100(550)(1.1) = 387\,200
 \end{aligned}
 $$
 
-| Territoire | Unités | Primes actuelles | Sinistres | Taux de sinistre | Facteur indiqué | Différentiel indiqué |
-|:---|---:|---:|---:|---:|---:|---:|
-| A | 900 | 272 250 | 200 000 | 0.7346 | 0.9462 | 0.5677 |
-| B | 700 | 387 200 | 312 000 | 0.8058 | 1.0378 | 1.1416 |
-| **Total** | **1 600** | **659 450** | **512 000** | **0.7764** | | |
+```{r}
+#| label: exercice14-tableau-11
+#| output: asis
 
-Aucun différentiel territorial actuel n’est égal à 1 : on divise donc le taux de sinistre de chaque territoire par le taux de sinistre total pour obtenir le facteur de changement indiqué. Le ratio $1.1416/0.5677$ dépasse 1.30. Deux sélections équivalentes sont possibles :
+q2_resultats <- data.frame(
+  Territoire = c(sub("Territoire ", "", names(q2_unites)[2:3], fixed = TRUE), "Total"),
+  check.names = FALSE
+)
+q2_resultats[[2]] <- c(colSums(q2_unites[2:3]), sum(unlist(q2_unites[2:3])))
+q2_resultats[[3]] <- c(
+  550 * q2_differentiels[[2]][1:2] *
+    as.numeric(crossprod(q2_differentiels[[2]][3:4], as.matrix(q2_unites[2:3]))), NA
+)
+q2_resultats[[3]][3] <- sum(q2_resultats[[3]][1:2])
+q2_resultats[[4]] <- c(colSums(q2_sinistres[2:3]),sum(unlist(q2_sinistres[2:3])))
+q2_resultats[[5]] <- q2_resultats[[4]]/q2_resultats[[3]]
+q2_resultats[[6]] <- c(q2_resultats[[5]][1:2]/q2_resultats[[5]][3],NA)
+q2_resultats[[7]] <- q2_resultats[[6]]*c(q2_differentiels[[2]][1:2], NA)
+names(q2_resultats)[2:7] <- c("Unités", "Primes au taux courant", "Sinistres", "Taux de sinistre", "Facteur indiqué", "Différentiel indiqué")
 
-| Sélection | Différentiel A | Différentiel B | Changement moyen des différentiels | Facteur d’off-balance | Taux de base proposé |
-|:---|---:|---:|---:|---:|---:|
-| Conserver A | 0.5677 | 0.7380 | −0.2154 | 1.2746 | 701.03 |
-| Conserver B | 0.8782 | 1.1416 | 0.2136 | 0.8240 | 453.19 |
+afficher_table(
+  q2_resultats,
+  align = c("l", "r", "r", "r", "r", "r", "r"),
+  formats = list(list(colonnes = 2, type = "nombre", digits = 0), list(colonnes = 3, type = "nombre", digits = 0), list(colonnes = 4, type = "nombre", digits = 0), list(colonnes = 5, type = "nombre", digits = 4), list(colonnes = 6, type = "nombre", digits = 4), list(colonnes = 7, type = "nombre", digits = 4)),
+  lignes_gras = "derniere",
+  entetes_calculs = c("(1)", "(2)", "(3)", "(4)", "(5) = (4) / (3)", "(6) = (5) / total (5)", "(7) = $R_C$ × (6)")
+)
+```
 
-Dans le premier cas, le différentiel de B est limité à $1.3 \times 0.5677$. Dans le second, celui de A est fixé à $1.1416/1.3$. Le facteur d’off-balance est l’inverse de un plus le changement moyen des différentiels, pondéré par les primes actuelles. Le nouveau taux de base est le taux actuel multiplié par ce facteur.
+**Colonne (6)** : comme aucun territoire n’a un différentiel de 1, il n’y a pas de classe de base pour le territoire. On divise donc le taux de sinistre de chaque territoire par le taux de sinistre total pour obtenir le facteur de changement indiqué.
+
+On multiplie ensuite ce facteur par le différentiel au taux courant pour obtenir le différentiel indiqué $R_I$ en colonne (7). Le rapport $1.1416/0.5677$ dépasse 1.30. Deux sélections sont possibles :
+
+```{r}
+#| label: exercice14-tableau-12
+#| include: false
+
+q2_selections <- as.data.frame(setNames(list(
+  c("Conserver A", "Conserver B"),
+  rep(NA_real_, 2),
+  rep(NA_real_, 2),
+  rep(NA_real_, 2),
+  rep(NA_real_, 2),
+  rep(NA_real_, 2)
+), c("Sélection", "Différentiel A", "Différentiel B", "Changement moyen des différentiels", "Facteur d’off-balance", "Taux de base proposé")), check.names = FALSE, stringsAsFactors = FALSE)
+q2_selections[[2]] <- c(q2_resultats[[7]][1], q2_resultats[[7]][2]/1.3)
+q2_selections[[3]] <- c(q2_resultats[[7]][1]*1.3,q2_resultats[[7]][2])
+q2_selections[[4]] <- (q2_resultats[[3]][1]*q2_selections[[2]]/q2_differentiels[[2]][1]+q2_resultats[[3]][2]*q2_selections[[3]]/q2_differentiels[[2]][2])/q2_resultats[[3]][3]-1
+q2_selections[[5]] <- 1/(1+q2_selections[[4]])
+q2_selections[[6]] <- 550*q2_selections[[5]]
+```
+
+Pour chaque sélection, le changement de différentiel par territoire et l’off-balance correspondant sont :
+
+```{r}
+#| label: exercice14-limitation-conserver-a
+#| output: asis
+
+calculer_selection_territoriale <- function(selection) {
+  differentiels <- as.numeric(q2_selections[selection, 2:3])
+  changement <- differentiels / q2_differentiels[[2]][1:2] - 1
+  moyenne <- weighted.mean(changement, q2_resultats[[3]][1:2])
+  data.frame(
+    Territoire = q2_resultats[[1]],
+    "Différentiel actuel" = c(q2_differentiels[[2]][1:2], NA),
+    "Différentiel sélectionné" = c(differentiels, NA),
+    "Changement de différentiel" = c(changement, moyenne),
+    "Off-balance" = 1 / (1 + moyenne),
+    check.names = FALSE
+  )
+}
+table_conserver_a <- calculer_selection_territoriale(1)
+afficher_table(
+  table_conserver_a,
+  align = c("l", "r", "r", "r", "r"),
+  formats = list(list(colonnes = 2:5, type = "nombre", digits = 4)),
+  lignes_gras = "derniere",
+  entetes_calculs = c("(8)", "(9)", "(10) : conserver A", "(11) = (10) / (9) − 1", "(12) = 1 / (1 + total (11))")
+)
+```
+
+```{r}
+#| label: exercice14-limitation-conserver-b
+#| output: asis
+
+table_conserver_b <- calculer_selection_territoriale(2)
+afficher_table(
+  table_conserver_b,
+  align = c("l", "r", "r", "r", "r"),
+  formats = list(list(colonnes = 2:5, type = "nombre", digits = 4)),
+  lignes_gras = "derniere",
+  entetes_calculs = c("(13)", "(14)", "(15) : conserver B", "(16) = (15) / (14) − 1", "(17) = 1 / (1 + total (16))")
+)
+```
+
+Dans la première solution, le différentiel sélectionné de A est conservé à 0.5677 et celui de B est limité à $1.3 \times 0.5677 = 0.7380$. Le changement moyen est de −0.2154, l’off-balance est de 1.2746 et le nouveau taux de base est de 701,03 \$.
+
+Dans la deuxième solution, le différentiel sélectionné de B est conservé à 1.1416 et celui de A est limité à $1.1416/1.3 = 0.8782$. Le changement moyen est de 0.2136, l’off-balance est de 0.8240 et le nouveau taux de base est de 453,19 \$.
+
+Dans chaque cas, le facteur d’off-balance est l’inverse de un plus le changement moyen des différentiels, pondéré par les primes au taux courant. Le nouveau taux de base est le taux courant multiplié par ce facteur.
 
 :::
 ::::
+
+```{=typst}
+#pagebreak(weak: true)
+```
 
 ::::: {.question}
 (CAS Examen 5, Printemps 2015 – Q10)
 
 Avec l’information suivante pour une compagnie d’assurance :
 
-| Territoire | Primes | Taux de sinistre ultime |
-|:---|---:|---:|
-| A | 45 000 000 \$ | 0.80 |
-| B | 55 000 000 \$ | 0.60 |
+```{r}
+#| label: exercice14-tableau-13
+#| output: asis
+
+q3_donnees <- as.data.frame(setNames(list(
+  c("A", "B"),
+  c(45000000.0, 55000000.0),
+  c(0.8, 0.6)
+), c("Territoire", "Primes", "Taux de sinistre ultime")), check.names = FALSE, stringsAsFactors = FALSE)
+
+
+afficher_table(
+  q3_donnees,
+  align = c("l", "r", "r"),
+  formats = list(list(colonnes = 2, type = "montant", digits = 0, symbole = TRUE), list(colonnes = 3, type = "nombre", digits = 2))
+)
+```
 
 - La compagnie établit ses taux pour atteindre un taux de sinistre permis (*permissible loss ratio*) de 65 %.
 - Tous les frais sont variables.
@@ -191,33 +521,67 @@ En tenant compte des contraintes de marché, utiliser la méthode du taux de sin
 
 Puisque tous les frais sont variables, le changement indiqué est égal au taux de sinistre ultime divisé par le taux de sinistre permis, moins un.
 
-| Territoire | Primes actuelles | Taux de sinistre | Changement indiqué | Primes indiquées |
-|:---|---:|---:|---:|---:|
-| A | 45 000 000 | 0.80 | +23.08 % | 55 384 615.38 |
-| B | 55 000 000 | 0.60 | −7.69 % | 50 769 230.77 |
-| **Total** | **100 000 000** | | | **106 153 846.15** |
+```{r}
+#| label: exercice14-tableau-14
+#| output: asis
 
-| Territoire | Primes indiquées | Primes après limite de 20 % | Primes manquantes |
-|:---|---:|---:|---:|
-| A | 55 384 615.38 | 54 000 000.00 | 1 384 615.38 |
-| B | 50 769 230.77 | 50 769 230.77 | 0 |
-| **Total** | **106 153 846.15** | **104 769 230.77** | **1 384 615.38** |
+q3_primes_indiquees <- rbind(q3_donnees, list("Total", sum(q3_donnees[[2]]), NA))
+names(q3_primes_indiquees)[2:3] <- c("Primes au taux courant", "Taux de sinistre")
+q3_primes_indiquees[[4]] <- q3_primes_indiquees[[3]]/.65-1
+q3_primes_indiquees[[5]] <- q3_primes_indiquees[[2]]*(1+q3_primes_indiquees[[4]])
+q3_primes_indiquees[[5]][3] <- sum(q3_primes_indiquees[[5]],na.rm=TRUE)
+names(q3_primes_indiquees)[4:5] <- c("Changement indiqué", "Primes indiquées")
 
-La hausse de A est limitée à +20 %. On récupère la différence dans B :
+afficher_table(
+  q3_primes_indiquees,
+  align = c("l", "r", "r", "r", "r"),
+  formats = list(list(colonnes = 2, type = "montant", digits = 2, symbole = TRUE), list(colonnes = 3, type = "nombre", digits = 2), list(colonnes = 4, type = "pourcentage", digits = 2), list(colonnes = 5, type = "montant", digits = 2, symbole = TRUE)),
+  lignes_gras = "derniere",
+  entetes_calculs = c("(1)", "(2)", "(3)", "(4) = (3) / 0,65 − 1", "(5) = (2) × (1 + (4))")
+)
+```
+
+```{r}
+#| label: exercice14-tableau-15
+#| output: asis
+
+q3_limitation <- q3_primes_indiquees[, c(1, 5)]
+names(q3_limitation)[2] <- "Primes indiquées"
+q3_limitation[[3]] <- c(pmin(q3_primes_indiquees[[5]][1:2],q3_primes_indiquees[[2]][1:2]*1.2), NA)
+q3_limitation[[3]][3] <- sum(q3_limitation[[3]],na.rm=TRUE)
+q3_limitation[[4]] <- q3_limitation[[2]]-q3_limitation[[3]]
+names(q3_limitation)[3:4] <- c("Primes après limite de 20 %", "Primes manquantes")
+
+afficher_table(
+  q3_limitation[, c(1, 3:4)],
+  align = c("l", "r", "r"),
+  formats = list(list(colonnes = 2:3, type = "montant", digits = 2, symbole = TRUE)),
+  lignes_gras = "derniere",
+  entetes_calculs = c("Territoire", "(6) = min(1,20 × (2), (5))", "(7) = (5) − (6)")
+)
+```
+
+Le taux de sinistre de A donne une hausse indiquée de 23,08 %, limitée à +20 %. La prime indiquée de A en colonne (5), 55 384 615,38 \$, est donc ramenée à 54 000 000 \$ en colonne (6). La différence de 1 384 615,38 \$ (colonne (7)) est récupérée dans B :
 
 $$
 \frac{1\,384\,615.38}{50\,769\,230.77}=0.02727
 $$
 
-En utilisant les valeurs non arrondies, le changement de B est :
+Le changement proposé pour le territoire A est donc de +20 %.
+
+La prime proposée de B devient 52 153 846,15 \$. Le changement de taux de B est :
 
 $$
-\frac{50\,769\,230.77+1\,384\,615.38}{55\,000\,000}-1
-= -0.05175 \approx -5.17\%
+\frac{(55\,000\,000)(0.60/0.65)+45\,000\,000(0.80/0.65-1.20)}{55\,000\,000}-1
+= -5.17\%
 $$
 
 :::
 ::::
+
+```{=typst}
+#pagebreak(weak: true)
+```
 
 :::: {.question}
 Si la compagnie décide d’utiliser un taux de sinistre permis différent en raison de la limitation par territoire, l’équation fondamentale en assurance ne sera pas balancée pour tous les territoires. Décrire un changement autre qu’un changement de taux que la compagnie pourrait faire pour atteindre une équation fondamentale balancée.
@@ -266,56 +630,109 @@ Plusieurs réponses sont possibles :
 :::
 ::::
 
+```{=typst}
+#pagebreak(weak: true)
+```
+
 :::: {.question}
 Calculer le taux de base proposé pour atteindre une hausse de +8 %, en supposant qu’il n’y a pas de changement des différentiels. Utiliser l’information suivante provenant des taux déposés auprès des régulateurs :
 
-| Variable $R1$ | Unités (000) | Différentiel |
-|:---|---:|---:|
-| 1 | 150 | 1.350 |
-| 2 | 500 | 1.000 |
-| 3 | 100 | 0.990 |
-| **Total** | **750** | **1.069** |
+```{r}
+#| label: exercice14-tableau-16
+#| output: asis
 
-| Variable $R2$ | Unités (000) | Différentiel |
-|:---|---:|---:|
-| A | 250 | 0.870 |
-| B | 300 | 1.250 |
-| C | 200 | 1.000 |
-| **Total** | **750** | **1.057** |
+q4_r1 <- as.data.frame(setNames(list(
+  c("1", "2", "3", "Total"),
+  c(150.0, 500.0, 100.0, 750.0),
+  c(1.35, 1.0, 0.99, 1.069)
+), c("Variable $R1$", "Unités (000)", "$R1_C = R1_P$")), check.names = FALSE, stringsAsFactors = FALSE)
 
-| Rabais additif | Unités (000) | Différentiel |
-|:---|---:|---:|
-| Oui | 450 | 0.050 |
-| Non | 300 | 0.000 |
-| **Total** | **750** | **0.030** |
+q4_r1[[2]][4] <- sum(q4_r1[[2]][1:3])
+q4_r1[[3]][4] <- weighted.mean(q4_r1[[3]][1:3], q4_r1[[2]][1:3])
 
-- Prime moyenne actuelle par véhicule : 450 \$.
+afficher_table(
+  q4_r1,
+  align = c("l", "r", "r"),
+  formats = list(list(colonnes = 2, type = "nombre", digits = 0), list(colonnes = 3, type = "nombre", digits = 3)),
+  lignes_gras = "derniere"
+)
+```
+
+```{r}
+#| label: exercice14-tableau-17
+#| output: asis
+
+q4_r2 <- as.data.frame(setNames(list(
+  c("A", "B", "C", "Total"),
+  c(250.0, 300.0, 200.0, 750.0),
+  c(0.87, 1.25, 1.0, 1.057)
+), c("Variable $R2$", "Unités (000)", "$R2_C = R2_P$")), check.names = FALSE, stringsAsFactors = FALSE)
+
+q4_r2[[2]][4] <- sum(q4_r2[[2]][1:3])
+q4_r2[[3]][4] <- weighted.mean(q4_r2[[3]][1:3], q4_r2[[2]][1:3])
+
+afficher_table(
+  q4_r2,
+  align = c("l", "r", "r"),
+  formats = list(list(colonnes = 2, type = "nombre", digits = 0), list(colonnes = 3, type = "nombre", digits = 3)),
+  lignes_gras = "derniere"
+)
+```
+
+```{r}
+#| label: exercice14-tableau-18
+#| output: asis
+
+q4_rabais <- as.data.frame(setNames(list(
+  c("Oui", "Non", "Total"),
+  c(450.0, 300.0, 750.0),
+  c(0.05, 0.0, 0.03)
+), c("Rabais additif", "Unités (000)", "$D_C = D_P$")), check.names = FALSE, stringsAsFactors = FALSE)
+
+q4_rabais[[2]][3] <- sum(q4_rabais[[2]][1:2])
+q4_rabais[[3]][3] <- weighted.mean(q4_rabais[[3]][1:2], q4_rabais[[2]][1:2])
+
+afficher_table(
+  q4_rabais,
+  align = c("l", "r", "r"),
+  formats = list(list(colonnes = 2, type = "nombre", digits = 0), list(colonnes = 3, type = "nombre", digits = 3)),
+  lignes_gras = "derniere"
+)
+```
+
+- Prime moyenne au taux courant par véhicule : 450 \$.
 - Changement de taux indiqué : 20 %; changement demandé : 8 %.
-- Prime additive par véhicule : 35 \$.
+- Prime additive par véhicule $A_P$ : 35 \$.
 
 La prime proposée par véhicule est calculée selon :
 
 $$
-P_P = B \times R1 \times R2 \times (1-D)+A_P
+P_P = B_P \times R1_P \times R2_P \times (1-D_P)+A_P
 $$
-
-où $B$ est le taux de base, $R1$ et $R2$ sont les facteurs de tarification multiplicatifs, $D$ est le rabais additif et $A_P$ est la prime additive fixe par véhicule.
 
 ::: {.solution}
 
 La prime moyenne proposée recherchée est $450(1.08)=486$. Le taux de base actuel n’est pas donné et les données ne permettent pas de recalculer la prime de chaque unité. On utilise donc la méthode du différentiel moyen approximé :
 
 $$
-486 \approx B \overline{R1}\overline{R2}(1-\bar D)+35
+486 \approx B_P \overline{R1}_{P}\overline{R2}_{P}(1-\overline{D}_{P})+35
 $$
 
-Le rabais moyen est $(450 \times 0.05+300 \times 0)/750=0.03$. Avec les différentiels moyens arrondis de l’énoncé :
+Les distributions conjointes n’étant pas disponibles, le produit des différentiels moyens est une approximation du différentiel moyen du portefeuille. Les différentiels moyens des deux variables et le rabais moyen sont :
 
 $$
-B \approx \frac{486-35}{1.069(1.057)(1-0.03)} = 411.48
+\begin{aligned}
+\overline{R1}_{P}=\overline{R1}_{C}&=\frac{150(1.350)+500(1.000)+100(0.990)}{750}=\frac{801.5}{750}, \\
+\overline{R2}_{P}=\overline{R2}_{C}&=\frac{250(0.870)+300(1.250)+200(1.000)}{750}=\frac{792.5}{750}, \\
+\overline{D}_{P}=\overline{D}_{C}&=\frac{450(0.050)+300(0)}{750}=0.03
+\end{aligned}
 $$
 
-Avec les moyennes non arrondies calculées à partir des unités, on obtient environ 411,74 \$.
+Le taux de base proposé est donc :
+
+$$
+B_P \approx \frac{486-35}{\overline{R1}_{P}\,\overline{R2}_{P}(1-\overline{D}_{P})} = 411.74\text{\$}
+$$
 
 :::
 ::::
@@ -326,12 +743,25 @@ Avec les moyennes non arrondies calculées à partir des unités, on obtient env
 
 Avec l’information suivante :
 
-| Territoire | Primes | Différentiel actuel | Différentiel indiqué |
-|:---|---:|---:|---:|
-| 1 | 195 000 \$ | 0.85 | 0.75 |
-| 2 | 475 000 \$ | 1.00 | 1.00 |
-| 3 | 330 000 \$ | 1.30 | 1.20 |
-| **Total** | **1 000 000 \$** | | |
+```{r}
+#| label: exercice14-tableau-19
+#| output: asis
+
+q5_donnees <- as.data.frame(setNames(list(
+  c("1", "2", "3", "Total"),
+  c(195000.0, 475000.0, 330000.0, 1000000.0),
+  c(0.85, 1.0, 1.3, NA_real_),
+  c(0.75, 1.0, 1.2, NA_real_)
+), c("Territoire", "Primes", "Différentiel actuel", "Différentiel indiqué")), check.names = FALSE, stringsAsFactors = FALSE)
+
+
+afficher_table(
+  q5_donnees,
+  align = c("l", "r", "r", "r"),
+  formats = list(list(colonnes = 2, type = "montant", digits = 0, symbole = TRUE), list(colonnes = 3, type = "nombre", digits = 2), list(colonnes = 4, type = "nombre", digits = 2)),
+  lignes_gras = "derniere"
+)
+```
 
 L’algorithme est multiplicatif et ne comporte aucune portion de prime fixe. La direction exige un changement de taux global de 20 % et la révision des différentiels territoriaux à leur niveau indiqué, en limitant les impacts par territoire à 25 %.
 
@@ -339,27 +769,126 @@ Calculer les différentiels par territoire qui seront implantés dans le changem
 
 ::: {.solution}
 
-On suppose que le territoire 2 demeure la classe de base. Sans limitation, le changement moyen des différentiels est d’environ −4,83 % et le facteur d’off-balance est d’environ 1,0508. Le facteur de changement du taux de base est alors $1.2(1.0508) \approx 1.2609$.
+On conserve le territoire 2 comme classe de base. Avant d’appliquer la limite, on calcule le changement de différentiel de chaque territoire, puis sa moyenne pondérée par les primes au taux courant :
 
-| Territoire | Primes actuelles | Changement de différentiel | Changement total avant limite | Primes proposées avant limite |
-|:---|---:|---:|---:|---:|
-| 1 | 195 000 | −11.76 % | +11.26 % | 216 955 |
-| 2 | 475 000 | 0.00 % | +26.09 % | 598 944 |
-| 3 | 330 000 | −7.69 % | +16.39 % | 384 100 |
+```{r}
+#| label: exercice14-tableau-20
+#| output: asis
 
-La classe de base dépasse la limite de 25 %. Son taux de base doit donc être limité à $1.25B_C$. Les primes recherchées sont de 1 200 000 \$, dont $475\,000(1.25)=593\,750$ pour le territoire 2. Les différentiels des territoires 1 et 3 sont ajustés proportionnellement pour obtenir le solde de 606 250 \$.
+q5_resultats <- q5_donnees
+q5_resultats[[5]] <- q5_resultats[[4]] / q5_resultats[[3]] - 1
+q5_resultats[[5]][4] <- weighted.mean(q5_resultats[[5]][1:3], q5_resultats[[2]][1:3])
+q5_resultats[[6]] <- 1 / (1 + q5_resultats[[5]][4])
+q5_resultats[[7]] <- 0.20
+q5_resultats[[8]] <- (1 + q5_resultats[[5]]) * q5_resultats[[6]] * (1 + q5_resultats[[7]]) - 1
+q5_resultats[[9]] <- q5_resultats[[2]] * (1 + q5_resultats[[8]])
+names(q5_resultats)[5:9] <- c(
+  "Changement de différentiel", "Off-balance", "Hausse globale désirée",
+  "Changement total avant limite", "Primes proposées avant limite"
+)
 
-En utilisant les valeurs non arrondies :
+afficher_table(
+  q5_resultats[, 1:5],
+  align = c("l", "r", "r", "r", "r"),
+  formats = list(
+    list(colonnes = 2, type = "montant", digits = 0, symbole = TRUE),
+    list(colonnes = 3:4, type = "nombre", digits = 2),
+    list(colonnes = 5, type = "pourcentage", digits = 2)
+  ),
+  lignes_gras = "derniere",
+  entetes_calculs = c("(1)", "(2)", "(3) = $R_C$", "(4) = $R_I$", "(5) = (4) / (3) − 1")
+)
+```
 
 $$
 \begin{aligned}
-k &= \frac{1\,200\,000-593\,750}
- {195\,000(0.75/0.85)+330\,000(1.20/1.30)} = 1.271833 \\
-R_{1P} &= 0.75\frac{k}{1.25} = 0.7631 \\
-R_{2P} &= 1.0000 \\
-R_{3P} &= 1.20\frac{k}{1.25} = 1.2210
+\Delta_S &= \frac{195\,000(0.75/0.85-1)+475\,000(1/1-1)+330\,000(1.20/1.30-1)}{1\,000\,000}
+= -0.0483258 \\
+\text{Off-balance} &= \frac{1}{1+\Delta_S} = 1.0507798
 \end{aligned}
 $$
+
+À taux de base constant, les nouveaux différentiels feraient diminuer les primes d’environ 4,83 %. Le facteur d’off-balance neutralise cet effet. On applique ensuite la hausse globale de 20 % : le facteur de changement du taux de base avant limitation est donc $1.0507798 \times 1.20 = 1.2609357$.
+
+```{r}
+#| label: exercice14-tableau-20-suite
+#| output: asis
+
+afficher_table(
+  q5_resultats[, c(1, 6:9)],
+  align = c("l", "r", "r", "r", "r"),
+  formats = list(
+    list(colonnes = 2, type = "nombre", digits = 4),
+    list(colonnes = 3:4, type = "pourcentage", digits = 2),
+    list(colonnes = 5, type = "montant", digits = 2, symbole = TRUE)
+  ),
+  lignes_gras = "derniere",
+  entetes_calculs = c("Territoire", "(6) = 1 / (1 + total (5))", "(7)", "(8) = (1 + (5)) × (6) × (1 + (7)) − 1", "(9) = (2) × (1 + (8))")
+)
+```
+
+Avant limitation, les primes proposées totalisent 1 200 000 \$, soit une hausse globale de 20 %. Le territoire 2 dépasse toutefois la limite de 25 %. On applique cette limite et on calcule les primes manquantes :
+
+```{r}
+#| label: exercice14-limitation-territoires
+#| output: asis
+
+q5_resultats[[10]] <- c(pmin(q5_resultats[[8]][1:3], 0.25), NA)
+q5_resultats[[11]] <- q5_resultats[[2]] * (1 + q5_resultats[[10]])
+q5_resultats[[11]][4] <- sum(q5_resultats[[11]][1:3])
+q5_resultats[[12]] <- q5_resultats[[9]] - q5_resultats[[11]]
+names(q5_resultats)[10:12] <- c("Changement avec limite", "Primes avec limite", "Primes manquantes")
+
+afficher_table(
+  q5_resultats[, c(1, 10:12)],
+  align = c("l", "r", "r", "r"),
+  formats = list(
+    list(colonnes = 2, type = "pourcentage", digits = 2),
+    list(colonnes = 3:4, type = "montant", digits = 2, symbole = TRUE)
+  ),
+  lignes_gras = "derniere",
+  entetes_calculs = c("Territoire", "(10) = min(25 %, (8))", "(11) = (2) × (1 + (10))", "(12) = (9) − (11)")
+)
+```
+
+Comme le territoire 2 est la classe de base, son différentiel reste égal à 1 et le facteur de changement du taux de base devient 1,25. Il faut donc réduire le facteur de base calculé avant limitation et récupérer les primes manquantes auprès des territoires 1 et 3 :
+
+$$
+\begin{aligned}
+\text{Ajustement au taux de base} &= \frac{1.25}{1.2609357} = 0.9913273 \\
+\text{Hausse à récupérer sur les territoires 1 et 3} &= \frac{5\,194.47}{216\,955.12+384\,100.42} = 0.0086422 \\
+\text{Ajustement aux différentiels 1 et 3} &= \frac{1+0.0086422}{0.9913273} = 1.0174664
+\end{aligned}
+$$
+
+Les différentiels proposés sont donc $0.75(1.0174664)=0.7631$ pour le territoire 1, $1.0$ pour le territoire 2 et $1.20(1.0174664)=1.2210$ pour le territoire 3. Le taux de base proposé est $B_P = 1.25B_C$.
+
+La vérification avec ces sélections, sans arrondir les différentiels, confirme la hausse globale de 20 % et le respect de la limite de 25 % :
+
+```{r}
+#| label: exercice14-verification-territoires
+#| output: asis
+
+ajustement_base <- 1.25 / (q5_resultats[[6]][4] * (1 + q5_resultats[[7]][4]))
+ajustement_differentiels <- (1 + q5_resultats[[12]][4] / sum(q5_resultats[[9]][c(1, 3)])) / ajustement_base
+q5_resultats[[13]] <- c(q5_resultats[[4]][c(1, 2, 3)] * c(ajustement_differentiels, 1, ajustement_differentiels), NA)
+q5_resultats[[14]] <- 1.25 * q5_resultats[[13]] / q5_resultats[[3]] - 1
+q5_resultats[[15]] <- q5_resultats[[2]] * (1 + q5_resultats[[14]])
+q5_resultats[[15]][4] <- sum(q5_resultats[[15]][1:3])
+q5_resultats[[14]][4] <- q5_resultats[[15]][4] / q5_resultats[[2]][4] - 1
+names(q5_resultats)[13:15] <- c("Différentiel proposé final", "Changement final", "Primes proposées finales")
+
+afficher_table(
+  q5_resultats[, c(1, 13:15)],
+  align = c("l", "r", "r", "r"),
+  formats = list(
+    list(colonnes = 2, type = "nombre", digits = 4),
+    list(colonnes = 3, type = "pourcentage", digits = 2),
+    list(colonnes = 4, type = "montant", digits = 2, symbole = TRUE)
+  ),
+  lignes_gras = "derniere"
+)
+```
 
 :::
 ::::
@@ -375,7 +904,7 @@ Identifier deux problèmes qu’une règle de limitation des changements de prim
 ::: {.solution}
 
 - L’assureur ne charge pas nécessairement la prime requise pour équilibrer l’équation fondamentale et obtenir le profit de souscription cible.
-- L’assureur peut subir de l’antisélection : les risques dont la prime est inférieure à l’indiqué peuvent être incités à rester, tandis que ceux dont la prime est supérieure à l’indiqué peuvent être portés à quitter.
+- L’assureur peut subir de l’antisélection au renouvellement : les risques pour lesquels il limite la hausse et qui magasinent peuvent être incités à rester parce que leur prime est inférieure à la prime indiquée. À l’inverse, les risques pour lesquels il limite la baisse et qui magasinent peuvent être portés à quitter parce que leur prime est supérieure à la prime indiquée.
 
 :::
 ::::
@@ -385,32 +914,78 @@ Expliquer pourquoi un assureur pourrait tout de même proposer une règle de lim
 
 ::: {.solution}
 
-- **Contraintes de marché** : limiter les fortes hausses au renouvellement peut réduire le magasinage et favoriser la rétention.
+- **Contraintes de marché** : des hausses importantes au renouvellement peuvent inciter certains assurés à magasiner. L’assureur peut limiter les changements de prime au renouvellement pour favoriser la rétention.
 - **Contraintes légales** : certaines réglementations limitent la hausse de taux qu’un assuré peut subir à chaque renouvellement.
 
 :::
 ::::
 :::::
 
+```{=typst}
+#pagebreak(weak: true)
+```
+
 ::::: {.question}
-(CAS Examen 5, 2012 – Q14)
+(CAS Examen 5, 2012 – Q14 modifiée)
 
 Une compagnie vend de l’assurance automobile où la prime est la même pour chaque véhicule et égale à la prime pure moyenne actuelle dans l’État. Elle envisage une structure plus sophistiquée pour être plus compétitive et a déterminé l’information suivante pour trois variables de tarification potentielles d’un portefeuille existant :
 
-| Endroit stationné | Unités | Sinistres | Classe de base |
-|:---|---:|---:|:---:|
-| Urbain | 800 | 430 000 \$ | Oui |
-| Rural | 200 | 70 000 \$ | Non |
+```{r}
+#| label: exercice14-tableau-21
+#| output: asis
 
-| Compétences du conducteur | Unités | Sinistres | Classe de base |
-|:---|---:|---:|:---:|
-| Élevées | 950 | 476 000 \$ | Oui |
-| Faibles | 50 | 25 000 \$ | Non |
+q7_stationnement <- as.data.frame(setNames(list(
+  c("Urbain", "Rural"),
+  c(800.0, 200.0),
+  c(430000.0, 70000.0),
+  c("Oui", "Non")
+), c("Endroit stationné", "Unités", "Sinistres", "Classe de base")), check.names = FALSE, stringsAsFactors = FALSE)
 
-| État civil | Unités | Sinistres | Classe de base |
-|:---|---:|---:|:---:|
-| Marié | 500 | 210 000 \$ | Non |
-| Célibataire | 500 | 290 000 \$ | Oui |
+
+afficher_table(
+  q7_stationnement,
+  align = c("l", "r", "r", "r"),
+  formats = list(list(colonnes = 2, type = "nombre", digits = 0), list(colonnes = 3, type = "montant", digits = 0, symbole = TRUE))
+)
+```
+
+```{r}
+#| label: exercice14-tableau-22
+#| output: asis
+
+q7_competences <- as.data.frame(setNames(list(
+  c("Élevées", "Faibles"),
+  c(950.0, 50.0),
+  c(476000.0, 24000.0),
+  c("Oui", "Non")
+), c("Compétences du conducteur", "Unités", "Sinistres", "Classe de base")), check.names = FALSE, stringsAsFactors = FALSE)
+
+
+afficher_table(
+  q7_competences,
+  align = c("l", "r", "r", "r"),
+  formats = list(list(colonnes = 2, type = "nombre", digits = 0), list(colonnes = 3, type = "montant", digits = 0, symbole = TRUE))
+)
+```
+
+```{r}
+#| label: exercice14-tableau-23
+#| output: asis
+
+q7_etat_civil <- as.data.frame(setNames(list(
+  c("Marié", "Célibataire"),
+  c(500.0, 500.0),
+  c(210000.0, 290000.0),
+  c("Non", "Oui")
+), c("État civil", "Unités", "Sinistres", "Classe de base")), check.names = FALSE, stringsAsFactors = FALSE)
+
+
+afficher_table(
+  q7_etat_civil,
+  align = c("l", "r", "r", "r"),
+  formats = list(list(colonnes = 2, type = "nombre", digits = 0), list(colonnes = 3, type = "montant", digits = 0, symbole = TRUE))
+)
+```
 
 - L’endroit où le véhicule est stationné est déterminé par le code postal.
 - Les compétences du conducteur sont déterminées par une autoévaluation lors de l’émission initiale de la police.
@@ -422,20 +997,38 @@ Pour chaque variable de tarification potentielle, déterminer si elle devrait ê
 
 ::: {.solution}
 
-| Variable | Classe | Unités | Sinistres | Prime pure |
-|:---|:---|---:|---:|---:|
-| Endroit stationné | Urbain | 800 | 430 000 | 537.50 |
-| | Rural | 200 | 70 000 | 350.00 |
-| Compétences | Élevées | 950 | 476 000 | 501.05 |
-| | Faibles | 50 | 25 000 | 500.00 |
-| État civil | Marié | 500 | 210 000 | 420.00 |
-| | Célibataire | 500 | 290 000 | 580.00 |
+```{r}
+#| label: exercice14-tableau-24
+#| output: asis
+
+q7_primes_pures <- do.call(rbind, lapply(
+  list("Endroit stationné" = q7_stationnement, "Compétences" = q7_competences, "État civil" = q7_etat_civil),
+  function(donnees) {
+    names(donnees)[1] <- "Classe"
+    donnees[, 1:3]
+  }
+))
+q7_primes_pures <- data.frame(
+  Variable = c("Endroit stationné", "", "Compétences", "", "État civil", ""),
+  Classe = q7_primes_pures[[1]],
+  Unités = q7_primes_pures[[2]],
+  Sinistres = q7_primes_pures[[3]],
+  check.names = FALSE
+)
+q7_primes_pures[[5]] <- q7_primes_pures[[4]]/q7_primes_pures[[3]]
+names(q7_primes_pures)[5] <- "Prime pure"
+
+afficher_table(
+  q7_primes_pures,
+  align = c("l", "l", "r", "r", "r"),
+  formats = list(list(colonnes = 3, type = "nombre", digits = 0), list(colonnes = 4, type = "nombre", digits = 0), list(colonnes = 5, type = "nombre", digits = 2)),
+  entetes_calculs = c("(1)", "(2)", "(3)", "(4)", "(5) = (4) / (3)")
+)
+```
 
 - **Endroit stationné** : utiliser cette variable, car les primes pures diffèrent sensiblement et la variable est facilement mesurable et vérifiable à partir du code postal.
 - **Compétences du conducteur** : ne pas utiliser cette variable. L’autoévaluation est subjective et ouverte à interprétation. De plus, il serait contre-intuitif que les conducteurs qui déclarent de meilleures compétences aient une expérience légèrement moins favorable.
 - **État civil** : utiliser cette variable, car les primes pures diffèrent sensiblement et la variable est objective et vérifiable.
-
-Les sinistres de la variable « compétences » totalisent 501 000 \$, alors que les deux autres variables totalisent 500 000 \$. La solution historique utilise plutôt 24 000 \$ pour les compétences faibles; l’énoncé indique 25 000 \$.
 
 :::
 ::::
@@ -445,21 +1038,89 @@ Développer un taux de base et les facteurs de tarification pour la structure du
 
 ::: {.solution}
 
-On utilise les totaux de 500 000 \$ des deux variables retenues : la prime actuelle est donc de $500\,000/1\,000=500$ par risque. Les classes de base sont « urbain » et « célibataire ».
+On utilise les totaux de 500 000 \$ des deux variables retenues : la prime au taux courant est donc de $500\,000/1\,000=500$ par risque. Les classes de base sont « urbain » et « célibataire ». Les différentiels au taux courant sont égaux à 1 pour toutes les classes.
 
-| Endroit stationné | Unités | Sinistres | Prime pure | Primes actuelles | Différentiel indiqué | Changement de différentiel |
-|:---|---:|---:|---:|---:|---:|---:|
-| Urbain | 800 | 430 000 | 537.50 | 400 000 | 1.0000 | 0.0000 |
-| Rural | 200 | 70 000 | 350.00 | 100 000 | 0.6512 | −0.3488 |
-| **Total** | **1 000** | **500 000** | **500.00** | **500 000** | | **−0.0698** |
+```{r}
+#| label: exercice14-tableau-25
+#| output: asis
 
-| État civil | Unités | Sinistres | Prime pure | Primes actuelles | Différentiel indiqué | Changement de différentiel |
-|:---|---:|---:|---:|---:|---:|---:|
-| Marié | 500 | 210 000 | 420.00 | 250 000 | 0.7241 | −0.2759 |
-| Célibataire | 500 | 290 000 | 580.00 | 250 000 | 1.0000 | 0.0000 |
-| **Total** | **1 000** | **500 000** | **500.00** | **500 000** | | **−0.1379** |
+q7_resultats_stationnement <- q7_stationnement[, 1:3]
+q7_resultats_stationnement <- rbind(q7_resultats_stationnement, list("Total", sum(q7_resultats_stationnement[[2]]), sum(q7_resultats_stationnement[[3]])))
+q7_resultats_stationnement[[4]] <- q7_resultats_stationnement[[3]]/q7_resultats_stationnement[[2]]
+q7_resultats_stationnement[[5]] <- 500*q7_resultats_stationnement[[2]]
+q7_resultats_stationnement[[6]] <- c(q7_resultats_stationnement[[4]][1:2]/q7_resultats_stationnement[[4]][1],NA)
+q7_resultats_stationnement[[7]] <- q7_resultats_stationnement[[6]]-1
+q7_resultats_stationnement[[7]][3] <- weighted.mean(q7_resultats_stationnement[[7]][1:2],q7_resultats_stationnement[[5]][1:2])
+names(q7_resultats_stationnement)[4:7] <- c("Prime pure", "Primes au taux courant", "Différentiel indiqué", "Changement de différentiel")
 
-Les changements moyens sont pondérés par les primes actuelles. Les facteurs d’off-balance respectifs sont de 1.0750 et 1.1600. Le taux de base proposé est donc :
+q7_resultats_stationnement[["Off-balance"]] <- 1/(1+q7_resultats_stationnement[[7]][3])
+
+afficher_table(
+  q7_resultats_stationnement[, 1:5],
+  align = c("l", "r", "r", "r", "r"),
+  formats = list(
+    list(colonnes = c(2, 3, 5), type = "nombre", digits = 0),
+    list(colonnes = 4, type = "nombre", digits = 2)
+  ),
+  lignes_gras = "derniere",
+  entetes_calculs = c("Classe", "(1) Unités", "(2) Sinistres", "(3) = (2) / (1)", "(4) = 500 × (1)")
+)
+```
+
+```{r}
+#| label: exercice14-tableau-25-suite
+#| output: asis
+
+afficher_table(
+  q7_resultats_stationnement[, c(1, 6:8)],
+  align = c("l", "r", "r", "r"),
+  formats = list(list(colonnes = 2:4, type = "nombre", digits = 4)),
+  lignes_gras = "derniere",
+  entetes_calculs = c("Classe", "(5) = $R_P$ = (3) / (3) de base", "(6) = (5) − 1", "(7) = 1 / (1 + moyenne pondérée de (6))")
+)
+```
+
+```{r}
+#| label: exercice14-tableau-26
+#| output: asis
+
+q7_resultats_etat_civil <- q7_etat_civil[, 1:3]
+q7_resultats_etat_civil <- rbind(q7_resultats_etat_civil, list("Total", sum(q7_resultats_etat_civil[[2]]), sum(q7_resultats_etat_civil[[3]])))
+q7_resultats_etat_civil[[4]] <- q7_resultats_etat_civil[[3]]/q7_resultats_etat_civil[[2]]
+q7_resultats_etat_civil[[5]] <- 500*q7_resultats_etat_civil[[2]]
+q7_resultats_etat_civil[[6]] <- c(q7_resultats_etat_civil[[4]][1:2]/q7_resultats_etat_civil[[4]][2],NA)
+q7_resultats_etat_civil[[7]] <- q7_resultats_etat_civil[[6]]-1
+q7_resultats_etat_civil[[7]][3] <- weighted.mean(q7_resultats_etat_civil[[7]][1:2],q7_resultats_etat_civil[[5]][1:2])
+names(q7_resultats_etat_civil)[4:7] <- c("Prime pure", "Primes au taux courant", "Différentiel indiqué", "Changement de différentiel")
+
+q7_resultats_etat_civil[["Off-balance"]] <- 1/(1+q7_resultats_etat_civil[[7]][3])
+
+afficher_table(
+  q7_resultats_etat_civil[, 1:5],
+  align = c("l", "r", "r", "r", "r"),
+  formats = list(
+    list(colonnes = c(2, 3, 5), type = "nombre", digits = 0),
+    list(colonnes = 4, type = "nombre", digits = 2)
+  ),
+  lignes_gras = "derniere",
+  entetes_calculs = c("Classe", "(8) Unités", "(9) Sinistres", "(10) = (9) / (8)", "(11) = 500 × (8)")
+)
+```
+
+```{r}
+#| label: exercice14-tableau-26-suite
+#| output: asis
+
+afficher_table(
+  q7_resultats_etat_civil[, c(1, 6:8)],
+  align = c("l", "r", "r", "r"),
+  formats = list(list(colonnes = 2:4, type = "nombre", digits = 4)),
+  lignes_gras = "derniere",
+  entetes_calculs = c("Classe", "(12) = $R_P$ = (10) / (10) de base", "(13) = (12) − 1", "(14) = 1 / (1 + moyenne pondérée de (13))")
+)
+```
+
+Les changements moyens sont pondérés par les primes au taux courant. Les facteurs d’off-balance respectifs sont de 1.0750 et 1.1600. Le taux de base proposé est donc :
 
 $$
 B_P = 500(1.0750)(1.1600) = 623.50
@@ -476,12 +1137,25 @@ Les différentiels proposés sont 1.0000 et 0.6512 pour les lieux urbain et rura
 
 Avec l’information suivante :
 
-| Classe | Primes totales au taux courant | Différentiel actuel | Différentiel proposé |
-|:---|---:|---:|---:|
-| 1 | 500 000 \$ | 1.00 | 1.00 |
-| 2 | 100 000 \$ | 1.25 | 1.15 |
-| 3 | 400 000 \$ | 1.60 | 1.40 |
-| **Total** | **1 000 000 \$** | | |
+```{r}
+#| label: exercice14-tableau-27
+#| output: asis
+
+q8_donnees <- as.data.frame(setNames(list(
+  c("1", "2", "3", "Total"),
+  c(500000.0, 100000.0, 400000.0, 1000000.0),
+  c(1.0, 1.25, 1.6, NA_real_),
+  c(1.0, 1.15, 1.4, NA_real_)
+), c("Classe", "Primes totales au taux courant", "Différentiel actuel", "Différentiel proposé")), check.names = FALSE, stringsAsFactors = FALSE)
+
+
+afficher_table(
+  q8_donnees,
+  align = c("l", "r", "r", "r"),
+  formats = list(list(colonnes = 2, type = "montant", digits = 0, symbole = TRUE), list(colonnes = 3, type = "nombre", digits = 2), list(colonnes = 4, type = "nombre", digits = 2)),
+  lignes_gras = "derniere"
+)
+```
 
 La classe 1 reste la classe de base, le taux de base actuel est de 100 \$ et le changement global proposé est de +15 %.
 
@@ -490,20 +1164,34 @@ Calculer le taux de base proposé.
 
 ::: {.solution}
 
-| Classe | Prime actuelle | Différentiel actuel | Différentiel proposé | Changement de différentiel |
-|:---|---:|---:|---:|---:|
-| 1 | 500 000 | 1.00 | 1.00 | 0.000 |
-| 2 | 100 000 | 1.25 | 1.15 | −0.080 |
-| 3 | 400 000 | 1.60 | 1.40 | −0.125 |
-| **Total** | **1 000 000** | | | **−0.058** |
+```{r}
+#| label: exercice14-tableau-28
+#| output: asis
 
-Le changement moyen est pondéré par les primes :
+q8_differentiels <- q8_donnees
+names(q8_differentiels)[2] <- "Prime au taux courant"
+q8_differentiels[[5]] <- q8_differentiels[[4]]/q8_differentiels[[3]]-1
+q8_differentiels[[5]][4] <- weighted.mean(q8_differentiels[[5]][1:3],q8_differentiels[[2]][1:3])
+names(q8_differentiels)[5] <- "Changement de différentiel"
+
+q8_differentiels[["Off-balance"]] <- 1/(1+q8_differentiels[[5]][4])
+
+afficher_table(
+  q8_differentiels,
+  align = c("l", "r", "r", "r", "r", "r"),
+  formats = list(list(colonnes = 2, type = "montant", digits = 0), list(colonnes = 3, type = "nombre", digits = 2), list(colonnes = 4, type = "nombre", digits = 2), list(colonnes = 5, type = "nombre", digits = 3), list(colonnes = 6, type = "nombre", digits = 4)),
+  lignes_gras = "derniere",
+  entetes_calculs = c("(1)", "(2)", "(3) : différentiel courant", "(4) : différentiel proposé", "(5) = (4) / (3) − 1", "(6) = 1 / (1 + total (5))")
+)
+```
+
+Le changement moyen des différentiels est pondéré par les primes au taux courant :
 
 $$
 \Delta_S = \frac{0(500\,000)-0.08(100\,000)-0.125(400\,000)}{1\,000\,000} = -0.058
 $$
 
-Le facteur d’off-balance est $1/(1-0.058)=1.0616$ et le taux de base proposé est :
+Le facteur d’off-balance (6) est $1/(1-0.058)=1.0616$. Le taux de base proposé est :
 
 $$
 B_P = 100 \times \frac{1}{1-0.058} \times 1.15 = 122.08
@@ -512,42 +1200,98 @@ $$
 :::
 ::::
 
+```{=typst}
+#pagebreak(weak: true)
+```
+
 :::: {.question}
 En supposant que l’actuaire veut limiter tout changement par classe à 20 % tout en réussissant une hausse globale de 15 %, calculer le taux de base ainsi que les différentiels révisés.
 
 ::: {.solution}
 
-Avant limitation, les impacts et primes proposées sont :
+Avant limitation, les impacts et primes proposées sont calculés à partir des colonnes (2), (5) et (6) du tableau de la solution a) :
 
-| Classe | Changement total avant limite | Primes avant limite | Changement limité à +20 % | Primes après limite | Primes manquantes |
-|:---|---:|---:|---:|---:|---:|
-| 1 | +22.08 % | 610 403 | +20.00 % | 600 000 | 10 403 |
-| 2 | +12.31 % | 112 314 | +12.31 % | 112 314 | 0 |
-| 3 | +6.82 % | 427 282 | +6.82 % | 427 282 | 0 |
-| **Total** | **+15.00 %** | **1 150 000** | | **1 139 597** | **10 403** |
+```{r}
+#| label: exercice14-tableau-29
+#| output: asis
 
-Puisque la classe de base dépasse la limite, le taux de base proposé devient $100(1.20)=120$. L’ajustement total aux différentiels des classes 2 et 3 est approximativement :
+q8_limitation <- q8_differentiels[, 1, drop = FALSE]
+q8_limitation[[2]] <- c((1.15*q8_differentiels[[6]][1])*(1+q8_differentiels[[5]][1:3])-1,.15)
+q8_limitation[[3]] <- q8_differentiels[[2]]*(1+q8_limitation[[2]])
+q8_limitation[[4]] <- c(pmin(.2,q8_limitation[[2]][1:3]),NA)
+q8_limitation[[5]] <- q8_differentiels[[2]]*(1+q8_limitation[[4]])
+q8_limitation[[5]][4] <- sum(q8_limitation[[5]],na.rm=TRUE)
+q8_limitation[[6]] <- q8_limitation[[3]]-q8_limitation[[5]]
+names(q8_limitation)[2:6] <- c("Changement total avant limite", "Primes avant limite", "Changement limité à +20 %", "Primes après limite", "Primes manquantes")
+
+afficher_table(
+  q8_limitation[, 1:3],
+  align = c("l", "r", "r"),
+  formats = list(
+    list(colonnes = 2, type = "pourcentage", digits = 2),
+    list(colonnes = 3, type = "nombre", digits = 0)
+  ),
+  lignes_gras = "derniere",
+  entetes_calculs = c("Classe", "(7) = 1.15 × (6) × [1 + (5)] − 1", "(8) = (2) × [1 + (7)]")
+)
+```
+
+```{r}
+#| label: exercice14-tableau-29-suite
+#| output: asis
+
+afficher_table(
+  q8_limitation[, c(1, 4:6)],
+  align = c("l", "r", "r", "r"),
+  formats = list(
+    list(colonnes = 2, type = "pourcentage", digits = 2),
+    list(colonnes = 3:4, type = "nombre", digits = 0)
+  ),
+  lignes_gras = "derniere",
+  entetes_calculs = c("Classe", "(9) = min(20 %, (7))", "(10) = (2) × [1 + (9)]", "(11) = (8) − (10)")
+)
+```
+
+Puisque la classe de base dépasse la limite de 20 %, le taux de base proposé devient $100(1.20)=120$. Le facteur d’ajustement aux différentiels des classes 2 et 3 est :
 
 $$
-\frac{1+10\,403/(112\,314+427\,282)}{1.20/1.2208} = 1.0370
+k = \frac{1\,150\,000-600\,000}{1.20\left[100\,000(1.15/1.25)+400\,000(1.40/1.60)\right]} = 1.0370
 $$
 
-Les différentiels proposés sont 1.0000, $1.15(1.0370)=1.1925$ et $1.40(1.0370)=1.4517$ pour les classes 1, 2 et 3 respectivement.
+Le taux de base proposé est de 120 \$. Les différentiels proposés sont 1.0000, $1.15k=1.1925$ et $1.40k=1.4517$ pour les classes 1, 2 et 3 respectivement.
 
 :::
 ::::
 :::::
+
+```{=typst}
+#pagebreak(weak: true)
+```
 
 :::: {.question}
 (CAS Examen 5, 2007 – Q48)
 
 Vous avez l’information suivante :
 
-| Territoire | Différentiel actuel | Primes acquises totales au taux courant | Sinistres et frais de règlement alloués |
-|:---|---:|---:|---:|
-| 1 | 1.00 | 8 325 000 \$ | 4 995 000 \$ |
-| 2 | 0.80 | 7 980 000 \$ | 5 087 000 \$ |
-| 3 | 0.60 | 5 160 000 \$ | 3 612 000 \$ |
+```{r}
+#| label: exercice14-tableau-30
+#| output: asis
+
+q9_donnees <- as.data.frame(setNames(list(
+  c("1", "2", "3"),
+  c(1.0, 0.8, 0.6),
+  c(8325000.0, 7980000.0, 5160000.0),
+  c(4995000.0, 5087000.0, 3612000.0)
+), c("Territoire", "Différentiel actuel", "Primes acquises au taux courant", "Sinistres et frais de règlement alloués")), check.names = FALSE, stringsAsFactors = FALSE)
+
+
+afficher_table(
+  q9_donnees,
+  align = c("l", "r", "r", "r"),
+  formats = list(list(colonnes = 2, type = "nombre", digits = 2), list(colonnes = 3:4, type = "montant", digits = 0, symbole = TRUE)),
+  entetes_calculs = c("(1)", "(2)", "(3)", "(4)")
+)
+```
 
 Supposer que le taux de base actuel est de 100 \$ et qu’il n’y a pas de frais fixes. Calculer le taux de base proposé et les différentiels indiqués pour un changement global visé de −3 %. Montrer tous les calculs.
 
@@ -555,25 +1299,61 @@ Supposer que le taux de base actuel est de 100 \$ et qu’il n’y a pas de fra
 
 On suppose que le territoire 1 demeure la classe de base. Le facteur de changement indiqué est le taux de sinistre de chaque territoire divisé par celui du territoire de base :
 
-| Territoire | Primes actuelles | Sinistres | Taux de sinistre | Facteur de changement indiqué | Différentiel indiqué | Changement de différentiel |
-|:---|---:|---:|---:|---:|---:|---:|
-| 1 | 8 325 000 | 4 995 000 | 0.6000 | 1.0000 | 1.0000 | 0.0000 |
-| 2 | 7 980 000 | 5 087 000 | 0.6375 | 1.0624 | 0.8500 | 0.0624 |
-| 3 | 5 160 000 | 3 612 000 | 0.7000 | 1.1667 | 0.7000 | 0.1667 |
-| **Total** | **21 465 000** | **13 694 000** | **0.6380** | | | **0.0633** |
+```{r}
+#| label: exercice14-tableau-31
+#| output: asis
+
+q9_resultats <- q9_donnees[, c(1, 3, 4)]
+q9_resultats <- rbind(q9_resultats, list("Total", sum(q9_resultats[[2]]), sum(q9_resultats[[3]])))
+q9_resultats[[4]] <- q9_resultats[[3]] / q9_resultats[[2]]
+q9_resultats[[5]] <- c(q9_resultats[[4]][1:3] / q9_resultats[[4]][1], NA)
+q9_resultats[[6]] <- q9_resultats[[5]] * c(q9_donnees[[2]], NA)
+q9_resultats[[7]] <- q9_resultats[[6]] / c(q9_donnees[[2]], NA) - 1
+q9_resultats[[7]][4] <- weighted.mean(q9_resultats[[7]][1:3], q9_resultats[[2]][1:3])
+q9_resultats[[8]] <- 1 / (1 + q9_resultats[[7]][4])
+names(q9_resultats)[4:8] <- c("Taux de sinistre", "Facteur indiqué", "Différentiel indiqué", "Changement de différentiel", "Off-balance")
+
+afficher_table(
+  q9_resultats[, 1:4],
+  align = c("l", "r", "r", "r"),
+  formats = list(
+    list(colonnes = 2:3, type = "nombre", digits = 0),
+    list(colonnes = 4, type = "nombre", digits = 4)
+  ),
+  lignes_gras = "derniere",
+  entetes_calculs = c("(1)", "(3)", "(4)", "(5) = (4) / (3)")
+)
+```
+
+```{r}
+#| label: exercice14-tableau-31-suite
+#| output: asis
+
+afficher_table(
+  q9_resultats[, c(1, 5:8)],
+  align = c("l", "r", "r", "r", "r"),
+  formats = list(list(colonnes = 2:5, type = "nombre", digits = 4)),
+  lignes_gras = "derniere",
+  entetes_calculs = c("Territoire", "(6) = (5) / (5) de base", "(7) = (2) × (6)", "(8) = (7) / (2) − 1", "(9) = 1 / (1 + total (8))")
+)
+```
 
 $$
-\Delta_S = \frac{0(8\,325\,000)+0.0624(7\,980\,000)+0.1667(5\,160\,000)}{21\,465\,000} \approx 0.0633
+\Delta_S = \frac{\sum_i P_{C,i}\,(R_{P,i}/R_{C,i}-1)}{\sum_i P_{C,i}} = 0.0633
 $$
 
-Le facteur d’off-balance est $1/(1+0.0633) \approx 0.9405$. Le taux de base proposé est :
+Le facteur d’off-balance est $1/(1+\Delta_S) = 0.9405$. Le taux de base proposé est :
 
 $$
-B_P = 100(0.9405)(1-0.03) = 91.23
+B_P = \frac{100}{1+\Delta_S}(1-0.03) = 91.23
 $$
 
 :::
 ::::
+
+```{=typst}
+#pagebreak(weak: true)
+```
 
 ::::: {.question}
 (CAS Examen 5, 2003 – Q37)
@@ -584,23 +1364,54 @@ $$
 - Hausse de taux globale proposée : +20 %.
 - La classe de base est la classe 2.
 
-| Classe | Différentiel actuel par rapport à la classe 2 | Primes acquises au taux courant | Sinistres et frais de règlement alloués | Différentiel indiqué |
-|:---|---:|---:|---:|---:|
-| 1 | 0.800 | 20 000 \$ | 18 000 \$ | 0.900 |
-| 2 | 1.000 | 10 000 \$ | 8 000 \$ | 1.000 |
-| 3 | 1.200 | 12 000 \$ | 9 000 \$ | 1.125 |
+```{r}
+#| label: exercice14-tableau-32
+#| output: asis
+
+q10_donnees <- as.data.frame(setNames(list(
+  c("1", "2", "3"),
+  c(0.8, 1.0, 1.2),
+  c(20000.0, 10000.0, 12000.0),
+  c(18000.0, 8000.0, 9000.0),
+  c(0.9, 1.0, 1.125)
+), c("Classe", "Différentiel courant", "Primes au taux courant", "Sinistres et frais alloués", "Différentiel indiqué")), check.names = FALSE, stringsAsFactors = FALSE)
+
+
+afficher_table(
+  q10_donnees,
+  align = c("l", "r", "r", "r", "r"),
+  formats = list(list(colonnes = 2, type = "nombre", digits = 3), list(colonnes = 3, type = "montant", digits = 0, symbole = TRUE), list(colonnes = 4, type = "montant", digits = 0, symbole = TRUE), list(colonnes = 5, type = "nombre", digits = 3))
+)
+```
 
 :::: {.question}
 Calculer le taux de base proposé.
 
 ::: {.solution}
 
-| Classe | Primes actuelles | Différentiel actuel | Différentiel indiqué | Changement de différentiel |
-|:---|---:|---:|---:|---:|
-| 1 | 20 000 | 0.800 | 0.900 | 0.1250 |
-| 2 | 10 000 | 1.000 | 1.000 | 0.0000 |
-| 3 | 12 000 | 1.200 | 1.125 | −0.0625 |
-| **Total** | **42 000** | | | **0.0417** |
+On retient les différentiels indiqués.
+
+```{r}
+#| label: exercice14-tableau-33
+#| output: asis
+
+q10_resultats <- q10_donnees[, c(1, 3, 2, 5)]
+q10_resultats <- rbind(q10_resultats, list("Total", sum(q10_resultats[[2]]), NA, NA))
+names(q10_resultats)[3:4] <- c("Différentiel actuel", "Relativité indiquée")
+q10_resultats[[5]] <- q10_resultats[[4]]/q10_resultats[[3]]-1
+q10_resultats[[5]][4] <- weighted.mean(q10_resultats[[5]][1:3],q10_resultats[[2]][1:3])
+names(q10_resultats)[5] <- "Changement de différentiel"
+
+q10_resultats[["Off-balance"]] <- 1/(1+q10_resultats[[5]][4])
+
+afficher_table(
+  q10_resultats,
+  align = c("l", "r", "r", "r", "r", "r"),
+  formats = list(list(colonnes = 2, type = "nombre", digits = 0), list(colonnes = 3, type = "nombre", digits = 3), list(colonnes = 4, type = "nombre", digits = 3), list(colonnes = 5, type = "nombre", digits = 4), list(colonnes = 6, type = "nombre", digits = 4)),
+  lignes_gras = "derniere",
+  entetes_calculs = c("(1)", "(2)", "(3) = $R_C$", "(4) = $R_P$", "(5) = (4) / (3) − 1", "(6) = 1 / [1 + total (5)]")
+)
+```
 
 $$
 \Delta_S = \frac{0.125(20\,000)+0(10\,000)-0.0625(12\,000)}{42\,000}=\frac{1}{24}
@@ -609,7 +1420,8 @@ $$
 Le facteur d’off-balance est $1/(1+1/24)=0.96$. Le taux de base proposé est :
 
 $$
-B_P = 200(0.96)(1.2) = 230.40
+B_P = B_C \times \frac{1}{1+\Delta_S} \times (1+\Delta)
+= 200(0.96)(1.20) = 230.40
 $$
 
 :::
