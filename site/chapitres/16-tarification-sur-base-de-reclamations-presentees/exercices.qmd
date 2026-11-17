@@ -3,10 +3,6 @@ metadata-files:
   - ../_exercices.yml
 ---
 
-<!-- Les en-têtes, pieds de page et la note générale du PDF historique sont omis.
-Les coquilles « un assureur a acheté » (question 4) et l’année répétée dans la
-période cumulative à 100 % (question 5) sont corrigées. -->
-
 ```{r}
 #| label: setup-exercices
 #| include: false
