@@ -99,8 +99,7 @@ Sinistres rapportés, incluant les frais de règlement de sinistres alloués, vu
 #| label: donnees-tarification-composite
 #| include: false
 
-project_dir <- Sys.getenv("QUARTO_PROJECT_DIR")
-source(file.path(project_dir, "_extensions/alpa12/dynamic-year/dynamic-year.R"))
+source("../../_extensions/alpa12/dynamic-year/dynamic-year.R")
 
 experience <- data.frame(
   annee = vapply(-6:-4, dynamic_year, integer(1)),
@@ -164,6 +163,7 @@ tarifr::afficher_table(
   tableau,
   align = c("l", "r", "r", "r", "r", "r"),
   formats = list(
+    list(colonnes = 2, type = "nombre", digits = 0),
     list(colonnes = 3:4, type = "nombre", digits = 2),
     list(colonnes = 5:6, type = "montant", digits = 0, symbole = TRUE)
   ),
