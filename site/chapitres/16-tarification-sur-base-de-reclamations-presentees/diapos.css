@@ -4,7 +4,7 @@
 .reveal .cle-avenant { display: inline-block; width: 1em; height: 0.6em; vertical-align: middle; }
 .reveal .cle-presentees { border: 2px dashed #005a9c; }
 .reveal .cle-survenance { background: #f6c68e; }
-.reveal .cle-avenant { border: 2px dotted #137344; }
+.reveal .cle-avenant { background: #cbe8d4; border: 2px dotted #137344; }
 .reveal .legende-couverture { line-height: 1.3; }
 .reveal .prime-presentee,
 .reveal .prime-survenance,
@@ -12,12 +12,23 @@
   border-radius: 0.15em;
   padding: 0.08em 0.18em;
 }
-.reveal .prime-presentee { background: #cde9f8; outline: 1px dashed #005a9c; }
+.reveal .prime-presentee,
+.reveal .prime-chevauchement { outline: 2px dashed #005a9c; }
 .reveal .prime-survenance { background: #f6c68e; }
-.reveal .prime-chevauchement { background: #f6c68e; outline: 2px dashed #005a9c; }
-.reveal .legende-primes { text-align: center; }
+.reveal .prime-chevauchement { background: #f6c68e; }
+.reveal .prime-resultat { background: #ffe78a; }
 .reveal .notation-sinistres .smart-table thead tr:last-child th { text-align: center !important; }
 .reveal .notation-sinistres .smart-table tbody th { font-weight: normal; }
 
 .reveal .notation-sinistres .smart-table thead tr:last-child th .smart-table-header-lines { display: block; width: 100%; text-align: center !important; }
 .reveal .notation-sinistres .smart-table tbody td { font-weight: 400; }
+
+/* Repères utilisés pour introduire la distinction entre les deux bases. */
+.reveal .base-presentee,
+.reveal .base-survenance {
+  border-radius: 0.12em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.reveal .base-presentee { background: #cde9f8; }
+.reveal .base-survenance { background: #f6c68e; }

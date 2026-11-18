@@ -38,11 +38,15 @@ diagramme_couverture <- function(cas) {
     tail = accident >= 1,
     ligne_diagonale = accident == 0
   )
+  grille$zone <- ifelse(
+    grille$couvert, "survenance",
+    ifelse(cas == "tail" & grille$periode > 0 & accident <= 0, "avenant", "autre")
+  )
   grille$y <- -grille[[2]]
 
   graphique <- ggplot(grille, aes(delai, y)) +
-    geom_tile(aes(fill = couvert), width = 1, height = 1) +
-    scale_fill_manual(values = c("FALSE" = "white", "TRUE" = "#f6c68e"), guide = "none") +
+    geom_tile(aes(fill = zone), width = 1, height = 1) +
+    scale_fill_manual(values = c(autre = "white", survenance = "#f6c68e", avenant = "#cbe8d4"), guide = "none") +
     geom_text(aes(label = libelle), size = 4.5) +
     scale_x_continuous(breaks = 0:4, position = "top", expand = c(0, 0)) +
     scale_y_continuous(breaks = -(0:5), labels = annees[1:6], expand = c(0, 0)) +
@@ -80,7 +84,9 @@ diagramme_couverture <- function(cas) {
   if (cas == "tail") {
     graphique <- graphique +
       annotate(
-        "path", x = c(0.5, 4.47, 4.47, 0.5), y = c(-0.5, -4.47, -0.5, -0.5),
+        "path",
+        x = c(0.53, 0.53, 1.53, 1.53, 2.53, 2.53, 3.53, 3.53, 4.47, 4.47, 0.53),
+        y = c(-0.57, -1.47, -1.47, -2.47, -2.47, -3.47, -3.47, -4.47, -4.47, -0.57, -0.57),
         colour = "#137344", linewidth = 1.15, linetype = "dotdash"
       )
   }
@@ -131,7 +137,7 @@ En responsabilité professionnelle des médecins :
 
 ---
 
-C’est dans une volonté de réduire le risque de mauvaise tarification inhérent à la responsabilité professionnelle que l’industrie a introduit une alternative aux couvertures sur base de survenance afin de minimiser le temps entre la date effective de la couverture et la date de la réclamation : **La couverture sur base de réclamations présentées** (*claims-made coverage*)
+C’est dans une volonté de réduire le risque de mauvaise tarification inhérent à la responsabilité professionnelle que l’industrie a introduit une alternative aux couvertures sur [base de survenance]{.base-survenance} afin de minimiser le temps entre la date effective de la couverture et la date de la réclamation : **La couverture sur [base de réclamations présentées]{.base-presentee}** (*claims-made coverage*)
 
 
 # Compilation des sinistres par année rapportée et par délai de présentation de sinistre {data-progress-label="Compilation"}
@@ -142,13 +148,13 @@ La couverture est la même, mais le moment où l’on prend la décision de nive
 
 ## Déclencheur de couverture
 
-### Couverture sur base de survenance
+### Couverture sur [base de survenance]{.base-survenance}
 
 > Déclencheur de couverture : date du sinistre
 
 - En tarification, on doit projeter les coûts pour des réclamations qui seront rapportées dans plusieurs années.
 
-### Couverture sur base de réclamations présentées
+### Couverture sur [base de réclamations présentées]{.base-presentee}
 
 > Déclencheur de couverture : date rapportée
 
@@ -184,7 +190,7 @@ afficher_table(
 
 ##
 
-a. Indiquer quels sont les sinistres couverts sur une police annuelle sur base de survenance du sinistre écrite le {{< dynamic-date "YYYY-01-01" -6 >}}.
+a. Indiquer quels sont les sinistres couverts sur une police annuelle sur [base de survenance]{.base-survenance} du sinistre écrite le {{< dynamic-date "YYYY-01-01" -6 >}}.
 
 Les polices sur base de survenance du sinistre couvrent les réclamations qui surviennent dans la période de police, peu importe quand la réclamation est rapportée.
 
@@ -193,7 +199,7 @@ $L(`r annees[[1]]`,0) + L(`r annees[[2]]`,1) + L(`r annees[[3]]`,2) + L(`r annee
 
 ##
 
-b. Indiquer quels sont les sinistres couverts sur une police annuelle sur base de réclamations présentées écrite le {{< dynamic-date "YYYY-01-01" -6 >}}.
+b. Indiquer quels sont les sinistres couverts sur une police annuelle sur [base de réclamations présentées]{.base-presentee} écrite le {{< dynamic-date "YYYY-01-01" -6 >}}.
 
 Les polices sur base de réclamations présentées couvrent les réclamations qui sont rapportées dans la période de police, peu importe quand la réclamation est survenue.
 
@@ -221,8 +227,6 @@ diagramme_couverture("ligne_diagonale")
 [ ]{.cle-presentees} Réclamations présentées en {{< dynamic-year -6 >}}
 
 [ ]{.cle-survenance} Survenance en {{< dynamic-year -6 >}}
-
-Une cellule combinant les deux repères est couverte par les deux polices.
 :::
 
 :::
@@ -234,13 +238,15 @@ Une cellule combinant les deux repères est couverte par les deux polices.
 
 De façon générale :
 
-- Sinistres couverts par une police sur base de **réclamations présentées** pour l’année $Y$ :
+- Sinistres couverts par une police sur [base de **réclamations présentées**]{.base-presentee}\
+pour l’année $Y$ :
 
 $$
 \sum_{i=0}^{N} L(Y,i)
 $$
 
-- Sinistres couverts par une police sur base de **survenance de sinistre** pour l’année $Y$ :
+- Sinistres couverts par une police sur [base de **survenance**]{.base-survenance} de sinistre\
+pour l’année $Y$ :
 
 $$
 \sum_{i=0}^{N} L(Y+i,i)
@@ -262,11 +268,6 @@ $$
 ::::: {.question title="Illustration des cinq principes"}
 
 ### Hypothèses {.no-cascade}
-
-- À l’automne {{< dynamic-year >}}, les données sont disponibles jusqu’en juillet. Les montants annuels sont hypothétiques ; ceux de {{< dynamic-year >}} incluent une projection pour le reste de l’année et les années suivantes sont projetées.
-- La police étudiée commence en janvier {{< dynamic-year 1 >}}.
-
----
 
 - Les unités d’exposition sont constantes.
 - La prime pure moyenne pour l’année rapportée {{< dynamic-year >}} est de 1 000 \$.
@@ -297,7 +298,7 @@ primes_tendance <- calculer_primes_pures(0.07, rep(0.20, 5))
 primes_delai <- calculer_primes_pures(0.05, c(0.15, 0.20, 0.20, 0.20, 0.25))
 
 # Une même donnée alimente chaque répétition, les totaux et les diagonales.
-afficher_primes_pures <- function(tableau) {
+afficher_primes_pures <- function(tableau, resultats = FALSE) {
   affichage <- tableau[1:9, c(1:7, 1, 8)]
   affichage[[8]][6:9] <- NA_integer_
   affichage[c(2:7, 9)] <- lapply(affichage[c(2:7, 9)], function(x) {
@@ -314,6 +315,10 @@ afficher_primes_pures <- function(tableau) {
     affichage[[colonne]][[ligne]] <- marquer(format_montant(tableau[[colonne]][[ligne]], digits = 2), classe)
   }
   affichage[[9]][[2]] <- marquer(affichage[[9]][[2]], "prime-survenance")
+  if (resultats) {
+    affichage[[7]][[2]] <- marquer(format_montant(tableau[[7]][[2]], digits = 2), "prime-presentee .prime-resultat")
+    affichage[[9]][[2]] <- marquer(format_montant(tableau[[8]][[2]], digits = 2), "prime-resultat")
+  }
   affichage[[8]] <- ifelse(is.na(affichage[[8]]), "—", affichage[[8]])
   names(affichage) <- c("Année rapportée", as.character(0:4), "PP réc. présentées", "Année d’accident", "PP survenance")
   afficher_table(
@@ -333,39 +338,30 @@ afficher_primes_pures <- function(tableau) {
 afficher_primes_pures(primes_reference)
 ```
 
-::: {.legende-primes}
-[Réclamations présentées]{.prime-presentee} · [Survenance]{.prime-survenance} · [Les deux]{.prime-chevauchement} (année {{< dynamic-year 1 >}})
-:::
-
 
 ---
 
 **Principe 1 :** Une police sur base de réclamations présentées devrait toujours coûter moins cher qu’une police sur base de **survenance aussi longtemps que les coûts de sinistres augmentent**.
 
----
+::: {.text-smaller}
 
 ```{r}
 #| label: principe-un-delais
 #| output: asis
 
-afficher_primes_pures(primes_reference)
+afficher_primes_pures(primes_reference, resultats = TRUE)
 ```
 
-::: {.legende-primes}
-[Réclamations présentées]{.prime-presentee} · [Survenance]{.prime-survenance} · [Les deux]{.prime-chevauchement} (année {{< dynamic-year 1 >}})
 :::
 
 
 ---
 
-Prime pure d’une police sur base de réclamations présentées :
+Pour une police débutant en {{< dynamic-year 1 >}}, la prime pure sur base de réclamations présentées est de `r format_montant(primes_reference[[7]][[2]], digits = 2, symbole = TRUE)`, contre `r format_montant(primes_reference[[8]][[2]], digits = 2, symbole = TRUE)` sur base de survenance.
 
-$$
-`r sprintf("%.2f", primes_reference[[7]][[2]])`\,\text{\$}
-< `r sprintf("%.2f", primes_reference[[8]][[2]])`\,\text{\$}
-$$
+La police sur base de survenance couvre les sinistres survenus en {{< dynamic-year 1 >}}, même s’ils sont rapportés plus tard. La police sur base de réclamations présentées couvre les sinistres rapportés en {{< dynamic-year 1 >}}.
 
-Prime pure d’une police sur base de survenance.
+L’horizon de projection plus court réduit le risque de mauvaise tarification.
 
 ::: {.notes}
 Si les coûts des sinistres diminuent, cela va dépendre si le risque de mauvaise tarification dépasse la diminution des coûts, car le risque de mauvaise tarification demeure.
@@ -373,97 +369,57 @@ Si les coûts des sinistres diminuent, cela va dépendre si le risque de mauvais
 
 ---
 
-Un actuaire qui tarifie une police sur base de survenance projette les sinistres qui ont lieu en {{< dynamic-year 1 >}}, mais qui peuvent ne pas être rapportés tout de suite.
-
-Un actuaire qui tarifie une police sur base de réclamations présentées {{< dynamic-year 1 >}} projette les sinistres qui seront rapportés en {{< dynamic-year 1 >}}.
-
-Il y a donc moins de risque de mauvaise tarification comme nous sommes sur un horizon à plus court terme.
-
----
+::: {.text-xs}
 
 **Principe 2 :** S’il y a un changement soudain et imprévisible dans les tendances sous-jacentes, la police sur base de réclamations présentées tarifiée selon la tendance précédente sera plus près du bon prix que la police sur base de survenance tarifiée selon la tendance précédente.
 
-Même tableau, mais avec une augmentation des primes pures de 7 % au lieu de 5 % :
-
----
+Les primes pures augmentent de 7 % plutôt que de 5 %.
 
 ```{r}
 #| label: principe-deux-delais
 #| output: asis
 
-afficher_primes_pures(primes_tendance)
+afficher_primes_pures(primes_tendance, resultats = TRUE)
 ```
 
-::: {.legende-primes}
-[Réclamations présentées]{.prime-presentee} · [Survenance]{.prime-survenance} · [Les deux]{.prime-chevauchement} (année {{< dynamic-year 1 >}})
 :::
 
 
 ---
 
-Pour l’année {{< dynamic-year 1 >}} :
+Pour l’année {{< dynamic-year 1 >}}, la tendance de 7 % entraîne une sous-estimation de la prime pure prévue à 5 % :
 
-La police sur base de survenance qui avait prévu une prime pure de `r format_montant(primes_reference[[8]][[2]], digits = 2, symbole = TRUE)` a sous-estimé la prime pure de :
+- Base de survenance : $`r sprintf("%.2f", primes_tendance[[8]][[2]])` / `r sprintf("%.2f", primes_reference[[8]][[2]])` - 1 \approx 6\,\%$.
+- Base de réclamations présentées : $`r sprintf("%.2f", primes_tendance[[7]][[2]])` / `r sprintf("%.2f", primes_reference[[7]][[2]])` - 1 \approx 1.9\,\%$.
 
-$$
-\frac{`r sprintf("%.2f", primes_tendance[[8]][[2]])`}
-{`r sprintf("%.2f", primes_reference[[8]][[2]])`} - 1
-= 6\,\%.
-$$
+La police sur base de survenance couvre des réclamations rapportées plus tard et est donc plus affectée par la tendance.
 
 ---
 
-La police sur base de réclamations présentées qui avait prévu une prime pure de `r format_montant(primes_reference[[7]][[2]], digits = 2, symbole = TRUE)` a sous-estimé la prime pure de :
-
-$$
-\frac{`r sprintf("%.2f", primes_tendance[[7]][[2]])`}
-{`r sprintf("%.2f", primes_reference[[7]][[2]])`} - 1
-= 1.9\,\%.
-$$
-
-Comme les polices sur base de survenance couvrent des réclamations qui seront rapportées plus tard, elles sont plus affectées par la tendance.
-
----
+::: {.text-xs}
 
 **Principe 3 :** S’il y a un changement soudain et non anticipé dans la façon de rapporter les réclamations, le coût d’une police sur base de réclamations présentées mature sera très peu affecté ou pas du tout relativement à une police sur base de survenance de sinistre.
 
-Même tableau, mais 5 % des réclamations sont rapportées une année plus tard qu’espéré. Toutes les réclamations sont quand même rapportées en cinq ans :
-
----
+Pour 5 % des réclamations, le délai passe de 0 à 4 ans. Toutes les réclamations sont rapportées en cinq ans.
 
 ```{r}
 #| label: principe-trois-delais
 #| output: asis
 
-afficher_primes_pures(primes_delai)
+afficher_primes_pures(primes_delai, resultats = TRUE)
 ```
 
-::: {.legende-primes}
-[Réclamations présentées]{.prime-presentee} · [Survenance]{.prime-survenance} · [Les deux]{.prime-chevauchement} (année {{< dynamic-year 1 >}})
 :::
 
 
 ---
 
-Pour l’année {{< dynamic-year 1 >}} :
+Pour l’année {{< dynamic-year 1 >}}, le changement des délais entraîne une sous-estimation de la prime pure prévue :
 
-La police sur base de survenance qui avait prévu une prime pure de `r format_montant(primes_reference[[8]][[2]], digits = 2, symbole = TRUE)` a sous-estimé la prime pure de :
+- Base de survenance : $`r sprintf("%.2f", primes_delai[[8]][[2]])` / `r sprintf("%.2f", primes_reference[[8]][[2]])` - 1 \approx 0.97\,\%$.
+- Base de réclamations présentées : $`r sprintf("%.2f", primes_delai[[7]][[2]])` / `r sprintf("%.2f", primes_reference[[7]][[2]])` - 1 = 0\,\%$.
 
-$$
-\frac{`r sprintf("%.2f", primes_delai[[8]][[2]])`}
-{`r sprintf("%.2f", primes_reference[[8]][[2]])`} - 1
-= 0.97\,\%.
-$$
-
----
-
-La police sur base de réclamations présentées qui avait prévu une prime pure de `r format_montant(primes_reference[[7]][[2]], digits = 2, symbole = TRUE)` a sous-estimé la prime pure de :
-
-$$
-\frac{`r sprintf("%.2f", primes_delai[[7]][[2]])`}
-{`r sprintf("%.2f", primes_reference[[7]][[2]])`} - 1
-= 0\,\%.
-$$
+Le coût de la police mature sur base de réclamations présentées demeure inchangé, tandis que celui de la police sur base de survenance augmente.
 
 ---
 
@@ -512,7 +468,7 @@ diagramme_couverture("comparaison")
 ::: {.column width="32%"}
 
 ::: {.legende-couverture}
-[ ]{.cle-presentees} Réclamations présentées, années entourées
+[ ]{.cle-presentees} Réclamations présentées, plusieurs années
 
 [ ]{.cle-survenance} Survenance, année du sinistre {{< dynamic-year -6 >}}
 :::
@@ -524,15 +480,13 @@ diagramme_couverture("comparaison")
 
 Caractéristiques d’une police sur base de réclamations présentées qui aident la coordination avec une police sur base de survenance :
 
-1. Les polices sur base de réclamations présentées ont une date rétroactive.
-- Elles couvrent les sinistres qui surviennent à partir de la date rétroactive.
-- Afin de s’assurer qu’il n’y a aucun chevauchement, la date rétroactive doit se coordonner avec l’expiration de la dernière police sur base de survenance.
+1. Les polices sur base de réclamations présentées ont une **date rétroactive**.
+    - Elles couvrent les sinistres qui surviennent à partir de la date rétroactive.
+    - Afin de s’assurer qu’il n’y a aucun chevauchement, la date rétroactive doit se coordonner avec l’expiration de la dernière police sur base de survenance.
 
 ---
 
 Changement de polices sur base de survenance de sinistre à des polices sur base de réclamations présentées débutant le {{< dynamic-date "YYYY-01-01" -5 >}} avec date rétroactive du {{< dynamic-date "YYYY-01-01" -5 >}}.
-
----
 
 :::: {.columns}
 ::: {.column width="68%"}
@@ -550,49 +504,19 @@ diagramme_couverture("retroactive")
 ::: {.column width="32%"}
 
 ::: {.legende-couverture}
-[ ]{.cle-presentees} Réclamations présentées à partir de {{< dynamic-year -5 >}}
+[ ]{.cle-survenance} Survenance avant {{< dynamic-year -5 >}}
 
-[ ]{.cle-survenance} Sinistres survenus avant {{< dynamic-year -5 >}}
+[ ]{.cle-presentees} Réclamations présentées à partir de {{< dynamic-year -5 >}}
 :::
 
 :::
 ::::
 
 ---
-
-### Coordination de couverture {.no-cascade}
 
 Caractéristiques d’une police sur base de réclamations présentées qui aident la coordination avec une police sur base de survenance :
 
-Avenant appelé « tail coverage » pour combler le manque de couverture lorsqu’un assuré passe d’une police sur base de réclamations présentées à une police sur base de survenance.
-
----
-
-:::: {.columns}
-::: {.column width="68%"}
-
-```{r}
-#| label: coordination-manque-couverture
-#| fig-width: 8
-#| fig-height: 4.5
-#| fig-alt: "Passage de la base de réclamations présentées à la base de survenance au début de la deuxième année. Le contour bleu couvre les réclamations rapportées la première année. La zone orange couvre les accidents survenus à partir de la deuxième année. Un triangle de cellules blanches reste sans couverture pour les accidents antérieurs rapportés après le changement."
-
-diagramme_couverture("manque")
-```
-
-:::
-::: {.column width="32%"}
-
-::: {.legende-couverture}
-[ ]{.cle-presentees} Réclamations présentées en {{< dynamic-year -6 >}}
-
-[ ]{.cle-survenance} Sinistres survenus à partir de {{< dynamic-year -5 >}}
-
-Les cellules blanches représentent le manque de couverture.
-:::
-
-:::
-::::
+2. Avenant appelé **« tail coverage »** pour combler le manque de couverture lorsqu’un assuré passe d’une police sur base de réclamations présentées à une police sur base de survenance.
 
 ---
 
@@ -603,7 +527,7 @@ Les cellules blanches représentent le manque de couverture.
 #| label: coordination-tail-coverage
 #| fig-width: 8
 #| fig-height: 4.5
-#| fig-alt: "Même passage à la base de survenance, avec un avenant tail coverage. Le rectangle bleu couvre les réclamations rapportées avant le changement, et la zone orange les accidents survenus après. Un triangle vert entoure les cellules auparavant sans couverture, correspondant aux accidents antérieurs rapportés après le changement."
+#| fig-alt: "Même passage à la base de survenance, avec un avenant tail coverage. Le rectangle bleu couvre les réclamations rapportées avant le changement, et la zone orange les accidents survenus après. Une zone verte bordée d’un contour en escalier couvre les accidents antérieurs rapportés après le changement."
 
 diagramme_couverture("tail")
 ```
@@ -614,9 +538,9 @@ diagramme_couverture("tail")
 ::: {.legende-couverture}
 [ ]{.cle-presentees} Réclamations présentées en {{< dynamic-year -6 >}}
 
-[ ]{.cle-survenance} Sinistres survenus à partir de {{< dynamic-year -5 >}}
+[ ]{.cle-avenant} *Tail coverage*
 
-[ ]{.cle-avenant} Avenant pour les sinistres antérieurs rapportés après le changement
+[ ]{.cle-survenance} Survenance à partir de {{< dynamic-year -5 >}}
 :::
 
 :::
@@ -624,20 +548,6 @@ diagramme_couverture("tail")
 
 ---
 
-Afin de calculer la prime pure des polices sur base de réclamations présentées avec date rétroactive ainsi que la prime pure de l’avenant « tail coverage », on devra calculer la proportion des unités d’exposition pour chaque période. Par exemple :
-
----
-
-40 % des coûts d’une police sur base de réclamations présentées mature pour une année $X$ proviennent de sinistres qui sont rapportés durant l’année $X$ et survenus dans l’année $X$.
-
----
-
-70 % des coûts d’une police sur base de réclamations présentées mature pour une année $X$ proviennent de sinistres qui sont rapportés dans l’année $X$, mais survenus dans l’année $X$ ou $(X-1)$.
-
----
-
-85 % des coûts d’une police sur base de réclamations présentées mature pour une année $X$ proviennent de sinistres qui sont rapportés dans l’année $X$, mais survenus dans l’année $X$, $(X-1)$ ou $(X-2)$.
-
-Etc.
+Pour calculer la prime pure d’une police avec date rétroactive ou celle d’un avenant *« tail coverage »*, il faut estimer le coût des sinistres pour chaque combinaison d’année rapportée et de délai de présentation (chaque cellule du diagramme).
 
 :::::
