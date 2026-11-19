@@ -60,8 +60,8 @@ website:
             text: "Cours 10 : Crédibilité"
           - href: cours/11.qmd
             text: "Cours 11 : Autres considérations et Implantation"
-          # - href: cours/12.qmd
-          #   text: "Cours 12 : Méthodes de tarification en lignes commerciales et Tarification sur base de réclamations présentées"
+          - href: cours/12.qmd
+            text: "Cours 12 : Méthodes de tarification en lignes commerciales et Tarification sur base de réclamations présentées"
           # - href: cours/13.qmd
           #   text: "Cours 13 : Fête de l’Université"
           # - href: cours/14.qmd
@@ -98,10 +98,10 @@ website:
             text: "Chapitre 13 : Autres considérations"
           - href: chapitres/14-implantation/diapos.qmd
             text: "Chapitre 14 : Implantation"
-          # - href: chapitres/15-methodes-de-tarification-en-lignes-commerciales/diapos.qmd
-          #   text: "Chapitre 15 : Méthodes de tarification en lignes commerciales"
-          # - href: chapitres/16-tarification-sur-base-de-reclamations-presentees/diapos.qmd
-          #   text: "Chapitre 16 : Tarification sur base de réclamations présentées"
+          - href: chapitres/15-methodes-de-tarification-en-lignes-commerciales/diapos.qmd
+            text: "Chapitre 15 : Méthodes de tarification en lignes commerciales"
+          - href: chapitres/16-tarification-sur-base-de-reclamations-presentees/diapos.qmd
+            text: "Chapitre 16 : Tarification sur base de réclamations présentées"
       - text: Exercices
         menu:
           - href: chapitres/index.qmd
@@ -134,10 +134,10 @@ website:
             text: "Chapitre 13 : Autres considérations"
           - href: chapitres/14-implantation/exercices.qmd
             text: "Chapitre 14 : Implantation"
-          # - href: chapitres/15-methodes-de-tarification-en-lignes-commerciales/exercices.qmd
-          #   text: "Chapitre 15 : Méthodes de tarification en lignes commerciales"
-          # - href: chapitres/16-tarification-sur-base-de-reclamations-presentees/exercices.qmd
-          #   text: "Chapitre 16 : Tarification sur base de réclamations présentées"
+          - href: chapitres/15-methodes-de-tarification-en-lignes-commerciales/exercices.qmd
+            text: "Chapitre 15 : Méthodes de tarification en lignes commerciales"
+          - href: chapitres/16-tarification-sur-base-de-reclamations-presentees/exercices.qmd
+            text: "Chapitre 16 : Tarification sur base de réclamations présentées"
       - text: Révisions
         menu:
           - href: revisions/revision-examen-1/diapos.qmd
