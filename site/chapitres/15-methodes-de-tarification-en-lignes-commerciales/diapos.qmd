@@ -524,7 +524,7 @@ $$
 
 ## Tarification rétrospective {.english-subtitle subtitle="Retrospective Rating"}
 
-La tarification rétrospective, contrairement aux autres méthodes, n’utilise pas l’expérience passée pour prédire la prime nécessaire pour la période de police future, mais utilise l’expérience réelle d’une police pour calculer la prime finale de la période passée.
+La tarification rétrospective, contrairement aux autres méthodes, n’utilise pas l’expérience passée pour prédire la prime nécessaire pour la période de police future, mais utilise **l’expérience réelle** d’une police pour calculer la **prime finale de la période passée**.
 
 Elle est similaire à l’autoassurance, mais les polices contiennent des dispositions selon lesquelles l’assureur conserve une portion du risque ou qui affectent le moment des paiements :
 
