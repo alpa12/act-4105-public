@@ -52,9 +52,9 @@ L’ajustement pour *experience rating* pour la période de police future est un
 
 ---
 
-La comparaison de la composante d’expérience avec la composante d’espérance peut se faire de plusieurs façons, mais on doit comparer des pommes avec des pommes :
+La comparaison de la composante d’expérience avec la composante d’espérance peut se faire de plusieurs façons, mais on doit comparer des les deux composantes sur une même base :
 
-- On compare des sinistres et frais de règlement de sinistres réels avec des sinistres et frais de règlement de sinistres espérés pour la période
+- On compare des sinistres et frais de règlement de sinistres réels avec des sinistres et frais de règlement de sinistres espérés pour la période.
 - On peut utiliser différentes mesures de sinistres : 
   - Payés, vus à une certaine date
   - Rapportés, vus à une certaine date
@@ -87,8 +87,9 @@ $$
 
 - $CD$ : Pourcentage de crédit ou de débit
 - $Z$ : Crédibilité
-- $AER$ : Ratio d’expérience réel (*actual experience ratio*). Composante d’expérience. Mesure l’expérience réelle de la compagnie, sujette aux limitations du plan, relativement à l’expérience espérée représentée dans les taux du manuel.
-- $EER$ : ratio d’expérience espéré (*expected experience ratio*). Composante d’espérance.
+- $AER$ : Ratio d’expérience réel (*actual experience ratio*).\
+Composante d’expérience. Mesure l’expérience réelle de la compagnie, sujette aux limitations du plan, relativement à l’expérience espérée représentée dans les taux du manuel.
+- $EER$ : Ratio d’expérience espéré (*expected experience ratio*). Composante d’espérance.
 
 :::: {.question title="Pourcentage de débit ou de crédit"}
 
@@ -159,11 +160,8 @@ Souvent, les surcharges ou crédits sont sujets à un maximum.
 Peut-on utiliser l’*experience rating* **et** le *schedule rating* pour la tarification ?
 
 - Oui, mais **attention au double comptage**!
-  - Une nouvelle caractéristique, par exemple un programme de prévention des pertes, se reflétera éventuellement dans l’expérience. Si on applique les deux méthodes, on donnera trop de rabais ou de surcharge.
+  - Une nouvelle caractéristique, par exemple un programme de prévention des pertes, se reflétera éventuellement dans l’expérience. Si on applique les deux méthodes, il faut diminuer l'ajustement lié au *schedule rating* à mesure que le changement est considéré dans l’expérience, sinon  on donnera trop de rabais ou de surcharge.
 
-::: {.notes}
-Un nouveau programme de sécurité ou de contrôle des pertes peut justifier un ajustement de *schedule rating* tant que ses effets ne sont pas encore entièrement reflétés dans l’expérience. Après quelques années, il sera reconnu dans l’*experience rating*. Le *schedule rating* peut aussi tenir compte de caractéristiques attendues pour la période future qui ne figurent pas dans l’expérience, ou compléter une expérience qui n’est pas entièrement crédible pour une petite compagnie.
-:::
 
 # Techniques de tarification pour les risques commerciaux de grande taille {data-progress-label="Risques de grande taille"}
 
@@ -270,9 +268,9 @@ composite[["unites_projetees"]] <- round(
   composite[["recettes_milliers"]] * composite[["facteur_unites"]]
 )
 ultimes_total <- sum(composite[["ultimes"]])
-unites_total <- sum(composite[["unites_projetees"]])
+unites_total <- sum(composite[["unites_projetees"]]) * 1000
 prime_ajustee <- round(ultimes_total / 0.72)
-taux_composite <- prime_ajustee / unites_total
+taux_composite <- prime_ajustee / unites_total * 1000
 
 ajouter_total <- function(tableau, colonnes) {
   total <- tableau[1, , drop = FALSE]
@@ -370,11 +368,12 @@ afficher_table(tableau, align = c("l", rep("r", 5)),
     "(4)", "(5) = (1 + (4)) ^ (1)"))
 ```
 
-Le facteur de projection est égal à $(1 + \text{tendance annuelle})^{\text{période de projection}}$.
 
 ##
 
-**Sinistres ultimes projetés** :
+Sinistres ultimes projetés :
+
+::: {.text-smaller}
 
 ```{r}
 #| label: composite-sinistres-ultimes
@@ -394,9 +393,11 @@ afficher_table(tableau, align = c("l", rep("r", 6)),
     "(6) = ((1) × (3) + (2) × (4)) × (5)"))
 ```
 
+:::
+
 ##
 
-**Unités projetées** :
+Unités projetées :
 
 ```{r}
 #| label: composite-unites-projetees
@@ -417,18 +418,18 @@ afficher_table(tableau, align = c("l", "r", "r", "r"),
 ##
 
 - Sinistres ultimes projetés incluant les frais de règlement : `r format_montant(ultimes_total, symbole = TRUE)`.
-- Unités d’exposition projetées : `r format_nombre(unites_total, digits = 0)`.
+- Unités d’exposition projetées : `r format_montant(unites_total, symbole = TRUE)`.
 
 Prime ajustée :
 
 $$
-\frac{`r format(ultimes_total, scientific = FALSE, trim = TRUE)`}{0.72} = `r format(prime_ajustee, scientific = FALSE, trim = TRUE)`\text{\$}
+\frac{`r format(ultimes_total, scientific = FALSE, trim = TRUE, big.mark = "\\\\,")`}{0.72} = `r format(prime_ajustee, scientific = FALSE, trim = TRUE, big.mark = "\\\\,")`\text{\$}
 $$
 
 Taux composite par 1 000 \$ d’unités :
 
 $$
-\frac{`r format(prime_ajustee, scientific = FALSE, trim = TRUE)`}{`r format(unites_total, scientific = FALSE, trim = TRUE)`} = `r formatC(taux_composite, format = "f", digits = 2)`\text{\$}
+\frac{`r format(prime_ajustee, scientific = FALSE, trim = TRUE, big.mark = "\\\\,")`}{`r format(unites_total, scientific = FALSE, trim = TRUE, big.mark = "\\\\,")`} \times 1\,000 = `r formatC(taux_composite, format = "f", digits = 2)`\text{\$}
 $$
 
 :::
@@ -446,7 +447,7 @@ Considérations pour les polices avec franchise élevée :
 
 - **Traitement des réclamations** : qui s’occupe des réclamations sous la franchise, l’assureur ou l’assuré ? Si c’est l’assureur, ces frais doivent être inclus dans la prime.
 - **Application de la franchise** : la franchise s’applique-t-elle à une perte incluant ou excluant les frais de règlement de sinistres alloués ?
-- **Traitement de la franchise** : qui paie la franchise initialement ? Si c’est l’assureur, il doit se faire rembourser par l’assuré; les frais reliés et le risque de défaut doivent être considérés.
+- **Traitement de la franchise** : qui paie la franchise initialement ? Si c’est l’assureur, il doit se faire rembourser par l’assuré. Les frais reliés et le risque de défaut doivent être considérés.
 - **Marge de risque** : la marge de profit peut varier selon la franchise, car la variance des sinistres au-dessus de la franchise augmente avec celle-ci.
 
 :::: {.question title="Prime avec franchise élevée"}
@@ -463,11 +464,19 @@ Avec les données suivantes :
 
 ##
 
-- L’assureur paie tout le sinistre et réclame la franchise à l’assuré; ce traitement coûte 4 % des sinistres sous la franchise.
+- L’assureur paie tout le sinistre et réclame la franchise à l’assuré. Ce traitement coûte 4 % des sinistres sous la franchise.
 - Le risque de crédit est estimé à 1 % des paiements espérés sous la franchise.
 - Le profit de souscription désiré sans franchise est de 2 % de la prime. L’assureur ajoute une marge de risque de 10 % des sinistres excédentaires pour une franchise de 500 000 \$.
 
-Ratios d’élimination de perte (LER), avec une franchise de base de 0 \$ :
+::::: {.columns}
+:::: {.column width="45%"}
+Ratios d’élimination de perte (LER),\
+avec une franchise de base de 0 \$ :
+::::
+
+:::: {.column width="55%"}
+
+::: {smart-tables-align="left"}
 
 | Franchise | LER |
 |--:|--:|
@@ -475,17 +484,24 @@ Ratios d’élimination de perte (LER), avec une franchise de base de 0 \$ :
 | 250 000 \$ | 0,80 |
 | 500 000 \$ | 0,95 |
 
+:::
+::::
+:::::
+
 Calculer la prime pour cette police.
 
 ::: {.solution}
 
-La prime est égale à la somme des sinistres au-dessus de la franchise, des frais de règlement alloués, des frais fixes, du risque de crédit et de la marge de risque, divisée par :
+::: {.text-smaller}
 
 $$
-1 - \text{Provision pour frais variables} - \text{Provision pour profit}
+\begin{align}
+&\text{Prime} \\
+&= \frac{\text{Sinistres > 500K\$} + E_L \text{ alloués} + E_F + \text{Risque de crédit} + \text{Marge de risque}}{
+1 - \text{Provision pour frais variables} - \text{Provision pour profit}}
+\end{align}
 $$
 
-##
 
 - Sinistres au-dessus de la franchise : $1\,000\,000(1 - 0.95) = 50\,000\text{\$}$.
 - Frais de règlement alloués : $0.11(1\,000\,000) = 110\,000\text{\$}$.
@@ -493,7 +509,6 @@ $$
 - Risque de crédit : $0.01(1\,000\,000)(0.95) = 9\,500\text{\$}$.
 - Marge de risque : $0.10(1\,000\,000)(0.05) = 5\,000\text{\$}$.
 
-##
 
 $$
 \begin{aligned}
@@ -501,6 +516,8 @@ $$
 &= 308\,824\text{\$}
 \end{aligned}
 $$
+
+:::
 
 :::
 ::::
