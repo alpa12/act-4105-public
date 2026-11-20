@@ -25,6 +25,46 @@ website:
 
   favicon: assets/ulaval-favicon.svg
 
+  page-navigation: true
+  sidebar:
+    - id: cours
+      title: Cours
+      contents:
+        - href: cours/index.qmd
+          text: Toutes les séances
+        - section: Examen 1
+          contents:
+            - href: cours/01.qmd
+              text: "Cours 1 : Introduction à la tarification"
+            - href: cours/02.qmd
+              text: "Cours 2 : Données et Base d’exposition"
+            - href: cours/03.qmd
+              text: "Cours 3 : Primes"
+            - href: cours/04.qmd
+              text: "Cours 4 : Sinistres et frais de règlement de sinistres"
+            - href: cours/05.qmd
+              text: "Cours 5 : Autres frais et profit et Indiqué global"
+            - href: cours/06.qmd
+              text: "Cours 6 : Classification traditionnelle des risques"
+            - href: cours/07.qmd
+              text: "Cours 7 : Examen 1"
+        - section: Examen 2
+          contents:
+            - href: cours/08.qmd
+              text: "Cours 8 : Cours annulé"
+            - href: cours/09.qmd
+              text: "Cours 9 : Classification multivariée et classification spéciale"
+            - href: cours/10.qmd
+              text: "Cours 10 : Crédibilité"
+            - href: cours/11.qmd
+              text: "Cours 11 : Autres considérations et Implantation"
+            - href: cours/12.qmd
+              text: "Cours 12 : Lignes commerciales et réclamations présentées"
+            - href: cours/13.qmd
+              text: "Cours 13 : Congé : Fête de l’Université"
+            - href: cours/14.qmd
+              text: "Cours 14 : Examen 2"
+
   # TODO repo-url: https://github.com/posit-conf-2025/llm
   # repo-subdir: site
   # repo-actions: [edit, issue]
@@ -34,38 +74,7 @@ website:
     left:
       - href: index.qmd
         text: Accueil
-      - text: Cours
-        menu:
-          - href: cours/index.qmd
-            text: Toutes les séances
-          - href: cours/01.qmd
-            text: "Cours 1 : Introduction à la tarification"
-          - href: cours/02.qmd
-            text: "Cours 2 : Données et Base d’exposition"
-          - href: cours/03.qmd
-            text: "Cours 3 : Primes"
-          - href: cours/04.qmd
-            text: "Cours 4 : Sinistres et frais de règlement de sinistres"
-          - href: cours/05.qmd
-            text: "Cours 5 : Autres frais et profit et Indiqué global"
-          - href: cours/06.qmd
-            text: "Cours 6 : Classification traditionnelle des risques"
-          - href: cours/07.qmd
-            text: "Cours 7 : Examen 1"
-          - href: cours/08.qmd
-            text: "Cours 8 : Cours annulé"
-          - href: cours/09.qmd
-            text: "Cours 9 : Classification multivariée et classification spéciale"
-          - href: cours/10.qmd
-            text: "Cours 10 : Crédibilité"
-          - href: cours/11.qmd
-            text: "Cours 11 : Autres considérations et Implantation"
-          - href: cours/12.qmd
-            text: "Cours 12 : Méthodes de tarification en lignes commerciales et Tarification sur base de réclamations présentées"
-          # - href: cours/13.qmd
-          #   text: "Cours 13 : Fête de l’Université"
-          # - href: cours/14.qmd
-          #   text: "Cours 14 : Examen 2"
+      - "sidebar:cours"
       - text: Notes
         menu:
           - href: chapitres/index.qmd

@@ -16,6 +16,7 @@ Les licences ne s’étendent pas automatiquement au matériel tiers, adapté ou
 
 - `site/` est le projet Quarto; `site/_quarto.yml` en porte la configuration globale.
 - `site/cours/` contient les pages de séance et `site/chapitres/` les notes (`diapos.qmd`) et exercices (`exercices.qmd`).
+- Les séances sont définies et regroupées par examen dans `website.sidebar` de `site/_quarto.yml`; le menu Cours de la barre de navigation reprend automatiquement cette liste. Leur ordre détermine les liens natifs vers les cours précédent et suivant.
 - `site/vieux-materiel/` conserve les PDF, PPTX et autres sources historiques.
 - `site/filters/`, `site/includes/` et `site/styles/` portent les comportements et styles partagés; `site/_extensions/` est du code vendorisé immuable. L’extension vendorisée `EmilHvitfeldt/rows` y est activée par `site/chapitres/_diapos.yml` pour tous les decks RevealJS.
 - Les présentations de chapitres et de révision activent la lightbox native de Quarto dans `site/chapitres/_diapos.yml` : cliquer sur une figure l’agrandit et Échap la referme. `site/includes/revealjs-lightbox-controls.html` évite que ces touches ne pilotent simultanément les diapositives.

@@ -7,3 +7,5 @@ chapitres: []
 ---
 
 Pour se préparer à l'examen 1, consultez [le contenu de révision pour l'examen 1](../revisions/revision-examen-1/diapos.qmd).
+
+Les consignes associées à l'examen sont sur le site de cours, sur le plateforme Brio.
