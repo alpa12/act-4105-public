@@ -142,8 +142,8 @@ website:
         menu:
           - href: revisions/revision-examen-1/diapos.qmd
             text: "Révision pour l’examen 1"
-          # - href: revisions/revision-examen-2/diapos.qmd
-          #   text: "Révision pour l’examen 2"
+          - href: revisions/revision-examen-2/diapos.qmd
+            text: "Révision pour l’examen 2"
     right:
       - href: licence.qmd
         text: Licence et crédits

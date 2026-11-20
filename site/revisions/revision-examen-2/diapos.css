@@ -1,0 +1,134 @@
+.matrice-couverture tbody td:not(:first-child),
+.matrice-couverture thead tr:last-child th:not(:first-child),
+.matrice-couverture thead tr:last-child th:not(:first-child) .smart-table-header-lines {
+  text-align: center !important;
+}
+
+.reveal .slides section.fin-session,
+:is(html.reveal-print, html.print-pdf) .reveal .slides section.slide.fin-session:not([data-background-image]) {
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 0%, #fff3c7, transparent 55%),
+    radial-gradient(ellipse at 100% 100%, #f9e7e2, transparent 50%),
+    linear-gradient(135deg, #fffdf7, #fff9ed) !important;
+  color: var(--act-charcoal);
+  text-align: center;
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+}
+
+.reveal .slides section.fin-session::before,
+.reveal .slides section.fin-session::after {
+  position: absolute;
+  color: #d7a428;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.3em;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.reveal .slides section.fin-session::before {
+  content: "✦";
+  top: 15%;
+  left: 12%;
+}
+
+.reveal .slides section.fin-session::after {
+  content: "✧";
+  right: 12%;
+  bottom: 16%;
+  font-size: 1.8em;
+}
+
+.reveal .slides section.fin-session h2 {
+  width: 100%;
+  max-width: none;
+  margin: 1.05em auto 0.45em;
+  color: var(--act-burgundy);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 2.15em;
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  text-align: center;
+}
+
+.reveal .slides section.fin-session h2::after {
+  display: block;
+  width: 2.5em;
+  height: 2px;
+  margin: 0.28em auto 0;
+  background: var(--act-laval-gold);
+}
+
+.reveal .slides section.fin-session .fin-session-message {
+  max-width: 76%;
+  margin: 0 auto;
+  color: var(--act-charcoal);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.84em;
+  line-height: 1.42;
+}
+
+.reveal .slides section.fin-session .fin-session-message p {
+  margin: 1em 0;
+}
+
+.reveal .slides section.fin-session .fin-session-message p:nth-child(2) {
+  padding: 0.55em 0.8em;
+  border: 1px solid rgba(215, 164, 40, 0.32);
+  border-radius: 0.6em;
+  background: rgba(255, 242, 191, 0.5);
+}
+
+.reveal .slides section.fin-session .fin-session-message strong {
+  color: var(--act-burgundy);
+  font-weight: 600;
+}
+
+@media screen and (prefers-reduced-motion: no-preference) {
+  .reveal .slides section.fin-session.present h2,
+  .reveal .slides section.fin-session.present .fin-session-message p {
+    animation: fin-session-apparition 1s cubic-bezier(0.2, 0.75, 0.25, 1) both;
+  }
+
+  .reveal .slides section.fin-session.present .fin-session-message p:nth-child(1) {
+    animation-delay: 0.25s;
+  }
+
+  .reveal .slides section.fin-session.present .fin-session-message p:nth-child(2) {
+    animation-delay: 0.55s;
+  }
+
+  .reveal .slides section.fin-session.present .fin-session-message p:nth-child(3) {
+    animation-delay: 0.85s;
+  }
+
+  .reveal .slides section.fin-session.present h2::after {
+    animation: fin-session-trait 1s 0.25s ease-out both;
+  }
+
+  .reveal .slides section.fin-session.present::before,
+  .reveal .slides section.fin-session.present::after {
+    animation: fin-session-eclat 2s ease-in-out infinite alternate;
+  }
+
+  .reveal .slides section.fin-session.present::after {
+    animation-delay: -1s;
+  }
+}
+
+@keyframes fin-session-apparition {
+  from { opacity: 0; transform: translateY(0.8em) scale(0.97); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fin-session-trait {
+  from { opacity: 0; transform: scaleX(0.1); }
+  to { opacity: 1; transform: scaleX(1); }
+}
+
+@keyframes fin-session-eclat {
+  from { opacity: 0.3; transform: scale(0.7) rotate(-15deg); }
+  to { opacity: 1; transform: scale(1.25) rotate(15deg); }
+}

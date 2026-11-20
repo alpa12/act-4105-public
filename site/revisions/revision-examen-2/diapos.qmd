@@ -1,6 +1,7 @@
 ---
 title: "Révision pour l’examen 2"
 suppress-title-prefix: true
+chapter-css: diapos.css
 format:
   revealjs: default
 execute:
@@ -19,12 +20,14 @@ library(ggplot2)
 project_dir <- Sys.getenv("QUARTO_PROJECT_DIR")
 source(file.path(project_dir, "_extensions/alpa12/dynamic-year/dynamic-year.R"))
 
-theme_revision <- theme_minimal(base_size = 14) +
+couleurs_act <- c(rouge = "#e30513", bleu = "#009cde")
+
+theme_act <- theme_minimal(base_size = 14) +
   theme(
     panel.grid.minor = element_blank(),
     panel.grid.major.x = element_blank(),
-    plot.title = element_text(face = "bold", hjust = 0.5),
-    legend.position = "right",
+    plot.title = element_text(face = "bold", hjust = 0.5, margin = margin(b = 8)),
+    legend.position = "bottom",
     legend.title = element_blank()
   )
 
@@ -53,7 +56,7 @@ Adapté de [Werner, G. et Modlin, C. (2016). *Basic Ratemaking*, Casualty Actuar
 - Tarification en lignes commerciales
 - Tarification sur base de réclamations présentées
 
-# Modèles linéaires généralisés {data-progress-label="GLM"}
+# Modèles linéaires généralisés {data-progress-label="10 : GLM"}
 
 ## Tests de diagnostic
 
@@ -63,14 +66,8 @@ Tests de diagnostic du [chapitre 10](../../chapitres/10-classification-multivari
 - Stabilité des résultats d’une année à l’autre
 - Comparaison du résultat prédit par le modèle au résultat historique sur un échantillon non utilisé pour la modélisation (échantillon de validation)
 - Chi carré (*Chi-Square*)
+- Jugement de l'actuaire
 
-## Recommandation d’une variable de tarification
-
-::: {.callout-important}
-Dans les questions demandant une recommandation quant à l’utilisation d’une variable de tarification, il est important d’évaluer la variable selon les différents tests de diagnostic et d’incorporer une **explication et un jugement** sur l’effet de cette variable.
-:::
-
-Par exemple, les différentiels indiqués augmentent lorsque le nombre de sinistres antérieurs augmente. Il est logique de penser que le nombre de sinistres antérieurs est prédictif de la fréquence.
 
 ## Interaction versus corrélation
 
@@ -80,28 +77,29 @@ Nous avons aussi dit qu’un autre avantage du modèle GLM est qu’il permet d�
 
 ---
 
-::: {.callout-warning title="Attention"}
 Une **interaction** entre deux variables n’est pas la même chose qu’une **corrélation** entre deux variables.
-:::
 
-Une **corrélation** entre deux variables signifie que la distribution des unités d’exposition d’une variable n’est pas la même selon les différents niveaux d’une autre variable de tarification.
+- Une **corrélation** entre deux variables signifie que la distribution des unités d’exposition d’une variable n’est pas la même selon les différents niveaux d’une autre variable de tarification.
 
-Prenons l’exemple du montant d’assurance et du territoire en assurance habitation.
+Prenons l’exemple du montant d’assurance et du territoire en assurance habitation :
 
----
+:::: {.columns}
+::: {.column}
 
 | Valeur de l’habitation | Territoire 1 | Territoire 2 |
 |:--|--:|--:|
 | 0–400 000 \$ | 75 % | 40 % |
 | 400 000 \$ et plus | 25 % | 60 % |
 
+:::
+::: {.column}
 On dit ici que les variables « valeur de l’habitation » et « territoire » sont corrélées.
+:::
+::::
 
 ---
 
-::: {.callout-warning title="Attention"}
 Une **interaction** entre deux variables n’est pas la même chose qu’une **corrélation** entre deux variables.
-:::
 
 ```{r}
 #| label: correlation-valeur-territoire
@@ -124,7 +122,7 @@ ggplot(valeur_territoire, aes(
 )) +
   geom_line(linewidth = 0.65) +
   geom_point(size = 2) +
-  scale_colour_manual(values = c("#D55E00", "#0072B2")) +
+  scale_colour_manual(values = c(unname(couleurs_act["rouge"]), unname(couleurs_act["bleu"]))) +
   scale_linetype_manual(values = c("solid", "dashed")) +
   scale_shape_manual(values = c(16, 1)) +
   scale_y_continuous(labels = scales::label_number(decimal.mark = ",")) +
@@ -132,33 +130,32 @@ ggplot(valeur_territoire, aes(
     title = "Différentiel indiqué par valeur de l’habitation",
     x = "Valeur de l’habitation", y = "Différentiel indiqué"
   ) +
-  theme_revision
+  theme_act
 ```
 
 ---
 
-::: {.callout-warning title="Attention"}
 Une **interaction** entre deux variables n’est pas la même chose qu’une **corrélation** entre deux variables.
-:::
 
-Une **interaction** existe lorsque l’effet d’une variable varie selon le niveau d’une autre variable. Par exemple, l’effet de l’âge de l’assuré en assurance automobile peut varier selon le sexe de l’assuré.
-
-- L’ajout d’interactions dans un modèle de tarification est un raffinement du modèle qui peut en augmenter significativement le pouvoir prédictif.
-- Cependant, les interactions augmentent aussi la complexité d’un modèle et d’un algorithme de tarification. Il faut donc s’assurer que la valeur ajoutée en vaut l’augmentation de complexité.
+- Une **interaction** existe lorsque l’effet d’une variable varie selon le niveau d’une autre variable. Par exemple, l’effet de l’âge de l’assuré en assurance automobile peut varier selon le sexe de l’assuré.
+  - L’ajout d’interactions dans un modèle de tarification est un raffinement du modèle qui peut en augmenter significativement le pouvoir prédictif.
+  - Cependant, les interactions augmentent aussi la complexité d’un modèle et d’un algorithme de tarification. Il faut donc s’assurer que la valeur ajoutée en vaut l’augmentation de complexité.
 
 ---
 
 Prenons l’exemple de l’interaction entre l’âge de l’assuré et le sexe de l’assuré en assurance automobile.
 
-Il n’y a probablement pas de corrélation entre les deux variables (la distribution hommes/femmes est autour de 50 % pour tous les groupes d’âge), mais le différentiel indiqué par âge est bien différent selon le sexe de l’assuré.
+Il n’y a probablement pas de corrélation entre les deux variables (la distribution hommes/femmes est autour de 50 % pour tous les groupes d’âge), mais le différentiel indiqué par âge est bien différent selon le sexe de l’assuré :
 
----
+:::: {.columns}
+
+::: {.column width="65%"}
 
 ```{r}
 #| label: interaction-age-sexe
-#| fig-width: 10
+#| fig-width: 7
 #| fig-height: 3
-#| fig-alt: "Différentiels indiqués selon l’âge et le sexe de l’assuré. Le profil des hommes décroît de 2,6 à 0,5 et celui des femmes de 1,84 à 1, avec un croisement des profils : l’effet de l’âge varie selon le sexe."
+#| fig-alt: "Différentiels indiqués selon l’âge de l’assuré pour les femmes et les hommes. Les deux profils décroissent, mais celui des hommes décroît plus fortement."
 
 interaction_age_sexe <- data.frame(
   age = rep(c(16, 50, 100), 2),
@@ -166,24 +163,25 @@ interaction_age_sexe <- data.frame(
   sexe = rep(c("Femmes", "Hommes"), each = 3)
 )
 
-ggplot(interaction_age_sexe, aes(age, differentiel, colour = sexe, shape = sexe)) +
-  geom_line(linewidth = 0.65) +
-  geom_point(size = 1.6) +
-  scale_colour_manual(values = c(Femmes = "#D55E00", Hommes = "#0072B2")) +
-  scale_shape_manual(values = c(Femmes = 16, Hommes = 17)) +
-  scale_y_continuous(labels = scales::label_number(decimal.mark = ",")) +
+ggplot(interaction_age_sexe, aes(age, differentiel, colour = sexe, linetype = sexe)) +
+  geom_line(linewidth = 1.1) +
+  scale_colour_manual(values = c(Femmes = unname(couleurs_act["rouge"]), Hommes = unname(couleurs_act["bleu"]))) +
+  scale_linetype_manual(values = c(Femmes = "solid", Hommes = "dashed")) +
   labs(
-    title = "Différentiel indiqué par âge de l’assuré",
+    title = "Différentiels indiqués selon l’âge et le sexe",
     x = "Âge de l’assuré (années)", y = "Différentiel indiqué"
   ) +
-  theme_revision
+  theme_act
 ```
 
-::: {.callout-tip}
-Dans ce cas-ci, il serait probablement pertinent d’ajouter l’interaction entre « âge de l’assuré » et « sexe de l’assuré » dans notre modèle.
 :::
 
-# Classification spéciale {data-progress-label="Classification"}
+::: {.column width="35%"}
+Dans ce cas-ci, il serait probablement pertinent d’ajouter l’interaction entre « âge de l’assuré » et « sexe de l’assuré » dans notre modèle.
+:::
+::::
+
+# Classification spéciale {data-progress-label="11 : Class spéciale"}
 
 ## Assurance à la valeur
 
@@ -192,7 +190,11 @@ Deux façons de régler les problèmes de sous-assurance :
 1. **Clause de coassurance** : pénaliser les assurés qui sont sous-assurés via le montant d’indemnité payable.
 2. **Variation des taux selon le niveau d’assurance à la valeur** : charger une prime qui tient réellement compte des sinistres espérés.
 
+<!-- On fait juste refaire l'exercice 7 b) du chapitre 11, ça ne semble vraiment pas utile.
+
 :::: {.question title="Assurance à la valeur sans pénalité de coassurance"}
+
+::: {.text-small}
 
 Retour sur l’[exercice 7 b) du chapitre 11](../../chapitres/11-classification-speciale/exercices.qmd) (CAS Examen 5, automne 2015 – Q12).
 
@@ -205,9 +207,9 @@ Avec l’information suivante pour une propriété :
 - Tous les autres sinistres sont uniformément distribués entre 0 \$ et 750 000 \$.
 - Fréquence de réclamation : 2 %.
 
-##
-
 b) Calculer le taux par 1 000 \$ à charger pour cette propriété en supposant qu’aucune pénalité de coassurance n’est utilisée.
+
+:::
 
 ::: {.solution}
 
@@ -254,7 +256,7 @@ $$
 $$
 
 :::
-::::
+:::: -->
 
 ```{r}
 #| label: donnees-franchises
@@ -316,15 +318,15 @@ afficher_pertes()
 
 :::
 
-##
-
 a) Calculer le ratio d’élimination des pertes pour passer d’une police avec franchise à 0 \$ à une police avec franchise à 250 \$.
 
 b) Calculer le ratio d’élimination des pertes pour passer d’une police avec franchise à 250 \$ à une police avec franchise à 500 \$.
 
 ::: {.solution}
 
-### a) De 0 \$ à 250 \$
+### a) Ratio d’élimination des pertes de 0 \$ à 250 \$
+
+::: {.text-smaller}
 
 ::: {.tableau-franchises smart-tables-column-1="formula" smart-tables-nowrap="all"}
 
@@ -337,10 +339,6 @@ afficher_pertes("a")
 
 :::
 
-##
-
-### a) Ratio d’élimination des pertes
-
 $$
 \begin{aligned}
 \text{LER}_{0 \to 250}
@@ -352,30 +350,15 @@ $$
 \end{aligned}
 $$
 
-##
-
-### b) De 250 \$ à 500 \$
-
-::: {.tableau-franchises smart-tables-column-1="formula" smart-tables-nowrap="all"}
-
-```{r}
-#| label: tableau-franchises-solution-b
-#| output: asis
-
-afficher_pertes("b")
-```
-
 :::
 
 ##
 
-::: {.callout-important}
+### b) Ratio d’élimination des pertes de 250 \$ à 500 \$
+
+::: {.text-smaller}
+
 La classe de base est une police avec franchise à **250 \$**. Nous exprimons donc les sinistres éliminés en pourcentage des sinistres **avec franchise à 250 \$**.
-:::
-
-##
-
-### b) Sinistres éliminés et sinistres de base
 
 $$
 \begin{aligned}
@@ -390,9 +373,6 @@ $$
 \end{aligned}
 $$
 
-##
-
-### b) Ratio d’élimination des pertes
 
 $$
 \begin{aligned}
@@ -405,19 +385,20 @@ $$
 $$
 
 :::
+:::
 ::::
 
-# Crédibilité {data-progress-label="Crédibilité"}
+# Crédibilité {data-progress-label="12"}
 
 ## Compléments de crédibilité
 
 **Six méthodes** pour déterminer un complément de crédibilité pour la tarification d’une couverture au **premier dollar**.
 
-**Quatre méthodes** pour déterminer un complément de crédibilité pour la tarification d’une couverture **excédentaire**.
+**Trois méthodes** pour déterminer un complément de crédibilité pour la tarification d’une couverture **excédentaire**.
 
 Voir le [chapitre 12](../../chapitres/12-credibilite/diapos.qmd).
 
-# Implantation {data-progress-label="Implantation"}
+# Implantation {data-progress-label="14"}
 
 ```{r}
 #| label: donnees-implantation
@@ -487,32 +468,20 @@ Retour sur l’exemple de limitation des hausses du [chapitre 14](../../chapitre
 
 **Sans considérer la contrainte du +20 % maximal**, on a :
 
+::: {.text-smaller}
+
 ```{r}
 #| label: tableau-implantation-differentiels
 #| output: asis
 
-afficher_implantation(1:5)
+afficher_implantation(1:9)
 ```
 
-##
-
-**Sans considérer la contrainte du +20 % maximal**, on a :
-
-```{r}
-#| label: tableau-implantation-primes
-#| output: asis
-
-afficher_implantation(c(1, 6:9))
-```
-
-::: {.notes}
-La première prime proposée est corrigée à 174 059 \$ : $138\,000(1 + 0.2613)$.
-Le PDF historique affiche 174 559 \$, ce qui ne concorde ni avec ce calcul ni avec le total de 1 149 948 \$.
 :::
 
 ::::
 
-# Tarification en lignes commerciales {data-progress-label="Commercial"}
+# Tarification en lignes commerciales {data-progress-label="15"}
 
 ## Méthodes de tarification en lignes commerciales
 
@@ -524,7 +493,7 @@ Techniques de tarification pour les risques commerciaux de grande taille :
 2. Police avec franchise élevée
 3. Tarification rétrospective
 
-# Tarification sur base de réclamations présentées {data-progress-label="Réclamations"}
+# Tarification sur base de réclamations présentées {data-progress-label="16 : Base de réclamations présentées"}
 
 ## Types de couverture
 
@@ -539,11 +508,14 @@ Deux outils pour aider la coordination des couvertures :
 
 **Date rétroactive**
 
-: Évite le chevauchement de couverture lorsqu’un assuré passe d’une police sur base de survenance à une police sur base de réclamations présentées.
+: Évite le chevauchement de couverture lorsqu’un assuré passe d’une police sur base de survenance à
+une police sur base de réclamations présentées.
 
 **Avenant *tail coverage***
 
-: Évite le manque de couverture lorsqu’un assuré passe d’une police sur base de réclamations présentées à une police sur base de survenance, ou lorsqu’un assuré était couvert avec des polices sur base de réclamations présentées et cesse ses activités.
+: Évite le manque de couverture lorsqu’un assuré passe d’une police sur base de reclamations
+présentées à une police sur base de survenance ou lorsqu’un assuré était couvert avec des polices
+sur bases de réclamations présentées et cesse ses activités.
 
 ```{r}
 #| label: donnees-polices-successives
@@ -588,6 +560,8 @@ Dessiner et libeller un tableau qui montre les sinistres couverts par chaque pol
 
 ::: {.solution}
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.matrice-couverture smart-tables-width="full" tbl-colwidths="[20,20,20,20,20]"}
 
 ```{r}
@@ -619,8 +593,10 @@ afficher_table(
 ```
 
 :::
+::::
 
-##
+:::: {.column width="50%"}
+::: {.text-smaller}
 
 Où :
 
@@ -630,6 +606,10 @@ Où :
 - **D** : police sur base de réclamations présentées effective le `r date_exercice("YYYY-01-01", -4)`.
 - **E** : police sur base de réclamations présentées effective le `r date_exercice("YYYY-01-01", -3)`.
 - **F** : *tail coverage* effective le `r date_exercice("YYYY-01-01", -2)`.
+
+:::
+::::
+:::::
 
 :::
 ::::
@@ -699,11 +679,16 @@ formule_paiement <- function(assureur) {
 
 *Adapté de la question 5 de l’examen 5, 2016 de la CAS.*
 
+::::: {.columns}
+:::: {.column width="40%"}
+
 Un assuré a une police sur base de réclamations présentées avec un assureur A en {{< dynamic-year -4 >}} et {{< dynamic-year -3 >}} avant de passer à une police sur base de survenance avec l’assureur B en {{< dynamic-year -2 >}} et {{< dynamic-year -1 >}}.
 
-Avec les sinistres suivants :
+::::
 
-##
+:::: {.column width="60%"}
+
+Avec les sinistres suivants :
 
 ```{r}
 #| label: tableau-sinistres-assureurs-question
@@ -712,9 +697,14 @@ Avec les sinistres suivants :
 afficher_sinistres_assureurs()
 ```
 
+::::
+:::::
+
 ##
 
 Les polices sont effectives le 1er janvier de chaque année. Toutes les polices sont annuelles.
+
+Pour cet exemple, les polices de l’assureur A couvrent les sinistres rapportés pendant leur période de police, y compris ceux survenus auparavant. Aucun avenant *tail coverage* ne s’applique.
 
 a) Déterminer le montant que chaque assureur paie.
 
@@ -785,23 +775,22 @@ $$
 afficher_sinistres_assureurs(lignes = which(sinistres_assureurs[[5]] == ""))
 ```
 
-::: {.callout-important}
 Le sinistre **3** est **rapporté après l’expiration des polices A** et est **survenu avant la prise d’effet des polices B**. Il n’est donc couvert par aucun des deux assureurs dans cet exemple.
-:::
+
+Qu'est-ce que l'assuré aurait pu faire pour être couvert pour ce sinistre?
 
 ##
 
 ### b) Volatilité des estimés de sinistres ultimes
 
-Les polices sur base de survenance ont des sinistres survenus mais non rapportés (**IBNR**), contrairement aux polices sur base de réclamations présentées.
-
-Les polices sur base de survenance couvrent des sinistres qui auront lieu plus tard. Ces sinistres seront donc plus affectés par la tendance dans les sinistres et seront plus difficiles à prévoir.
+1. À la fin de la période de police, les polices sur base de survenance peuvent avoir des sinistres survenus mais non rapportés (**IBNR**). Les polices sur base de réclamations présentées ne couvrent pas les sinistres rapportés après leur expiration, sauf si une protection supplémentaire s’applique.
+2. Au moment de la tarification, les polices sur base de survenance couvrent des sinistres qui seront rapportés plus tard. Les changements futurs de tendance des sinistres peuvent donc les affecter davantage et rendre leur coût ultime plus difficile à prévoir.
 
 ##
 
 ### c) Revenu d’investissement
 
-Le délai entre la perception de la prime et le paiement de l’indemnité est plus grand sous une police sur base de survenance que sous une police sur base de réclamations présentées.
+Pour des risques et des conditions comparables, le délai entre la perception de la prime et le paiement de l’indemnité est généralement plus grand sous une police sur base de survenance que sous une police sur base de réclamations présentées.
 
 Pour une police sur base de survenance, il y a :
 
@@ -812,9 +801,21 @@ Pour une police sur base de survenance, il y a :
 
 ### c) Revenu d’investissement
 
-Une police sur base de réclamations présentées ne comporte que le délai entre la date à laquelle le sinistre est rapporté et la date à laquelle la réclamation est fermée (*settlement lag*).
+Pour une police sur base de réclamations présentées, le délai de présentation précède le déclenchement de la couverture. Le délai entre la date à laquelle le sinistre est rapporté et la date à laquelle la réclamation est fermée (*settlement lag*) demeure.
 
-Comme le délai entre la perception de la prime et le paiement des sinistres est plus grand sous une police sur base de survenance, les primes sont investies plus longtemps et génèrent un **revenu d’investissement plus élevé**.
+Comme le délai entre la perception de la prime et le paiement des sinistres est généralement plus grand sous une police sur base de survenance, les fonds sont investis plus longtemps et peuvent générer un **revenu d’investissement plus élevé**, toutes choses étant égales par ailleurs.
 
 :::
 ::::
+
+## Bon succès ! {.fin-session .hide-progress-bar}
+
+::: {.fin-session-message}
+
+J’ai beaucoup apprécié notre session ensemble. Merci pour votre présence et votre participation au cours.
+
+Je vous souhaite **bonne chance pour l’examen et bon courage pour cette fin de session**.
+
+Au plaisir, je l’espère, de vous recroiser un jour dans le monde professionnel !
+
+:::
